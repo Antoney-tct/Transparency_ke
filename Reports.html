@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+             background: #8daddd; 
+             margin: 0;
+              padding: 0;
+             }
+        .container {
+             padding: 20px;
+         }
+        .cards { 
+            display: flex;
+             gap: 20px; 
+             margin-bottom: 20px; 
+            }
+        .card { flex: 1;
+             background: white;
+              padding: 20px;
+               border-radius: 10px;
+               
+               box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+             }
+        .card h3 { 
+            margin-top: 0;
+         }
+        .chart-container {
+             background: white; 
+             padding: 20px; 
+             border-radius: 10px; 
+             margin-bottom: 20px;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+             }
+        .grid {
+             display: grid;
+              grid-template-columns: 2fr 1fr;
+               gap: 20px;
+             }
+        .checklist ul { 
+            list-style: none;
+             padding: 0; 
+            }
+        .checklist li { 
+            margin-bottom: 10px; 
+        }
+        .checklist input {
+             margin-right: 10px;
+             }
+             button[type="submit"] {
+    background-color: #28a745;  
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #310792;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(66, 5, 146, 0.2);
+}
+
+button[type="submit"]:active {
+    transform: scale(0.97);
+    background-color: #1e7e34;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cards">
+            <div class="card">
+                <h3>Ongoing projescts</h3>
+                <p>9,450</p>
+            </div>
+            <div class="card">
+                <h3>Competed projects(2025)</h3>
+                <p>802</p>
+            </div>
+            <div class="card">
+                <h3>Distribution rate</h3>
+                <p>0.47%</p>
+            </div>
+            <div class="card">
+                <h3>Revenue</h3>
+                <p>435 billon Ksh</p>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div id="Analysis" class="chart-container">
+                <h3>Goals and project done as at now</h3>
+                <canvas id="overviewChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Funds allocation</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="chart-container">
+                <h3>Funds allocated to counties</h3>
+                <canvas id="lineChart"></canvas>
+            </div>
+            <div class="chart-container checklist">
+                <h3>Citizen's Checklist for approvall</h3>
+                <form id="reportForm" onsubmit="return validateForm()">
+                    <ul>
+                        <li><input type="checkbox" name="clean_report" id="clean_report"> Clean report</li>
+                        <li><input type="radio" name="report_opinion" value="agree"> Agree with the report</li>
+                        <li><input type="radio" name="report_opinion" value="disagree"> Disagree with the report</li>
+                        <li><input type="checkbox" name="needs_revision" id="needs_revision"> Needs a revision</li>
+                    </ul>
+                    <button type="submit">Submit</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    
+    
+       
+        
+<script>
+
+
+
+
+        new Chart(document.getElementById('overviewChart'), {
+            type: 'line',
+            data: {
+                labels: ['2008', '2012', '2013', '2017', '2022', '2023', '2023','2025','2026','2027','2028','2030'],
+                datasets: [{
+                    label: 'Progress',
+                    data: [20, 90, 70, 100, 500, 90, 300,234],
+                    fill: true,
+                    borderColor: 'rgba(75,192,192,1)',
+                    tension: 0.4,
+                    backgroundColor: 'rgba(75,192,192,0.2)'
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('pieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Education', 'Healthcare', 'Infrastructure', 'Security', 'Sports','Agriculture'],
+                datasets: [{
+                    data:[30, 20, 15, 15, 10,25] ,
+                    backgroundColor: ['#4bc0c0', '#ffcd56', '#ff6384', '#36a2eb']
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels:['Nairobi', 'Kirinyaga', 'Machakos', 'Mombasa', 'Kisumu','Homabay','Migory','Machakos','Kisii'],
+                datasets: [{
+                    label: 'Funds allocated in millions Ksh',
+                    data:  [30000000, 20000000, 15000000, 10500000, 12000000,25000000,30000000,20000000,25000000],
+                    borderColor: '#36a2eb',
+                    fill: false,
+                    tension: 0.4
+                }]
+            }
+        });
+
+        function validateForm() {
+    const cleanReport = document.getElementById('clean_report').checked;
+    const needsRevision = document.getElementById('needs_revision').checked;
+    const opinionSelected = document.querySelector('input[name="report_opinion"]:checked');
+
+    if (!cleanReport && !needsRevision) {
+        alert("Please check at least one of 'Clean report' or 'Needs a revision'.");
+        return false;
+    }
+
+    if (!opinionSelected) {
+        alert("Please select either 'Agree with the report' or 'Disagree with the report'.");
+        return false;
+    }
+
+    alert("Form submitted successfully!");
+    return true;
+}
+
+
+
+    </script>
+</body>
+</html>

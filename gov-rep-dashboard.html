@@ -1,0 +1,1707 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'government') {
+    header("Location: login.php");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gov rep Dashboard Kenya Government Transparency Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="notific2,.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #0b9d3f;
+            --secondary-color: #1d4ed8;
+            --accent-color: #ff6b35;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding: 1.5rem 0;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-logo img {
+            height: 40px;
+        }
+
+        .sidebar-logo-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-logo-text span {
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #bbb;
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-item .badge {
+            margin-left: auto;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 10px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+        }
+         /*notification*/
+    .notification-container {
+        position: relative;
+    }
+    
+    .notification-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        width: 350px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        z-index: 1000;
+        display: none;
+        margin-top: 10px;
+    }
+    
+    .notification-dropdown.show {
+        display: block;
+    }
+    
+    .notification-header {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .notification-count {
+        background-color: var(--danger-color);
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .notification-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .notification-item {
+        padding: 1rem;
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .notification-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .notification-item.unread {
+        background-color: #f0f7ff;
+    }
+    
+    .notification-icon {
+        width: 36px;
+        height: 36px;
+        background-color: rgba(11, 157, 63, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+    }
+    
+    .notification-content {
+        flex: 1;
+    }
+    
+    .notification-content p {
+        margin-bottom: 0.3rem;
+    }
+    
+    .notification-time {
+        color: #999;
+        font-size: 0.8rem;
+    }
+    .view-all {
+        display: block;
+        text-align: center;
+        padding: 0.8rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+
+
+        /* Top Navigation */
+        .top-nav {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-container input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .search-container input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(11, 157, 63, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .top-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+        }
+
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Content Container */
+        .content-container {
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #0a8a36;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #1a3eb7;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(11, 157, 63, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .stat-trend {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .trend-down {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Recent Activity Section */
+        .section-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .section-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .section-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Messages Table */
+        .messages-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .messages-table th, .messages-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .messages-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .messages-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .message-sender {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sender-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .sender-name {
+            font-weight: 500;
+        }
+
+        .message-preview {
+            color: #666;
+            font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .message-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-unread {
+            background-color: rgba(29, 78, 216, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .status-read {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        /* Recent Users Section */
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .user-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary-color);
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .user-role {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .stat-count {
+            font-weight: 600;
+            color: var(--dark-color);
+            display: block;
+        }
+
+        /* Message Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-sender-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .message-sender-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-sender-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .message-sender-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .message-date-time {
+            color: #666;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .message-content {
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .message-attachments {
+            margin-top: 2rem;
+        }
+
+        .attachment-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .attachment-item {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .attachment-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .attachment-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .attachment-name {
+            font-size: 0.8rem;
+            display: block;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            color: var(--dark-color);
+        }
+
+        .btn-outline:hover {
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    min-height: 300px; 
+}
+
+canvas {
+    display: block; 
+    width: 100% !important;
+    height: 100% !important;
+}
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 80px;
+                overflow: hidden;
+            }
+            
+            .sidebar-logo-text, .menu-title, .menu-item span {
+                display: none;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .menu-item i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .modal {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
+                <span class="sidebar-logo-text">Gov<span>Rep</span></span>
+            </div>
+        </div>
+         
+        <div class="sidebar-menu">
+            <p class="menu-title">Management</p>
+            <a href="user-mangement.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>User Management</span>
+            </a>
+            <a href="Addmin-projects.html" class="menu-item">
+                <i class="fas fa-project-diagram"></i>
+                <span>Projects</span>
+            </a>
+            <a href="Budget.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Budget & Finance</span>
+            </a>
+            <a href="Reports.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            
+            <p class="menu-title">Communication</p>
+            <a href="Reply-inquiries.html" class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <span>Inquiries</span>
+                <span class="badge">5</span>
+            </a>
+            <a href="updates.html" class="menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>Announcements</span>
+            </a>
+                <a href="index.html" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation sect -->
+        <nav class="top-nav">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+
+          
+            <div class="notification-container">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+            <div class="notification-dropdown">
+                <div class="notification-header">
+                    <h4>Notifications</h4>
+                    <span class="notification-count">3 New</span>
+                </div>
+                <div class="notification-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>New project update: Nairobi-Mombasa Highway</p>
+                            <span class="notification-time">10 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>Budget report for Q2 2023 is now available</p>
+                            <span class="notification-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>5 new citizen inquiries received</p>
+                            <span class="notification-time">1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="updates.html" class="view-all">View All Notifications</a>
+            </div>
+                <div class="user-profile">
+                    <a href="Gov-rep-profile.html">
+                    <img src="Photos/Mudavadi.jpeg" alt="Admin Profile" class="profile-image">
+                </a>
+                    <span class="profile-name">Gov Rep</span>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Content Container -->
+        <div class="content-container">
+            <style>
+            .add{text-decoration: none;
+            color: white;}
+            </style>
+            <div class="page-header">
+                <h1 class="page-title">Gov Rep</h1>
+                <button class="btn btn-secondary">
+                    <a href="manage-project.html#add"class="add">
+                    <i class="fas fa-plus"></i> New Project
+                </a>
+                </button>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Total Users</h3>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">24,589</div>
+                    <div class="stat-label">Registered citizens</div>
+                    <div class="stat-trend trend-up">+12% from last month</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Active Projects</h3>
+                        <div class="stat-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">347</div>
+                    <div class="stat-label">Ongoing government projects</div>
+                    <div class="stat-trend trend-up">+8 new projects</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">Pending Messages</h3>
+                        <div class="stat-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">Unanswered inquiries</div>
+                    <div class="stat-trend trend-down">-5 from yesterday</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <h3 class="stat-title">System Enguagement</h3>
+                        <div class="stat-icon">
+                            <i class="fas fa-desktop"></i>  
+                        </div>
+                    </div>
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label"> this month</div>
+                    <div class="stat-trend trend-up">All systems normal</div>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">User Registration Trend</h3>
+                    <canvas id="userChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Project Completion Status</h3>
+                    <canvas id="projectChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Recent Messages Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Messages</h2>
+                    <a href="#" class="section-link">View All Messages</a>
+                </div>
+                
+                <table class="messages-table">
+                    <thead>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="message-row" data-message-id="1">
+                            <td>
+                                <div class="message-sender">
+                                    <img src="Photos/shw.jpg" alt="User" class="sender-avatar">
+                                    <span class="sender-name">Jane Mwangi</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="message-preview">Regarding the status of the Nairobi-Mombasa highway project completion...</div>
+                            </td>
+                            <td>
+                                <div class="message-date">Today, 10:45 AM</div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-unread">Unread</span>
+                            </td>
+                        </tr>
+                        <tr class="message-row" data-message-id="2">
+                            <td>
+                                <div class="message-sender">
+                                    <img src="Photos/h1.jpg" alt="User" class="sender-avatar">
+                                    <span class="sender-name">Sarah Ochieng</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="message-preview">Inquiry about the affordable housing application process in Nakuru county...</div>
+                            </td>
+                            <td>
+                                <div class="message-date">Yesterday, 3:22 PM</div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-pending">Pending</span>
+                            </td>
+                        </tr>
+                        <tr class="message-row" data-message-id="3">
+                            <td>
+                                <div class="message-sender">
+                                    <img src="Photos/h3.jpg" alt="User" class="sender-avatar">
+                                    <span class="sender-name">David Kamau</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="message-preview">Complaint about missing budget details for Kiambu county road projects...</div>
+                            </td>
+                            <td>
+                                <div class="message-date">Jul 12, 2023</div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-read">Replied</span>
+                            </td>
+                        </tr>
+                        <tr class="message-row" data-message-id="4">
+                            <td>
+                                <div class="message-sender">
+                                    <img src="Photos/jane smith.jpeg" alt="User" class="sender-avatar">
+                                    <span class="sender-name">Grace Wambui</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="message-preview">Request for information on how to access county procurement records...</div>
+                            </td>
+                            <td>
+                                <div class="message-date">Jul 10, 2023</div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-read">Replied</span>
+                            </td>
+                        </tr>
+                        <tr class="message-row" data-message-id="5">
+                            <td>
+                                <div class="message-sender">
+                                    <img src="Photos/h2.jpg" alt="User" class="sender-avatar">
+                                    <span class="sender-name">Peter Otieno</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="message-preview">Feedback about the transparency portal user interface improvements...</div>
+                            </td>
+                            <td>
+                                <div class="message-date">Jul 8, 2023</div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-read">Replied</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Recent Users Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Recently Registered Users</h2>
+                    <a href="#" class="section-link">View All Users</a>
+                </div>
+                
+                <div class="users-grid">
+                    <div class="user-card">
+                        <img src="Photos/h3.jpg" alt="User" class="user-avatar">
+                        <h4 class="user-name">James Mutua</h4>
+                        <p class="user-role">Citizen</p>
+                        <div class="user-stats">
+                            <div>
+                                <span class="stat-count">5</span>
+                                <span>Inquiries</span>
+                            </div>
+                            <div>
+                                <span class="stat-count">12</span>
+                                <span>Logins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-card">
+                        <img src="Photos/jane smith.jpeg" alt="User" class="user-avatar">
+                        <h4 class="user-name">Maryanne Kariuki</h4>
+                        <p class="user-role">Journalist</p>
+                        <div class="user-stats">
+                            <div>
+                                <span class="stat-count">18</span>
+                                <span>Inquiries</span>
+                            </div>
+                            <div>
+                                <span class="stat-count">42</span>
+                                <span>Logins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-card">
+                        <img src="Photos/h2.jpg" alt="User" class="user-avatar">
+                        <h4 class="user-name">Robert Omondi</h4>
+                        <p class="user-role">Researcher</p>
+                        <div class="user-stats">
+                            <div>
+                                <span class="stat-count">7</span>
+                                <span>Inquiries</span>
+                            </div>
+                            <div>
+                                <span class="stat-count">23</span>
+                                <span>Logins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-card">
+                        <img src="Photos/she2.jpg" alt="User" class="user-avatar">
+                        <h4 class="user-name">Elizabeth Wanjiru</h4>
+                        <p class="user-role">County Official</p>
+                        <div class="user-stats">
+                            <div>
+                                <span class="stat-count">3</span>
+                                <span>Inquiries</span>
+                            </div>
+                            <div>
+                                <span class="stat-count">56</span>
+                                <span>Logins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+  
+<!-- Modal for  Jane Mwangi-->
+<div class="modal-overlay" id="messageModal1">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Message Details</h3>
+            <button class="modal-close" onclick="closeModal('messageModal1')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="message-header">
+                <div class="message-sender-info">
+                    <img src="Photos/shw.jpg" alt="Sender" class="message-sender-avatar">
+                    <div class="message-sender-details">
+                        <h4>Jane Mwangi</h4>
+                        <p>Citizen, Nairobi County</p>
+                    </div>
+                </div>
+                <div class="message-date-time">
+                    <p>Today, 10:45 AM</p>
+                    <p>Message ID: #MSG-2023-00145</p>
+                </div>
+            </div>
+            
+            <div class="message-content">
+                <p>Dear Transparency Portal Team,</p>
+                <p>I am writing to inquire about the current status of the Nairobi-Mombasa highway project. The last update on your portal shows 10% completion, but I haven't seen any recent activity along the sections near Mtito Andei.</p>
+                <p>Could you please provide:</p>
+                <ul>
+                    <li>The current completion percentage</li>
+                    <li>Updated timeline for project completion</li>
+                    <li>Any challenges causing delays</li>
+                </ul>
+                <p>As a frequent user of this route, I'm very interested in the progress of this important infrastructure project. Thank you for maintaining this transparency portal - it's been very helpful for citizens like me to track government projects.</p>
+                <p>Best regards,<br>Jane Mwangi</p>
+            </div>
+            
+            <div class="message-attachments">
+                <h5 class="attachment-title">Attachments (1)</h5>
+                <div class="attachment-item">
+                    <i class="fas fa-image attachment-icon"></i>
+                    <span class="attachment-name">highway-photo.jpg</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-reply"></i> Reply Later
+            </a>
+            <a href="Reply inquiries.html" class="btn">
+                <i class="fas fa-reply"></i> Reply Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Message Sarah Ochieng -->
+<div class="modal-overlay" id="messageModal2">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Message Details</h3>
+            <button class="modal-close" onclick="closeModal('messageModal2')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="message-header">
+                <div class="message-sender-info">
+                    <img src="Photos/h1.jpg" alt="Sender" class="message-sender-avatar">
+                    <div class="message-sender-details">
+                        <h4>Sarah Ochieng</h4>
+                        <p>Citizen, Nakuru County</p>
+                    </div>
+                </div>
+                <div class="message-date-time">
+                    <p>Yesterday, 3:22 PM</p>
+                    <p>Message ID: #MSG-2023-00144</p>
+                </div>
+            </div>
+            
+            <div class="message-content">
+                <p>To Whom It May Concern,</p>
+                <p>I am interested in applying for the affordable housing program in Nakuru county but I'm having trouble understanding the application process. The portal instructions seem incomplete regarding:</p>
+                <ul>
+                    <li>Required documents for first-time applicants</li>
+                    <li>Income verification process</li>
+                    <li>Timeline for application review</li>
+                </ul>
+                <p>Additionally, I couldn't find information about the specific locations of the housing units in Nakuru. Could you please direct me to where I can find this information or provide it directly?</p>
+                <p>Thank you for your assistance.</p>
+                <p>Sincerely,<br>Sarah Ochieng</p>
+            </div>
+            
+            <div class="message-attachments">
+                <h5 class="attachment-title">Attachments (2)</h5>
+                <div class="attachment-item">
+                    <i class="fas fa-file-pdf attachment-icon"></i>
+                    <span class="attachment-name">application_attempt.pdf</span>
+                </div>
+                <div class="attachment-item">
+                    <i class="fas fa-image attachment-icon"></i>
+                    <span class="attachment-name">id_verification.jpg</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-reply"></i> Reply Later
+            </a>
+            <a href="Reply inquiries.html" class="btn">
+                <i class="fas fa-reply"></i> Reply Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Message David Kamau -->
+<div class="modal-overlay" id="messageModal3">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Message Details</h3>
+            <button class="modal-close" onclick="closeModal('messageModal3')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="message-header">
+                <div class="message-sender-info">
+                    <img src="Photos/h3.jpg" alt="Sender" class="message-sender-avatar">
+                    <div class="message-sender-details">
+                        <h4>David Kamau</h4>
+                        <p>Business Owner, Kiambu County</p>
+                    </div>
+                </div>
+                <div class="message-date-time">
+                    <p>Jul 12, 2023</p>
+                    <p>Message ID: #MSG-2023-00132</p>
+                </div>
+            </div>
+            
+            <div class="message-content">
+                <p>Subject: Missing Budget Details for Kiambu Road Projects</p>
+                <p>Dear Transparency Portal Administrators,</p>
+                <p>I am writing to formally complain about incomplete budget information for the ongoing road projects in Kiambu county. As a local business owner affected by these constructions, I've noticed several discrepancies:</p>
+                <ol>
+                    <li>The Githunguri-Kiambu road project shows allocated funds but no breakdown of expenditures</li>
+                    <li>Three projects marked as "completed" have no final cost documentation</li>
+                    <li>The proposed Thika-Juja bypass has budget figures from 2021 but no updates</li>
+                </ol>
+                <p>This lack of transparency makes it difficult to hold officials accountable. I request that these documents be made available within the statutory 14-day period as per the Access to Information Act.</p>
+                <p>Regards,<br>David Kamau<br>Kamau Hardware & Construction</p>
+            </div>
+            
+            <div class="message-attachments">
+                <h5 class="attachment-title">Attachments (3)</h5>
+                <div class="attachment-item">
+                    <i class="fas fa-file-pdf attachment-icon"></i>
+                    <span class="attachment-name">road_photos.pdf</span>
+                </div>
+                <div class="attachment-item">
+                    <i class="fas fa-file-excel attachment-icon"></i>
+                    <span class="attachment-name">cost_analysis.xlsx</span>
+                </div>
+                <div class="attachment-item">
+                    <i class="fas fa-image attachment-icon"></i>
+                    <span class="attachment-name">project_map.jpg</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-reply"></i> Reply Later
+                </a>
+                <a href="Reply inquiries.html" class="btn">
+                    <i class="fas fa-reply"></i> Reply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Message Grace Wambui-->
+<div class="modal-overlay" id="messageModal4">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Message Details</h3>
+            <button class="modal-close" onclick="closeModal('messageModal4')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="message-header">
+                <div class="message-sender-info">
+                    <img src="Photos/jane smith.jpeg" alt="Sender" class="message-sender-avatar">
+                    <div class="message-sender-details">
+                        <h4>Grace Wambui</h4>
+                        <p>Researcher, Transparency Kenya</p>
+                    </div>
+                </div>
+                <div class="message-date-time">
+                    <p>Jul 10, 2023</p>
+                    <p>Message ID: #MSG-2023-00128</p>
+                </div>
+            </div>
+            
+            <div class="message-content">
+                <p>Dear Records Officer,</p>
+                <p>I am conducting research on county procurement processes and would like to access the following records:</p>
+                <ul>
+                    <li>All procurement records for medical equipment in the last fiscal year</li>
+                    <li>List of prequalified suppliers for county services</li>
+                    <li>Evaluation criteria used in the most recent tender for garbage collection</li>
+                </ul>
+                <p>I understand there may be fees associated with this request and I'm prepared to pay the necessary charges. Could you please advise:</p>
+                <ol>
+                    <li>The total cost for these records</li>
+                    <li>Estimated processing time</li>
+                    <li>Any forms I need to complete</li>
+                </ol>
+                <p>This information will greatly assist our organization's work in promoting government accountability.</p>
+                <p>Yours sincerely,<br>Grace Wambui<br>Senior Researcher</p>
+            </div>
+            
+            <div class="message-attachments">
+                <h5 class="attachment-title">Attachments (1)</h5>
+                <div class="attachment-item">
+                    <i class="fas fa-file-word attachment-icon"></i>
+                    <span class="attachment-name">research_request.docx</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-reply"></i> Reply Later
+                </a>
+                <a href="Reply inquiries.html" class="btn">
+                    <i class="fas fa-reply"></i> Reply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Message Peter Otieno-->
+<div class="modal-overlay" id="messageModal5">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Message Details</h3>
+            <button class="modal-close" onclick="closeModal('messageModal5')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="message-header">
+                <div class="message-sender-info">
+                    <img src="Photos/h2.jpg" alt="Sender" class="message-sender-avatar">
+                    <div class="message-sender-details">
+                        <h4>Peter Otieno</h4>
+                        <p>IT Consultant, Nairobi</p>
+                    </div>
+                </div>
+                <div class="message-date-time">
+                    <p>Jul 8, 2023</p>
+                    <p>Message ID: #MSG-2023-00125</p>
+                </div>
+            </div>
+            
+            <div class="message-content">
+                <p>Subject: Portal UI/UX Feedback</p>
+                <p>Hello Portal Team,</p>
+                <p>First, I want to commend you on the transparency portal initiative. As a regular user and IT professional, I'd like to offer some constructive feedback for improving the user experience:</p>
+                
+                <p><strong>Current Issues:</strong></p>
+                <ul>
+                    <li>The search function doesn't handle misspellings well (no fuzzy search)</li>
+                    <li>Project timelines are difficult to visualize - consider adding Gantt charts</li>
+                    <li>Mobile experience needs improvement (buttons too small, text wrapping issues)</li>
+                </ul>
+                
+                <p><strong>Suggestions:</strong></p>
+                <ol>
+                    <li>Add an interactive map of projects by location</li>
+                    <li>Include a "Save Search" feature for frequent users</li>
+                    <li>Implement a simpler filter system for procurement records</li>
+                </ol>
+                
+                <p>I'd be happy to provide more detailed suggestions or participate in any user testing. The portal has great potential to become a model for other counties.</p>
+                <p>Best,<br>Peter Otieno</p>
+            </div>
+            
+            <div class="message-attachments">
+                <h5 class="attachment-title">Attachments (2)</h5>
+                <div class="attachment-item">
+                    <i class="fas fa-file-pdf attachment-icon"></i>
+                    <span class="attachment-name">ui_mockups.pdf</span>
+                </div>
+                <div class="attachment-item">
+                    <i class="fas fa-file-code attachment-icon"></i>
+                    <span class="attachment-name">accessibility_checklist.txt</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-reply"></i> Reply Later
+                </a>
+                <a href="Reply inquiries.html" class="btn">
+                    <i class="fas fa-reply"></i> Reply Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    
+    
+
+<script>
+ 
+    document.addEventListener('DOMContentLoaded', function() {
+               Chart.defaults.animation = false;
+        Chart.defaults.transitions.active.animation.duration = 0;
+
+        // User Registration Chart
+        const userCtx = document.getElementById('userChart');
+        if (userCtx) {
+            new Chart(userCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'New Registrations',
+                        data: [1250, 1900, 1700, 2100, 2400, 2800, 3100],
+                        backgroundColor: 'rgba(11, 157, 63, 0.1)',
+                        borderColor: 'rgba(11, 157, 63, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0 
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 0 
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Users'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Project Status Chart
+        const projectCtx = document.getElementById('projectChart');
+        if (projectCtx) {
+            new Chart(projectCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Delayed', 'Not Started'],
+                    datasets: [{
+                        data: [120, 150, 50, 27],
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(29, 78, 216, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(108, 117, 125, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 0 
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Message Modal Functionality 
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        document.querySelectorAll('.message-row').forEach(row => {
+            const messageId = row.getAttribute('data-message-id');
+            row.addEventListener('click', () => openModal(`messageModal${messageId}`));
+        });
+        
+       
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                const modalId = this.closest('.modal-overlay').id;
+                closeModal(modalId);
+            });
+        });
+        
+      
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this.id);
+                }
+            });
+        });
+    });
+    // Notification Dropdown Toggle
+    document.querySelector('.notification-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const dropdown = document.querySelector('.notification-dropdown');
+        if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+        const dropdown = document.querySelector('.notification-dropdown');
+        if (dropdown) {
+            dropdown.style.display = 'none';
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+

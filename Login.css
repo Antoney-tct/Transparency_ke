@@ -1,0 +1,251 @@
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+        }
+        .center-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            background: white;
+            width: 850px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .login-box, .signup-box {
+            width: 50%;
+            padding: 60px 40px;
+        }
+        .login-box h1 {
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .social-icons img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #aaa;
+            position: relative;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            height: 1px;
+            width: 40%;
+            background: #ddd;
+            top: 50%;
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
+        form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f8f8f8;
+            font-size: 14px;
+        }
+        .password-field {
+            position: relative;
+        }
+        .password-field svg {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            fill: #888;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #17c3b2, #42a5f5);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .signup-box {
+            background: linear-gradient(135deg, #42a5f5, #17c3b2);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .signup-box h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .signup-box p {
+            margin-bottom: 30px;
+            padding: 0 20px;
+            font-size: 15px;
+        }
+        .signup-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #42a5f5;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .signup-btn:hover {
+            background: #f0f0f0;
+        }
+        @media(max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+            }
+            .login-box, .signup-box {
+                width: 100%;
+                padding: 40px 30px;
+            }
+        }
+        
+        /* popup*/
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: popupFadeIn 0.3s ease-out;
+        }
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .popup-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #17c3b2, #42a5f5);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .popup-btn:hover {
+            opacity: 0.9;
+        }
+        .close-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #eee;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-btn:hover {
+            background: #ddd;
+        }
+        
+        /* Success message styles */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /*logo*/
+       
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.social-icons img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.social-icons img {
+    width: 100px; 
+    height: auto; 
+    border-radius: 70%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    

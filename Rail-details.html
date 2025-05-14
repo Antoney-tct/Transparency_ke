@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGR & Future Railway Projects - Kenya Railways</title>
+    <link rel="stylesheet" href="land.css">
+    <script src="tabs.js"></script>
+    <script src="project_details.js"></script>
+    <script src="notification.js"></script>
+    <script src="timeline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        
+        .project-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .project-title {
+            flex: 1;
+        }
+
+        .project-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .project-meta {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .project-meta span {
+            margin-right: 20px;
+        }
+        
+        .project-status {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .progress-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+        }
+        
+        .progress-circle canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0b9d3f;
+        }
+
+/*  Search */
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 300px;
+    margin: 20px auto;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container:focus-within {
+    box-shadow: 0 0 8px rgba(11, 157, 63, 0.3);
+    border-color: #0b9d3f;
+}
+
+.search-container input[type="text"] {
+    border: none;
+    padding: 12px 15px;
+    flex: 1;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+.search-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    fill: #666;
+    transition: fill 0.3s ease;
+}
+
+.search-button:hover .search-icon {
+    fill: #0b9d3f;
+}
+
+
+
+/*  Notification  */
+.notification-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.notification-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.bell-icon {
+    width: 24px;
+    height: 24px;
+    fill: #333;
+    transition: fill 0.3s ease;
+}
+
+.notification-btn:hover .bell-icon {
+    fill: #0b9d3f;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    width: 320px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 100;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: #0b9d3f;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.notification-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+    background-color: #f9f9f9;
+}
+
+.notification-item.unread {
+    background-color: #f0f7ff;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-icon {
+    background-color: #3498db;
+}
+
+.system-icon {
+    background-color: #9b59b6;
+}
+
+.event-icon {
+    background-color: #f39c12;
+}
+
+.report-icon {
+    background-color: #2ecc71;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.notification-footer {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+}
+
+.notification-footer a {
+    color: #0b9d3f;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/*timeline*/
+
+    .simple-timeline {
+        margin: 30px 0;
+        border-left: 4px solid #ddd;
+        padding-left: 20px;
+    }
+
+    .timeline-event {
+        margin-bottom: 30px;
+        position: relative;
+        padding-left: 15px;
+    }
+
+    .timeline-event:before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background-color: #ddd;
+        border-radius: 50%;
+        position: absolute;
+        left: -29px;
+        top: 5px;
+    }
+
+    .timeline-event.completed:before {
+        background-color: #0b9d3f;
+    }
+
+    .timeline-event.current:before {
+        background-color: #f39c12;
+    }
+
+    .timeline-date {
+        font-weight: bold;
+        color: #0b9d3f;
+        margin-bottom: 5px;
+    }
+
+    .timeline-info h4 {
+        margin: 0 0 5px 0;
+    }
+
+    .timeline-info p {
+        margin: 0;
+        color: #666;
+    }
+
+
+    /*budget cards*/
+
+    .budget-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .budget-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .budget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .budget-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0b9d3f;
+            margin: 10px 0;
+        }
+        
+        .budget-label {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .budget-change {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .budget-increase {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .budget-decrease {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Railways */
+        .railway-card {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1565c0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .phase-label {
+            font-weight: 600;
+            color: #0d47a1;
+        }
+        .route-map {
+            width: 100%;
+            height: 400px;
+            background-color: #f5f5f5;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .station-card {
+            background-color: #bbdefb;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .train-icon {
+            color: #1565c0;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section remains the same -->
+
+    <div class="project-container">
+        <div class="project-header">
+            <div class="project-title">
+                <h1>Standard Gauge Railway & Future Railway Projects</h1>
+                <div class="project-meta">
+                    <span><strong>Ministry:</strong> Transport, Infrastructure</span>
+                    <span><strong>Operator:</strong> Kenya Railways</span>
+                    <span><strong>Investment:</strong> KSh 500B+</span>
+                </div>
+            </div>
+            <div class="project-status">
+                <div class="status-label">Project Progress</div>
+                <div class="progress-circle">
+                    <canvas id="progressCircle" width="120" height="120"></canvas>
+                    <div class="progress-percentage">65%</div>
+                </div>
+                <div>Phase 2 Ongoing</div>
+            </div>
+        </div>
+        <style>
+            /* Base Styles */
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f9f9f9;
+            }
+            
+            /* Tab Container */
+            .tab-container {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+            
+            /* Tab Header */
+            .tab-header {
+                display: flex;
+                background: #f5f5f5;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .tab-btn {
+                padding: 12px 24px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                transition: all 0.3s;
+                position: relative;
+                margin-right: 1px;
+                color: #555;
+            }
+            
+            .tab-btn:hover {
+                background-color: #e9e9e9;
+            }
+            
+            .tab-btn.active {
+                background: white;
+                color: #0066cc;
+                font-weight: 600;
+            }
+            
+            .tab-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background-color: #0066cc;
+            }
+            
+            /* Tab Content */
+            .tab-content {
+                display: none;
+                padding: 25px;
+                animation: fadeIn 0.5s;
+            }
+            
+            .tab-content.active {
+                display: block;
+            }
+            
+            /* Media Section */
+            .media-section {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            
+            .media-item {
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                transition: transform 0.3s;
+            }
+            
+            .media-item:hover {
+                transform: translateY(-5px);
+            }
+            
+            .media-item img, .media-item video {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+            
+            .media-caption {
+                padding: 12px;
+                background: white;
+                font-size: 14px;
+            }
+            
+            /* Comments Section */
+            .comments-section {
+                margin-top: 20px;
+            }
+            
+            .comment-form {
+                margin-bottom: 30px;
+                padding: 20px;
+                background: #f8f8f8;
+                border-radius: 6px;
+            }
+            
+            .comment-form textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                resize: vertical;
+                min-height: 100px;
+                margin-bottom: 10px;
+                font-family: inherit;
+            }
+            
+            .comment-form button {
+                background: #0066cc;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            
+            .comment-form button:hover {
+                background: #0055aa;
+            }
+            
+            .comment-list {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .comment {
+                padding: 15px;
+                background: white;
+                border-radius: 6px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                font-size: 14px;
+                color: #666;
+            }
+            
+            .comment-author {
+                font-weight: bold;
+                color: #333;
+            }
+            
+            .comment-date {
+                color: #999;
+            }
+            
+            .comment-body {
+                line-height: 1.5;
+            }
+            
+            /* Animations */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+        <div class="tab-container">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="tab1">Overview</button>
+                <button class="tab-btn" data-tab="tab2">SGR Network</button>
+                <button class="tab-btn" data-tab="tab3">Future Projects</button>
+                <button class="tab-btn" data-tab="tab4">Statistics</button>
+                <button class="tab-btn" data-tab="tab5">Timeline</button>
+            </div>
+            
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="tab1">
+                <div class="railway-card">
+                    <h4>SGR Key Facts</h4>
+                    <ul>
+                        <li>East Africa's largest infrastructure project</li>
+                        <li>Modern railway with 25-ton axle load capacity</li>
+                        <li>Design speed: 120km/h (freight), 150km/h (passenger)</li>
+                        <li>Reduced Nairobi-Mombasa travel time from 12hrs to 4.5hrs</li>
+                    </ul>
+                </div>
+                
+                <div class="route-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d516539.90778490895!2d36.6323277!3d-1.3412619!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f0d97c270d8ef%3A0xc89c4cd89c3d610e!2sSGR%20Terminus%20Nairobi!5e1!3m2!1sen!2sru!4v1743557314015!5m2!1sen!2sru" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                
+                <div class="railway-card">
+                    <h4>Current Operational Sections</h4>
+                    <div class="station-card">
+                        <span class="train-icon">🚆</span>
+                        <strong>Phase 1:</strong> Mombasa-Nairobi (472km)
+                    </div>
+                    <div class="station-card">
+                        <span class="train-icon">🚆</span>
+                        <strong>Phase 2A:</strong> Nairobi-Naivasha (120km)
+                    </div>
+                </div>
+                
+                <div class="railway-card">
+                    <h4>Train Services</h4>
+                    <p>
+                        <span class="phase-label">Passenger:</span> 4 daily intercounty trains<br>
+                        <span class="phase-label">Freight:</span> 8 daily freight trains<br>
+                        <span class="phase-label">Capacity:</span> 1,260 passengers per train<br>
+                        <span class="phase-label">Cargo:</span> 216 TEUs per freight train
+                    </p>
+                </div>
+            </div>
+            
+            <!-- SGR Network Tab -->
+            <div class="tab-content" id="tab2">
+                <h2>SGR Route Details</h2>
+                
+                <div class="media-section">
+                    <div class="media-item">
+                        <img src="Photos/mbas terminus.jpg" alt="Mombasa Terminus">
+                        <div class="media-caption">
+                            <strong>Mombasa Terminus</strong>
+                            <p>Main SGR hub with customs clearance facilities</p>
+                        </div>
+                    </div>
+                    
+                    <div class="media-item">
+                        <img src="Photos/nairo terminus.jpeg" alt="Nairobi Terminus">
+                        <div class="media-caption">
+                            <strong>Nairobi Terminus</strong>
+                            <p>Connects to meter gauge and bus rapid transit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="media-item">
+                        <img src="Photos/Voi station.jpg" alt="Voi Station">
+                        <div class="media-caption">
+                            <strong>Voi Station</strong>
+                            <p>Key junction for future Tanzania connection</p>
+                        </div>
+                    </div>
+
+                    <div class="media-item">
+                        <img src="Photos/nav icd.jpg" alt="Naivasha ICD">
+                        <div class="media-caption">
+                            <strong>Naivasha ICD</strong>
+                            <p>Inland Container Depot serving Great Rift Valley</p>
+                        </div>
+                    </div>
+                    
+                    <div class="media-item">
+                        <img src="Photos/sgr port.jpeg" alt="Freight Service">
+                        <div class="media-caption">
+                            <strong>Freight Service</strong>
+                            <p>Moving 40% of Mombasa port cargo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="media-item">
+                        <img src="Photos/sgr5.jpg" alt="Madaraka Express">
+                        <div class="media-caption">
+                            <strong>Madaraka Express</strong>
+                            <p>Over 5 million passengers carried since 2017</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="railway-card">
+                    <h4>Key Stations</h4>
+                    <ol>
+                        <li>Mombasa Terminus (Coastal Region)</li>
+                        <li>Mariakani (Kilifi County)</li>
+                        <li>Voi (Taita Taveta)</li>
+                        <li>Mtito Andei (Makueni)</li>
+                        <li>Emali (Makueni)</li>
+                        <li>Kibwezi (Makueni)</li>
+                        <li>Nairobi Terminus</li>
+                        <li>Naivasha ICD</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Future Projects Tab -->
+            <div class="tab-content" id="tab3">
+                <h2>Future Railway Projects</h2>
+                
+                <div class="railway-card">
+                    <h4>Planned Extensions</h4>
+                    <div class="station-card">
+                        <span class="train-icon">🚧</span>
+                        <strong>Phase 2B:</strong> Naivasha-Kisumu-Malaba (270km)
+                    </div>
+                    <div class="station-card">
+                        <span class="train-icon">🚧</span>
+                        <strong>Phase 3:</strong> Kisumu-Uganda Border (107km)
+                    </div>
+                    <div class="station-card">
+                        <span class="train-icon">🚧</span>
+                        <strong>LAPSSET:</strong> Lamu-South Sudan-Ethiopia
+                    </div>
+                </div>
+                
+                <div class="railway-card">
+                    <h4>Metro Systems</h4>
+                    <div class="station-card">
+                        <span class="train-icon">🚇</span>
+                        <strong>Nairobi Metro:</strong> 5-line urban rail network
+                    </div>
+                    <div class="station-card">
+                        <span class="train-icon">🚇</span>
+                        <strong>Mombasa Monorail:</strong> Proposed 42km system
+                    </div>
+                </div>
+                
+                <div class="railway-card">
+                    <h4>Modernization Projects</h4>
+                    <ul>
+                        <li>Meter Gauge Railway rehabilitation (KSh 3B)</li>
+                        <li>Commuter rail expansion in Nairobi</li>
+                        <li>Nairobi Central Station redevelopment</li>
+                        <li>Automated signaling systems</li>
+                    </ul>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="futureChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Statistics Tab -->
+            <div class="tab-content" id="tab4">
+                <section class="budget-overview">
+                    <div class="budget-card">
+                        <div class="budget-label">Passengers Carried</div>
+                        <div class="budget-amount">5.2M+</div>
+                        <div class="budget-change budget-increase">+1.3M in 2023</div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-label">Freight Tonnage</div>
+                        <div class="budget-amount">7.8M tons</div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-label">Jobs Created</div>
+                        <div class="budget-amount">46,000</div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-label">Economic Impact</div>
+                        <div class="budget-amount">KSh 200B+</div>
+                    </div>
+                </section>
+                
+                <div class="chart-container">
+                    <canvas id="passengerChart"></canvas>
+                </div>
+                
+                <div class="railway-card" style="margin-top: 30px;">
+                    <h4>Operational Efficiency</h4>
+                    <ol>
+                        <li>95% on-time performance</li>
+                        <li>60% reduction in cargo transit time</li>
+                        <li>40% of port cargo now on SGR</li>
+                        <li>80% customer satisfaction rate</li>
+                    </ol>
+                </div>
+            </div>
+                        
+            <!-- Timeline Tab -->
+            <div class="tab-content" id="tab5">
+                <div class="project-description">
+                    <h3>Railway Development Timeline</h3>
+                    <p>Key milestones in Kenya's railway modernization:</p>
+                    
+                    <div class="simple-timeline">
+                        <div class="timeline-event completed">
+                            <div class="timeline-date">2014</div>
+                            <div class="timeline-info">
+                                <h4>SGR Construction Begins</h4>
+                                <p>Mombasa-Nairobi groundbreaking</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-event completed">
+                            <div class="timeline-date">2017</div>
+                            <div class="timeline-info">
+                                <h4>Phase 1 Operational</h4>
+                                <p>Madaraka Express launched</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-event completed">
+                            <div class="timeline-date">2019</div>
+                            <div class="timeline-info">
+                                <h4>Nairobi-Naivasha</h4>
+                                <p>Phase 2A completed</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-event current">
+                            <div class="timeline-date">2020-2024</div>
+                            <div class="timeline-info">
+                                <h4>Naivasha-Kisumu</h4>
+                                <p>Phase 2B construction</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-event">
+                            <div class="timeline-date">2025-2030</div>
+                            <div class="timeline-info">
+                                <h4>Regional Integration</h4>
+                                <p>Connections to Uganda and Tanzania</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-notes">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Chinese financing (Exim Bank)</li>
+                            <li>Built by China Road and Bridge Corporation</li>
+                            <li>5-year operations contract with China</li>
+                            <li>Kenyan crew training program</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        document.querySelectorAll('.tab-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        document.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        
+                        this.classList.add('active');
+                        
+                        
+                        const tabId = this.getAttribute('data-tab');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            });
+        </script>
+
+        <!-- Reactions Section -->
+        <section>
+            <div class="media-caption">
+                <div class="reaction-stats">
+                    <div class="budget-amount">
+                        <span id="likesCount">78,542</span>Likes
+                    </div>
+                    <div class="budget-amount">
+                        <span id="dislikesCount">3,210</span> Dislike
+                    </div>
+                    <div class="budget-amount">
+                        <span id="commentsCount">15,876</span> comments
+                    </div>
+                </div>
+                
+                <div class="reaction-buttons">
+                    <button class="reaction-btn" id="likeButton" onclick="reactToProject('like')">
+                        <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
+                        </svg>
+                        <span>Like</span>
+                    </button>
+                    <button class="reaction-btn" id="dislikeButton" onclick="reactToProject('dislike')">
+                        <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
+                        </svg>
+                        <span>Dislike</span>
+                    </button>
+                    <button class="reaction-btn" onclick="shareProject()">
+                        <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                        </svg>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Progress Circle
+            const progressCtx = document.getElementById('progressCircle').getContext('2d');
+            new Chart(progressCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [65, 35],
+                        backgroundColor: ['#1565c0', '#e0e0e0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    responsive: false
+                }
+            });
+
+            // Future Projects Chart
+            const futureCtx = document.getElementById('futureChart').getContext('2d');
+            new Chart(futureCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Phase 1', 'Phase 2A', 'Phase 2B', 'Phase 3', 'LAPSSET', 'Nairobi Metro'],
+                    datasets: [{
+                        label: 'Project Investment (KSh Billion)',
+                        data: [327, 150, 210, 85, 400, 120],
+                        backgroundColor: [
+                            '#1565c0',
+                            '#1976d2',
+                            '#2196f3',
+                            '#64b5f6',
+                            '#bbdefb',
+                            '#e3f2fd'
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'KSh Billion'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Passenger Chart
+            const passengerCtx = document.getElementById('passengerChart').getContext('2d');
+            new Chart(passengerCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: 'Annual Passenger Numbers',
+                        data: [1.2, 1.8, 2.3, 1.5, 2.1, 3.0, 4.2],
+                        borderColor: '#1565c0',
+                        backgroundColor: 'rgba(21, 101, 192, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Passengers (Millions)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

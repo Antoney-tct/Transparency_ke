@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konza city Details - Government Portal</title>
+    <link rel="stylesheet" href="land.css">
+    <script src="tabs.js"></script>
+    <script src="project_details.js"></script>
+    <script src="notification.js"></script>
+    <script src="timeline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        
+        .project-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .project-title {
+            flex: 1;
+        }
+
+        .project-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .project-meta {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .project-meta span {
+            margin-right: 20px;
+        }
+        
+        .project-status {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .progress-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+        }
+        
+        .progress-circle canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0b9d3f;
+        }
+        
+        
+
+
+
+
+
+/*  Search */
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 300px;
+    margin: 20px auto;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container:focus-within {
+    box-shadow: 0 0 8px rgba(11, 157, 63, 0.3);
+    border-color: #0b9d3f;
+}
+
+.search-container input[type="text"] {
+    border: none;
+    padding: 12px 15px;
+    flex: 1;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+.search-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    fill: #666;
+    transition: fill 0.3s ease;
+}
+
+.search-button:hover .search-icon {
+    fill: #0b9d3f;
+}
+
+
+
+
+
+/*  Notification  */
+.notification-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.notification-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.bell-icon {
+    width: 24px;
+    height: 24px;
+    fill: #333;
+    transition: fill 0.3s ease;
+}
+
+.notification-btn:hover .bell-icon {
+    fill: #0b9d3f;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    width: 320px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 100;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: #0b9d3f;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.notification-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+    background-color: #f9f9f9;
+}
+
+.notification-item.unread {
+    background-color: #f0f7ff;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-icon {
+    background-color: #3498db;
+}
+
+.system-icon {
+    background-color: #9b59b6;
+}
+
+.event-icon {
+    background-color: #f39c12;
+}
+
+.report-icon {
+    background-color: #2ecc71;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.notification-footer {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+}
+
+.notification-footer a {
+    color: #0b9d3f;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/*timeline*/
+
+    .simple-timeline {
+        margin: 30px 0;
+        border-left: 4px solid #ddd;
+        padding-left: 20px;
+    }
+
+    .timeline-event {
+        margin-bottom: 30px;
+        position: relative;
+        padding-left: 15px;
+    }
+
+    .timeline-event:before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background-color: #ddd;
+        border-radius: 50%;
+        position: absolute;
+        left: -29px;
+        top: 5px;
+    }
+
+    .timeline-event.completed:before {
+        background-color: #0b9d3f;
+    }
+
+    .timeline-event.current:before {
+        background-color: #f39c12;
+    }
+
+    .timeline-date {
+        font-weight: bold;
+        color: #0b9d3f;
+        margin-bottom: 5px;
+    }
+
+    .timeline-info h4 {
+        margin: 0 0 5px 0;
+    }
+
+    .timeline-info p {
+        margin: 0;
+        color: #666;
+    }
+
+
+    /*budget cards*/
+
+    .budget-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .budget-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .budget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .budget-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0b9d3f;
+            margin: 10px 0;
+        }
+        
+        .budget-label {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .budget-change {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .budget-increase {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .budget-decrease {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+</style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+        </div>
+        
+       
+        <!--  Search Bar -->
+<div class="search-container">
+    <input type="text" placeholder="Search...">
+    <button type="submit" class="search-button">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+    </button>
+</div>
+
+<!--  Notification Button -->
+<div class="notification-container">
+    <button class="notification-btn" id="notificationButton">
+        <svg class="bell-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+        </svg>
+        <span class="notification-badge" id="notificationBadge">4</span>
+    </button>
+    <div class="notification-dropdown" id="notificationDropdown">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="mark-all-read">Mark all as read</button>
+        </div>
+        <div class="notification-list">
+            <a href="page1.html" class="notification-item unread">
+                <div class="notification-icon admin-icon"></div>
+                <div class="notification-content">
+                    <div class="notification-title">New message from Admin</div>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+            </a>
+            <a href="page2.html" class="notification-item unread">
+                <div class="notification-icon system-icon"></div>
+                <div class="notification-content">
+                    <div class="notification-title">System Update Available</div>
+                    <div class="notification-time">Yesterday</div>
+                </div>
+            </a>
+            <a href="page3.html" class="notification-item">
+                <div class="notification-icon event-icon"></div>
+                <div class="notification-content">
+                    <div class="notification-title">Reminder: Upcoming Event</div>
+                    <div class="notification-time">3 days ago</div>
+                </div>
+            </a>
+            <a href="page4.html" class="notification-item">
+                <div class="notification-icon report-icon"></div>
+                <div class="notification-content">
+                    <div class="notification-title">Weekly Report Ready</div>
+                    <div class="notification-time">1 week ago</div>
+                </div>
+            </a>
+        </div>
+        <div class="notification-footer">
+            <a href="updates.html">View all notifications</a>
+        </div>
+    </div>
+</div>
+
+        <div class="profile-section">
+            
+            </div>
+            <a href="pprofile.html">
+                <div class="profile-button"></div>
+            </a>
+        </div>
+    </header>
+
+    <div class="project-container">
+        <div class="project-header">
+            <div class="project-title">
+                <h1>Konza Technopolis</h1>
+                <div class="project-meta">
+                    <span><strong>Location:</strong> Machakos County, Kenya</span>
+                    <span><strong>Started:</strong> January 2013</span>
+                    <span><strong>Expected Completion:</strong> Phase 1 by 2025</span>
+                </div>
+            </div>
+            <div class="project-status">
+                <div class="status-label">Project Progress</div>
+                <div class="progress-circle">
+                    <canvas id="progressCircle" width="120" height="120"></canvas>
+                    <div class="progress-percentage">65%</div>
+                </div>
+                <div>Phase 1 Ongoing</div>
+            </div>
+        </div>
+        <style>
+            /* Base Styles */
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f9f9f9;
+            }
+            
+            /* Tab Container */
+            .tab-container {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+            
+            /* Tab Header */
+            .tab-header {
+                display: flex;
+                background: #f5f5f5;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .tab-btn {
+                padding: 12px 24px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                transition: all 0.3s;
+                position: relative;
+                margin-right: 1px;
+                color: #555;
+            }
+            
+            .tab-btn:hover {
+                background-color: #e9e9e9;
+            }
+            
+            .tab-btn.active {
+                background: white;
+                color: #0066cc;
+                font-weight: 600;
+            }
+            
+            .tab-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background-color: #0066cc;
+            }
+            
+            /* Tab Content */
+            .tab-content {
+                display: none;
+                padding: 25px;
+                animation: fadeIn 0.5s;
+            }
+            
+            .tab-content.active {
+                display: block;
+            }
+            
+            /* Media Section */
+            .media-section {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            
+            .media-item {
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                transition: transform 0.3s;
+            }
+            
+            .media-item:hover {
+                transform: translateY(-5px);
+            }
+            
+            .media-item img, .media-item video {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+            
+            .media-caption {
+                padding: 12px;
+                background: white;
+                font-size: 14px;
+            }
+            
+            /* Comments Section */
+            .comments-section {
+                margin-top: 20px;
+            }
+            
+            .comment-form {
+                margin-bottom: 30px;
+                padding: 20px;
+                background: #f8f8f8;
+                border-radius: 6px;
+            }
+            
+            .comment-form textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                resize: vertical;
+                min-height: 100px;
+                margin-bottom: 10px;
+                font-family: inherit;
+            }
+            
+            .comment-form button {
+                background: #0066cc;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            
+            .comment-form button:hover {
+                background: #0055aa;
+            }
+            
+            .comment-list {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .comment {
+                padding: 15px;
+                background: white;
+                border-radius: 6px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                font-size: 14px;
+                color: #666;
+            }
+            
+            .comment-author {
+                font-weight: bold;
+                color: #333;
+            }
+            
+            .comment-date {
+                color: #999;
+            }
+            
+            .comment-body {
+                line-height: 1.5;
+            }
+            
+            /* Animations */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+        
+        <div class="tab-container">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="tab1">Overview</button>
+                <button class="tab-btn" data-tab="tab2">video/photos</button>
+                <button class="tab-btn" data-tab="tab3">Comments</button>
+                <button class="tab-btn" data-tab="tab4">Budget</button>
+                <button class="tab-btn" data-tab="tab5">Timeline</button>
+            </div>
+            
+            
+           <!-- overview Tab -->
+           <div class="tab-content active" id="tab1">
+            <p>Konza Technopolis is Kenya's flagship smart city project, envisioned as a world-class technology hub and major economic driver for the nation. Located 60km southeast of Nairobi, the 5,000-acre development is part of Kenya's Vision 2030 economic development blueprint.</p>
+            
+                <p>The city is being developed in four phases, with Phase 1 focusing on core infrastructure including roads, water systems, and the Konza Complex. When complete, it will host business process outsourcing, software development, data centers, and research institutions, creating over 20,000 jobs in its first phase.</p>
+            
+                <p>Konza Technopolis is being developed as a sustainable smart city with green energy solutions, smart mobility systems, and digital infrastructure to support Kenya's growing tech ecosystem and position the country as Africa's Silicon Savannah.</p>
+            </div>
+        
+
+        <!-- Media Tab -->
+        <div class="tab-content" id="tab2">
+            <h2>Photo & Video Gallery of Konza Technopolis</h2>
+            <p>Browse through our collection of images and videos showcasing Africa's future smart city.</p>
+            
+            <div class="media-section">
+                <div class="media-item">
+                    <img src="Photos/Konza.jpeg" alt="Konza Aerial View">
+                    <div class="media-caption">
+                        <strong>Aerial View of Konza</strong>
+                        <p>Masterplan overview showing the city layout</p>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <video controls>
+                        <source src="Photos/18750424-hd_1920_1080_30fps.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="media-caption">
+                        <strong>Construction Progress</strong>
+                        <p>Current development status of Phase 1 infrastructure</p>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <img src="Photos/Konza2.jpeg" alt="Konza Data Center">
+                    <div class="media-caption">
+                        <strong>Konza Data Center</strong>
+                        <p>Tier III certified facility under construction</p>
+                    </div>
+                </div>
+
+                <div class="media-item">
+                    <img src="Photos/konza complex.jpeg" alt="Konza Complex">
+                    <div class="media-caption">
+                        <strong>Konza Complex</strong>
+                        <p>First major building nearing completion</p>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <img src="Photos/Koza 23.jpg" alt="Smart City Concept">
+                    <div class="media-caption">
+                        <strong>Smart City Concept</strong>
+                        <p>Artist's rendering of the completed technopolis</p>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <img src="Photos/road3.jpeg" alt="Infrastructure Development">
+                    <div class="media-caption">
+                        <strong>Road Infrastructure</strong>
+                        <p>New roads being constructed within the technopolis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comments Tab -->
+        <div class="tab-content" id="tab3">
+            <h2>Discussion</h2>
+            <p>Join the conversation about Africa's Silicon Savannah.</p>
+            
+            <div class="comment-form">
+                <h3>Add Your Comment</h3>
+                <textarea placeholder="Share your thoughts about Konza Technopolis..."></textarea>
+                <button type="submit">Post Comment</button>
+            </div>
+            
+            <div class="comments-section">
+                <h3>Recent Comments</h3>
+                
+                <div class="comment-list">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">Tech Entrepreneur</span>
+                            <span class="comment-date">June 15, 2023</span>
+                        </div>
+                        <div class="comment-body">
+                            This will be a game-changer for Kenya's tech ecosystem!
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">Engineering Student</span>
+                            <span class="comment-date">June 12, 2023</span>
+                        </div>
+                        <div class="comment-body">
+                            Can't wait to graduate and work in Konza. The opportunities will be amazing!
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">Local Resident</span>
+                            <span class="comment-date">June 10, 2023</span>
+                        </div>
+                        <div class="comment-body">
+                            The project is transforming our area. Hope the jobs will go to locals too.
+                        </div>
+                    </div>
+                </div>
+            </div>
+                   
+        </div>
+    </div>
+<!-- budget tab-->
+<div class="tab-content" id="tab4">
+    <section class="budget-overview">
+        <div class="budget-card">
+            <div class="budget-label">Total Budget (Phase 1)</div>
+            <div class="budget-amount">KSh 85B</div>
+            <div class="budget-change budget-increase">+22% from 2022</div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-label">Expenditure so far</div>
+            <div class="budget-amount">KSh 52B</div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-label">Jobs created (Phase 1)</div>
+            <div class="budget-amount">8,500</div>
+            <div class="budget-change budget-increase">+35% from 2022</div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-label">Years in development</div>
+            <div class="budget-amount">10 years</div>
+        </div>
+    </section>
+</div>
+                
+<!--Timeline-->
+<div class="tab-btn" id="tab5">
+    <div class="project-description">
+        <h3>Project Timeline</h3>
+        <p>Below is the timeline for the Konza Technopolis development:</p>
+        
+        <div class="simple-timeline">
+            <div class="timeline-event completed">
+                <div class="timeline-date">2008</div>
+                <div class="timeline-info">
+                    <h4>Vision 2030 Launch</h4>
+                    <p>Konza conceived as part of Kenya's economic blueprint</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event completed">
+                <div class="timeline-date">January 2013</div>
+                <div class="timeline-info">
+                    <h4>Groundbreaking</h4>
+                    <p>Official launch by President Mwai Kibaki</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event completed">
+                <div class="timeline-date">2017</div>
+                <div class="timeline-info">
+                    <h4>Infrastructure Development</h4>
+                    <p>Roads, water, and power infrastructure begins</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event current">
+                <div class="timeline-date">2020-2024</div>
+                <div class="timeline-info">
+                    <h4>Phase 1 Implementation</h4>
+                    <p>Construction of Konza Complex, data center, and first commercial buildings</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event">
+                <div class="timeline-date">2025</div>
+                <div class="timeline-info">
+                    <h4>Phase 1 Completion</h4>
+                    <p>Expected completion of initial development phase</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event">
+                <div class="timeline-date">2026-2030</div>
+                <div class="timeline-info">
+                    <h4>Phase 2 Development</h4>
+                    <p>Expansion of residential and commercial districts</p>
+                </div>
+            </div>
+            
+            <div class="timeline-event">
+                <div class="timeline-date">2030+</div>
+                <div class="timeline-info">
+                    <h4>Full Realization</h4>
+                    <p>Complete smart city with 20,000+ residents and 200,000+ workers</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="project-notes">
+            <h4>Project Notes:</h4>
+            <ul>
+                <li>Total projected cost: $14.5 billion (all phases)</li>
+                <li>Developed through public-private partnerships</li>
+                <li>Expected to contribute 2-3% to Kenya's GDP when complete</li>
+                <li>Home to Kenya's first Tier IV data center</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    
+                    
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+<section>
+        
+
+          
+            <!-- Project Reactions Section -->
+<div class="media-caption">
+ <div class="reaction-stats">
+     <div class="budget-amount">
+         <span id="likesCount">124</span> likes
+     </div>
+     <div class="budget-amount">
+         <span id="dislikesCount">18</span> dislikes
+     </div>
+     <div class="budget-amount">
+         <span id="commentsCount">42</span> comments
+     </div>
+ </div>
+ 
+ <div class="reaction-buttons">
+     <button class="reaction-btn" id="likeButton" onclick="reactToProject('like')">
+         <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+             <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
+         </svg>
+         <span>Like</span>
+     </button>
+     <button class="reaction-btn" id="dislikeButton" onclick="reactToProject('dislike')">
+         <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+             <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
+         </svg>
+         <span>Dislike</span>
+     </button>
+ 
+     </button>
+     <button class="reaction-btn" onclick="shareProject()">
+         <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+             <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+         </svg>
+         <span>Share</span>
+     </button>
+ </div>
+
+
+ 
+ 
+
+             
+             
+</section>
+        
+</body>
+</html>

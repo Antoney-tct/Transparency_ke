@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Progress Timeline</title>
+  <script src="progtimeline.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+
+    :root {
+      --primary: #0c9b35;
+      --primary-light: #e8f5e9;
+      --secondary: #162447;
+      --dark: #2c3e50;
+      --light: #f8f9fa;
+      --accent: #ff6b35;
+      --text: #333;
+      --text-light: #666;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f8f8;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background-color: white;
+      box-shadow: var(--box-shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    .logo-text span {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(12,155,53,0.9), rgba(22,36,71,0.9));
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('Photos/Koza\ 23.jpg') center/cover;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      background-color: white;
+      color: var(--primary);
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.89);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Funds Allocation Section */
+    .funds-section {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .charts-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .chart-container {
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      height: 300px;
+      background: white;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background-color: var(--secondary);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background-color: rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .period-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+
+    .period-tabs button {
+      padding: 0.8rem 1.5rem;
+      background-color: var(--light);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .period-tabs button.active {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .timeline-container {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--primary-light);
+      transform: translateX(-50%);
+    }
+
+    .timeline-items {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      width: 100%;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) {
+      justify-content: flex-start;
+    }
+
+    .timeline-item:nth-child(even) {
+      justify-content: flex-end;
+    }
+
+    .timeline-content {
+      width: calc(50% - 2rem);
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.5rem;
+      position: relative;
+      border: 1px solid #eee;
+      transition: var(--transition);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-right: auto;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-left: auto;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .timeline-year {
+      position: absolute;
+      top: 50%;
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-year {
+      right: -30px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-year {
+      left: -30px;
+    }
+
+    .timeline-content h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Progress Section */
+    .progress-section {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 2rem;
+    }
+
+    .progress-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .progress-timeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    .progress-timeline::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--primary-light);
+      transform: translateY(-50%);
+    }
+
+    .progress-year {
+      position: relative;
+      cursor: pointer;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .progress-year span {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: var(--text);
+    }
+
+    .progress-year::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 3px solid white;
+      transform: translate(-50%, -50%);
+      transition: var(--transition);
+    }
+
+    .progress-year.active::after {
+      background: var(--primary);
+    }
+
+    .progress-year:hover::after {
+      background: var(--primary);
+    }
+
+    .progress-description {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: var(--primary-light);
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+
+    .progress-description h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--secondary);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .timeline-content {
+        width: calc(100% - 4rem);
+      }
+      
+      .timeline-item:nth-child(odd) .timeline-year {
+        right: -10px;
+      }
+      
+      .timeline-item:nth-child(even) .timeline-year {
+        left: -10px;
+      }
+      
+      .progress-timeline {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .progress-timeline::before {
+        display: none;
+      }
+      
+      .progress-year {
+        margin: 0.5rem;
+      }
+    }
+
+
+    .vision-progress-tracker {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.progress-period-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.progress-period-buttons button {
+    padding: 8px 16px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.progress-period-buttons button.active {
+    background: #2E8B57;
+    color: white;
+}
+
+.progress-track-line {
+    height: 8px;
+    background: #2E8B57;
+    border-radius: 4px;
+    position: relative;
+    margin: 40px 0;
+}
+
+.progress-year-marker {
+    position: absolute;
+    top: -12px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 4px solid #2E8B57;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.progress-year-marker.active {
+    background: #2E8B57;
+}
+
+.progress-year-label {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.progress-info-display {
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    min-height: 100px;
+    border-left: 4px solid #2E8B57;
+    transition: all 0.3s;
+}
+
+@media (max-width: 600px) {
+    .progress-period-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .progress-period-buttons button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+  </style>
+  
+
+  
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
+        <span class="logo-text">Government <span>Progress</span></span>
+      </div>
+      <nav>
+        <a href="Reports.html" class="btn">Reports</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Tracking National Development Progress</h1>
+      <p>Transparent reporting on government projects, budget allocation, and key milestones achieved</p>
+      <a href="#timeline" class="btn">View Progress Timeline</a>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Funds Allocation Section -->
+    <section class="funds-section">
+      <h2 class="section-title">Budget Allocation</h2>
+      <p style="text-align: center; margin-bottom: 1rem;">How government funds are distributed across key sectors</p>
+      
+      <div class="charts-container">
+        <div class="chart-container">
+          <canvas id="sectorChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="expenditureChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="completionChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <h2 class="section-title" style="color: white;">Key Performance Indicators</h2>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">KSh 3.3T</div>
+          <div class="stat-label">National Budget</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1,247</div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">78%</div>
+          <div class="stat-label">Citizen Satisfaction</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">92%</div>
+          <div class="stat-label">Procurement Transparency</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section" id="timeline">
+      <h2 class="section-title">Development Milestones</h2>
+      <p style="text-align: center; margin-bottom: 1rem;">Key achievements in our national development journey</p>
+      
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div class="timeline-items">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Smart City Initiative</h3>
+              <p>Launched the first Smart City projects with pilot programs in major urban centers, focusing on digital infrastructure and IoT solutions.</p>
+            </div>
+            <div class="timeline-year">2018</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>E-Government Services</h3>
+              <p>Established comprehensive e-Government services, enabling citizens to access 85% of government services online.</p>
+            </div>
+            <div class="timeline-year">2020</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Global Partnerships</h3>
+              <p>Formed strategic partnerships with international organizations to advance sustainable development goals and technology transfer.</p>
+            </div>
+            <div class="timeline-year">2022</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Mega-Project Completion</h3>
+              <p>Achieved 85% completion rate on key infrastructure projects across transportation, housing, and energy sectors.</p>
+            </div>
+            <div class="timeline-year">2024</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Section -->
+    
+    <section class="vision-progress-tracker">
+      <h2>Kenya Vision 2030 Progress</h2>
+      
+      <div class="progress-period-buttons">
+          <button class="active" data-period="2010-2015">2010-2015</button>
+          <button data-period="2016-2020">2016-2020</button>
+          <button data-period="2021-2025">2021-2025</button>
+      </div>
+      
+      <div class="progress-track-line">
+          <!-- Years will appear here automatically -->
+      </div>
+      
+      <div class="progress-info-display">
+          <p>Click on any year to see progress details</p>
+      </div>
+  </section>
+  <script src="progtimeline.js"></script>
+    
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="Budget.html">Budget</a>
+      <a href="Reports.html">Reports</a>
+    </div>
+    
+    <div class="social-links">
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    
+    <p class="copyright">© 2023 Government Progress Portal. All rights reserved.</p>
+  </footer>
+ 
+  <script>
+    // Initialize Charts
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sector Allocation Pie Chart
+      const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+      new Chart(sectorCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Infrastructure', 'Education', 'Healthcare', 'Security', 'Agriculture', 'Others'],
+          datasets: [{
+            data: [25, 20, 15, 12, 10, 18],
+            backgroundColor: [
+              '#0c9b35',
+              '#162447',
+              '#ff6b35',
+              '#2c3e50',
+              '#6c757d',
+              '#6610f2'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.raw}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Expenditure Trend Bar Chart
+      const expenditureCtx = document.getElementById('expenditureChart').getContext('2d');
+      new Chart(expenditureCtx, {
+        type: 'bar',
+        data: {
+          labels: ['2019', '2020', '2021', '2022', '2023'],
+          datasets: [{
+            label: 'Budget (KSh Billion)',
+            data: [2100, 2300, 2500, 2800, 3300],
+            backgroundColor: 'rgba(12,155,53,0.7)',
+            borderColor: 'rgba(12,155,53,1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'KSh Billion'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Fiscal Year'
+              }
+            }
+          }
+        }
+      });
+
+      // Project Completion Chart
+      const completionCtx = document.getElementById('completionChart').getContext('2d');
+      new Chart(completionCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Completed', 'In Progress', 'Delayed', 'Planning'],
+          datasets: [{
+            data: [45, 35, 12, 8],
+            backgroundColor: [
+              '#0c9b35',
+              '#162447',
+              '#ff6b35',
+              '#6c757d'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            }
+          }
+        }
+      });
+      
+    });
+  </script>
+</body>
+</html>

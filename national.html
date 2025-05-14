@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Government of Kenya - Official Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --national-red: #BB0A1E;
+            --national-green: #009A44;
+            --national-black: #000000;
+            --national-white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .national-logo {
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--national-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Photos/ke\ flag.jpg') no-repeat center center/cover;
+            color: var(--national-white);
+            text-align: center;
+            padding: 7rem 20px;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--national-white);
+            color: var(--national-red);
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+        }
+
+        .btn-primary {
+            background-color: var(--national-red);
+            color: var(--national-white);
+            margin-right: 15px;
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--national-red);
+            display: inline-block;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--national-red), var(--national-green));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .about-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 5rem;
+            background-color: var(--national-white);
+            border-radius: 8px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--national-red);
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--national-red);
+        }
+
+        .about-content {
+            flex: 2;
+        }
+
+        .about-content h2 {
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.8rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .service-card {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            border-top: 4px solid var(--national-red);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--national-red);
+            margin-bottom: 1.8rem;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            color: var(--national-red);
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            margin-bottom: 1.8rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .service-link {
+            color: var(--national-green);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+
+        .service-link:hover {
+            color: var(--national-red);
+        }
+
+        .service-link i {
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .service-link:hover i {
+            transform: translateX(5px);
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-container h2 {
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-item i {
+            font-size: 1.8rem;
+            color: var(--national-white);
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-item span {
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--national-white);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background-color: var(--national-white);
+            color: var(--national-red);
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-links a:hover {
+            color: var(--national-white);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                padding: 5rem 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            
+            .about-section {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.2rem;
+            }
+            
+            nav ul {
+                margin-top: 1.2rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                margin-bottom: 10px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .about-section {
+                padding: 2rem;
+            }
+            
+            .contact-info {
+                gap: 2rem;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 20px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .about-section {
+                padding: 1.5rem;
+            }
+            
+            .service-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
+                <div class="header-title">
+                    <h1>Government of Kenya</h1>
+                    <p>Official National Portal</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="user_dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="county.html">My county</a></li>
+                    <li><a href="pregress.html">Progress</a></li>
+                    <li><a href="User - inquirery.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to the National Government Portal</h1>
+            <p>Your official gateway to government services, information, and resources for all citizens</p>
+            <div>
+                <a href="#" class="btn btn-primary">Explore Services</a>
+                <a href="#" class="btn">Government Directory</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="about-section">
+            <div class="about-image">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenyan Parliament">
+            </div>
+            <div class="about-content">
+                <h2>About the Government of Kenya</h2>
+                <p>
+                    The Government of Kenya is committed to serving all citizens with integrity, transparency, and efficiency. 
+                    Our national institutions work together to implement policies, deliver services, and drive sustainable 
+                    development across all sectors of the economy.
+                </p>
+                <p>
+                    This portal provides centralized access to government services, official information, and resources to 
+                    empower citizens and promote public participation in governance. We strive to be an open, accountable 
+                    government that serves all Kenyans equally.
+                </p>
+                <a href="#" class="btn btn-primary">Learn More About Us</a>
+            </div>
+        </section>
+
+        <div class="section-title">
+            <h2>Government Services</h2>
+        </div>
+
+        <section class="services">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3>Ministries & Departments</h3>
+                <p>Explore the structure of government through our ministries, departments, and agencies that serve the nation.</p>
+                <a href="#" class="service-link">View Directory <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3>National Policies</h3>
+                <p>Access key policy documents, development plans, and government strategies guiding our nation's progress.</p>
+                <a href="#" class="service-link">View Policies <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <h3>Public Services</h3>
+                <p>Convenient access to essential government services for citizens, businesses, and visitors to Kenya.</p>
+                <a href="#" class="service-link">Access Services <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-gavel"></i>
+                </div>
+                <h3>Legislation & Acts</h3>
+                <p>Search and download official legislation, parliamentary acts, and legal frameworks governing the nation.</p>
+                <a href="#" class="service-link">Browse Laws <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>National Events</h3>
+                <p>Stay informed about official state functions, national holidays, and government announcements.</p>
+                <a href="#" class="service-link">View Calendar <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <a href="Budget.html"><h3>National Budget</h3></a>
+                <p>Access detailed budget documents, expenditure reports, and financial statements of the government.</p>
+                <a href="Budget.html" class="service-link">View Budget <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <a href="Reports.html"><h3>National Statistics</h3></a>
+                <p>Explore official statistics, economic indicators, and demographic data from government sources.</p>
+                <a href="Reports.html" class="service-link">View Data <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <h3>Public Announcements</h3>
+                <p>Important notices, press releases, and official communications from government offices.</p>
+                <a href="#" class="service-link">Read Announcements <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <h2>Contact the National Government</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>Headquarters</strong><br>
+                            Harambee House, Nairobi
+                        </span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>
+                            <strong>Phone</strong><br>
+                            +254 789 0000078
+                        </span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>
+                            <strong>Email</strong><br>
+                            Gok@gmail.com
+                        </span>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Government</h3>
+                <ul class="footer-links">
+                    <li><a href="#">The Presidency</a></li>
+                    <li><a href="#">Cabinet</a></li>
+                    <li><a href="#">Parliament</a></li>
+                    <li><a href="#">Judiciary</a></li>
+                    <li><a href="#">Counties</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">E-Citizen Portal</a></li>
+                    <li><a href="#">Business Registration</a></li>
+                    <li><a href="#">Passport Services</a></li>
+                    <li><a href="#">Tax Services</a></li>
+                    <li><a href="#">Health Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Publications</a></li>
+                    <li><a href="#">Forms & Documents</a></li>
+                    <li><a href="#">Open Data</a></li>
+                    <li><a href="#">Tenders</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>About</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Kenya</a></li>
+                    <li><a href="#">National Symbols</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Constitution</a></li>
+                    <li><a href="#">Vision 2030</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Government of Kenya. All Rights Reserved. | <a href="#" style="color: rgba(255,255,255,0.8);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.8);">Terms of Use</a>
+        </div>
+    </footer>
+</body>
+</html>

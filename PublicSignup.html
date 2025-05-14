@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Sign Up</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+        }
+        .center-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            width: 850px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            padding: 60px 40px;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 30px;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f8f8f8;
+            font-size: 14px;
+        }
+        .password-field {
+            position: relative;
+        }
+        .password-field svg {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            fill: #888;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #17c3b2, #42a5f5);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .login-link a {
+            color: #42a5f5;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        @media(max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="center-wrapper">
+    <div class="container">
+        <h1>Citizen Registration</h1>
+        <p>Create your account to access government services</p>
+        <div id="errorMessage" style="color: red; margin-bottom: 15px; text-align: center; display: none;"></div>
+
+        <form id="signupForm">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="nationalId" placeholder="National ID" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <div class="password-field">
+                <input type="password" name="password" placeholder="Password" id="password" required>
+                <svg id="togglePassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
+                </svg>
+            </div>
+            <div class="password-field">
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword" required>
+                <svg id="toggleConfirmPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
+                </svg>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <div class="login-link">
+            Already have an account? <a href="Log_in.html">Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //  error display 
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error')) {
+      alert("Error: " + urlParams.get('error').replace(/_/g, ' '));
+    }
+
+    // Password toggle functionality
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    const showIcon = `
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
+    const hideIcon = `
+        <path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
+
+    togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? showIcon : hideIcon;
+    });
+
+    toggleConfirmPassword.addEventListener('click', function () {
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? showIcon : hideIcon;
+    });
+
+    //  Form submission 
+    const signupForm = document.getElementById('signupForm');
+    const errorMessageDiv = document.getElementById('errorMessage'); // Get the error div
+
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        errorMessageDiv.style.display = 'none'; // Hide previous errors
+        errorMessageDiv.textContent = '';
+
+        // Validate passwords match
+        if (password.value !== confirmPassword.value) {
+            errorMessageDiv.textContent = "Passwords don't match!";
+            errorMessageDiv.style.display = 'block';
+            return;
+        }
+
+        // Collect form data
+        const formData = new FormData(this);
+        formData.append('userType', 'citizen');
+
+        // Optional: Add loading state to button
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering...';
+
+
+        // Submit to server
+        fetch('register_user.php', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            // Check if the response is ok (status 200-299)
+            if (!response.ok) {
+                // If not ok, try to read the response as text anyway to see the error
+                return response.text().then(text => {
+                    throw new Error(`Network response was not ok (${response.status}): ${text}`);
+                });
+            }
+            // Check the Content-Type header
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                // If it's JSON, parse it
+                return response.json();
+            } else {
+                // If it's not JSON, read as text and treat it as an error message
+                return response.text().then(text => {
+                    // We'll wrap it in an object to match the structure expected later
+                    return { success: false, message: "Server response was not valid JSON: " + text };
+                });
+            }
+        })
+        .then(data => {
+    // Now 'data' is either the parsed JSON object or the wrapped text error
+    if (data.success)
+     {
+    // Redirect to login page with success parameter and email
+    window.location.href = 'Log_in.html?signup=success&email=' + encodeURIComponent(data.email || '');
+    }
+    else {
+        // Display the error message (either from JSON or the text response)
+        errorMessageDiv.textContent = data.message || 'Registration failed. Unknown error.';
+        errorMessageDiv.style.display = 'block';
+        // Scroll to top to make error visible if form is long
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+})
+        .catch((error) => {
+            // Handle network errors or errors thrown during response processing
+            console.error('Fetch Error:', error);
+            errorMessageDiv.textContent = "An error occurred during registration: " + error.message;
+            errorMessageDiv.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .finally(() => {
+             // Always re-enable button and restore text
+             submitBtn.disabled = false;
+             submitBtn.textContent = originalBtnText;
+        });
+    });
+</script>
+
+</body>
+</html>

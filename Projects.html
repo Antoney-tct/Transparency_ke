@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Government Projects & Transparency Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E7D32; 
+            --secondary: #1A237E; 
+            --accent: #FF6D00; 
+            --light: #f8f9fa;
+            --dark: #212529;
+            --text: #333333;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo img {
+            height: 60px;
+            transition: transform 0.3s;
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--white);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .search-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding: 0.8rem 1.5rem 0.8rem 3rem;
+            border-radius: 30px;
+            border: none;
+            width: 250px;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            width: 300px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .icon-circle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+            z-index: 1;
+        }
+        
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--white);
+            z-index: 2;
+            width: 80%;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* CTA Bar */
+        .cta-bar {
+            background-color: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .cta-bar p {
+            margin: 0;
+        }
+        
+        .cta-btn {
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Projects Section */
+        .projects-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .project-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .project-card:hover .project-img img {
+            transform: scale(1.1);
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .project-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .more-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .more-btn:hover {
+            background-color: #1e5c21;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .more-btn i {
+            font-size: 0.8rem;
+        }
+        
+        /* Completed Projects Section */
+        .completed-projects {
+            background-color: var(--white);
+            padding: 4rem 2rem;
+        }
+        
+        .completed-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .projects-carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light);
+        }
+        
+        .projects-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .projects-carousel::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        .projects-carousel::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .completed-project {
+            min-width: 300px;
+            scroll-snap-align: start;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .completed-project img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--white);
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .completed-project:hover .project-overlay {
+            transform: translateY(0);
+        }
+        
+        .project-overlay h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -5px;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            background-color: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .search-box input {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box input {
+                width: 180px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 576px) {
+            header {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            
+            .search-box input {
+                width: 150px;
+                padding: 0.6rem 1rem 0.6rem 2.5rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .cta-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Government Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="user_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+                    <li><a href="pregress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+                    <li><a href="User - inquirery.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+            <div class="search-icons">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search projects...">
+                </div>
+                <div class="icon-circle">
+                    <a href="pprofile.html">
+                    <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <img src="Photos/back.jpeg" alt="Kenya Government Projects">
+        <div class="hero-content">
+            <h1>Kenya Government Projects & Transparency Hub</h1>
+            <p>Tracking our nation's development journey, one project at a time</p>
+        </div>
+    </section>
+
+    <div class="cta-bar">
+        <p>We are diligently focused on achieving our development goals for the Kenyan citizens</p>
+        <a href="visions.html">
+        <button class="cta-btn">Learn About Vision 2030 <i class="fas fa-arrow-right"></i></button>
+        </a>
+    </div>
+
+    <section class="projects-section">
+        <div class="section-title">
+            <h2>Ongoing Projects</h2>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
+                </div>
+                <div class="project-content">
+                    <h3>Talanta Stadium</h3>
+                    <p>The construction of a modern stadium along Ngong Road to boost sports infrastructure and host international events.</p>
+                    <a href="project-details.html" class="more-btn"id="tal">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/gtc1.jpeg" alt="GTC Towers">
+                </div>
+                <div class="project-content">
+                    <h3>GTC Towers</h3>
+                    <p>A global establishment for both local events, staycations and official government functions in the heart of Nairobi.</p>
+                    <a href="Gtc-details.html" class="more-btn"id="gtc">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
+                </div>
+                <div class="project-content">
+                    <h3>Thika Superhighway</h3>
+                    <p>A modern transportation network connecting Nairobi to Thika, fostering economic growth and urban development.</p>
+                    <a href="Thika-detailes.htm" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 4 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/back.jpeg" alt="Konza City">
+                </div>
+                <div class="project-content">
+                    <h3>Konza Techno City</h3>
+                    <p>Africa's silicon savannah - a smart city between Nairobi and Mombasa to drive technological innovation.</p>
+                    <a href="Konza-city-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 5 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Road">
+                </div>
+                <div class="project-content">
+                    <h3>Nairobi-Mombasa Highway</h3>
+                    <p>Modernizing Kenya's busiest transport corridor to boost trade between the port city and the capital.</p>
+                    <a href="Usahihi-road.html" class="more-btn"id="nbm">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 6 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/OIP__3_-removebg-preview.png" alt="Vision 2030">
+                </div>
+                <div class="project-content">
+                    <h3>Vision 2030 Projects</h3>
+                    <p>Kenya's blueprint to transform into a globally competitive, industrialized middle-income country.</p>
+                    <a href="Vision2030-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 7 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/Konza2.jpeg" alt="Affordable Housing">
+                </div>
+                <div class="project-content">
+                    <h3>Affordable Housing Program</h3>
+                    <p>Delivering quality, affordable homes to Kenyans under the Big Four Agenda.</p>
+                    <a href="Affordable-housing.html" class="more-btn"id="housing">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Project 8 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/Nhif-removebg-preview.png" alt="NHIF Reforms">
+                </div>
+                <div class="project-content">
+                    <h3>NHIF Reforms</h3>
+                    <p>Transforming healthcare financing to achieve universal health coverage for all Kenyans.</p>
+                    <a href="NHIF.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <!-- Project 9 -->
+            <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/sgr1.jpeg" alt="GTC Towers">
+                </div>
+                <div class="project-content">
+                    <h3>SGR</h3>
+                    <p>The nairobi city railway line is being connected to other neighbouring cities.</p>
+                    <a href="Rail-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+             <!-- Project 10 -->
+             <div class="project-card">
+                <div class="project-img">
+                    <img src="Photos/usahihi.jpg" alt="usahihi road">
+                </div>
+                <div class="project-content">
+                    <h3>Usahihi Road</h3>
+                    <p>Usaihi Road in Kenya is located in the Machakos County, near the town of Masii. It's a local road primarily serving the surrounding rural and semi-urban communities. </p>
+                    <a href="Usahihi-road.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="completed-projects">
+        <div class="completed-container">
+            <div class="section-title">
+                <h2>Completed Projects</h2>
+            </div>
+            
+            <div class="projects-carousel">
+                <!-- Completed Project 1 -->
+                <div class="completed-project">
+                    <img src="Photos/gtc3.jpeg" alt="Completed Project 1">
+                    <div class="project-overlay">
+                        <h3>GTC Towers</h3>
+                        <p>Completed: 2022</p>
+                    </div>
+                </div>
+                
+                <!-- Completed Project 2 -->
+                <div class="completed-project">
+                    <img src="Photos/Thika1.jpeg" alt="Completed Project 2">
+                    <div class="project-overlay">
+                        <h3>Thika Superhighway</h3>
+                        <p>Completed: 2018</p>
+                    </div>
+                </div>
+                
+                <!-- Completed Project 3 -->
+                <div class="completed-project">
+                    <img src="Photos/sgr1.jpeg" alt="Completed Project 3">
+                    <div class="project-overlay">
+                        <h3>Standard Gauge Railway</h3>
+                        <p>Phase 1 Completed: 2017</p>
+                    </div>
+                </div>
+                
+                <!-- Completed Project 4 -->
+                <div class="completed-project">
+                    <img src="Photos/konza techno.jpg" alt="Completed Project 4">
+                    <div class="project-overlay">
+                        <h3>Konza Technopolies</h3>
+                        <p>First(horizontal Infrastructure) Completed: 2024</p>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <p>The Kenya Government Projects Portal provides transparent information about national development projects across all sectors.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Progress Reports</a></li>
+                    <li><a href="#">News & Updates</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Vision 2030</a></li>
+                    <li><a href="#">Big Four Agenda</a></li>
+                    <li><a href="#">County Projects</a></li>
+                    <li><a href="#">Budget Reports</a></li>
+                    <li><a href="#">Annual Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Harambee House, Nairobi</li>
+                    <li><i class="fas fa-phone"></i> +254 20 222 7469</li>
+                    <li><i class="fas fa-envelope"></i> info@govprojects.go.ke</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Kenya Government Projects Portal. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

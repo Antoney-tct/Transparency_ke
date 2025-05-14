@@ -1,0 +1,503 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #d32f2f;
+    padding: 15px 50px;
+    color: white;
+}
+
+
+.logo {
+    border-radius: 70%;
+width: 100px;
+height: 70px;
+background-image: url(Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png) ;
+    margin-right: 20px;
+    background-size:cover;
+    overflow: hidden;
+}
+.logo img {
+   
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+    height: 100%;
+object-fit: cover;
+}
+
+
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.report-btn {
+    background: white;
+    color: #d32f2f;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hero {
+    background: url('Photos/back.jpeg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 36px;
+}
+
+.discover-btn {
+    background: #d32f2f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    background: #fff;
+    padding: 30px;
+}
+
+.feature {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.services {
+    text-align: center;
+    padding: 50px;
+    background: url('Photos/ke\ flag.jpg') center/cover no-repeat;
+}
+
+.service-items {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.service {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    text-align: center;
+}
+
+.leader-profile {
+    text-align: center;
+    padding: 50px;
+    background: #adb2b8;
+}
+
+.funds-allocation {
+    text-align: center;
+    padding: 50px;
+    background: #fca6a6;
+}
+
+.charts-container {
+    display: flex;
+    gap: 70px;
+    width: 470px;
+}
+
+.chart {
+    width: 20%;
+    height:20%;
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(39, 33, 33, 0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    background: #162447;
+    color: white;
+    padding: 30px;
+}
+
+.stat {
+    text-align: center;
+    font-size: 18px;
+}
+
+.datasect {
+    text-align: center;
+    padding: 50px;
+    background: #fff;
+}
+
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.project-cards {
+    display: flex;
+    flex-direction: row-reverse; 
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    width: 300px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 5px;
+}
+
+.icons .left-icons span {
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.description {
+    padding: 10px 5px;
+}
+
+.description h2 {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.description p {
+    color: #555;
+    font-size: 14px;
+}
+
+.more-button {
+    display: block;
+    width: 40%;
+    text-align: center;
+    margin: 10px auto;
+    padding: 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.more-button:hover {
+    background-color: #0056b3;
+}
+
+.funds-allocation {
+    text-align: center;
+    padding: 50px;
+    background: #fca6a6;
+}
+
+footer {
+    background-color: #d32f2f;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.infor{
+background-color: #d32f2f;
+color: white;
+text-align: center;
+padding: 20px;
+margin-top: 50px;
+}
+
+.search-container {
+display: flex;
+align-items: center;
+border: 1px solid #ccc;
+border-radius: 25px;
+overflow: hidden;
+width: 300px;
+margin: 20px auto;
+background-color: #fff;
+}
+
+.search-container input[type="text"] {
+border: none;
+padding: 10px 15px;
+flex: 1;
+font-size: 16px;
+outline: none;
+}
+
+.search-container button {
+border: none;
+background: none;
+cursor: pointer;
+padding: 0 15px;
+}
+
+.search-container .search-icon {
+width: 20px;
+height: 20px;
+}
+
+
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-button {
+border-radius: 50%;
+width: 40px;
+height: 40px;
+background-image: url('Photos/facebook logo.jpg');
+background-size: cover;
+overflow: hidden;
+}
+.profile-button img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+
+/*notifications*/
+.notification-container {
+position: relative;
+display: inline-block;
+}
+
+.notification-btn {
+background: none;
+border: none;
+cursor: pointer;
+padding: 0;
+}
+
+.bell-icon {
+width: 30px;
+height: 30px;
+}
+
+.notification-dropdown {
+display: none;
+position: absolute;
+right: 0;
+background-color: white;
+min-width: 200px;
+box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+border-radius: 8px;
+z-index: 1;
+margin-top: 10px;
+}
+
+.notification-dropdown a {
+color: #333;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+border-bottom: 1px solid #f0f0f0;
+transition: background-color 0.3s;
+}
+
+.notification-dropdown a:hover {
+background-color: #f5f5f5;
+}
+
+.notification-dropdown a:last-child {
+border-bottom: none;
+}
+
+
+
+
+
+
+
+
+.footer{
+background-color: #d32f2f;
+color: white;
+text-align: center;
+padding: 20px;
+}
+
+
+
+
+
+
+
+/*vision section*/
+
+.vision-section {
+display: flex;
+gap: 50px;
+align-items: flex-start;
+padding: 40px;
+background-color: #f7f7f7;
+}
+
+.vision-text {
+flex: 1;
+}
+
+.vision-text h2 {
+font-size: 3rem;
+font-weight: 900;
+margin-bottom: 20px;
+}
+
+.vision-text h2 span {
+color: #0b9d3f;
+}
+
+.vision-text p {
+font-size: 1rem;
+line-height: 1.6;
+}
+
+.vision-video {
+flex: 1;
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+.vision-video iframe {
+width: 100%;
+height: 315px;
+border-radius: 8px;
+}
+
+.video-thumbnails {
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+
+.video-thumbnails img {
+width: 80px;
+height: 60px;
+border-radius: 5px;
+cursor: pointer;
+object-fit: cover;
+border: 2px solid transparent;
+transition: border 0.3s;
+}
+
+.video-thumbnails img:hover {
+border: 2px solid #0b9d3f;
+}
+/*about section*/
+
+.about-section {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 60px;
+gap: 50px;
+background-color: #f9f9f9;
+}
+
+.about-text {
+flex: 1;
+}
+
+.about-text h2 {
+font-size: 36px;
+font-weight: 700;
+margin-bottom: 20px;
+}
+
+.about-text p {
+font-size: 18px;
+line-height: 1.7;
+margin-bottom: 15px;
+color: #333;
+}
+
+.more-button {
+display: inline-block;
+margin-top: 20px;
+padding: 12px 30px;
+background-color: #28a745;
+color: #fff;
+text-decoration: none;
+border-radius: 6px;
+font-weight: bold;
+transition: background-color 0.3s ease;
+}
+
+.more-button:hover {
+background-color: #218838;
+}
+
+.about-image {
+flex: 1;
+text-align: center;
+}
+
+.about-image img {
+width: 100%;
+max-width: 400px;
+border-radius: 12px;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+

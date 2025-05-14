@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministries - Government of Kenya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --national-red: #BB0A1E;
+            --national-green: #009A44;
+            --national-black: #000000;
+            --national-white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .national-logo {
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--national-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png') no-repeat center center/cover;
+            color: var(--national-white);
+            text-align: center;
+            padding: 6rem 20px;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--national-white);
+            color: var(--national-red);
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--national-white);
+            color: var(--national-red);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--national-red);
+            display: inline-block;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--national-red), var(--national-green));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .ministries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .ministry-card {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--national-red);
+        }
+
+        .ministry-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .ministry-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .ministry-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .ministry-card:hover .ministry-image img {
+            transform: scale(1.05);
+        }
+
+        .ministry-content {
+            padding: 1.5rem;
+        }
+
+        .ministry-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin: -50px auto 1rem;
+            display: block;
+            background-color: var(--national-white);
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--national-red);
+            position: relative;
+        }
+
+        .ministry-content h3 {
+            color: var(--national-red);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .ministry-content p {
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .ministry-link {
+            display: block;
+            text-align: center;
+            background-color: var(--national-red);
+            color: var(--national-white);
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .ministry-link:hover {
+            background-color: #9E0919;
+        }
+
+        .ministry-link i {
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .ministry-link:hover i {
+            transform: translateX(5px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-links a:hover {
+            color: var(--national-white);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-banner {
+                padding: 4rem 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .ministries-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.2rem;
+            }
+            
+            nav ul {
+                margin-top: 1.2rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                margin-bottom: 10px;
+                display: block;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .btn-outline {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 15px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner {
+                padding: 3rem 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .ministries-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
+                <div class="header-title">
+                    <h1>Government of Kenya</h1>
+                    <p>Ministries Directory</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="user_dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="Projects.html">Projects</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Budget.html">Budget</a></li>
+                    <li><a href="User - inquirery.html">Contacts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>National Ministries of Kenya</h1>
+            <p>Explore the various ministries that form the executive branch of the Government of Kenya</p>
+            <div>
+                <a href="user_dashboard.html" class="btn">Back to Main Portal</a>
+                <a href="About.html" class="btn btn-outline">View Leadership</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>All Ministries</h2>
+        </div>
+
+        <section class="ministries-grid">
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/Intirior.jpeg" alt="Ministry of Interior">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Interior and National Administration</h3>
+                    <p>Responsible for internal security, immigration, and coordination of national government administration.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/Treasury bult.jpg" alt="National Treasury">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>The National Treasury and Economic Planning</h3>
+                    <p>Manages Kenya's public finances, economic policy, and development planning.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/Defence.png" alt="Ministry of Defence">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Defence</h3>
+                    <p>Responsible for the defense and security of the Republic of Kenya.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/edu.jpeg" alt="Ministry of Education">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Education</h3>
+                    <p>Oversees education policies, curriculum development, and implementation of education programs.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/health.jpeg" alt="Ministry of Health">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Health</h3>
+                    <p>Responsible for healthcare policy, public health, and the management of health services.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/sgr4.jpg" alt="Ministry of Transport">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Transport and Infrastructure</h3>
+                    <p>Manages the development and maintenance of transport systems and national infrastructure.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/agric.jpeg" alt="Ministry of Agriculture">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Agriculture and Livestock Development</h3>
+                    <p>Promotes agricultural development, food security, and livestock production.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/Frore.jpeg" alt="Ministry of Foreign Affairs">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Foreign and Diaspora Affairs</h3>
+                    <p>Handles Kenya's international relations and engagement with the diaspora community.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="ministry-card">
+                <div class="ministry-image">
+                    <img src="Photos/Ardhi.jpeg" alt="Ministry of Lands">
+                </div>
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Ministry Logo" class="ministry-logo">
+                <div class="ministry-content">
+                    <h3>Ministry of Lands, Public Works, Housing and Urban Development</h3>
+                    <p>Manages land administration, public works projects, housing, and urban planning.</p>
+                    <a href="#" class="ministry-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Government</h3>
+                <ul class="footer-links">
+                    <li><a href="#">The Presidency</a></li>
+                    <li><a href="#">Cabinet</a></li>
+                    <li><a href="#">Parliament</a></li>
+                    <li><a href="#">Judiciary</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Publications</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li><a href="#">Policies</a></li>
+                    <li><a href="#">Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">E-Citizen</a></li>
+                    <li><a href="#">Government Contacts</a></li>
+                    <li><a href="#">Tenders</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>About</h3>
+                <ul class="footer-links">
+                    <li><a href="About.html">About Kenya</a></li>
+                     <li><a href="#">Vision 2030</a></li>
+                    <li><a href="#">History</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Government of Kenya. All Rights Reserved. | <a href="#" style="color: rgba(255,255,255,0.8);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.8);">Terms of Use</a>
+        </div>
+    </footer>
+</body>
+</html>

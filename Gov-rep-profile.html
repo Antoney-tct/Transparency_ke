@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile | Kenya Transparency Portal</title>
+    <script src="notific2,.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0b9d3f;
+            --secondary-color: #1d4ed8;
+            --accent-color: #ff6b35;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        /* Admin Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            transition: var(--transition);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: auto;
+        }
+
+        .sidebar-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-label {
+            flex: 1;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+        }
+
+        /* Header Styles */
+        .admin-header {
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        .breadcrumb {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+               /*notification*/
+    .notification-container {
+        position: relative;
+    }
+    
+    .notification-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        width: 350px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        z-index: 1000;
+        display: none;
+        margin-top: 10px;
+    }
+    
+
+
+        /* --- Notification Button --- */
+        .notification-btn {
+            position: relative; 
+            display: inline-block; 
+            border: none;         
+            background: none;     
+            padding: 5px;         
+            cursor: pointer;
+            vertical-align: middle; 
+        }
+        
+        /* --- The Red Badge --- */
+        .notification-badge {
+            /* Shape & Color */
+            background-color: #FF0000; 
+            color: white;            
+            border-radius: 50%;      
+        
+            /* Size */
+            width: 20px;            
+            height: 20px;            
+            /* Positioning */
+            position: absolute;     
+            top: -8px;               
+            right: -8px;              
+            /* Text Content Styling */
+            font-size: 11px;         
+            font-weight: bold;
+            display: flex;          
+            align-items: center;     
+            justify-content: center;
+            line-height: 1;          
+            z-index: 1;              
+        }
+        
+      
+  
+    .notification-dropdown.show {
+        display: block;
+    }
+    
+    .notification-header {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .notification-count {
+        background-color: var(--danger-color);
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .notification-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .notification-item {
+        padding: 1rem;
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .notification-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .notification-item.unread {
+        background-color: #f0f7ff;
+    }
+    
+    .notification-icon {
+        width: 36px;
+        height: 36px;
+        background-color: rgba(11, 157, 63, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+    }
+    
+    .notification-content {
+        flex: 1;
+    }
+    
+    .notification-content p {
+        margin-bottom: 0.3rem;
+    }
+    
+    .notification-time {
+        color: #999;
+        font-size: 0.8rem;
+    }
+    .view-all {
+        display: block;
+        text-align: center;
+        padding: 0.8rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .profile-name {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .profile-name {
+                display: block;
+                font-weight: 500;
+            }
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 200px;
+            z-index: 100;
+            display: none;
+            margin-top: 10px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 0.5rem 0;
+        }
+
+        /* Content */
+        .content-wrapper {
+            padding: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        .profile-subtitle {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0a8a36;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(10, 138, 54, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(11, 157, 63, 0.1);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1a3faf;
+        }
+
+        /* Profile Layout */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        /* Profile Sidebar */
+        .profile-sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: calc(var(--header-height) + 2rem);
+        }
+
+        .profile-avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1rem;
+        }
+
+        .avatar-upload {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .avatar-upload-btn:hover {
+            background-color: #0a8a36;
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .profile-role {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background-color: rgba(11, 157, 63, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .profile-menu a:hover, .profile-menu a.active {
+            background-color: rgba(11, 157, 63, 0.1);
+            color: var(--primary-color);
+        }
+
+        .profile-menu i {
+            width: 24px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        /* Profile Content */
+        .profile-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Personal Info */
+        .personal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-group {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        /* Edit Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(11, 157, 63, 0.2);
+            outline: none;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            font-size: 1rem;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        /* Security */
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--dark-color);
+        }
+
+        .security-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Activity Log */
+        .activity-item {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(11, 157, 63, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--dark-color);
+        }
+
+        .activity-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 500px;
+            animation: slideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            z-index: 1;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 300px;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-success .toast-icon {
+            background-color: rgba(11, 157, 63, 0.1);
+            color: var(--primary-color);
+        }
+
+        .toast-error .toast-icon {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: var(--dark-color);
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .toast-close:hover {
+            color: var(--dark-color);
+        }
+
+        /* Password strength meter */
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+
+        .strength-meter {
+            height: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-meter-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .strength-weak .strength-meter-fill {
+            width: 25%;
+            background-color: #dc3545;
+        }
+
+        .strength-medium .strength-meter-fill {
+            width: 50%;
+            background-color: #ffc107;
+        }
+
+        .strength-strong .strength-meter-fill {
+            width: 75%;
+            background-color: #0dcaf0;
+        }
+
+        .strength-very-strong .strength-meter-fill {
+            width: 100%;
+            background-color: var(--primary-color);
+        }
+
+        /* Login History Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: var(--dark-color);
+            background-color: #f8f9fa;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background-color: rgba(11, 157, 63, 0.1);
+            color: var(--primary-color);
+        }
+
+        .status-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .status-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        /* 2FA Setup */
+        .qr-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #eee;
+        }
+
+        .verification-code {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .code-input {
+            width: 40px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+
+        .code-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .recovery-codes {
+            margin-top: 1.5rem;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+        }
+
+        .recovery-code {
+            display: inline-block;
+            width: 48%;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Session Management */
+        .session-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .session-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .session-info {
+            flex: 1;
+        }
+
+        .session-device {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .session-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .current-session {
+            background-color: rgba(11, 157, 63, 0.05);
+            border-color: rgba(11, 157, 63, 0.2);
+        }
+
+        /* Account Recovery */
+        .recovery-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .recovery-option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .recovery-option-info {
+            flex: 1;
+        }
+
+        .recovery-option-title {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .recovery-option-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 101;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            /* Sidebar overlay for mobile */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .personal-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-right {
+                gap: 1rem;
+            }
+
+            .content-wrapper {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
+            .profile-content {
+                padding: 1.5rem;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .recovery-code {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-container">
+        <!-- Side Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms" class="sidebar-logo">
+                <span class="sidebar-title">Kenya Transparency</span>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="gov-rep-dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="menu-label">Dashboard</span>
+                </a>
+                
+                <a href="Addmin-projects.html" class="menu-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span class="menu-label">Projects</span>
+                </a>
+                
+                <a href="budget.html" class="menu-item">
+                    <i class="fas fa-coins"></i>
+                    <span class="menu-label">Budgets</span>
+                </a>
+                       
+                <a href="user-mangement.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span class="menu-label">Users</span>
+                </a>
+                
+                <a href="reports.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="menu-label">Reports</span>
+                </a>
+                
+                <a href="Reply-inquiries.html" class="menu-item">
+                    <i class="fas fa-comments"></i>
+                    <span class="menu-label">Reply Inquiries</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar" aria-label="Toggle Sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span>Admin / Profile</span>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                  
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="notification-dropdown">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                            <span class="notification-count">3 New</span>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p>New project update: Nairobi-Mombasa Highway</p>
+                                    <span class="notification-time">10 minutes ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p>Budget report for Q2 2023 is now available</p>
+                                    <span class="notification-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p>5 new citizen inquiries received</p>
+                                    <span class="notification-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="updates.html" class="view-all">View All Notifications</a>
+                    </div>
+
+
+                    <div class="admin-profile" id="profileDropdown">
+                        <img src="Photos/Mudavadi.jpeg" alt="Musalia Mudavadi" class="profile-img">
+                        <span class="profile-name">Musalia Mudavadi</span>
+                        <i class="fas fa-chevron-down"></i>
+                        
+                        <div class="profile-dropdown" id="profileMenu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="login.html" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Profile Content -->
+            <div class="content-wrapper">
+                <div class="profile-header">
+                    <div>
+                        <h1 class="profile-title">Government Representative Profile</h1>
+                        <p class="profile-subtitle">Manage your account settings and preferences</p>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-outline" id="exportDataBtn">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-container">
+                    <!-- Profile Sidebar -->
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">
+                            <div class="avatar-upload">
+                                <img src="Photos/Mudavadi.jpeg" alt="Musalia Mudavadi" class="avatar-img" id="profileImage">
+                                <label for="avatarUpload" class="avatar-upload-btn" title="Change profile picture">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                            </div>
+                            <h2 class="profile-name">Musalia Mudavadi</h2>
+                            <span class="profile-role">Government Representative</span>
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">42</div>
+                                <div class="stat-label">Unviewed Inquiries</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">128</div>
+                                <div class="stat-label">Posted Projects</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="profile-menu">
+                            <li>
+                                <a href="#" class="active" data-tab="personal">
+                                    <i class="fas fa-user"></i> Personal Info
+                                </a>
+                            </li>
+                         
+                            <li>
+                                <a href="#" data-tab="security">
+                                    <i class="fas fa-shield-alt"></i> Security
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-tab="activity">
+                                    <i class="fas fa-history"></i> Activity Log
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Profile Content -->
+                    <div class="profile-content">
+                        <!-- Personal Info Tab -->
+                        <div id="personal-tab" class="tab-content active">
+                            <h3 class="section-title">Personal Information</h3>
+                            
+                            <div class="personal-info">
+                                <div>
+                                    <div class="info-group">
+                                        <span class="info-label">Full Name</span>
+                                        <p class="info-value">Musalia Mudavadi</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <span class="info-label">Email Address</span>
+                                        <p class="info-value">Musalia.gov@gmail.com</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <span class="info-label">Phone Number</span>
+                                        <p class="info-value">+254 768 343 558</p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="info-group">
+                                        <span class="info-label">Position</span>
+                                        <p class="info-value">System Administrator</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <span class="info-label">Department</span>
+                                        <p class="info-value">ICT & Digital Services</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <span class="info-label">Registration Date</span>
+                                        <p class="info-value">January 15, 2022</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </button>
+                            
+                            <!-- Edit Form -->
+                            <form id="edit-form" style="display: none; margin-top: 2rem;">
+                                <div class="personal-info">
+                                    <div>
+                                        <div class="form-group">
+                                            <label for="edit-name" class="form-label">Full Name</label>
+                                            <input type="text" id="edit-name" class="form-control" value="Musalia Mudavadi">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-email" class="form-label">Email Address</label>
+                                            <input type="email" id="edit-email" class="form-control" value="Musalia.gov@gmail.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-phone" class="form-label">Phone Number</label>
+                                            <input type="tel" id="edit-phone" class="form-control" value="+254 768 343 558">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group">
+                                            <label for="edit-position" class="form-label">Position</label>
+                                            <input type="text" id="edit-position" class="form-control" value="System Administrator">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-department" class="form-label">Department</label>
+                                            <select id="edit-department" class="form-select">
+                                                <option selected>ICT & Digital Services</option>
+                                                <option>Finance</option>
+                                                <option>Operations</option>
+                                                <option>Human Resources</option>
+                                                <option>Legal Affairs</option>
+                                                <option>Public Relations</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-bio" class="form-label">Bio</label>
+                                            <textarea id="edit-bio" class="form-control" rows="3">Government representative with over 15 years of experience in public service.</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 1rem;">
+                                    <button type="button" class="btn btn-primary" id="saveProfileBtn">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-outline" id="cancelEditBtn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Account Settings Tab -->
+                        <div id="account-tab" class="tab-content">
+                            <h3 class="section-title">Account Settings</h3>
+                            
+                            <div class="form-group">
+                                <label for="language" class="form-label">Language Preference</label>
+                                <select id="language" class="form-select">
+                                    <option selected>English</option>
+                                    <option>Swahili</option>
+                                    <option>Both English & Swahili</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="timezone" class="form-label">Timezone</label>
+                                <select id="timezone" class="form-select">
+                                    <option selected>East Africa Time (GMT+3)</option>
+                                    <option>Central Africa Time (GMT+2)</option>
+                                    <option>Universal Coordinated Time (GMT)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Notification Preferences</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="email-notifications" class="form-check-input" checked>
+                                    <label for="email-notifications" class="form-check-label">Email Notifications</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="system-alerts" class="form-check-input" checked>
+                                    <label for="system-alerts" class="form-check-label">System Alerts</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="sms-notifications" class="form-check-input">
+                                    <label for="sms-notifications" class="form-check-label">SMS Notifications</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="inquiry-alerts" class="form-check-input" checked>
+                                    <label for="inquiry-alerts" class="form-check-label">New Inquiry Alerts</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Data Privacy</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="activity-tracking" class="form-check-input" checked>
+                                    <label for="activity-tracking" class="form-check-label">Allow Activity Tracking</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="data-sharing" class="form-check-input">
+                                    <label for="data-sharing" class="form-check-label">Share Usage Data</label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="savePreferencesBtn">
+                                <i class="fas fa-save"></i> Save Preferences
+                            </button>
+                        </div>
+                        
+                        <!-- Security Tab -->
+                        <div id="security-tab" class="tab-content">
+                            <h3 class="section-title">Security Settings</h3>
+                            
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <h4 class="security-title">Password</h4>
+                                    <p class="security-desc">Last changed 3 months ago</p>
+                                </div>
+                                <button class="btn btn-outline" id="changePasswordBtn">
+                                    Change
+                                </button>
+                            </div>
+                            
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <h4 class="security-title">Two-Factor Authentication</h4>
+                                    <p class="security-desc">Add an extra layer of security to your account</p>
+                                </div>
+                                <button class="btn btn-outline" id="enable2FABtn">
+                                    Enable
+                                </button>
+                            </div>
+                            
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <h4 class="security-title">Login History</h4>
+                                    <p class="security-desc">View recent login attempts and locations</p>
+                                </div>
+                                <button class="btn btn-outline" id="viewLoginHistoryBtn">
+                                    View
+                                </button>
+                            </div>
+                            
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <h4 class="security-title">Active Sessions</h4>
+                                    <p class="security-desc">2 active sessions on different devices</p>
+                                </div>
+                                <button class="btn btn-outline" id="manageSessionsBtn">
+                                    Manage
+                                </button>
+                            </div>
+                            
+                            <div class="security-item" style="border-bottom: none;">
+                                <div class="security-info">
+                                    <h4 class="security-title">Account Recovery</h4>
+                                    <p class="security-desc">Set up recovery options for your account</p>
+                                </div>
+                                <button class="btn btn-outline" id="setupRecoveryBtn">
+                                    Setup
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity Log Tab -->
+                        <div id="activity-tab" class="tab-content">
+                            <h3 class="section-title">Recent Activity</h3>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-edit"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">Profile Updated</h4>
+                                    <p class="activity-desc">You updated your profile information</p>
+                                    <span class="activity-time">Today, 10:45 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">Password Changed</h4>
+                                    <p class="activity-desc">You changed your account password</p>
+                                    <span class="activity-time">Yesterday, 2:30 PM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-users-cog"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">User Edited</h4>
+                                    <p class="activity-desc">You edited Jane Muthoni's user profile</p>
+                                    <span class="activity-time">Monday, 9:15 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">Project Created</h4>
+                                    <p class="activity-desc">You created a new project "Nairobi-Mombasa Highway"</p>
+                                    <span class="activity-time">Last Friday, 4:20 PM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">Login</h4>
+                                    <p class="activity-desc">You logged in from Nairobi, Kenya</p>
+                                    <span class="activity-time">Last Friday, 8:00 AM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item" style="border-bottom: none;">
+                                <div class="activity-icon">
+                                    <i class="fas fa-reply"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4 class="activity-title">Inquiry Replied</h4>
+                                    <p class="activity-desc">You replied to citizen inquiry #2458 about road construction</p>
+                                    <span class="activity-time">Last Thursday, 11:30 AM</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-outline" id="viewFullLogBtn" style="margin-top: 1.5rem;">
+                                <i class="fas fa-history"></i> View Full Activity Log
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Password Change Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button class="close-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="current-password" class="form-label">Current Password</label>
+                        <input type="password" id="current-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password" class="form-label">New Password</label>
+                        <input type="password" id="new-password" class="form-control" required>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <div class="strength-meter-fill"></div>
+                            </div>
+                            <div class="strength-text">Password strength: <span id="strength-value">Weak</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Confirm New Password</label>
+                        <input type="password" id="confirm-password" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelPasswordBtn">Cancel</button>
+                <button class="btn btn-primary" id="updatePasswordBtn">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two-Factor Authentication Modal -->
+    <div class="modal" id="twoFactorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Set Up Two-Factor Authentication</h3>
+                <button class="close-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Scan this QR code with your authenticator app (like Google Authenticator or Authy):</p>
+                
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth://totp/KenyaTransparencyPortal:Musalia.gov@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=KenyaTransparencyPortal" alt="2FA QR Code" class="qr-code">
+                </div>
+                
+                <p>Enter the 6-digit verification code from your authenticator app:</p>
+                
+                <div class="verification-code">
+                    <input type="text" maxlength="1" class="code-input" data-index="1">
+                    <input type="text" maxlength="1" class="code-input" data-index="2">
+                    <input type="text" maxlength="1" class="code-input" data-index="3">
+                    <input type="text" maxlength="1" class="code-input" data-index="4">
+                    <input type="text" maxlength="1" class="code-input" data-index="5">
+                    <input type="text" maxlength="1" class="code-input" data-index="6">
+                </div>
+                
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label class="form-label">Recovery Codes</label>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Save these recovery codes in a safe place. You can use them to access your account if you lose your authenticator device.</p>
+                    
+                    <div class="recovery-codes">
+                        <div class="recovery-code">1234-5678-9012</div>
+                        <div class="recovery-code">2345-6789-0123</div>
+                        <div class="recovery-code">3456-7890-1234</div>
+                        <div class="recovery-code">4567-8901-2345</div>
+                        <div class="recovery-code">5678-9012-3456</div>
+                        <div class="recovery-code">6789-0123-4567</div>
+                        <div class="recovery-code">7890-1234-5678</div>
+                        <div class="recovery-code">8901-2345-6789</div>
+                    </div>
+                    
+                    <button class="btn btn-outline" style="margin-top: 1rem;">
+                        <i class="fas fa-download"></i> Download Recovery Codes
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel2FABtn">Cancel</button>
+                <button class="btn btn-primary" id="verify2FABtn">Verify & Enable</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login History Modal -->
+    <div class="modal" id="loginHistoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Login History</h3>
+                <button class="close-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Location</th>
+                                <th>Device</th>
+                                <th>IP Address</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Today, 8:30 AM</td>
+                                <td>Nairobi, Kenya</td>
+                                <td>Chrome on Windows</td>
+                                <td>196.201.xxx.xxx</td>
+                                <td><span class="status-badge status-success">Success</span></td>
+                            </tr>
+                            <tr>
+                                <td>Yesterday, 4:15 PM</td>
+                                <td>Nairobi, Kenya</td>
+                                <td>Safari on iPhone</td>
+                                <td>105.160.xxx.xxx</td>
+                                <td><span class="status-badge status-success">Success</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 15, 2023, 10:22 AM</td>
+                                <td>Mombasa, Kenya</td>
+                                <td>Chrome on MacOS</td>
+                                <td>41.215.xxx.xxx</td>
+                                <td><span class="status-badge status-success">Success</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 12, 2023, 7:45 PM</td>
+                                <td>London, UK</td>
+                                <td>Firefox on Windows</td>
+                                <td>82.132.xxx.xxx</td>
+                                <td><span class="status-badge status-danger">Failed</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 10, 2023, 3:18 PM</td>
+                                <td>Nairobi, Kenya</td>
+                                <td>Edge on Windows</td>
+                                <td>196.201.xxx.xxx</td>
+                                <td><span class="status-badge status-success">Success</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="closeLoginHistoryBtn">Close</button>
+                <button class="btn btn-primary" id="exportLoginHistoryBtn">
+                    <i class="fas fa-download"></i> Export History
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Management Modal -->
+    <div class="modal" id="sessionManagementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Active Sessions</h3>
+                <button class="close-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>These are your currently active sessions. You can revoke access to any session except your current one.</p>
+                
+                <div class="session-item current-session">
+                    <div class="session-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="session-info">
+                        <div class="session-device">Windows PC (Current)</div>
+                        <div class="session-details">Chrome • Nairobi, Kenya • Last active: Just now</div>
+                    </div>
+                </div>
+                
+                <div class="session-item">
+                    <div class="session-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="session-info">
+                        <div class="session-device">iPhone 13</div>
+                        <div class="session-details">Safari • Nairobi, Kenya • Last active: 2 hours ago</div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" data-session-id="2">
+                        <i class="fas fa-sign-out-alt"></i> Revoke
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="closeSessionsBtn">Close</button>
+                <button class="btn btn-danger" id="revokeAllSessionsBtn">
+                    <i class="fas fa-sign-out-alt"></i> Revoke All Other Sessions
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Recovery Modal -->
+    <div class="modal" id="accountRecoveryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Account Recovery Options</h3>
+                <button class="close-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Set up recovery options to help you regain access to your account if you get locked out.</p>
+                
+                <div class="recovery-option">
+                    <div class="recovery-option-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="recovery-option-info">
+                        <div class="recovery-option-title">Recovery Email</div>
+                        <div class="recovery-option-desc">Add a backup email address to receive recovery instructions.</div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="email" class="form-control" placeholder="Enter recovery email" value="personal.mudavadi@gmail.com">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recovery-option">
+                    <div class="recovery-option-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="recovery-option-info">
+                        <div class="recovery-option-title">Recovery Phone</div>
+                        <div class="recovery-option-desc">Add a backup phone number to receive recovery codes via SMS.</div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="tel" class="form-control" placeholder="Enter recovery phone" value="+254 712 345 678">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recovery-option">
+                    <div class="recovery-option-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="recovery-option-info">
+                        <div class="recovery-option-title">Security Questions</div>
+                        <div class="recovery-option-desc">Set up security questions that only you know the answers to.</div>
+                        <div class="form-group">
+                            <select class="form-select" style="margin-bottom: 0.5rem;">
+                                <option selected>What was the name of your first pet?</option>
+                                <option>In what city were you born?</option>
+                                <option>What is your mother's maiden name?</option>
+                                <option>What was your childhood nickname?</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Answer" value="Simba">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelRecoveryBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveRecoveryBtn">Save Recovery Options</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside of it (on mobile)
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.toggle-sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            // Check if sidebar is active (open on mobile) and the click is outside the sidebar and not on the toggle button
+            if (sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                e.target !== toggleBtn && 
+                !toggleBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Also close sidebar when clicking on the overlay
+        document.getElementById('sidebarOverlay').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('active');
+            this.classList.remove('active');
+        });
+
+        // Profile dropdown toggle
+        document.getElementById('profileDropdown').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('profileMenu').classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            document.getElementById('profileMenu').classList.remove('show');
+        });
+
+        // Tab switching functionality
+        document.querySelectorAll('.profile-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get tab ID
+                const tabId = this.getAttribute('data-tab');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Show selected tab
+                document.getElementById(tabId + '-tab').classList.add('active');
+                
+                // Update menu active state
+                document.querySelectorAll('.profile-menu a').forEach(menuLink => {
+                    menuLink.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Profile edit form toggle
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            document.getElementById('edit-form').style.display = 'block';
+            this.style.display = 'none';
+        });
+
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            document.getElementById('edit-form').style.display = 'none';
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+        });
+
+        document.getElementById('saveProfileBtn').addEventListener('click', function() {
+            // Simulate saving profile data
+            showToast('Success', 'Profile updated successfully!', 'success');
+            
+            // Update displayed name
+            const newName = document.getElementById('edit-name').value;
+            document.querySelector('.profile-name').textContent = newName;
+            document.querySelector('.info-value').textContent = newName;
+            
+            // Hide form
+            document.getElementById('edit-form').style.display = 'none';
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+        });
+
+        // Save preferences
+        document.getElementById('savePreferencesBtn').addEventListener('click', function() {
+            showToast('Success', 'Preferences saved successfully!', 'success');
+        });
+
+        // Password modal functions
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        });
+
+        // Close all modals when clicking the close button
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            });
+        });
+
+        document.getElementById('cancelPasswordBtn').addEventListener('click', function() {
+            document.getElementById('passwordModal').style.display = 'none';
+        });
+
+        document.getElementById('updatePasswordBtn').addEventListener('click', function() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Simple validation
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showToast('Error', 'Please fill in all password fields', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast('Error', 'New passwords do not match', 'error');
+                return;
+            }
+            
+            // Simulate password change
+            showToast('Success', 'Password changed successfully!', 'success');
+            document.getElementById('passwordModal').style.display = 'none';
+            
+            // Reset form
+            document.getElementById('passwordForm').reset();
+        });
+
+        // Password strength meter
+        document.getElementById('new-password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthMeter = document.querySelector('.password-strength');
+            const strengthValue = document.getElementById('strength-value');
+            
+            // Remove all classes
+            strengthMeter.classList.remove('strength-weak', 'strength-medium', 'strength-strong', 'strength-very-strong');
+            
+            // Check password strength
+            if (password.length === 0) {
+                strengthValue.textContent = '';
+                return;
+            } else if (password.length < 6) {
+                strengthMeter.classList.add('strength-weak');
+                strengthValue.textContent = 'Weak';
+            } else if (password.length < 10) {
+                strengthMeter.classList.add('strength-medium');
+                strengthValue.textContent = 'Medium';
+            } else if (password.length < 14) {
+                strengthMeter.classList.add('strength-strong');
+                strengthValue.textContent = 'Strong';
+            } else {
+                strengthMeter.classList.add('strength-very-strong');
+                strengthValue.textContent = 'Very Strong';
+            }
+        });
+
+        // Profile image upload
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                    showToast('Success', 'Profile picture updated!', 'success');
+                };
+                
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // Export data button
+        document.getElementById('exportDataBtn').addEventListener('click', function() {
+            showToast('Success', 'Data export started. You will receive an email when ready.', 'success');
+        });
+
+        // View full activity log
+        document.getElementById('viewFullLogBtn').addEventListener('click', function() {
+            window.location.href = 'activity-log.html';
+        });
+
+        // 2FA setup
+        document.getElementById('enable2FABtn').addEventListener('click', function() {
+            document.getElementById('twoFactorModal').style.display = 'flex';
+        });
+
+        document.getElementById('cancel2FABtn').addEventListener('click', function() {
+            document.getElementById('twoFactorModal').style.display = 'none';
+        });
+
+        document.getElementById('verify2FABtn').addEventListener('click', function() {
+            // Get verification code
+            let code = '';
+            document.querySelectorAll('.code-input').forEach(input => {
+                code += input.value;
+            });
+            
+            if (code.length !== 6) {
+                showToast('Error', 'Please enter a valid 6-digit code', 'error');
+                return;
+            }
+            
+            // Simulate verification
+            showToast('Success', 'Two-factor authentication enabled!', 'success');
+            document.getElementById('twoFactorModal').style.display = 'none';
+            
+            // Update button text
+            document.getElementById('enable2FABtn').textContent = 'Disable';
+        });
+
+        // Auto-focus next input in verification code
+        document.querySelectorAll('.code-input').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    const nextIndex = parseInt(this.getAttribute('data-index')) + 1;
+                    const nextInput = document.querySelector(`.code-input[data-index="${nextIndex}"]`);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0) {
+                    const prevIndex = parseInt(this.getAttribute('data-index')) - 1;
+                    const prevInput = document.querySelector(`.code-input[data-index="${prevIndex}"]`);
+                    if (prevInput) {
+                        prevInput.focus();
+                    }
+                }
+            });
+        });
+
+        // Login history
+        document.getElementById('viewLoginHistoryBtn').addEventListener('click', function() {
+            document.getElementById('loginHistoryModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeLoginHistoryBtn').addEventListener('click', function() {
+            document.getElementById('loginHistoryModal').style.display = 'none';
+        });
+
+        document.getElementById('exportLoginHistoryBtn').addEventListener('click', function() {
+            showToast('Success', 'Login history exported to CSV', 'success');
+        });
+
+        // Session management
+        document.getElementById('manageSessionsBtn').addEventListener('click', function() {
+            document.getElementById('sessionManagementModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeSessionsBtn').addEventListener('click', function() {
+            document.getElementById('sessionManagementModal').style.display = 'none';
+        });
+
+        document.getElementById('revokeAllSessionsBtn').addEventListener('click', function() {
+            showToast('Success', 'All other sessions revoked', 'success');
+            document.getElementById('sessionManagementModal').style.display = 'none';
+        });
+
+        // Session revoke buttons
+        document.querySelectorAll('[data-session-id]').forEach(button => {
+            button.addEventListener('click', function() {
+                const sessionId = this.getAttribute('data-session-id');
+                this.closest('.session-item').remove();
+                showToast('Success', 'Session revoked successfully', 'success');
+            });
+        });
+
+        // Account recovery
+        document.getElementById('setupRecoveryBtn').addEventListener('click', function() {
+            document.getElementById('accountRecoveryModal').style.display = 'flex';
+        });
+
+        document.getElementById('cancelRecoveryBtn').addEventListener('click', function() {
+            document.getElementById('accountRecoveryModal').style.display = 'none';
+        });
+
+        document.getElementById('saveRecoveryBtn').addEventListener('click', function() {
+            showToast('Success', 'Recovery options saved successfully', 'success');
+            document.getElementById('accountRecoveryModal').style.display = 'none';
+        });
+
+        // Toast notification function
+        function showToast(title, message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${type === 'success' ? 'check' : 'exclamation-triangle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after animation completes
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+            
+            // Close button functionality
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                toast.remove();
+            });
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

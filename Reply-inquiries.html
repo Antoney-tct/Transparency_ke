@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Republic of Kenya Inquiry Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --kenyan-black: #000000;
+            --kenyan-red: #BB0000;
+            --kenyan-green: #006600;
+            --kenyan-white: #FFFFFF;
+            --kenyan-gold: #D4AF37;
+            --light-green: #EAFFEA;
+            --light-red: #FFEEEE;
+            --dark-green: #004400;
+            --dark-red: #990000;
+            --gray: #777777;
+            --light-gray: #F5F5F5;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #F5F5F5;
+            color: #333;
+            min-height: 100vh;
+            background-image: url("Photos/f1.jpg");
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--kenyan-black) 0%, #333333 100%);
+            color: var(--kenyan-white);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--kenyan-black) 33%, var(--kenyan-red) 33%, var(--kenyan-red) 66%, var(--kenyan-green) 66%);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-logo {
+            margin-right: 20px;
+        }
+        
+        .shield-logo {
+            width: 60px;
+            height: 70px;
+            background-color: var(--kenyan-white);
+            position: relative;
+            border-radius: 30px 30px 5px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .shield-logo::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background-color: var(--kenyan-red);
+            border-radius: 20px 20px 3px 3px;
+        }
+        
+        .shield-logo::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background-color: var(--kenyan-black);
+            border-radius: 15px 15px 2px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--kenyan-white);
+            font-weight: bold;
+        }
+        
+        .spears {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            transform: rotate(45deg);
+        }
+        
+        .spear {
+            position: absolute;
+            width: 4px;
+            height: 100px;
+            background-color: var(--kenyan-gold);
+            top: -10px;
+        }
+        
+        .spear:first-child {
+            left: 30px;
+            transform: rotate(-45deg);
+        }
+        
+        .spear:last-child {
+            left: 30px;
+            transform: rotate(45deg);
+        }
+        
+        .spear::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -3px;
+            width: 10px;
+            height: 15px;
+            background-color: var(--kenyan-gold);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .header-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .header-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .kenyan-flag-stripe {
+            height: 8px;
+            background: linear-gradient(to right, 
+                var(--kenyan-black) 25%, 
+                var(--kenyan-red) 25%, var(--kenyan-red) 50%, 
+                var(--kenyan-green) 50%, var(--kenyan-green) 75%, 
+                var(--kenyan-black) 75%);
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: -3rem auto 3rem auto;
+            background: var(--kenyan-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            border-top: 5px solid var(--kenyan-red);
+        }
+        
+        .admin-controls {
+            background-color: var(--kenyan-black);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-title {
+            color: var(--kenyan-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .admin-title i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+            color: var(--kenyan-gold);
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: var(--kenyan-white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-btn i {
+            margin-right: 6px;
+        }
+        
+        .filter-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--kenyan-green);
+        }
+        
+        .dashboard {
+            display: flex;
+            height: calc(100vh - 200px);
+            min-height: 500px;
+        }
+        
+        .inquiries-list {
+            width: 35%;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        
+        .inquiry-detail {
+            width: 65%;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .inquiry-item {
+            padding: 1.2rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .inquiry-item:hover {
+            background-color: rgba(0, 102, 0, 0.05);
+        }
+        
+        .inquiry-item.active {
+            background-color: var(--light-green);
+            border-left: 4px solid var(--kenyan-green);
+        }
+        
+        .inquiry-item.unread::before {
+            content: '';
+            position: absolute;
+            top: 1.2rem;
+            left: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background-color: var(--kenyan-red);
+            border-radius: 50%;
+        }
+        
+        .inquiry-subject {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--kenyan-black);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .inquiry-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .inquiry-status {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .status-new {
+            background-color: var(--kenyan-red);
+            color: var(--kenyan-white);
+        }
+        
+        .status-replied {
+            background-color: var(--kenyan-green);
+            color: var(--kenyan-white);
+        }
+        
+        .status-closed {
+            background-color: var(--kenyan-black);
+            color: var(--kenyan-white);
+        }
+        
+        .detail-container {
+            padding: 2rem;
+        }
+        
+        .detail-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-subject {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--kenyan-black);
+        }
+        
+        .detail-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .detail-meta i {
+            margin-right: 6px;
+            color: var(--kenyan-green);
+        }
+        
+        .detail-message {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            border-left: 3px solid var(--kenyan-green);
+        }
+        
+        .replies-section {
+            margin-bottom: 2rem;
+        }
+        
+        .replies-section h3 {
+            margin-bottom: 1rem;
+            color: var(--kenyan-black);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .replies-section h3 i {
+            margin-right: 8px;
+            color: var(--kenyan-green);
+        }
+        
+        .reply-container {
+            background-color: var(--light-green);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--kenyan-green);
+        }
+        
+        .reply-header {
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--kenyan-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .reply-header i {
+            margin-right: 8px;
+        }
+        
+        .reply-date {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: normal;
+        }
+        
+        .reply-message {
+            color: #444;
+            line-height: 1.6;
+        }
+        
+        .reply-form {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        .reply-form h3 {
+            margin-bottom: 1rem;
+            color: var(--kenyan-black);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .reply-form h3 i {
+            margin-right: 8px;
+            color: var(--kenyan-green);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--kenyan-black);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            height: 150px;
+            resize: vertical;
+            transition: var(--transition);
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--kenyan-green);
+            box-shadow: 0 0 0 3px rgba(0, 102, 0, 0.1);
+        }
+        
+        button {
+            background-color: var(--kenyan-green);
+            color: var(--kenyan-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        button:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        button i {
+            margin-right: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .btn-close {
+            background-color: var(--kenyan-red);
+        }
+        
+        .btn-close:hover {
+            background-color: var(--dark-red);
+        }
+        
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .alert-success {
+            background-color: var(--light-green);
+            color: var(--kenyan-green);
+            border-left: 4px solid var(--kenyan-green);
+        }
+        
+        .alert-error {
+            background-color: var(--light-red);
+            color: var(--kenyan-red);
+            border-left: 4px solid var(--kenyan-red);
+        }
+        
+        .no-inquiry-selected {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+        }
+        
+        .no-inquiry-selected i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--kenyan-green);
+            opacity: 0.5;
+        }
+        
+        .no-inquiry-selected h3 {
+            margin-bottom: 0.5rem;
+            color: var(--kenyan-black);
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--kenyan-green);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--kenyan-black);
+            color: var(--kenyan-white);
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--kenyan-black) 33%, var(--kenyan-red) 33%, var(--kenyan-red) 66%, var(--kenyan-green) 66%);
+        }
+        
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer .motto {
+            font-style: italic;
+            color: var(--kenyan-gold);
+            font-weight: 600;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--kenyan-white);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--kenyan-black);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 0;
+        }
+        
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Feedback styles */
+        .btn-spinner {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            border: 0.2em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+            margin-right: 8px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--kenyan-green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background-color: var(--kenyan-red);
+        }
+        
+        .toast i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .spinner-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .large-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--kenyan-green);
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .inquiries-list, .inquiry-detail {
+                width: 100%;
+                max-height: 500px;
+            }
+            
+            .inquiries-list {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .admin-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .filter-controls {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                margin-top: -2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .header-logo {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .header-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .detail-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-logo">
+                <div class="shield-logo">
+                    <div class="spears">
+                        <div class="spear"></div>
+                        <div class="spear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1>Republic of Kenya</h1>
+                <p>Administrative Inquiry Management</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="kenyan-flag-stripe"></div>
+    
+    <div class="container">
+        <div class="admin-controls">
+            <div class="admin-title">
+                <i class="fas fa-user-shield"></i> Government Administrator Dashboard
+            </div>
+            
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all" onclick="filterInquiries('all')">
+                    <i class="fas fa-list"></i> All Inquiries
+                </button>
+                <button class="filter-btn" data-filter="new" onclick="filterInquiries('new')">
+                    <i class="fas fa-clock"></i> New
+                </button>
+                <button class="filter-btn" data-filter="replied" onclick="filterInquiries('replied')">
+                    <i class="fas fa-reply"></i> Replied
+                </button>
+                <button class="filter-btn" data-filter="closed" onclick="filterInquiries('closed')">
+                    <i class="fas fa-check-circle"></i> Closed
+                </button>
+            </div>
+        </div>
+        
+        <div id="alert-container"></div>
+        
+        <div class="dashboard">
+            <div class="inquiries-list" id="inquiries-list">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading inquiries...</p>
+                </div>
+            </div>
+            
+            <div class="inquiry-detail" id="inquiry-detail">
+                <div class="no-inquiry-selected">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No inquiry selected</h3>
+                    <p>Please select an inquiry from the list to view details and reply.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Confirmation</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                Are you sure you want to proceed with this action?
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()">Cancel</button>
+                <button id="confirmButton" class="btn-close">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="overlay">
+        <div class="spinner-container">
+            <div class="large-spinner"></div>
+            <p id="loadingMessage">Sending your response...</p>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i id="toastIcon" class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2025 Republic of Kenya. All rights reserved.</p>
+        <p class="motto">Harambee - Let's Pull Together</p>
+    </div>
+
+    <script>
+        let currentInquiries = [];
+        let currentFilter = 'all';
+        let selectedInquiryId = null;
+        let isLoading = false;
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toast.classList.remove('error');
+                toastIcon.className = 'fas fa-check-circle';
+            } else {
+                toast.classList.add('error');
+                toastIcon.className = 'fas fa-exclamation-circle';
+            }
+            
+            toast.classList.add('show');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Show loading overlay
+        function showLoading(message = 'Processing...') {
+            const overlay = document.getElementById('loadingOverlay');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            loadingMessage.textContent = message;
+            overlay.classList.add('show');
+        }
+        
+        // Hide loading overlay
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.remove('show');
+        }
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            alertContainer.innerHTML = `<div class="alert alert-${type}"><i class="${icon}"></i>${message}</div>`;
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+            
+            // Scroll to top to show the alert
+            window.scrollTo(0, 0);
+        }
+        
+        // Show confirmation modal
+        function showConfirmationModal(title, message, confirmCallback) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = message;
+            
+            const confirmButton = document.getElementById('confirmButton');
+            
+            // Remove previous event listeners
+            const newConfirmButton = confirmButton.cloneNode(true);
+            confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
+            
+            // Add new event listener
+            newConfirmButton.addEventListener('click', () => {
+                confirmCallback();
+                closeModal();
+            });
+            
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+        
+        // Load all inquiries
+        function loadInquiries() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const inquiriesList = document.getElementById('inquiries-list');
+            inquiriesList.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading inquiries...</p>
+                </div>
+            `;
+            
+            fetch('get_all_inquiries.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                isLoading = false;
+                if (data.success) {
+                    currentInquiries = data.inquiries;
+                    renderInquiriesList();
+                    
+                    // If there are inquiries and none is selected, select the first one
+                    if (currentInquiries.length > 0 && !selectedInquiryId) {
+                        selectInquiry(currentInquiries[0].id);
+                    }
+                } else {
+                    showAlert('Error: ' + data.message, 'error');
+                    inquiriesList.innerHTML = '';
+                }
+            })
+            .catch(error => {
+                isLoading = false;
+                showAlert('An error occurred while loading inquiries. Please try again.', 'error');
+                console.error('Error:', error);
+                inquiriesList.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Failed to load inquiries. Click to retry.</p>
+                        <button onclick="loadInquiries()">Retry</button>
+                    </div>
+                `;
+            });
+        }
+        
+        // Render inquiries list based on current filter
+        function renderInquiriesList() {
+            const inquiriesList = document.getElementById('inquiries-list');
+            
+            if (currentInquiries.length === 0) {
+                inquiriesList.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No inquiries found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let filteredInquiries = currentInquiries;
+            if (currentFilter !== 'all') {
+                filteredInquiries = currentInquiries.filter(inquiry => inquiry.status === currentFilter);
+            }
+            
+            if (filteredInquiries.length === 0) {
+                inquiriesList.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No ${currentFilter} inquiries found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredInquiries.forEach(inquiry => {
+                let statusClass = '';
+                let statusIcon = '';
+                
+                switch(inquiry.status) {
+                    case 'new': 
+                        statusClass = 'status-new'; 
+                        statusIcon = 'fas fa-clock';
+                        break;
+                    case 'replied': 
+                        statusClass = 'status-replied'; 
+                        statusIcon = 'fas fa-reply';
+                        break;
+                    case 'closed': 
+                        statusClass = 'status-closed'; 
+                        statusIcon = 'fas fa-check-circle';
+                        break;
+                }
+                
+                const isActive = selectedInquiryId === inquiry.id ? 'active' : '';
+                const isUnread = inquiry.status === 'new' ? 'unread' : '';
+                
+                html += `
+                    <div class="inquiry-item ${isActive} ${isUnread}" onclick="selectInquiry(${inquiry.id})">
+                        <div class="inquiry-subject">${inquiry.subject}</div>
+                        <div class="inquiry-meta">
+                            <span>${inquiry.user_name}</span>
+                            <span>
+                                ${formatDate(inquiry.created_at)}
+                                <span class="inquiry-status ${statusClass}">
+                                    <i class="${statusIcon}"></i> ${inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            inquiriesList.innerHTML = html;
+        }
+        
+        // Filter inquiries
+        function filterInquiries(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.filter-btn[data-filter="${filter}"]`).classList.add('active');
+            
+            renderInquiriesList();
+        }
+        
+        // Select an inquiry to view details
+        function selectInquiry(inquiryId) {
+            selectedInquiryId = inquiryId;
+            renderInquiriesList(); // Update active state in list
+            
+            const inquiryDetail = document.getElementById('inquiry-detail');
+            const selectedInquiry = currentInquiries.find(inquiry => inquiry.id === inquiryId);
+            
+            if (!selectedInquiry) {
+                inquiryDetail.innerHTML = `
+                    <div class="no-inquiry-selected">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Inquiry not found</h3>
+                        <p>The selected inquiry could not be found.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let statusClass = '';
+            let statusIcon = '';
+            
+            switch(selectedInquiry.status) {
+                case 'new': 
+                    statusClass = 'status-new'; 
+                    statusIcon = 'fas fa-clock';
+                    break;
+                case 'replied': 
+                    statusClass = 'status-replied'; 
+                    statusIcon = 'fas fa-reply';
+                    break;
+                case 'closed': 
+                    statusClass = 'status-closed'; 
+                    statusIcon = 'fas fa-check-circle';
+                    break;
+            }
+            
+            let html = `
+                <div class="detail-container">
+                    <div class="detail-header">
+                        <div class="detail-subject">${selectedInquiry.subject}</div>
+                        <div class="detail-meta">
+                            <span><i class="fas fa-user"></i> From: ${selectedInquiry.user_name} (${selectedInquiry.user_email})</span>
+                            <span><i class="far fa-calendar-alt"></i> ${formatDate(selectedInquiry.created_at)}</span>
+                            <span>
+                                <i class="fas fa-tag"></i> Status: 
+                                <span class="inquiry-status ${statusClass}">
+                                    <i class="${statusIcon}"></i> ${selectedInquiry.status.charAt(0).toUpperCase() + selectedInquiry.status.slice(1)}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-message">
+                        ${selectedInquiry.message}
+                    </div>
+            `;
+            
+            // Show previous replies if any
+            if (selectedInquiry.replies && selectedInquiry.replies.length > 0) {
+                html += `
+                    <div class="replies-section">
+                        <h3><i class="fas fa-reply-all"></i> Previous Responses</h3>
+                `;
+                
+                selectedInquiry.replies.forEach(reply => {
+                    html += `
+                        <div class="reply-container">
+                            <div class="reply-header">
+                                <span><i class="fas fa-user-shield"></i> Government Response</span>
+                                <span class="reply-date">${formatDate(reply.replied_at)}</span>
+                            </div>
+                            <div class="reply-message">${reply.reply_message}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+            
+            // Add reply form if not closed
+            if (selectedInquiry.status !== 'closed') {
+                html += `
+                    <div class="reply-form">
+                        <h3><i class="fas fa-paper-plane"></i> Respond to this Inquiry</h3>
+                        <div class="form-group">
+                            <label for="reply-message">Your Response</label>
+                            <textarea id="reply-message" placeholder="Type your official response here..." required></textarea>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button onclick="submitReply(${inquiryId})"><i class="fas fa-paper-plane"></i> Send Response</button>
+                            <button class="btn-close" onclick="confirmCloseInquiry(${inquiryId})"><i class="fas fa-times-circle"></i> Close Inquiry</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="reply-form">
+                        <h3><i class="fas fa-lock"></i> This inquiry is closed</h3>
+                        <button onclick="confirmReopenInquiry(${inquiryId})"><i class="fas fa-lock-open"></i> Reopen Inquiry</button>
+                    </div>
+                `;
+            }
+            
+            html += `</div>`;
+            inquiryDetail.innerHTML = html;
+        }
+        
+        // Confirm before closing inquiry
+        function confirmCloseInquiry(inquiryId) {
+            showConfirmationModal(
+                "Close Inquiry", 
+                "Are you sure you want to close this inquiry? This will mark it as resolved.",
+                () => closeInquiry(inquiryId)
+            );
+        }
+        
+        // Confirm before reopening inquiry
+        function confirmReopenInquiry(inquiryId) {
+            showConfirmationModal(
+                "Reopen Inquiry", 
+                "Are you sure you want to reopen this inquiry?",
+                () => reopenInquiry(inquiryId)
+            );
+        }
+        
+        // Submit a reply to an inquiry - IMPROVED VERSION
+        function submitReply(inquiryId) {
+            const replyMessage = document.getElementById('reply-message').value;
+            
+            if (!replyMessage.trim()) {
+                showAlert('Please enter a response message', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('inquiry_id', inquiryId);
+            formData.append('reply_message', replyMessage);
+            
+            // Show loading state on button
+            const submitButton = document.querySelector('.action-buttons button');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<span class="btn-spinner"></span> Sending...';
+            submitButton.disabled = true;
+            
+            // Show loading overlay after 500ms if the request is still processing
+            const loadingTimeout = setTimeout(() => {
+                showLoading('Sending your response...');
+            }, 500);
+            
+            // Set a timeout to handle very slow connections
+            const requestTimeout = setTimeout(() => {
+                hideLoading();
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                showToast('Request is taking longer than expected. Please check your connection and try again.', 'error');
+            }, 30000); // 30 seconds timeout
+            
+            fetch('submit_reply.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                clearTimeout(loadingTimeout);
+                clearTimeout(requestTimeout);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                hideLoading();
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                if (data.success) {
+                    // Show success notification
+                    showToast('Response sent successfully!');
+                    
+                    // Clear the textarea
+                    document.getElementById('reply-message').value = '';
+                    
+                    // Also show alert at the top
+                    showAlert('Response sent successfully!', 'success');
+                    
+                    // Refresh the list after a short delay
+                    setTimeout(() => {
+                        loadInquiries();
+                    }, 1000);
+                } else {
+                    showToast('Error: ' + data.message, 'error');
+                    showAlert('Error: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                clearTimeout(loadingTimeout);
+                clearTimeout(requestTimeout);
+                hideLoading();
+                
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                showToast('Failed to send response. Please try again.', 'error');
+                showAlert('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+            });
+        }
+        
+        // Close an inquiry
+        function closeInquiry(inquiryId) {
+            const formData = new FormData();
+            formData.append('inquiry_id', inquiryId);
+            formData.append('status', 'closed');
+            
+            // Show loading state in the detail view
+            const inquiryDetail = document.getElementById('inquiry-detail');
+            inquiryDetail.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Updating inquiry status...</p>
+                </div>
+            `;
+            
+            fetch('update_inquiry_status.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showAlert('Inquiry closed successfully!', 'success');
+                    loadInquiries(); // Refresh the list
+                } else {
+                    showAlert('Error: ' + data.message, 'error');
+                    selectInquiry(inquiryId); // Reload the inquiry detail
+                }
+            })
+            .catch(error => {
+                showAlert('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+                selectInquiry(inquiryId); // Reload the inquiry detail
+            });
+        }
+        
+        // Reopen a closed inquiry
+        function reopenInquiry(inquiryId) {
+            const formData = new FormData();
+            formData.append('inquiry_id', inquiryId);
+            formData.append('status', 'replied');
+            
+            // Show loading state in the detail view
+            const inquiryDetail = document.getElementById('inquiry-detail');
+            inquiryDetail.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Updating inquiry status...</p>
+                </div>
+            `;
+            
+            fetch('update_inquiry_status.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showAlert('Inquiry reopened successfully!', 'success');
+                    loadInquiries(); // Refresh the list
+                } else {
+                    showAlert('Error: ' + data.message, 'error');
+                    selectInquiry(inquiryId); // Reload the inquiry detail
+                }
+            })
+            .catch(error => {
+                showAlert('An error occurred. Please try again.', 'error');
+                console.error('Error:', error);
+                selectInquiry(inquiryId); // Reload the inquiry detail
+            });
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+        
+        // Load inquiries when page loads
+        window.onload = function() {
+            loadInquiries();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,752 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Government Transparency Portal</title>
+    <script src="video.js"></script>
+    <link rel="Stylesheet"href="user_dashboard.css">
+    <script src="theme.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head><body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
+                <span class="logo-text">Kenya <span>Transparency</span></span>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Budget.html">Budget</a></li>
+                    <li><a href="county.html">My county</a></li>
+                    <li><a href="Projects.html">Projects</a></li>
+                    <li><a href="national.html">My Government</a></li>
+                     <li><a href="Reports.html">Reports</a></li>
+                    <li><a href="User_inquirery.html">Talk to us</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="notification-container">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+<div class="notification-dropdown">
+    <div class="notification-header">
+        <h4>Notifications</h4>
+        <span class="notification-count">3 New</span>
+    </div>
+    <div class="notification-list">
+        <div class="notification-item unread">
+            <div class="notification-icon">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div class="notification-content">
+                <p>New project update: Nairobi-Mombasa Highway</p>
+                <span class="notification-time">10 minutes ago</span>
+            </div>
+        </div>
+        <div class="notification-item unread">
+            <div class="notification-icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div class="notification-content">
+                <p>Budget report for Q2 2023 is now available</p>
+                <span class="notification-time">2 hours ago</span>
+            </div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="notification-content">
+                <p>5 new citizen inquiries received</p>
+                <span class="notification-time">1 day ago</span>
+            </div>
+        </div>
+    </div>
+    <a href="updates.html" class="view-all">View All Notifications</a>
+</div>
+
+
+                <a href="pprofile.html" class="profile-button">
+                    <img src="Photos/h1.jpg" alt="User Profile">
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Government Transparency Portal</h1>
+                <p>Access real-time data on government spending, projects, and performance metrics. Your window into how public resources are being utilized for national development.</p>
+                <button class="btn btn-primary">Explore Dashboard</button>
+            </div>
+        </section>
+        
+        <section>
+            <h2 class="section-title">Key Performance Indicators</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">National Budget</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">KSh 3.3 Trillion</div>
+                    <div class="metric-label">FY 2023/2024 Total Budget</div>
+                    <div class="metric-trend trend-up">+8.2% from previous year</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Projects Completed</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-label">Projects delivered this year</div>
+                    <div class="metric-trend trend-up">+15% completion rate</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Public Satisfaction</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">78%</div>
+                    <div class="metric-label">Citizen satisfaction score</div>
+                    <div class="metric-trend trend-up">+5% from last quarter</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Procurement Transparency</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-search-dollar"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">92%</div>
+                    <div class="metric-label">Open tenders published</div>
+                    <div class="metric-trend trend-down">-3% compliance issues</div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">Featured Government Projects</h2>
+                <a href="Projects.html" class="btn btn-sm">View All Projects</a>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Talanta Sports Stadium</h3>
+                        <p class="project-description">Construction of a modern 60,000-seater stadium along Ngong Road to host international sports events and concerts.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>Completion</span>
+                                <span>70%</span>
+                            </div>
+                        </div>
+                        <a href="Projects.html#tal" class="btn btn-sm">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="Photos/gtc1.jpeg" alt="GTC Towers" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">GTC Towers</h3>
+                        <p class="project-description">A global trade center featuring conference facilities, office spaces, and hospitality services in Nairobi's Upper Hill.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>Completion</span>
+                                <span>80%</span>
+                            </div>
+                        </div>
+                        <a href="Projects.html#gtc" class="btn btn-sm">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="Photos/Thika 3.jpg" alt="Nairobi-Mombasa Highway" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Nairobi-Mombasa Highway</h3>
+                        <p class="project-description">Upgrade of the A109 highway to a dual carriageway to improve connectivity between Kenya's two largest cities.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 10%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>Completion</span>
+                                <span>10%</span>
+                            </div>
+                        </div>
+                        <a href="Projects.html#nbm" class="btn btn-sm">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="Photos/Thika 2.jpeg" alt="Affordable Housing" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Affordable Housing Program</h3>
+                        <p class="project-description">Construction of 500,000 affordable housing units across 15 counties to address urban housing shortages.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>Completion</span>
+                                <span>35%</span>
+                            </div>
+                        </div>
+                        <a href="Projects.html#housing" class="btn btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2 class="section-title">Budget & Expenditure Analytics</h2>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3 class="chart-title">Sector Allocation (2024/2025)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="sectorChart" height="300"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Expenditure Trend (Last 5 Years)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="expenditureChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <style>
+            :root {
+                --primary-color: #0b9d3f;
+            }
+            
+            .video-player {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .main-video {
+                width: 100%;
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .thumbnails {
+                display: flex;
+                gap: 10px;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .thumbnail {
+                position: relative;
+                width: 120px;
+                height: 80px;
+                border-radius: 4px;
+                overflow: hidden;
+                cursor: pointer;
+                flex-shrink: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .thumbnail:hover {
+                transform: scale(1.05);
+            }
+            
+            .thumbnail.active {
+                border: 3px solid var(--primary-color);
+            }
+            
+            .thumbnail img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .play-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                background: rgba(0,0,0,0.6);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+            }
+        </style>
+        <section class="vision-section">
+            <div class="vision-content">
+                <h2 class="vision-title">Kenya <span>Vision 2030</span></h2>
+                <p class="vision-text">Kenya Vision 2030 is the country's development blueprint covering the period 2008 to 2030. It aims to transform Kenya into a newly industrializing, middle-income country providing a high quality of life to all its citizens by 2030 in a clean and secure environment.</p>
+                <p class="vision-text">The Vision comprises of three key pillars: Economic, Social and Political Governance. This portal tracks progress across all pillars to ensure transparency and accountability in implementation.</p>
+                <a href="visions.html" class="btn">Track Progress</a>
+            </div>
+        </section>
+                
+
+        <div class="video-player">
+            <video controls class="main-video" id="mainVideo">
+               
+            </video>
+            
+            <div class="thumbnails" id="thumbnailsContainer">
+               
+                <div class="thumbnail active" data-video="Photos/ke eye.mp4">
+                    <img src="Photos/eyeke.jpg" alt="Video 1">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                
+                <!-- Thumbnail 2 -->
+                <div class="thumbnail" data-video="Photos/good raods.mp4">
+                    <img src="Photos/road.jpeg" alt="Video 2">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                
+                <!-- Thumbnail 3 -->
+                <div class="thumbnail" data-video="Photos/fllyer flag.mp4">
+                    <img src="Photos/ke flag.jpg" alt="Video 3">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                
+                <!-- Thumbnail 4 -->
+                <div class="thumbnail" data-video="Photos/flying flag.mp4">
+                    <img src="Photos/f2.jpg" alt="Video 4">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+
+                 <!-- Thumbnail 5 -->
+                 <div class="thumbnail" data-video="Photos/18750424-hd_1920_1080_30fps.mp4">
+                    <img src="Photos/gtc3.jpeg"alt="Video 4">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+
+                 <!-- Thumbnail 6 -->
+                 <div class="thumbnail" data-video="Photos/Konza.mp4">
+                    <img src="Photos/konza techno.jpg" alt="Video 4">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <section>
+            <h2 class="section-title">Government Leadership</h2>
+            <div class="leaders-container">
+                <div class="leader-card">
+                    <img src="photos/ruto-removebg-preview.png" alt="President William Ruto" class="leader-image">
+                    <div class="leader-info">
+                        <h4 class="leader-name">H.E. William Ruto</h4>
+                        <p class="leader-position">President of Kenya</p>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <img src="photos/Kindiki.jpg" alt="CS Kithure Kindiki" class="leader-image">
+                    <div class="leader-info">
+                        <h4 class="leader-name">Prof. Kithure Kindiki</h4>
+                        <p class="leader-position">Cabinet Secretary for Interior</p>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <img src="photos/Mudavadi.jpeg" alt="PM Musalia Mudavadi" class="leader-image">
+                    <div class="leader-info">
+                        <h4 class="leader-name">Rt. Hon. Musalia Mudavadi</h4>
+                        <p class="leader-position">Prime Cabinet Secretary</p>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <img src="photos/Picture-Njuguna.jpg" alt="National Treasury" class="leader-image">
+                    <div class="leader-info">
+                        <h4 class="leader-name">Prof. Njuguna Ndung'u</h4>
+                        <p class="leader-position">Cabinet Secretary, National Treasury</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="timeline-section">
+            <div class="timeline-header">
+                <h2 class="section-title">Development Timeline</h2>
+                <div class="timeline-tabs">
+                    <button class="tab-btn active" onclick="loadTimeline('first')">2008-2012</button>
+                    <button class="tab-btn" onclick="loadTimeline('second')">2013-2025</button>
+                </div>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                <div id="timeline-items">
+                    <div class="timeline-item active">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year">2008</div>
+                        <h3 class="timeline-title">Vision 2030 Launched</h3>
+                        <p class="timeline-desc">Kenya Vision 2030 officially launched as the national development blueprint.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year">2012</div>
+                        <h3 class="timeline-title">Thika Superhighway</h3>
+                        <p class="timeline-desc">Completion of the 50km Thika Road superhighway project.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year">2017</div>
+                        <h3 class="timeline-title">SGR Phase 1</h3>
+                        <p class="timeline-desc">Standard Gauge Railway Nairobi-Mombasa section completed.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year">2022</div>
+                        <h3 class="timeline-title">Digital Transformation</h3>
+                        <p class="timeline-desc">5,000+ government services digitized on eCitizen platform.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+//Timeline function
+window.timelineData = {
+    'first': [
+        { year: '2008', title: 'Vision 2030 Launched', desc: 'Kenya Vision 2030 officially launched as the national development blueprint.' },
+        { year: '2010', title: 'New Constitution', desc: 'Promulgation of the new constitution of Kenya.' },
+        { year: '2012', title: 'Thika Superhighway', desc: 'Completion of the 50km Thika Road superhighway project.' }
+    ],
+    'second': [
+        { year: '2013', title: 'Devolution Implementation', desc: 'County governments established under the new constitution.' },
+        { year: '2017', title: 'SGR Phase 1', desc: 'Standard Gauge Railway Nairobi-Mombasa section completed.' },
+        { year: '2022', title: 'Digital Transformation', desc: '5,000+ government services digitized on eCitizen platform.' },
+        { year: '2025', title: 'Vision 2030 Milestone', desc: 'Projected completion of key medium-term plan projects.' }
+    ]
+};
+
+
+
+    
+
+
+     
+    // Timeline Loading Function
+    function loadTimeline(period) {
+        const timelineContainer = document.querySelector('#timeline-items');
+        const timelineData = window.timelineData;
+        
+        // Clear existing timeline items
+        timelineContainer.innerHTML = '';
+        
+        // Add new timeline items
+        timelineData[period].forEach((item, index) => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = `timeline-item ${index === 0 ? 'active' : ''}`;
+            timelineItem.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">${item.year}</div>
+                <h3 class="timeline-title">${item.title}</h3>
+                <p class="timeline-desc">${item.desc}</p>
+            `;
+            
+            // Add click event to show description
+            timelineItem.addEventListener('click', function() {
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+            
+            timelineContainer.appendChild(timelineItem);
+        });
+        
+        // Update active tab
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`.tab-btn[onclick="loadTimeline('${period}')"]`).classList.add('active');
+    }
+    
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Charts
+        initializeCharts();
+        
+        function initializeCharts() {
+            // Sector Allocation Pie Chart
+            const sectorCtx = document.getElementById('sectorChart');
+            if (sectorCtx) {
+                new Chart(sectorCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Education', 'Health', 'Infrastructure','Debt Servicing', 'Security', 'Agriculture', 'Others'],
+                        datasets: [{
+                            data:  [62, 74, 47, 42, 50, 50,30],
+                            backgroundColor: [
+                                '#0b9d3f',
+                                '#1d4ed8',
+                                '#ff6b35',
+                                '#6c757d',
+                                '#28a745',
+                                '#6610f2'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}%`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Expenditure Trend Bar Chart
+            const expenditureCtx = document.getElementById('expenditureChart');
+            if (expenditureCtx) {
+                new Chart(expenditureCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+    'Bomet',   
+    'Bungoma',   
+    'Busia',   
+    'Elgeyo-Marakwet',   
+    'Embu',   
+    'Garissa',   
+    'Homa Bay',   
+    'Isiolo',   
+    'Kajiado',   
+    'Kakamega',   
+    'Kericho',   
+    'Kiambu',   
+    'Kilifi',   
+    'Kirinyaga',   
+    'Kisii',   
+    'Kisumu',   
+    'Laikipia',   
+    'Lamu',   
+    'Machakos',   
+    'Makueni',   
+    'Mandera',   
+    'Marsabit',   
+    'Meru',   
+    'Migori',   
+    'Mombasa',   
+    'Nairobi',   
+    'Nakuru',   
+    'Nandi',   
+    'Narok',   
+    'Nyamira',   
+    'Nyandarua',   
+    'Nyeri',   
+    'Samburu',   
+    'Siaya',   
+    'Taita Taveta',   
+    'Tana River',   
+    'Tharaka-Nithi',   
+    'Trans Nzoia',   
+    'Uasin Gishu',   
+    'Vihiga',   
+    'Wajir',   
+    'West Pokot'  
+],
+                        datasets: [{
+                            label: 'Budget Expenditure (KSh Millions)',
+                            data: [  
+  29,  
+  41,  
+  37,  
+  45,  
+  39,  
+  42,  
+  36,  
+  47,  
+  33,  
+  31,  
+  34,  
+  39,  
+  41,  
+  60,  
+  36,  
+  38,  
+  32,
+  31,  
+  44,  
+  47,  
+  43,  
+  38,  
+  45,  
+  42,  
+  40,  
+  39,  
+  33,  
+  31,  
+  29,  
+  45,  
+  32,  
+  35,  
+  50,  
+  41,  
+  45,  
+  50,  
+  43,  
+  36,  
+  37,  
+  34,  
+  42,  
+  40  
+]
+,
+                            backgroundColor: 'rgba(11, 157, 63, 0.7)',
+                            borderColor: 'rgba(11, 157, 63, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'KSh Million'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Counties'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `KSh ${context.raw} Million`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+        const dropdown = document.querySelector('.notification-dropdown');
+        if (dropdown) {
+            dropdown.style.display = 'none';
+        }
+    });
+    // lighting script
+function saveUserPreferences() {
+    const preferences = {
+        theme: 'light', // or 'dark'
+        favoriteProjects: ['project1', 'project2'],
+        dashboardLayout: 'default' // or 'compact'
+    };
+    
+    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+}
+
+function loadUserPreferences() {
+    const preferences = localStorage.getItem('userPreferences');
+    if (preferences) {
+        return JSON.parse(preferences);
+    }
+    return null;
+}
+
+    </script>
+    
+<script src="dashboard.js"></script>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
+                    <span class="footer-logo-text">Kenya Transparency</span>
+                </div>
+                <p class="footer-about">The Kenya Government Transparency Portal provides citizens with access to government spending data, project information, and performance metrics to promote accountability and public participation.</p>
+                <div class="social-links">
+                    <a href="https://twitter.com/StateHouseKenya" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/StateHouseKenya" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/statehousekenya/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@StateHouseKenya" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+            </div>
+            
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+                <ul>
+                   <li> <a href="index.html">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="user_dashboard.html">Home</a></li>
+                    <li><a href="Budget.html">Budget Reports</a></li>
+                    <li><a href="Projects.html">Project Tracker</a></li>
+                    <li><a href="Tenders.html">Tender Opportunities</a></li>
+                    <li><a href="Service_delivery.html">Service Delivery</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

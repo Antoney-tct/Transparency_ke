@@ -1,0 +1,105 @@
+2025-04-03 07:08:47 - Form submitted
+Array
+(
+    [fullName] => ministry of health
+    [staffEmail] => gov.health@gmail.com
+    [govId] => 231423
+    [designation] => Doctor
+    [department] => Health
+    [phoneNumber] => 0734233222
+    [region] => Mombasa
+    [password] => 6122005o
+    [confirmPassword] => 6122005o
+)
+
+2025-04-03 09:34:30 - Form submitted
+Array
+(
+    [fullName] => James gichuki
+    [staffEmail] => aouko178@gmail.com
+    [govId] => e213323
+    [designation] => coodinator
+    [department] => Transport
+    [phoneNumber] => 139404940
+    [region] => Mombasa
+    [password] => 123456ouk
+    [confirmPassword] => 123456ouk
+)
+
+Error: Email or Government ID already exists
+2025-04-03 10:30:28 - Form submitted
+Array
+(
+    [fullName] => Tecno
+    [staffEmail] => Tech@gmail.com
+    [govId] => e213323
+    [designation] => coodinator
+    [department] => Transport
+    [phoneNumber] => 0768343558
+    [region] => Nairobi
+    [password] => 12345678
+    [confirmPassword] => 12345678
+)
+
+2025-04-03 10:36:26 - Form submitted
+Array
+(
+    [fullName] => Tecno
+    [staffEmail] => Tech@gmail.com
+    [govId] => e213323
+    [designation] => coodinator
+    [department] => Transport
+    [phoneNumber] => 0768343558
+    [region] => Nairobi
+    [password] => 12345678
+    [confirmPassword] => 12345678
+)
+
+Error: Email or Government ID already exists
+
+
+2025-04-03 16:58:44 - Form submission started
+POST Data: Array
+(
+    [fullName] => HOD zetech
+    [staffEmail] => ZU.gov@gmail.com
+    [govId] => 2341rw4
+    [designation] => HOD
+    [department] => Education
+    [phoneNumber] => 0768343558
+    [region] => Nairobi
+    [password] => 7ewutyyyA
+    [confirmPassword] => 7ewutyyyA
+)
+
+Registration successful for user ID: 4
+2025-04-03 17:02:18 - Form submitted
+Array
+(
+    [fullName] => HOD zetech
+    [staffEmail] => ZU.gov@gmail.com
+    [govId] => 2341rw4
+    [designation] => HOD
+    [department] => Education
+    [phoneNumber] => 0768343558
+    [region] => Nairobi
+    [password] => 7ewutyyyA
+    [confirmPassword] => 7ewutyyyA
+)
+
+Error: Email or Government ID already exists
+2025-04-03 17:06:14 - Form submitted
+Array
+(
+    [fullName] => HOD zetech
+    [staffEmail] => ZU.gov@gmail.com
+    [govId] => 2341rw4
+    [designation] => HOD
+    [department] => Education
+    [phoneNumber] => 0768343558
+    [region] => Nairobi
+    [password] => 7ewutyyyA
+    [confirmPassword] => 7ewutyyyA
+)
+
+Error: Email or Government ID already exists

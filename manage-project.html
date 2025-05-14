@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Construction Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="GOK-addmin.css">
+    <style>
+        /* Project-specific styles */
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+       
+        .project-card {
+            background: white;
+            width: 300px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+        
+        .project-details {
+            padding: 15px;
+        }
+        
+        .project-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .project-category {
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .project-progress {
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--gray-color);
+        }
+        
+        .project-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .tabs-container {
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .project-grid {
+            display: grid;
+     flex-direction: row;
+     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+     flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+  overflow-x: auto;
+            
+        }
+        @media (min-width: 768px) {
+    .project-grid {
+        flex-wrap: wrap;
+    }
+}
+        
+        .add-project-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+        }
+        
+        .add-project-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Project modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+        
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        a{
+            text-decoration: none;
+            color: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>GOK rep</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="gov-rep-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="Addmin-projects.html"><i class="fas fa-hard-hat"></i> Uploaded Projects</a>
+                    </li>
+                    <li>
+                        <a href="Reply-inquiries.html"><i class="fas fa-envelope"></i> Reply Inquiries <span class="badge" id="unreadCount">5</span></a>
+                    </li>
+                     <li>
+                        <a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a>
+                    </li>
+                    <li>
+                        <a href="Budget.html"><i class="fas fa-coins"></i> Budget</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button id="sidebarToggle" class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Projects Management</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" id="projectSearch" placeholder="Search projects...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <!--profile pic -->
+                    <div class="admin-profile">
+                        <a href="Gov-rep-profile.html">
+                        <img src="Photos/Mudavadi.jpeg" alt="rep">
+                    </a>
+                        <strong><span>Gov Rep</span></strong>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon messages">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="totalProjects">80000</h3>
+                        <p>Total Projects</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon subscribers">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="ongoingProjects">7500</h3>
+                        <p>Ongoing Projects</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="completedProjects">6000</h3>
+                        <p>Completed Projects</p>
+                    </div>
+                </div>           
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="ongoing">Ongoing Projects</div>
+                    <div class="tab" data-tab="completed">Completed Projects</div>
+                    <div class="tab" data-tab="planned">Planned Projects</div>
+                </div>
+            </div>
+
+            <div class="tab-content active" id="ongoing-tab">
+                <div class="project-grid">
+                    <!-- Talanta Stadium -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Talanta Stadium</h3>
+                            <div class="project-category">Sports Infrastructure</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Started: Jan 2023</span>
+                                <span><i class="fas fa-clock"></i> Est. completion: Dec 2024</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(1)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(1)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GTC Towers -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/gtc1.jpeg" alt="GTC Towers">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">GTC Towers</h3>
+                            <div class="project-category">Commercial Building</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 40%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Started: Mar 2023</span>
+                                <span><i class="fas fa-clock"></i> Est. completion: Jun 2025</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(2)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(2)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thika Superhighway -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Thika Superhighway</h3>
+                            <div class="project-category">Transportation</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 85%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Started: Sep 2022</span>
+                                <span><i class="fas fa-clock"></i> Est. completion: Mar 2024</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(3)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(3)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Konza City -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/back.jpeg" alt="Konza City">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Konza City</h3>
+                            <div class="project-category">Technology Hub</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 30%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Started: Nov 2022</span>
+                                <span><i class="fas fa-clock"></i> Est. completion: Dec 2026</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary"                                <button class="btn btn-primary" onclick="editProject(4)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(4)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nairobi-Mombasa Road -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Road">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Nairobi-Mombasa Road</h3>
+                            <div class="project-category">Transportation</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 55%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 55%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Started: Feb 2023</span>
+                                <span><i class="fas fa-clock"></i> Est. completion: Jul 2025</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(5)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(5)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="completed-tab">
+                <div class="project-grid">
+                    <!-- Completed Project 1 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/gtc3.jpeg" alt="GTC Phase 1">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">GTC Phase 1</h3>
+                            <div class="project-category">Commercial Building</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Completed: Jun 2022</span>
+                                <span><i class="fas fa-money-bill-wave"></i> Budget: KSh 450M</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(6)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(6)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Project 2 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/Thika1.jpeg" alt="Thika Road Phase 1">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Thika Road Phase 1</h3>
+                            <div class="project-category">Transportation</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Completed: Dec 2021</span>
+                                <span><i class="fas fa-money-bill-wave"></i> Budget: KSh 320M</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(7)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(7)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Project 3 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="Photos/eyeke.jpg" alt="Eyeke Bridge">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Eyeke Bridge</h3>
+                            <div class="project-category">Infrastructure</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Progress: 100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Completed: Mar 2022</span>
+                                <span><i class="fas fa-money-bill-wave"></i> Budget: KSh 180M</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(8)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(8)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="planned-tab">
+                <div class="project-grid">
+                    <!-- Planned Project 1 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250?text=Planned+Project" alt="Nairobi Metro Rail">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Nairobi Metro Rail</h3>
+                            <div class="project-category">Public Transportation</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Status: Planning Phase</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 5%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Planned start: Jan 2025</span>
+                                <span><i class="fas fa-money-bill-wave"></i> Est. Budget: KSh 1.2B</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(9)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(9)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Planned Project 2 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x250?text=Planned+Project" alt="Nairobi River Restoration">
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Nairobi River Restoration</h3>
+                            <div class="project-category">Environmental</div>
+                            <div class="project-progress">
+                                <div class="progress-text">
+                                    <span>Status: Approval Phase</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span><i class="fas fa-calendar"></i> Planned start: Jun 2024</span>
+                                <span><i class="fas fa-money-bill-wave"></i> Est. Budget: KSh 350M</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-primary" onclick="editProject(10)">Edit</button>
+                                <button class="btn btn-outline" onclick="viewProjectDetails(10)">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Project Button -->
+            <div class="add-project-btn" id="addProjectBtn">
+                <i class="fas fa-plus" id="add"></i>
+            </div>
+        </main>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalTitle">Add New Project</h2>
+            
+            <form id="projectForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input type="text" id="projectName" name="projectName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectCategory">Category</label>
+                        <select id="projectCategory" name="projectCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Commercial Building">Commercial Building</option>
+                            <option value="Sports Infrastructure">Sports Infrastructure</option>
+                            <option value="Technology Hub">Technology Hub</option>
+                            <option value="Infrastructure">Infrastructure</option>
+                            <option value="Environmental">Environmental</option>
+                            <option value="Public Transportation">Public Transportation</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectStart">Start Date</label>
+                        <input type="date" id="projectStart" name="projectStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectEnd">Estimated Completion Date</label>
+                        <input type="date" id="projectEnd" name="projectEnd" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectBudget">Budget (KSh)</label>
+                        <input type="number" id="projectBudget" name="projectBudget" min="0" step="1000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectProgress">Progress (%)</label>
+                        <input type="number" id="projectProgress" name="projectProgress" min="0" max="100" value="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectImage">Project Image</label>
+                    <input type="file" id="projectImage" name="projectImage" accept="image/*">
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectStatus">Status</label>
+                    <select id="projectStatus" name="projectStatus" required>
+                        <option value="planned">Planned</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Project</button>
+                    <button type="button" class="btn btn-outline" id="cancelProject">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="projectDetailsModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeDetailsModal">&times;</span>
+            <h2 class="modal-title" id="detailsModalTitle">Project Details</h2>
+            
+            <div id="projectDetailsContent">
+                <!-- Project details will be loaded at this point -->
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="editFromDetails">Edit Project</button>
+                <button type="button" class="btn btn-outline" id="closeDetails">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    mainContent.classList.toggle('sidebar-active');
+                });
+            }
+                        // Close sidebar when clicking outside
+                        document.addEventListener('click', function(event) {
+
+                if (sidebar.classList.contains('active') &&
+                    !sidebar.contains(event.target) &&
+                    !sidebarToggle.contains(event.target) &&
+                    event.target !== sidebarToggle) {
+
+                    sidebar.classList.remove('active');
+                    mainContent.classList.remove('sidebar-active');
+                }
+            });
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show the corresponding tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Project modal functionality
+            const addProjectBtn = document.getElementById('addProjectBtn');
+            const projectModal = document.getElementById('projectModal');
+            const closeModal = document.getElementById('closeModal');
+            const cancelProject = document.getElementById('cancelProject');
+            const projectForm = document.getElementById('projectForm');
+            
+            addProjectBtn.addEventListener('click', function() {
+                // Reset form and set title for new project
+                projectForm.reset();
+                document.getElementById('modalTitle').textContent = 'Add New Project';
+                projectModal.style.display = 'block';
+            });
+            
+            closeModal.addEventListener('click', function() {
+                projectModal.style.display = 'none';
+            });
+            
+            cancelProject.addEventListener('click', function() {
+                projectModal.style.display = 'none';
+            });
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === projectModal) {
+                    projectModal.style.display = 'none';
+                }
+                if (event.target === projectDetailsModal) {
+                    projectDetailsModal.style.display = 'none';
+                }
+            });
+            
+            // Project form submission
+            projectForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+
+                // a success message for the upload
+                alert('Project saved successfully!');
+                projectModal.style.display = 'none';
+                
+
+            });
+            
+            // Project details modal functionality
+            const projectDetailsModal = document.getElementById('projectDetailsModal');
+            const closeDetailsModal = document.getElementById('closeDetailsModal');
+            const closeDetails = document.getElementById('closeDetails');
+            const editFromDetails = document.getElementById('editFromDetails');
+            
+            closeDetailsModal.addEventListener('click', function() {
+                projectDetailsModal.style.display = 'none';
+            });
+            
+            closeDetails.addEventListener('click', function() {
+                projectDetailsModal.style.display = 'none';
+            });
+            
+            editFromDetails.addEventListener('click', function() {
+                // Close details modal and open edit modal
+                projectDetailsModal.style.display = 'none';
+                
+
+                document.getElementById('modalTitle').textContent = 'Edit Project';
+                projectModal.style.display = 'block';
+            });
+            
+            // Search functionality
+            const projectSearch = document.getElementById('projectSearch');
+            
+            projectSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const projectCards = document.querySelectorAll('.project-card');
+                
+                projectCards.forEach(card => {
+                    const projectTitle = card.querySelector('.project-title').textContent.toLowerCase();
+                    const projectCategory = card.querySelector('.project-category').textContent.toLowerCase();
+                    
+                    if (projectTitle.includes(searchTerm) || projectCategory.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Function to edit a project
+        function editProject(projectId) {
+          
+            console.log(`Editing project with ID: ${projectId}`);
+            
+
+            document.getElementById('modalTitle').textContent = 'Edit Project';
+            document.getElementById('projectModal').style.display = 'block';
+            
+            document.getElementById('projectName').value = document.querySelectorAll('.project-title')[projectId - 1].textContent;
+            document.getElementById('projectCategory').value = document.querySelectorAll('.project-category')[projectId - 1].textContent;
+            
+            // Set a progress value based on the visual progress bar
+            const progressElement = document.querySelectorAll('.progress-fill')[projectId - 1];
+            const progressWidth = progressElement.style.width;
+            document.getElementById('projectProgress').value = parseInt(progressWidth);
+            
+            // Set some placeholder dates
+            const today = new Date();
+            const futureDate = new Date();
+            futureDate.setMonth(today.getMonth() + 18);
+            
+            document.getElementById('projectStart').value = formatDateForInput(today);
+            document.getElementById('projectEnd').value = formatDateForInput(futureDate);
+            
+            // Set a placeholder budget
+            document.getElementById('projectBudget').value = 250000000;
+            
+            // Set a placeholder description
+            document.getElementById('projectDescription').value = 'This is a placeholder description for the project. In a real application, this would be loaded from the database.';
+        }
+        
+
+
+
+
+        // Function to view project details
+function viewProjectDetails(projectId) {
+    console.log(`Viewing details for project with ID: ${projectId}`);
+    
+    try {
+        // Get all project cards by  accessing the right one
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        // Make sure the projectId is valid
+        if (projectId <= 0 || projectId > projectCards.length) {
+            throw new Error(`Invalid project ID: ${projectId}`);
+        }
+        
+        // Get the specific project card 
+        const projectCard = projectCards[projectId - 1];
+        
+        // Safely get elements from the card
+        const projectTitle = projectCard.querySelector('.project-title').textContent;
+        const projectCategory = projectCard.querySelector('.project-category').textContent;
+        const progressElement = projectCard.querySelector('.progress-fill');
+        const progressWidth = progressElement ? progressElement.style.width : '0%';
+        const metaInfo = projectCard.querySelector('.project-meta').textContent.trim();
+        
+        // Safely get the image source
+        const imgElement = projectCard.querySelector('.project-image img');
+        const imgSrc = imgElement ? imgElement.src : 'https://via.placeholder.com/400x250?text=No+Image';
+        
+        // Set the modal title
+        document.getElementById('detailsModalTitle').textContent = projectTitle;
+        
+        // Populate the details content
+        document.getElementById('projectDetailsContent').innerHTML = `
+            <div class="project-details-view">
+                <div class="details-image">
+                    <img src="${imgSrc}" alt="${projectTitle}">
+                </div>
+                
+                <div class="details-info">
+                    <div class="info-group">
+                        <h3>Category</h3>
+                        <p>${projectCategory}</p>
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressWidth}"></div>
+                        </div>
+                        <p>${progressWidth}</p>
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Timeline</h3>
+                        <p>${metaInfo}</p>
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Description</h3>
+                        <p>This project aims to improve infrastructure and provide essential services to the citizens of Kenya. The project is being implemented in phases with careful consideration of environmental impact and community needs.</p>
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Key Milestones</h3>
+                        <ul>
+                            <li>Planning and Design: Completed</li>
+                            <li>Foundation Work: Completed</li>
+                            <li>Structural Framework: In Progress</li>
+                            <li>Interior Development: Pending</li>
+                            <li>Final Inspection: Pending</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Project Team</h3>
+                        <p>Project Manager: John Kamau</p>
+                        <p>Lead Engineer: Sarah Odhiambo</p>
+                        <p>Architect: Michael Njoroge</p>
+                        <p>Financial Controller: Elizabeth Wanjiku</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Show the modal
+        document.getElementById('projectDetailsModal').style.display = 'block';
+    } catch (error) {
+        console.error("Error displaying project details:", error);
+        alert("There was an error displaying the project details. Please try again.");
+    }
+    
+}
+
+</script>
+</body>
+        
+</html>

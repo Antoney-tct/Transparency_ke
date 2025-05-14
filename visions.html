@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Vision 2030 - National Development Blueprint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --national-red: #BB0A1E;
+            --national-green: #009A44;
+            --national-black: #000000;
+            --national-white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .vision-logo {
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--national-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Photos/OIP__3_-removebg-preview.png') no-repeat center center/cover;
+            color: var(--national-white);
+            text-align: center;
+            padding: 7rem 20px;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--national-white);
+            color: var(--national-red);
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--national-white);
+            border-color: var(--national-white);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--national-white);
+            color: var(--national-red);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--national-red);
+            display: inline-block;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--national-red), var(--national-green));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .vision-statement {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--national-red);
+        }
+
+        .vision-statement h2 {
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .vision-statement p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background-color: rgba(187, 10, 30, 0.1);
+            border-left: 4px solid var(--national-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .video-container {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .video-container h2 {
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .pillars-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .pillar-card {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--national-red);
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .pillar-card h3 {
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .pillar-card h3 i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .pillar-card p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .pillar-card ul {
+            margin-top: 1rem;
+            padding-left: 20px;
+        }
+
+        .pillar-card li {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .milestones-section {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .milestones-section h2 {
+            color: var(--national-red);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--national-red);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--national-white);
+            border: 4px solid var(--national-red);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+            text-align: right;
+        }
+
+        .right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .left::after {
+            right: -12px;
+        }
+
+        .right::after {
+            left: -12px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: rgba(187, 10, 30, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--national-red);
+        }
+
+        .timeline-content h3 {
+            color: var(--national-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            line-height: 1.6;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--national-red), #9E0919);
+            color: var(--national-white);
+            padding: 3rem 0 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: var(--national-white);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-links a:hover {
+            color: var(--national-white);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-banner {
+                padding: 5rem 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left, .right {
+                left: 0;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.2rem;
+            }
+            
+            nav ul {
+                margin-top: 1.2rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                margin-bottom: 10px;
+                display: block;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .btn-outline {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 15px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .vision-statement,
+            .milestones-section {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner {
+                padding: 4rem 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pillars-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="Photos/OIP__3_-removebg-preview.png" alt="Vision 2030 Logo" class="vision-logo">
+                <div class="header-title">
+                    <h1>Kenya Vision 2030</h1>
+                    <p>National Development Blueprint</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="user_dashboard.html" class="active">Home</a></li>
+                    <li><a href="Projects.html">Projects</a></li>
+                    <li><a href="pregress.html">Progress</a></li>
+                   
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Transforming Kenya into a Prosperous Nation</h1>
+            <p>The national long-term development blueprint for achieving middle-income status by 2030</p>
+            <div>
+                <a href="national.html" class="btn">Back to National Portal</a>
+                <a href="#" class="btn btn-outline">Download Full Document</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="vision-statement">
+            <h2>Our Vision Statement</h2>
+            <p>The Kenya Vision 2030 is the country's development blueprint covering the period 2008 to 2030. It aims to transform Kenya into a newly industrializing, middle-income country providing a high quality of life to all its citizens in a clean and secure environment.</p>
+            
+            <div class="highlight-box">
+                <p>"A globally competitive and prosperous nation with a high quality of life by 2030"</p>
+            </div>
+            
+            <p>This vision is based on three key pillars: Economic, Social, and Political Governance. It is a people-centered, private sector-led strategy that seeks to create a globally competitive and adaptive economy that meets the needs of all Kenyans.</p>
+        </section>
+
+        <div class="section-title">
+            <h2>The Three Pillars</h2>
+        </div>
+
+        <section class="pillars-container">
+            <div class="pillar-card">
+                <h3><i class="fas fa-chart-line"></i> Economic Pillar</h3>
+                <p>Seeks to achieve an average economic growth rate of 10% per annum from 2012 to 2030 through:</p>
+                <ul>
+                    <li>Tourism development</li>
+                    <li>Agriculture and livestock</li>
+                    <li>Wholesale and retail trade</li>
+                    <li>Manufacturing for regional market</li>
+                    <li>Business process outsourcing</li>
+                    <li>Financial services</li>
+                </ul>
+            </div>
+            
+            <div class="pillar-card">
+                <h3><i class="fas fa-users"></i> Social Pillar</h3>
+                <p>Aims to build a just and cohesive society with social equity in a clean and secure environment through:</p>
+                <ul>
+                    <li>Education and training</li>
+                    <li>Health system strengthening</li>
+                    <li>Water and sanitation</li>
+                    <li>Environment and natural resources</li>
+                    <li>Housing and urbanization</li>
+                    <li>Gender, youth and vulnerable groups</li>
+                </ul>
+            </div>
+            
+            <div class="pillar-card">
+                <h3><i class="fas fa-balance-scale"></i> Political Pillar</h3>
+                <p>Seeks to realize a democratic political system founded on issue-based politics through:</p>
+                <ul>
+                    <li>Rule of law</li>
+                    <li>Electoral and political processes</li>
+                    <li>Democracy and public service delivery</li>
+                    <li>Transparency and accountability</li>
+                    <li>Security, peace building and conflict management</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="video-container">
+            <h2>Vision 2030 in Action</h2>
+            <div class="video-wrapper">
+                <iframe src="Photos/ke eye.mp4" title="Kenya Vision 2030 Documentary" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section class="milestones-section">
+            <h2>Key Milestones and Achievements</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>2008</h3>
+                        <p>Launch of Vision 2030 and First Medium Term Plan (MTP I 2008-2012)</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>2013</h3>
+                        <p>Implementation of Second Medium Term Plan (MTP II 2013-2017)</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>2018</h3>
+                        <p>Launch of Third Medium Term Plan (MTP III 2018-2022)</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>2023</h3>
+                        <p>Implementation of Fourth Medium Term Plan (MTP IV 2023-2027)</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>2028</h3>
+                        <p>Final Medium Term Plan (MTP V 2028-2030)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Vision 2030</h3>
+                <ul class="footer-links">
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="#">Pillars</a></li>
+                    <li><a href="Projects.html">Projects</a></li>
+                    <li><a href="Reports.html">Progress Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Documents</a></li>
+                    <li><a href="updates.html">Publications</a></li>
+                    <li><a href="#">Media Center</a></li>
+                    <li><a href="#">Statistics</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="user_dashboard.html">Government Portal</a></li>
+                    <li><a href="county.html">County </a></li>
+                    <li><a href="#">E-Citizen</a></li>
+                    <li><a href="Service_delivery.html">Tenders</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Vision 2030 Secretariat</a></li>
+                    <li><a href="#">Email Us</a></li>
+                    <li><a href="#">Social Media</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Government of Kenya - Vision 2030. All Rights Reserved. | <a href="#" style="color: rgba(255,255,255,0.8);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.8);">Terms of Use</a>
+        </div>
+    </footer>
+</body>
+</html>

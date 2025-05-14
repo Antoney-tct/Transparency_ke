@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Kenya - Government Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --national-red: #BB0A1E;
+            --national-green: #009A44;
+            --national-black: #000000;
+            --national-white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+        }
+
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('Photos/f2.jpg') no-repeat center center/cover;
+            color: var(--national-white);
+            text-align: center;
+            padding: 8rem 20px;
+            position: relative;
+        }
+
+        .about-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-section {
+            background-color: var(--national-white);
+            border-radius: 10px;
+            padding: 4rem;
+            margin: -5rem auto 3rem;
+            position: relative;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--national-green);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .mission-card, .vision-card {
+            background-color: var(--light-gray);
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--national-red);
+            transition: var(--transition);
+        }
+
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 1.8rem;
+            color: var(--national-red);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-card h3 i, .vision-card h3 i {
+            font-size: 2rem;
+        }
+
+        .values-section {
+            margin: 5rem 0;
+        }
+
+        .values-section h3 {
+            font-size: 2rem;
+            color: var(--national-red);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background-color: var(--national-white);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .value-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            object-fit: contain;
+        }
+
+        .value-card h4 {
+            font-size: 1.3rem;
+            color: var(--national-red);
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .leadership-section {
+            margin: 5rem 0;
+        }
+
+        .leadership-section h2 {
+            font-size: 2.5rem;
+            color: var(--national-red);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .leadership-section h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--national-green);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .leader-card {
+            background-color: var(--national-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .leader-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .leader-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .leader-card:hover .leader-image img {
+            transform: scale(1.05);
+        }
+
+        .leader-info {
+            padding: 2rem;
+        }
+
+        .leader-info h3 {
+            font-size: 1.5rem;
+            color: var(--national-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .leader-info p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .leader-position {
+            font-weight: 600;
+            color: var(--national-green);
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-hero {
+                padding: 6rem 20px;
+            }
+            
+            .about-section {
+                padding: 3rem;
+                margin: -3rem auto 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .about-section {
+                padding: 2rem;
+            }
+            
+            .about-section h2, .leadership-section h2 {
+                font-size: 2rem;
+            }
+            
+            .mission-card h3, .vision-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero {
+                padding: 4rem 20px;
+            }
+            
+            .about-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .leaders-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>About Kenya</h1>
+            <p>Discover our nation's vision, leadership, and the values that guide our government</p>
+        </div>
+    </section>
+
+    <div class="about-container">
+        <section class="about-section">
+            <h2>Our Government</h2>
+            <p>
+                The Government of Kenya is committed to fostering sustainable development, inclusive growth, and transparent governance. 
+                We work hand in hand with communities, partners, and stakeholders to deliver impactful projects that improve the quality 
+                of life for all citizens.
+            </p>
+
+            <div class="mission-vision">
+                <div class="mission-card">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>To serve with integrity, empower citizens, and drive progress through innovative solutions and accountable leadership that transforms Kenya into a prosperous nation for all.</p>
+                </div>
+                <div class="vision-card">
+                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                    <p>A democratic, united, and prosperous Kenya where all citizens enjoy high quality of life in a clean, secure, and sustainable environment.</p>
+                </div>
+            </div>
+
+            <div class="values-section">
+                <h3>Our Core Values</h3>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <img src="Photos/transpire-removebg-preview.png" alt="Transparency">
+                        <h4>Transparency</h4>
+                        <p>Open and accountable governance in all our operations and decision-making processes.</p>
+                    </div>
+                    <div class="value-card">
+                        <img src="Photos/innovate-removebg-preview.png" alt="Innovation">
+                        <h4>Innovation</h4>
+                        <p>Embracing creative solutions to address Kenya's development challenges.</p>
+                    </div>
+                    <div class="value-card">
+                        <img src="Photos/community-removebg-preview.png" alt="Community">
+                        <h4>Inclusivity</h4>
+                        <p>Ensuring all Kenyans participate in and benefit from national development.</p>
+                    </div>
+                    <div class="value-card">
+                        <img src="Photos/sustainability-removebg-preview.png" alt="Sustainability">
+                        <h4>Sustainability</h4>
+                        <p>Development that meets present needs without compromising future generations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="leadership-section">
+            <h2>Our Leadership</h2>
+            <div class="leaders-grid">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="photos/ruto-removebg-preview.png" alt="President William Ruto">
+                    </div>
+                    <div class="leader-info">
+                        <h3>H.E. William Ruto</h3>
+                        <p class="leader-position">President of Kenya</p>
+                        <p>Fifth President of the Republic of Kenya</p>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="photos/Kindiki.jpg" alt="Kithure Kindiki">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Prof. Kithure Kindiki</h3>
+                        <p class="leader-position">Deputy president of kenya</p>
+                        <p>The sixth deputy president and former cabinate secretary for Interior and National Administration</p>
+                    </div>
+                </div>
+              
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="photos/Picture-Njuguna.jpg" alt="Kithure Kindiki">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Prof. Njuguna Ndung'u</h3>
+                        <p class="leader-position">Cabinet Secretary</p>
+                        <p>National treasury</p>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <img src="photos/Mudavadi.jpeg" alt="Musalia Mudavadi">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Hon. Musalia Mudavadi</h3>
+                        <p class="leader-position">Prime Cabinet Secretary</p>
+                        <p>Office of the Prime Cabinet Secretary</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
