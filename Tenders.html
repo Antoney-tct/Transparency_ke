@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tender Opportunities | Government Transparency Portal</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #003366;
+            --accent-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #28a745;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .page-title {
+            margin: 30px 0;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        
+        .search-filter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .tender-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .tender-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tender-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tender-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+        }
+        
+        .tender-id {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .tender-title {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .tender-body {
+            padding: 15px;
+        }
+        
+        .tender-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .tender-department {
+            background-color: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        
+        .tender-value {
+            font-weight: bold;
+            color: var(--success-color);
+        }
+        
+        .tender-deadline {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .tender-description {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .tender-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .pagination button {
+            margin: 0 5px;
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid #ddd;
+        }
+        
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        /* Modal/Popup Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 70%;
+            max-width: 700px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalopen 0.3s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-section {
+            margin-bottom: 15px;
+        }
+        
+        .modal-section h4 {
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .tender-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Gov<span>Transparency</span></div>
+            <nav>
+                <ul>
+                    <li><a href="user_dashboard.html">Dashboard</a></li>
+                    <li><a href="Budget.html">Budget</a></li>
+                    <li><a href="Projects.html">Projects</a></li>
+                    <li><a href="About.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <h1 class="page-title">Tender Opportunities</h1>
+        
+        <div class="search-filter">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="search">Search</label>
+                    <input type="text" id="search" placeholder="Search tenders...">
+                </div>
+                <div class="filter-group">
+                    <label for="department">Department</label>
+                    <select id="department">
+                        <option value="">All Departments</option>
+                        <option value="transport">Transport</option>
+                        <option value="health">Health</option>
+                        <option value="education">Education</option>
+                        <option value="infrastructure">Infrastructure</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="status">Status</label>
+                    <select id="status">
+                        <option value="">All Statuses</option>
+                        <option value="open">Open</option>
+                        <option value="closed">Closed</option>
+                        <option value="awarded">Awarded</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="date">Posted After</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="filter-group" style="align-self: flex-end;">
+                    <button>Apply Filters</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tender-list">
+            <!-- Tender Card 1 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0451</div>
+                    <h3 class="tender-title">Construction of Regional Hospital</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Health</span>
+                        <span class="tender-value">Ksh12.5M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: June 15, 2023</div>
+                    <p class="tender-description">
+                        Construction of a 200-bed regional hospital including all medical facilities, 
+                        parking, and landscaping in the Northern District.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender1">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender Card 2 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0382</div>
+                    <h3 class="tender-title">School Textbook Procurement</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Education</span>
+                        <span class="tender-value">Ksh2.1M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: May 30, 2023</div>
+                    <p class="tender-description">
+                        Procurement and distribution of textbooks for primary and secondary schools 
+                        across the state for the 2023-2024 academic year.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender2">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender Card 3 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0427</div>
+                    <h3 class="tender-title">Highway Maintenance Services</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Transport</span>
+                        <span class="tender-value">Ksh8.75M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: July 5, 2023</div>
+                    <p class="tender-description">
+                        Three-year contract for routine maintenance of 150km of state highways 
+                        including pothole repairs, signage, and drainage maintenance.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender3">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender Card 4 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0396</div>
+                    <h3 class="tender-title">IT Infrastructure Upgrade</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Technology</span>
+                        <span class="tender-value">Ksh5.3M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: June 22, 2023</div>
+                    <p class="tender-description">
+                        Upgrade of government data centers including server hardware, network 
+                        infrastructure, and security systems for all state departments.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender4">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender Card 5 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0415</div>
+                    <h3 class="tender-title">Waste Management Services</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Environment</span>
+                        <span class="tender-value">Ksh3.8M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: June 8, 2023</div>
+                    <p class="tender-description">
+                        Five-year contract for municipal waste collection, recycling, and disposal 
+                        services for the capital city and surrounding areas.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender5">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender Card 6 -->
+            <div class="tender-card">
+                <div class="tender-header">
+                    <div class="tender-id">TENDER #GOV-2023-0438</div>
+                    <h3 class="tender-title">Public Park Renovation</h3>
+                </div>
+                <div class="tender-body">
+                    <div class="tender-meta">
+                        <span class="tender-department">Urban Development</span>
+                        <span class="tender-value">Ksh1.2M</span>
+                    </div>
+                    <div class="tender-deadline">Deadline: May 25, 2023</div>
+                    <p class="tender-description">
+                        Complete renovation of Central City Park including new playground equipment, 
+                        walking paths, landscaping, and public facilities.
+                    </p>
+                    <div class="tender-actions">
+                        <button class="btn-outline view-details" data-tender="tender6">View Details</button>
+                        <button>Apply Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <button onclick="navigatePage('prev')">&laquo;</button>
+            <button onclick="navigatePage(1)">1</button>
+            <button onclick="navigatePage(2)">2</button>
+            <button onclick="navigatePage(3)">3</button>
+            <button onclick="navigatePage('next')">&raquo;</button>
+        </div>
+    </main>
+    
+    <!-- Modal Popups for each tender -->
+    <!-- Tender 1 Modal -->
+    <div id="tender1-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('tender1-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">Construction of Regional Hospital</h2>
+                <p>TENDER #GOV-2023-0451 | Department: Health | Budget: $12.5M</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>Project Description</h4>
+                    <p>Construction of a 200-bed regional hospital in the Northern District, including:</p>
+                    <ul>
+                        <li>Main hospital building with emergency, surgical, and inpatient facilities</li>
+                        <li>Outpatient clinic and diagnostic center</li>
+                        <li>Staff housing and administrative offices</li>
+                        <li>Parking for 300 vehicles</li>
+                        <li>Landscaping and external works</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>Key Dates</h4>
+                    <p><strong>Published:</strong> April 15, 2023</p>
+                    <p><strong>Deadline for Questions:</strong> May 30, 2023</p>
+                    <p><strong>Submission Deadline:</strong> June 15, 2023</p>
+                    <p><strong>Evaluation Period:</strong> June 16 - July 15, 2023</p>
+                    <p><strong>Expected Award Date:</strong> July 30, 2023</p>
+                </div>
+                <div class="modal-section">
+                    <h4>Eligibility Requirements</h4>
+                    <ul>
+                        <li>Minimum 5 years experience in healthcare facility construction</li>
+                        <li>Valid construction license</li>
+                        <li>Proof of financial capability</li>
+                        <li>Compliance with all safety and environmental regulations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeModal('tender1-modal')">Close</button>
+                <button>Download Full Tender Documents</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tender 2 Modal -->
+    <div id="tender2-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('tender2-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">School Textbook Procurement</h2>
+                <p>TENDER #GOV-2023-0382 | Department: Education | Budget: $2.1M</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>Project Description</h4>
+                    <p>Procurement and distribution of textbooks for primary and secondary schools across the state for the 2023-2024 academic year:</p>
+                    <ul>
+                        <li>Mathematics (Grades 1-12)</li>
+                        <li>Science (Grades 1-12)</li>
+                        <li>Language Arts (Grades 1-12)</li>
+                        <li>Social Studies (Grades 4-12)</li>
+                        <li>Special Education materials</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>Key Dates</h4>
+                    <p><strong>Published:</strong> March 28, 2023</p>
+                    <p><strong>Deadline for Questions:</strong> May 15, 2023</p>
+                    <p><strong>Submission Deadline:</strong> May 30, 2023</p>
+                    <p><strong>Expected Delivery Date:</strong> August 1, 2023</p>
+                </div>
+                <div class="modal-section">
+                    <h4>Technical Specifications</h4>
+                    <ul>
+                        <li>Books must meet national curriculum standards</li>
+                        <li>Durable binding and high-quality paper</li>
+                        <li>Delivery to 250 schools statewide</li>
+                        <li>Digital versions required for all titles</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeModal('tender2-modal')">Close</button>
+                <button>Download Full Tender Documents</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tender 3 Modal -->
+    <div id="tender3-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('tender3-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">Highway Maintenance Services</h2>
+                <p>TENDER #GOV-2023-0427 | Department: Transport | Budget: $8.75M</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4>Service Requirements</h4>
+                    <p>Three-year contract for routine maintenance of 150km of state highways including:</p>
+                    <ul>
+                        <li>Pothole repairs and pavement maintenance</li>
+                        <li>Road signage and markings</li>
+                        <li>Drainage system maintenance</li>
+                        <li>Shoulder maintenance</li>
+                        <li>Winter snow and ice control</li>
+                        <li>Emergency response within 2 hours</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4>Key Dates</h4>
+                    <p><strong>Published:</strong> May 5, 2023</p>
+                    <p><strong>Site Visits:</strong> May 20-25, 2023</p>
+                    <p><strong>Submission Deadline:</strong> July 5, 2023</p>
+                    <p><strong>Contract Start Date:</strong> September 1, 2023</p>
+                </div>
+                <div class="modal-section">
+                    <h4>Evaluation Criteria</h4>
+                    <ul>
+                        <li>Price (40%)</li>
+                        <li>Experience with similar projects (30%)</li>
+                        <li>Equipment and personnel capacity (20%)</li>
+                        <li>Local employment commitment (10%)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeModal('tender3-modal')">Close</button>
+                <button>Download Full Tender Documents</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add similar modals for tender4, tender5, and tender6 -->
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Government Transparency Portal. All rights reserved.</p>
+            <p>Promoting accountability and open governance.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal functionality
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', function() {
+                const tenderId = this.getAttribute('data-tender');
+                document.getElementById(`${tenderId}-modal`).style.display = 'block';
+            });
+        });
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modal when clicking outside the content
+        window.addEventListener('click', function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        });
+        
+        // Pagination functionality
+        function navigatePage(page) {
+            if (page === 'prev') {
+                alert('Loading previous page of tenders...');
+            } else if (page === 'next') {
+                alert('Loading next page of tenders...');
+            } else {
+                alert(`Loading page ${page} of tenders...`);
+            }
+         
+        }
+    </script>
+</body>
+</html>
