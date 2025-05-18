@@ -3,7 +3,7 @@
 // Database connection parameters
 define('DB_SERVER', 'sql200.infinityfree.com');     
 define('DB_USERNAME', 'if0_39013957');         
-define('DB_PASSWORD', '');           
+define('DB_PASSWORD', 'tNnh8kl82UO1');           
 define('DB_NAME', 'if0_39013957_government_portal');  
 
 // Create connection
