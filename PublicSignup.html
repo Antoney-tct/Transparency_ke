@@ -241,6 +241,18 @@
         });
     });
 </script>
+<script>
+document.getElementById('publicSignupForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Stop form from submitting normally
 
+    // Optional: Add form validation here if needed
+
+    // Option 1: Just redirect
+    window.location.href = 'Log_in.html';
+
+    // Option 2: Redirect with a success message (see below)
+    // window.location.href = 'Log_in.html?signup=success';
+});
+</script>
 </body>
 </html>
