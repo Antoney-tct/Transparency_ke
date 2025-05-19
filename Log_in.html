@@ -120,47 +120,19 @@
         this.innerHTML = type === 'password' ? showIcon : hideIcon;
     });
 
-  // Form submission
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        
-        // Add userType to formData if it's not already included
-        if (!formData.has('userType') || formData.get('userType') === '') {
-            // Default to 'citizen' if not specified
-            formData.append('userType', 'citizen');
-        }
-        
-        fetch('login_user.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }crim
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                alert(data.message);
-                // Redirect to the appropriate dashboard
-                if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
-                } else {
-                    // Fallback redirect
-                    window.location.href = 'user_dashboard.html';
-                }
-            } else {
-                alert(data.message || 'Login failed. Please try again.');
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert("An error occurred during login. Please try again.");
-        });
-    });
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.querySelector('input[name="email"]').value.trim();
+    // You can adjust the logic for stricter matching if needed
+    if (email.toLowerCase().includes('gov')) {
+        // Redirect to government dashboard
+        window.location.href = 'Government_dashboard.html';
+    } else {
+        // Redirect to normal user dashboard
+        window.location.href = 'user_dashboard.html';
+    }
+});
 
 
         // Popup Controls
