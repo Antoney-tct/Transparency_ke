@@ -130,11 +130,7 @@
 
 <script>
 
-    //  error display 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('error')) {
-      alert("Error: " + urlParams.get('error').replace(/_/g, ' '));
-    }
+
 
     // Password toggle functionality
     const togglePassword = document.getElementById('togglePassword');
@@ -159,100 +155,40 @@
         this.innerHTML = type === 'password' ? showIcon : hideIcon;
     });
 
-    //  Form submission 
-    const signupForm = document.getElementById('signupForm');
-    const errorMessageDiv = document.getElementById('errorMessage'); // Get the error div
-
-    signupForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        errorMessageDiv.style.display = 'none'; // Hide previous errors
-        errorMessageDiv.textContent = '';
-
-        // Validate passwords match
-        if (password.value !== confirmPassword.value) {
-            errorMessageDiv.textContent = "Passwords don't match!";
-            errorMessageDiv.style.display = 'block';
-            return;
-        }
-
         // Collect form data
         const formData = new FormData(this);
         formData.append('userType', 'citizen');
 
-        // Optional: Add loading state to button
+        // loading state to button
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Registering...';
-
-
-        // Submit to server
-        fetch('register_user.php', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            // Check if the response is ok (status 200-299)
-            if (!response.ok) {
-                // If not ok, try to read the response as text anyway to see the error
-                return response.text().then(text => {
-                    throw new Error(`Network response was not ok (${response.status}): ${text}`);
-                });
-            }
-            // Check the Content-Type header
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                // If it's JSON, parse it
-                return response.json();
-            } else {
-                // If it's not JSON, read as text and treat it as an error message
-                return response.text().then(text => {
-                    // We'll wrap it in an object to match the structure expected later
-                    return { success: false, message: "Server response was not valid JSON: " + text };
-                });
-            }
-        })
-        .then(data => {
-    // Now 'data' is either the parsed JSON object or the wrapped text error
-    if (data.success)
-     {
-    // Redirect to login page with success parameter and email
-    window.location.href = 'Log_in.html?signup=success&email=' + encodeURIComponent(data.email || '');
-    }
-    else {
-        // Display the error message (either from JSON or the text response)
-        errorMessageDiv.textContent = data.message || 'Registration failed. Unknown error.';
-        errorMessageDiv.style.display = 'block';
-        // Scroll to top to make error visible if form is long
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-})
-        .catch((error) => {
-            // Handle network errors or errors thrown during response processing
-            console.error('Fetch Error:', error);
-            errorMessageDiv.textContent = "An error occurred during registration: " + error.message;
-            errorMessageDiv.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .finally(() => {
-             // Always re-enable button and restore text
-             submitBtn.disabled = false;
-             submitBtn.textContent = originalBtnText;
-        });
-    });
+      
 </script>
 <script>
-document.getElementById('publicSignupForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop form from submitting normally
+const signupForm = document.getElementById('signupForm');
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('confirmPassword');
+const errorMessageDiv = document.getElementById('errorMessage');
 
-    // Optional: Add form validation here if needed
+signupForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    errorMessageDiv.style.display = 'none';
+    errorMessageDiv.textContent = '';
 
-    // Option 1: Just redirect
-    window.location.href = 'Log_in.html';
+    // Check that passwords match
+    if (password.value !== confirmPassword.value) {
+        errorMessageDiv.textContent = "Passwords don't match!";
+        errorMessageDiv.style.display = 'block';
+        return;
+    }
 
-    // Option 2: Redirect with a success message (see below)
-    // window.location.href = 'Log_in.html?signup=success';
+
+    // On success, redirect to login with success message
+    window.location.href = 'Log_in.html?signup=success';
 });
 </script>
+
 </body>
 </html>
