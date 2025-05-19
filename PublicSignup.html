@@ -129,9 +129,6 @@
 </div>
 
 <script>
-
-
-
     // Password toggle functionality
     const togglePassword = document.getElementById('togglePassword');
     const password = document.getElementById('password');
@@ -146,7 +143,7 @@
     togglePassword.addEventListener('click', function () {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? showIcon : hideIcon;
+        this.innerHTML = type === 'password' ? showIcon: hideIcon;
     });
 
     toggleConfirmPassword.addEventListener('click', function () {
@@ -155,39 +152,49 @@
         this.innerHTML = type === 'password' ? showIcon : hideIcon;
     });
 
-        // Collect form data
-        const formData = new FormData(this);
-        formData.append('userType', 'citizen');
-
-        // loading state to button
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Registering...';
-      
-</script>
-<script>
-const signupForm = document.getElementById('signupForm');
-const password = document.getElementById('password');
-const confirmPassword = document.getElementById('confirmPassword');
-const errorMessageDiv = document.getElementById('errorMessage');
-
-signupForm.addEventListener('submit', function(e) {
+     signupForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     errorMessageDiv.style.display = 'none';
     errorMessageDiv.textContent = '';
 
-    // Check that passwords match
-    if (password.value !== confirmPassword.value) {
-        errorMessageDiv.textContent = "Passwords don't match!";
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Registering...';
+
+    try {
+        // Validate passwords
+        if (password.value !== confirmPassword.value) {
+            throw new Error("Passwords don't match!");
+        }
+
+        // Create form data
+        const formData = new FormData(this);
+        formData.append('userType', 'citizen');
+
+        // Send to server (replace with your actual endpoint)
+        const response = await fetch('your-signup-endpoint.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Registration failed');
+        }
+
+        // Only redirect on success
+        window.location.href = 'Log_in.html?signup=success';
+
+    } catch (error) {
+        errorMessageDiv.textContent = error.message;
         errorMessageDiv.style.display = 'block';
-        return;
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Register';
     }
-
-
-    // On success, redirect to login with success message
-    window.location.href = 'Log_in.html?signup=success';
 });
+
+
 </script>
 
 </body>
