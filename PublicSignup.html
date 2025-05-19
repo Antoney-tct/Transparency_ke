@@ -94,6 +94,12 @@
                 padding: 40px 30px;
             }
         }
+        .success-message {
+            color: #28a745;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -101,8 +107,10 @@
     <div class="container">
         <h1>Citizen Registration</h1>
         <p>Create your account to access government services</p>
-        <div id="errorMessage" style="color: red; margin-bottom: 15px; text-align: center; display: none;"></div>
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
 
+       
         <form id="signupForm">
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="email" name="email" placeholder="Email" required>
@@ -122,63 +130,104 @@
             </div>
             <button type="submit" class="btn">Register</button>
         </form>
+
         <div class="login-link">
             Already have an account? <a href="Log_in.html">Login</a>
         </div>
     </div>
 </div>
-
 <script>
     // Password toggle functionality
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const confirmPassword = document.getElementById('confirmPassword');
+    const togglePasswordVisibility = (inputId, toggleId) => {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(toggleId);
+        const showIcon = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
+        const hideIcon = `<path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
 
-    const showIcon = `
-        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
-    const hideIcon = `
-        <path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
+        toggle.addEventListener('click', () => {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            toggle.innerHTML = type === 'password' ? showIcon : hideIcon;
+        });
+    };
 
-    togglePassword.addEventListener('click', function () {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? showIcon: hideIcon;
-    });
+    togglePasswordVisibility('password', 'togglePassword');
+    togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword');
 
-    toggleConfirmPassword.addEventListener('click', function () {
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? showIcon : hideIcon;
-    });
+    // Form validation
+    const validateForm = (formData) => {
+        const errors = [];
+        const { name, email, nationalId, phone, password, confirmPassword } = formData;
 
-signupForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    errorMessageDiv.style.display = 'none';
-    errorMessageDiv.textContent = '';
+        // Name validation
+        if (!name.trim()) errors.push('Full name is required');
+        else if (name.length < 5) errors.push('Full name must be at least 5 characters');
 
-    const submitBtn = this.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Registering...';
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) errors.push('Invalid email address');
 
-    try {
-        if (password.value !== confirmPassword.value) {
-            throw new Error("Passwords don't match!");
+        // National ID validation
+        const nationalIdRegex = /^\d{8,15}$/;
+        if (!nationalIdRegex.test(nationalId)) errors.push('National ID must be 8-15 digits');
+
+        // Phone validation
+        const phoneRegex = /^\d{10,15}$/;
+        if (!phoneRegex.test(phone)) errors.push('Phone number must be 10-15 digits');
+
+        // Password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            errors.push('Password must contain: 8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special character');
         }
 
-        // Simulate success (since there's no backend)
-        window.location.href = 'Log_in.html?signup=success';
-    } catch (error) {
-        errorMessageDiv.textContent = error.message;
-        errorMessageDiv.style.display = 'block';
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Register';
-    }
-});
-       
+        // Confirm password
+        if (password !== confirmPassword) errors.push('Passwords do not match');
 
+        return errors;
+    };
 
+    // Form submission handler
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const errorDiv = document.getElementById('errorMessage');
+        const successDiv = document.getElementById('successMessage');
+
+        // Reset messages
+        errorDiv.textContent = '';
+        successDiv.textContent = '';
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+
+        // Get form data
+        const formData = Object.fromEntries(new FormData(form));
+
+        // Validate form
+        const errors = validateForm(formData);
+        if (errors.length > 0) {
+            errorDiv.innerHTML = errors.join('<br>');
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // Simulate registration process
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering...';
+
+        // Simulate server delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Show success message
+        successDiv.textContent = 'Registration successful! Redirecting to login...';
+        successDiv.style.display = 'block';
+
+        // Redirect after delay
+        setTimeout(() => {
+            window.location.href = 'Log_in.html';
+        }, 2000);
+    });
 </script>
 
 </body>

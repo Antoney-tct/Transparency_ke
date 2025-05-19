@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,10 +125,16 @@
 .form-group {
     margin-bottom: 15px;
 }
-  
+.success-message {
+            color: #28a745;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
+
 <div class="center-wrapper">
     <div class="container">
         <div class="signup-box">
@@ -135,7 +142,7 @@
             <p>Sign Up to manage government services and operations</p>
             <div class="signup-box"> 
                 <div id="error-message" class="error-message" style="text-align: center; margin-bottom: 15px;"></div> 
-
+                <div id="success-message" class="success-message"></div>
             <form id="signupForm">
                 <input type="text" name="name" placeholder="Full Name" required>
                 <input type="text" id="govId" name="employeeId" placeholder="Government ID Number" required>
@@ -223,89 +230,123 @@
 </div>
 
 <script>
-    // Simple error display
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('error')) {
-      alert("Error: " + urlParams.get('error').replace(/_/g, ' '));
-    }
-  
-    // Password toggle functionality
-    const togglePassword = document.getElementById('togglePassword');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
-    
-    const showIcon = `
-        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
-    const hideIcon = `
-        <path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
-    
-    togglePassword.addEventListener('click', function () {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? showIcon : hideIcon;
-    });
-    
-    toggleConfirmPassword.addEventListener('click', function () {
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? showIcon : hideIcon;
-    });
-    
-    
+    // Enhanced password toggle functionality
+    const createPasswordToggle = (inputId, toggleId) => {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(toggleId);
+        const showIcon = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
+        const hideIcon = `<path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
 
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Validate password match
-    if (password.value !== confirmPassword.value) {
-        alert('Passwords do not match!');
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = this.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
+        toggle.addEventListener('click', () => {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            toggle.innerHTML = type === 'password' ? showIcon : hideIcon;
+        });
+    };
 
-    // Collect form data
-    const formData = new FormData(this);
-    formData.append('userType', 'government');
+    // Initialize password toggles
+    createPasswordToggle('password', 'togglePassword');
+    createPasswordToggle('confirmPassword', 'toggleConfirmPassword');
 
-    // Send data to server
-    fetch('register_user.php', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+    // Form validation logic
+    const validateGovernmentForm = (formData) => {
+        const errors = [];
+        const {
+            name,
+            employeeId,
+            email,
+            department,
+            position,
+            region,
+            password,
+            confirmPassword
+        } = formData;
+
+        // Name validation
+        if (!name.trim()) errors.push('Full name is required');
+        else if (name.length < 5) errors.push('Full name must be at least 5 characters');
+
+        // Government ID validation
+        const govIdRegex = /^[A-Z0-9]{8,15}$/i;
+        if (!govIdRegex.test(employeeId)) errors.push('Government ID must be 8-15 alphanumeric characters');
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) errors.push('Invalid staff email address');
+        else if (!email.endsWith('.gov.ke')) errors.push('Staff email must be a .gov.ke domain');
+
+        // Department validation
+        if (!department || department === "") errors.push('Department selection is required');
+
+        // Position validation
+        if (!position.trim()) errors.push('Position/Rank is required');
+
+        // Region validation
+        if (!region || region === "") errors.push('Region selection is required');
+
+        // Password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+        if (!passwordRegex.test(password)) {
+            errors.push('Password must contain: 10+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special character');
         }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-    // Redirect to login page with success parameter and email
-    window.location.href = 'Log_in.html?signup=success&email=' + encodeURIComponent(data.email || '');
-    } else {
-        // Show error message
-        const errorElement = document.getElementById('error-message');
-        errorElement.textContent = data.message || 'Registration failed';
-        errorElement.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-})
 
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
-    })
-    .finally(() => {
-        // Reset button state
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign Up';
+        // Confirm password
+        if (password !== confirmPassword) errors.push('Passwords do not match');
+
+        return errors;
+    };
+
+    // Form submission handler
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
+
+        // Reset messages
+        errorDiv.textContent = '';
+        successDiv.textContent = '';
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+
+        // Get form data
+        const formData = Object.fromEntries(new FormData(form));
+
+        // Validate form
+        const errors = validateGovernmentForm(formData);
+        if (errors.length > 0) {
+            errorDiv.innerHTML = errors.join('<br>');
+            errorDiv.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        // Simulate registration process
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
+
+        // Simulate server delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Show success message
+        successDiv.textContent = 'Registration successful! Redirecting to login...';
+        successDiv.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Clear form
+        form.reset();
+
+        // Redirect after delay
+        setTimeout(() => {
+            window.location.href = 'Log_in.html?signup=success&type=government';
+        }, 2000);
     });
-});
+
+    // Remove any existing URL parameters
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.pathname);
+    }
 </script>
 </body>
 </html>
