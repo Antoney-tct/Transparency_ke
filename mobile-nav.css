@@ -1,0 +1,141 @@
+/* Mobile-first styles are minimized; this file adds a responsive hamburger
+   and mobile menu behavior while leaving desktop styles untouched.
+   Add <link rel="stylesheet" href="mobile-nav.css"> into your pages' <head>.
+*/
+
+/* Basic reset for the elements we touch */
+header .menu-toggle,
+header nav.mobile-nav {
+  box-sizing: border-box;
+}
+
+/* Hamburger button - hidden on desktop */
+.menu-toggle {
+  display: none; /* shown only under media query */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin: 0;
+  color: inherit;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Simple hamburger icon (3 bars) */
+.menu-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: currentColor;
+  margin: 3px 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Transform icon when open */
+.menu-toggle[aria-expanded="true"] .bar:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+.menu-toggle[aria-expanded="true"] .bar:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle[aria-expanded="true"] .bar:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+/* Mobile-specific menu behavior */
+@media (max-width: 900px) {
+
+  /* Show hamburger in headers that contain a nav */
+  header .menu-toggle {
+    display: inline-flex;
+  }
+
+  /* Make header container layout friendly to hamburger + brand */
+  header .header-container,
+  header .nav-container {
+    align-items: center;
+    gap: 0.5rem;
+    /* allow wrapping / reflow; existing desktop flex rules remain intact on wide screens */
+  }
+
+  /*
+    Make nav into a hidden, collapsible panel.
+    We add/consume class 'mobile-nav' for small-screen behavior.
+  */
+  header nav {
+    /* default: keep existing behavior for desktop; only style if inside mobile viewport */
+  }
+
+  header nav.mobile-nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: rgba(0, 0, 0, 0.95); /* dark overlay look — adjust to match site */
+    z-index: 9999;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.28s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* When open, expand to fit links (max-height large enough) */
+  header nav.mobile-nav.open {
+    max-height: 60vh; /* adjust if you want full-screen menu */
+  }
+
+  /* style the list vertically */
+  header nav.mobile-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0.5rem 0;
+    list-style: none;
+  }
+
+  header nav.mobile-nav ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin: 0;
+  }
+
+  header nav.mobile-nav ul li a {
+    display: block;
+    padding: 12px 16px;
+    color: #ffffff; /* ensure contrast on dark bg */
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  header nav.mobile-nav ul li a:hover,
+  header nav.mobile-nav ul li a:focus {
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* If your header has additional right-side controls (social icons, login),
+     make sure they don't overlap the menu. We keep them visible but stacked. */
+  header .social-icons,
+  header .search-container,
+  header .header-right,
+  header .login-button {
+    z-index: 10000; /* stay above menu button but below menu overlay if needed */
+  }
+
+  /* If the header uses a high contrast background on desktop, you may want
+     to override .menu-toggle color to white for visibility: */
+  header .menu-toggle {
+    color: #ffffff;
+    background: rgba(0,0,0,0.2);
+  }
+}
+
+/* Accessibility: hide the mobile panel from screen readers when closed */
+header nav.mobile-nav[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
