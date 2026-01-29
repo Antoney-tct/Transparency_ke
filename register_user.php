@@ -1,158 +1,214 @@
 <?php
-// Set response header to JSON
+// register_user.php
 header('Content-Type: application/json');
 
-// Initialize response array
+// Basic response structure
 $response = ['success' => false, 'message' => ''];
 
-// Include database connection
+// Include centralized DB connection (db_connect.php should set $conn or $db_connection_error)
 require_once 'db_connect.php';
 
-// Check if the request method is POST
+// Verify DB connection
+if (isset($db_connection_error) && !empty($db_connection_error)) {
+    $response['message'] = 'Database connection failed.';
+    echo json_encode($response);
+    exit;
+}
+if (!isset($conn) || !$conn) {
+    $response['message'] = 'Database connection failed.';
+    echo json_encode($response);
+    exit;
+}
+
+// Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $response['message'] = 'Invalid request method';
     echo json_encode($response);
     exit;
 }
 
-// Validate and sanitize common input data
-$name = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
-$email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
+// Helper to safely fetch POST values
+function post_str($key) {
+    return trim((string)filter_input(INPUT_POST, $key, FILTER_SANITIZE_STRING) ?? '');
+}
+
+// Common inputs
+$name = post_str('name');
+$email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '');
 $password = $_POST['password'] ?? '';
 $confirmPassword = $_POST['confirmPassword'] ?? '';
-$userType = trim(filter_input(INPUT_POST, 'userType', FILTER_SANITIZE_STRING));
+$userType = post_str('userType');
 
-// Validate required common fields
-if (empty($name) || empty($email) || empty($password) || empty($userType)) {
-    $response['message'] = 'All fields are required';
+// Basic required fields
+if ($name === '' || $email === '' || $password === '' || $userType === '') {
+    $response['message'] = 'All required fields must be provided.';
     echo json_encode($response);
     exit;
 }
 
 // Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $response['message'] = 'Invalid email format';
+    $response['message'] = 'Invalid email format.';
     echo json_encode($response);
     exit;
 }
 
-// Validate password match if confirmPassword is provided
-if (isset($confirmPassword) && $password !== $confirmPassword) {
-    $response['message'] = 'Passwords do not match';
+// Confirm passwords match
+if ($confirmPassword !== '' && $password !== $confirmPassword) {
+    $response['message'] = 'Passwords do not match.';
     echo json_encode($response);
     exit;
 }
 
-// Validate password strength (at least 8 characters)
-if (strlen($password) < 8) {
-    $response['message'] = 'Password must be at least 8 characters long';
+// Strong password policy (server-side)
+$passwordRegex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{10,}$/';
+if (!preg_match($passwordRegex, $password)) {
+    $response['message'] = 'Password must be at least 10 characters and include uppercase, lowercase, number and special character.';
     echo json_encode($response);
     exit;
 }
 
 try {
-    // Determine which table to use based on user type
+    // Normalize user type
+    $userType = strtolower($userType);
+
+    // Gather type-specific fields and validate
     if ($userType === 'citizen') {
-        $table = 'citizens';
-        
-        // Get citizen-specific fields
-        $nationalId = trim(filter_input(INPUT_POST, 'nationalId', FILTER_SANITIZE_STRING));
-        $phone = trim(filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING));
-        
-        // Validate citizen-specific required fields
-        if (empty($nationalId) || empty($phone)) {
-            $response['message'] = 'National ID and Phone are required';
+        $nationalId = post_str('nationalId');
+        $phone = post_str('phone');
+
+        if ($nationalId === '' || $phone === '') {
+            $response['message'] = 'National ID and Phone are required for citizens.';
             echo json_encode($response);
             exit;
         }
-    } 
-    else if ($userType === 'government') {
-        $table = 'government_representatives';
-        
-        // Get government-specific fields
-        $department = trim(filter_input(INPUT_POST, 'department', FILTER_SANITIZE_STRING));
-        $employeeId = trim(filter_input(INPUT_POST, 'employeeId', FILTER_SANITIZE_STRING));
-        $position = trim(filter_input(INPUT_POST, 'position', FILTER_SANITIZE_STRING));
-        
-        // Validate government-specific required fields
-        if (empty($department) || empty($employeeId) || empty($position)) {
-            $response['message'] = 'Department, Employee ID, and Position are required';
+
+        // Optional: validate national ID length/format here
+    } elseif ($userType === 'government' || $userType === 'gov' || $userType === 'government_representative') {
+        // government-specific
+        $department = post_str('department');
+        $employeeId = post_str('employeeId');
+        $position = post_str('position');
+        $region = post_str('region');
+
+        if ($department === '' || $employeeId === '' || $position === '' || $region === '') {
+            $response['message'] = 'Department, Employee ID, Position and Region are required for government representatives.';
             echo json_encode($response);
             exit;
         }
-    } 
-    else {
-        $response['message'] = 'Invalid user type';
+
+        // Employee ID format (8-15 alphanumeric)
+        if (!preg_match('/^[A-Z0-9]{8,15}$/i', $employeeId)) {
+            $response['message'] = 'Government ID must be 8-15 alphanumeric characters.';
+            echo json_encode($response);
+            exit;
+        }
+
+        // Enforce .gov.ke email domain (server-side)
+        if (!preg_match('/\.gov\.ke$/i', $email)) {
+            $response['message'] = 'Government staff email must end with .gov.ke';
+            echo json_encode($response);
+            exit;
+        }
+    } else {
+        $response['message'] = 'Invalid user type.';
         echo json_encode($response);
         exit;
     }
-    
-    // Check if email already exists in the appropriate table
-    $checkSql = "SELECT id FROM $table WHERE email = ?";
-    $checkStmt = $conn->prepare($checkSql);
-    
-    if (!$checkStmt) {
-        throw new Exception('Prepare statement failed: ' . $conn->error);
+
+    // -- Prevent duplicate email across both user tables --
+    $exists = false;
+
+    $checkCitizens = $conn->prepare("SELECT id FROM citizens WHERE email = ?");
+    if ($checkCitizens) {
+        $checkCitizens->bind_param("s", $email);
+        $checkCitizens->execute();
+        $checkCitizens->store_result();
+        if ($checkCitizens->num_rows > 0) $exists = true;
+        $checkCitizens->close();
+    } else {
+        error_log('register_user: prepare citizens check failed: ' . $conn->error);
     }
-    
-    $checkStmt->bind_param("s", $email);
-    $checkStmt->execute();
-    $checkResult = $checkStmt->get_result();
-    
-    if ($checkResult->num_rows > 0) {
-        $response['message'] = 'Email already exists';
+
+    $checkGov = $conn->prepare("SELECT id FROM government_representatives WHERE email = ?");
+    if ($checkGov) {
+        $checkGov->bind_param("s", $email);
+        $checkGov->execute();
+        $checkGov->store_result();
+        if ($checkGov->num_rows > 0) $exists = true;
+        $checkGov->close();
+    } else {
+        error_log('register_user: prepare gov check failed: ' . $conn->error);
+    }
+
+    if ($exists) {
+        $response['message'] = 'Email already exists.';
         echo json_encode($response);
-        $checkStmt->close();
         exit;
     }
-    
-    $checkStmt->close();
-    
+
+    // If government user, also ensure employeeId is unique
+    if ($userType === 'government') {
+        $chkEmp = $conn->prepare("SELECT id FROM government_representatives WHERE employee_id = ?");
+        if ($chkEmp) {
+            $chkEmp->bind_param("s", $employeeId);
+            $chkEmp->execute();
+            $chkEmp->store_result();
+            if ($chkEmp->num_rows > 0) {
+                $chkEmp->close();
+                $response['message'] = 'Employee ID already exists.';
+                echo json_encode($response);
+                exit;
+            }
+            $chkEmp->close();
+        } else {
+            error_log('register_user: prepare employeeId check failed: ' . $conn->error);
+        }
+    }
+
     // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
-    // Prepare SQL statement for insertion based on user type
+
+    // Insert user into appropriate table
     if ($userType === 'citizen') {
         $sql = "INSERT INTO citizens (name, email, password, national_id, phone) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        
         if (!$stmt) {
             throw new Exception('Prepare statement failed: ' . $conn->error);
         }
-        
         $stmt->bind_param("sssss", $name, $email, $hashedPassword, $nationalId, $phone);
-    } 
-    else if ($userType === 'government') {
-        $sql = "INSERT INTO government_representatives (name, email, password, department, employee_id, position) VALUES (?, ?, ?, ?, ?, ?)";
+    } else { // government
+        // Ensure the government_representatives table has a 'region' column
+        $sql = "INSERT INTO government_representatives (name, email, password, department, employee_id, position, region) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        
         if (!$stmt) {
             throw new Exception('Prepare statement failed: ' . $conn->error);
         }
-        
-        $stmt->bind_param("ssssss", $name, $email, $hashedPassword, $department, $employeeId, $position);
+        $stmt->bind_param("sssssss", $name, $email, $hashedPassword, $department, $employeeId, $position, $region);
     }
-    
-    // Execute the statement
+
     if (!$stmt->execute()) {
-        throw new Exception('Execute failed: ' . $stmt->error);
+        // If a duplicate key error occurs (just in case), give a friendly message
+        $err = $stmt->error;
+        error_log('register_user: execute error: ' . $err);
+        throw new Exception('Database execution error.');
     }
-    
-    // Set success response
+
+    $stmt->close();
+
+    // Success
     $response['success'] = true;
     $response['message'] = 'Registration successful!';
-    $response['email'] = $email; // Return email for auto-fill on login page
-    
-    $stmt->close();
-    
+    $response['email'] = $email;
+
 } catch (Exception $e) {
-    $response['message'] = 'Registration failed: ' . $e->getMessage();
+    // Log details for server-side debugging; don't expose internals to clients
+    error_log('register_user exception: ' . $e->getMessage());
+    $response['message'] = 'Registration failed due to a server error. Please try again later.';
 } finally {
-    // Close connection
-    if (isset($conn)) {
+    if (isset($conn) && $conn) {
         $conn->close();
     }
-    
-    // Return JSON response
     echo json_encode($response);
 }
+?>
