@@ -122,19 +122,50 @@
         this.innerHTML = type === 'password' ? showIcon : hideIcon;
     });
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        const successContainer = document.getElementById('success-message-container');
 
-    const email = document.querySelector('input[name="email"]').value.trim();
-    // You can adjust the logic for stricter matching if needed
-    if (email.toLowerCase().includes('gov')) {
-        // Redirect to government dashboard
-        window.location.href = 'gov_rep_dashboard.html';
-    } else {
-        // Redirect to normal user dashboard
-        window.location.href = 'user_dashboard.html';
-    }
-});
+        // Clear previous messages
+        successContainer.innerHTML = '';
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Signing In...';
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('login_user.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                successContainer.innerHTML = `<div class="success-message" style="display: block;">${result.message}</div>`;
+                // Redirect to the URL provided by the backend
+                window.location.href = result.redirectUrl;
+            } else {
+                successContainer.innerHTML = `<div class="error-message" style="display: block; color: #dc3545; text-align: center; margin-bottom: 15px;">${result.message}</div>`;
+            }
+
+        } catch (error) {
+            console.error('Login error:', error);
+            successContainer.innerHTML = `<div class="error-message" style="display: block; color: #dc3545; text-align: center; margin-bottom: 15px;">An error occurred. Please try again.</div>`;
+        } finally {
+            // Restore button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    });
 
 
         // Popup Controls

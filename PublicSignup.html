@@ -112,6 +112,7 @@
 
        
         <form id="signupForm">
+            <input type="hidden" name="userType" value="citizen">
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="text" name="nationalId" placeholder="National ID" required>
@@ -215,18 +216,42 @@
         // Simulate registration process
         submitBtn.disabled = true;
         submitBtn.textContent = 'Registering...';
+        
+        try {
+            const response = await fetch('register_user.php', {
+                method: 'POST',
+                body: new FormData(form)
+            });
 
-        // Simulate server delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
 
-        // Show success message
-        successDiv.textContent = 'Registration successful! Redirecting to login...';
-        successDiv.style.display = 'block';
+            const result = await response.json();
 
-        // Redirect after delay
-        setTimeout(() => {
-            window.location.href = 'Log_in.html';
-        }, 2000);
+            if (result.success) {
+                successDiv.textContent = result.message + ' Redirecting to login...';
+                successDiv.style.display = 'block';
+                form.reset();
+                
+                // Redirect to login page with email pre-filled
+                setTimeout(() => {
+                    window.location.href = `Log_in.html?signup=success&email=${encodeURIComponent(formData.email)}`;
+                }, 2000);
+
+            } else {
+                errorDiv.textContent = result.message || 'An unknown error occurred.';
+                errorDiv.style.display = 'block';
+            }
+
+        } catch (error) {
+            console.error('Signup Error:', error);
+            errorDiv.textContent = 'A network or server error occurred. Please try again later.';
+            errorDiv.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Register';
+        }
     });
 </script>
 

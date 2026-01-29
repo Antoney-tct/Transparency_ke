@@ -144,6 +144,7 @@
                 <div id="error-message" class="error-message" style="text-align: center; margin-bottom: 15px;"></div> 
                 <div id="success-message" class="success-message"></div>
             <form id="signupForm">
+                <input type="hidden" name="userType" value="government">
                 <input type="text" name="name" placeholder="Full Name" required>
                 <input type="text" id="govId" name="employeeId" placeholder="Government ID Number" required>
                 <input type="email" id="staffEmail" name="email" placeholder="Staff Email" required>
@@ -336,7 +337,7 @@
                 form.reset();
                 // Redirect after short delay
                 setTimeout(() => {
-                    window.location.href = 'Log_in.html?signup=success&type=government';
+                    window.location.href = `Log_in.html?signup=success&email=${encodeURIComponent(plain.email)}`;
                 }, 1500);
             } else {
                 // Show server-side error message (e.g., Email already exists)
