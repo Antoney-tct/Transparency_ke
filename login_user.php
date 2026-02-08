@@ -69,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $user_id = $id;
                             $user_name = $name;
                             $user_type = 'government';
-                            $redirect_url = 'gov-rep-dashboard.html'; 
                         $redirect_url = 'Addmin-projects.html'; 
                         }
                     }
