@@ -1,291 +1,476 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Representative Sign Up</title>
+    <title>Government Representative Sign Up — Kenya Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --green: #0b6e31;
+            --green-mid: #0f9544;
+            --green-glow: rgba(11,110,49,0.2);
+            --green-light: #d4f0de;
+            --ink: #0a0a0a;
+            --white: #ffffff;
+            --off-white: #f4f7f4;
+            --muted: #6b7280;
+            --border: rgba(0,0,0,0.09);
+            --input-bg: #f4f7f4;
+            --error: #dc3545;
+            --success: #16a34a;
         }
-        body, html {
-            height: 100%;
-            width: 100%;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #74ebd5, #4f551a,rgb(46, 42, 42));
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--ink);
+            min-height: 100vh;
         }
-        .center-wrapper {
+
+        /* ── TOP BAND ── */
+        .top-band {
+            background: var(--ink);
+            padding: 1.25rem 2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            gap: 12px;
         }
-        .container {
-            background: white;
-            width: 850px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        .top-band img {
+            height: 36px;
+            filter: brightness(0) invert(1);
+            opacity: 0.85;
+        }
+        .top-band-text span:first-child {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+            line-height: 1.2;
+        }
+        .top-band-text span:last-child {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.58rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* ── PAGE LAYOUT ── */
+        .page-wrap {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+        }
+
+        /* ── CARD ── */
+        .form-card {
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 8px 50px rgba(0,0,0,0.07);
             overflow: hidden;
-            padding: 60px;
         }
-        .signup-box h1 {
-            margin-bottom: 20px;
-            font-size: 30px;
-            color: #333;
-            text-align: center;
-        }
-        .signup-box p {
-            color: #666;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        form input, form select {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background: #f8f8f8;
-            font-size: 14px;
-        }
-        .password-field {
+
+        .card-header {
+            background: var(--ink);
+            padding: 2.5rem 2.5rem 2rem;
             position: relative;
+            overflow: hidden;
         }
-        .password-field svg {
+        .card-header::before {
+            content: '';
             position: absolute;
-            right: 15px;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(11,110,49,0.4) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .card-header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #7effa8;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+        .card-header-tag::before {
+            content: ''; display: block;
+            width: 14px; height: 2px;
+            background: #7effa8;
+        }
+        .card-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.35rem;
+            position: relative;
+            z-index: 1;
+        }
+        .card-header p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── FORM BODY ── */
+        .card-body { padding: 2.5rem; }
+
+        /* Message boxes */
+        .msg-box {
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1.75rem;
+            display: none;
+            line-height: 1.5;
+        }
+        .msg-box.success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+        .msg-box.error { background: #fff5f5; color: var(--error); border: 1px solid #fecaca; }
+
+        /* Fields */
+        .fields-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 1.25rem;
+        }
+        .field { margin-bottom: 1.1rem; }
+        .field.full { grid-column: 1 / -1; }
+
+        .field label {
+            display: block;
+            font-size: 0.77rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.02em;
+        }
+        .field label .req {
+            color: var(--green-mid);
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 0.78rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--input-bg);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            color: var(--ink);
+            outline: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        input:focus, select:focus {
+            border-color: var(--green-mid);
+            background: white;
+            box-shadow: 0 0 0 3px var(--green-glow);
+        }
+        input::placeholder { color: #bbc; }
+        select { cursor: pointer; }
+        select option[value=""] { color: #bbc; }
+
+        .pw-wrap { position: relative; }
+        .pw-wrap input { padding-right: 2.75rem; }
+        .pw-toggle {
+            position: absolute;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            width: 24px;
-            height: 24px;
-            fill: #888;
-        }
-        .btn {
-            width: 100%;
-            padding: 15px;
+            width: 20px; height: 20px;
+            fill: var(--muted);
             border: none;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #17c3b2, #42a5f5);
+            background: none;
+            padding: 0;
+            display: grid;
+            place-items: center;
+            transition: fill 0.2s;
+        }
+        .pw-toggle:hover { fill: var(--green); }
+        .pw-toggle svg { width: 20px; height: 20px; }
+
+        /* Section dividers */
+        .section-label {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.75rem 0 0.25rem;
+        }
+        .section-label span {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Submit */
+        .btn-submit {
+            width: 100%;
+            padding: 0.95rem;
+            background: var(--ink);
             color: white;
-            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 11px;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
+            transition: all 0.25s;
+            margin-top: 1.5rem;
+            letter-spacing: 0.02em;
         }
-        .btn:hover {
-            opacity: 0.9;
+        .btn-submit:hover {
+            background: var(--green);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px var(--green-glow);
         }
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-        .login-link a {
-            color: #42a5f5;
-            text-decoration: none;
-        }
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        @media(max-width: 768px) {
-            .container {
-                width: 90%;
-                padding: 40px 30px; 
-            }
-        }
+        .btn-submit:disabled { opacity: 0.55; transform: none; cursor: not-allowed; }
+
         .spinner {
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid rgba(255,255,255,.3);
-    border-radius: 50%;
-    border-top-color: #fff;
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 8px;
-    vertical-align: middle;
-}
+            display: inline-block;
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.error-message {
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    display: none;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-.success-message {
-            color: #28a745;
-            margin-bottom: 15px;
+        .card-footer {
+            padding: 1.5rem 2.5rem;
+            border-top: 1px solid var(--border);
             text-align: center;
-            display: none;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        .card-footer a { color: var(--green); font-weight: 600; text-decoration: none; }
+        .card-footer a:hover { text-decoration: underline; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .fields-grid { grid-template-columns: 1fr; }
+            .field.full { grid-column: 1; }
+            .card-header, .card-body { padding: 1.75rem 1.5rem; }
+            .card-footer { padding: 1.25rem 1.5rem; }
+            .page-wrap { padding: 1.5rem 1rem 4rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="center-wrapper">
-    <div class="container">
-        <div class="signup-box">
-            <h1>Government Representative Sign up</h1>
-            <p>Sign Up to manage government services and operations</p>
-            <div class="signup-box"> 
-                <div id="error-message" class="error-message" style="text-align: center; margin-bottom: 15px;"></div> 
-                <div id="success-message" class="success-message"></div>
+<div class="top-band">
+    <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+    <div class="top-band-text">
+        <span>Government of Kenya</span>
+        <span>Official Digital Portal</span>
+    </div>
+</div>
+
+<div class="page-wrap">
+    <div class="form-card">
+
+        <div class="card-header">
+            <div class="card-header-tag">Government Access</div>
+            <h1>Representative Registration</h1>
+            <p>Create your official government account to manage services and operations</p>
+        </div>
+
+        <div class="card-body">
+            <div id="error-message" class="msg-box error"></div>
+            <div id="success-message" class="msg-box success"></div>
+
             <form id="signupForm">
                 <input type="hidden" name="userType" value="government">
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="text" id="govId" name="employeeId" placeholder="Government ID Number" required>
-                <input type="email" id="staffEmail" name="email" placeholder="Staff Email" required>
-                <select name="department" required>
-                    <option value="" disabled selected>Select Department/Ministry</option>
-                    <option value="health">Health Ministry</option>
-                    <option value="education">Education Ministry</option>
-                    <option value="transport">Transport Ministry</option>
-                    <option value="finance">Finance Ministry</option>
-                    <option value="other">Other Department</option>
-                </select>
-                <input type="text" name="position" placeholder="Position/Rank" required>
-                <select id="region" name="region" required>
-                    <option value="">Select Region / County</option>
-                    <option value="Nairobi">Nairobi</option>
-                    <option value="Mombasa">Mombasa</option>
-                    <option value="Kisumu">Kisumu</option>
-                    <option value="Nakuru">Nakuru</option>
-                    <option value="Baringo">Baringo</option>
-                    <option value="Bomet">Bomet</option>
-                    <option value="Bungoma">Bungoma</option>
-                    <option value="Busia">Busia</option>
-                    <option value="Elgeyo-Marakwet">Elgeyo-Marakwet</option>
-                    <option value="Embu">Embu</option>
-                    <option value="Garissa">Garissa</option>
-                    <option value="Homa Bay">Homa Bay</option>
-                    <option value="Isiolo">Isiolo</option>
-                    <option value="Kajiado">Kajiado</option>
-                    <option value="Kakamega">Kakamega</option>
-                    <option value="Kericho">Kericho</option>
-                    <option value="Kiambu">Kiambu</option>
-                    <option value="Kilifi">Kilifi</option>
-                    <option value="Kirinyaga">Kirinyaga</option>
-                    <option value="Kisii">Kisii</option>
-                    <option value="Kitui">Kitui</option>
-                    <option value="Kwale">Kwale</option>
-                    <option value="Laikipia">Laikipia</option>
-                    <option value="Lamu">Lamu</option>
-                    <option value="Machakos">Machakos</option>
-                    <option value="Makueni">Makueni</option>
-                    <option value="Mandera">Mandera</option>
-                    <option value="Marsabit">Marsabit</option>
-                    <option value="Meru">Meru</option>
-                    <option value="Migori">Migori</option>
-                    <option value="Makueni">Makueni</option>
-                    <option value="Murang'a">Murang'a</option>
-                    <option value="Nandi">Nandi</option>
-                    <option value="Narok">Narok</option>
-                    <option value="Nyamira">Nyamira</option>
-                    <option value="Nyandarua">Nyandarua</option>
-                    <option value="Nyeri">Nyeri</option>
-                    <option value="Samburu">Samburu</option>
-                    <option value="Siaya">Siaya</option>
-                    <option value="Taita Taveta">Taita Taveta</option>
-                    <option value="Tana River">Tana River</option>
-                    <option value="Tharaka-Nithi">Tharaka-Nithi</option>
-                    <option value="Trans Nzoia">Trans Nzoia</option>
-                    <option value="Turkana">Turkana</option>
-                    <option value="Uasin Gishu">Uasin Gishu</option>
-                    <option value="Vihiga">Vihiga</option>
-                    <option value="Wajir">Wajir</option>
-                    <option value="West Pokot">West Pokot</option>
-                    <option value="Trans Nzoia">Trans Nzoia</option>
-                </select>
-                <div class="password-field">
-                    <input type="password" name="password" placeholder="Password" id="password" required>
-                    <svg id="togglePassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
-                    </svg>
+                <div class="fields-grid">
+
+                    <div class="section-label"><span>Personal Information</span></div>
+
+                    <div class="field full">
+                        <label for="fullName">Full Name <span class="req">*</span></label>
+                        <input type="text" id="fullName" name="name" placeholder="e.g. Jane Akinyi Ochieng" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="govId">Government ID Number <span class="req">*</span></label>
+                        <input type="text" id="govId" name="employeeId" placeholder="8–15 alphanumeric chars" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="staffEmail">Staff Email <span class="req">*</span></label>
+                        <input type="email" id="staffEmail" name="email" placeholder="name@ministry.gov.ke" required>
+                    </div>
+
+                    <div class="section-label"><span>Department & Role</span></div>
+
+                    <div class="field">
+                        <label for="department">Department / Ministry <span class="req">*</span></label>
+                        <select id="department" name="department" required>
+                            <option value="" disabled selected>Select department</option>
+                            <option value="health">Health Ministry</option>
+                            <option value="education">Education Ministry</option>
+                            <option value="transport">Transport Ministry</option>
+                            <option value="finance">Finance Ministry</option>
+                            <option value="other">Other Department</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="position">Position / Rank <span class="req">*</span></label>
+                        <input type="text" id="position" name="position" placeholder="e.g. Director, Officer" required>
+                    </div>
+
+                    <div class="field full">
+                        <label for="region">Region / County <span class="req">*</span></label>
+                        <select id="region" name="region" required>
+                            <option value="">Select Region / County</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Nakuru">Nakuru</option>
+                            <option value="Baringo">Baringo</option>
+                            <option value="Bomet">Bomet</option>
+                            <option value="Bungoma">Bungoma</option>
+                            <option value="Busia">Busia</option>
+                            <option value="Elgeyo-Marakwet">Elgeyo-Marakwet</option>
+                            <option value="Embu">Embu</option>
+                            <option value="Garissa">Garissa</option>
+                            <option value="Homa Bay">Homa Bay</option>
+                            <option value="Isiolo">Isiolo</option>
+                            <option value="Kajiado">Kajiado</option>
+                            <option value="Kakamega">Kakamega</option>
+                            <option value="Kericho">Kericho</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Kilifi">Kilifi</option>
+                            <option value="Kirinyaga">Kirinyaga</option>
+                            <option value="Kisii">Kisii</option>
+                            <option value="Kitui">Kitui</option>
+                            <option value="Kwale">Kwale</option>
+                            <option value="Laikipia">Laikipia</option>
+                            <option value="Lamu">Lamu</option>
+                            <option value="Machakos">Machakos</option>
+                            <option value="Makueni">Makueni</option>
+                            <option value="Mandera">Mandera</option>
+                            <option value="Marsabit">Marsabit</option>
+                            <option value="Meru">Meru</option>
+                            <option value="Migori">Migori</option>
+                            <option value="Murang'a">Murang'a</option>
+                            <option value="Nandi">Nandi</option>
+                            <option value="Narok">Narok</option>
+                            <option value="Nyamira">Nyamira</option>
+                            <option value="Nyandarua">Nyandarua</option>
+                            <option value="Nyeri">Nyeri</option>
+                            <option value="Samburu">Samburu</option>
+                            <option value="Siaya">Siaya</option>
+                            <option value="Taita Taveta">Taita Taveta</option>
+                            <option value="Tana River">Tana River</option>
+                            <option value="Tharaka-Nithi">Tharaka-Nithi</option>
+                            <option value="Trans Nzoia">Trans Nzoia</option>
+                            <option value="Turkana">Turkana</option>
+                            <option value="Uasin Gishu">Uasin Gishu</option>
+                            <option value="Vihiga">Vihiga</option>
+                            <option value="Wajir">Wajir</option>
+                            <option value="West Pokot">West Pokot</option>
+                        </select>
+                    </div>
+
+                    <div class="section-label"><span>Security</span></div>
+
+                    <div class="field">
+                        <label for="password">Password <span class="req">*</span></label>
+                        <div class="pw-wrap">
+                            <input type="password" id="password" name="password" placeholder="10+ chars" required>
+                            <button type="button" class="pw-toggle" id="togglePassword" aria-label="Show/hide password">
+                                <svg id="eyeIcon1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="confirmPassword">Confirm Password <span class="req">*</span></label>
+                        <div class="pw-wrap">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat password" required>
+                            <button type="button" class="pw-toggle" id="toggleConfirmPassword" aria-label="Show/hide confirm password">
+                                <svg id="eyeIcon2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="password-field">
-                    <input type="password" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword" required>
-                    <svg id="toggleConfirmPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>
-                    </svg>
-                </div>
-                <!-- MODIFIED -->
-<button type="submit" id="submitBtn" class="btn">Sign Up</button>
-            
-            </form></div> 
-            <div class="login-link">
-                Already have an account? <a href="Log_in.html">Login</a>
-            </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit">Create Account</button>
+            </form>
+        </div>
+
+        <div class="card-footer">
+            Already have an account? <a href="Log_in.html">Sign In</a>
         </div>
     </div>
 </div>
 
 <script>
-    // Password toggles
-    const createPasswordToggle = (inputId, toggleId) => {
+    // ── Password toggles ──
+    const setupToggle = (inputId, btnId, iconId) => {
         const input = document.getElementById(inputId);
-        const toggle = document.getElementById(toggleId);
-        if (!input || !toggle) return;
-        const showIcon = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
-        const hideIcon = `<path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c..."/>`;
-        toggle.addEventListener('click', () => {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            // toggle.innerHTML = type === 'password' ? showIcon : hideIcon; // optional swap
+        const btn = document.getElementById(btnId);
+        const icon = document.getElementById(iconId);
+        const showSVG = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12c-2.761 0-5-2.238-5-5 0-2.762 2.239-5 5-5s5 2.238 5 5c0 2.762-2.239 5-5 5zm0-8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"/>`;
+        const hideSVG = `<path d="M2 5l2.29 2.29c-1.45 1.23-2.58 2.69-3.29 4.21 1.73 3.71 6.29 7 11 7 2.24 0 4.38-.67 6.17-1.8l2.61 2.61 1.42-1.42-20-20-1.42 1.42 2.29 2.29zm6.04 6.04l2.01 2.01c-.03.08-.05.16-.05.25 0 .83.67 1.5 1.5 1.5.09 0 .17-.02.25-.05l2.01 2.01c-.59.14-1.21.24-1.76.24-3.2 0-6.5-2.13-8.11-5 0 0 1.25-2.27 3.15-3.96zm7.07-2.53l2.42 2.42c-.11.7-.41 1.35-.86 1.87l-2.02-2.02c.05-.14.09-.3.09-.47 0-.83-.67-1.5-1.5-1.5-.17 0-.33.04-.47.09l-2.02-2.02c.52-.45 1.17-.75 1.87-.86l.5.5z"/>`;
+        btn.addEventListener('click', () => {
+            const show = input.getAttribute('type') === 'password';
+            input.setAttribute('type', show ? 'text' : 'password');
+            icon.innerHTML = show ? hideSVG : showSVG;
         });
     };
-    createPasswordToggle('password', 'togglePassword');
-    createPasswordToggle('confirmPassword', 'toggleConfirmPassword');
+    setupToggle('password', 'togglePassword', 'eyeIcon1');
+    setupToggle('confirmPassword', 'toggleConfirmPassword', 'eyeIcon2');
 
-    // Client-side validation
-    const validateGovernmentForm = (formData) => {
+    // ── Validation ──
+    const validateGovernmentForm = (data) => {
         const errors = [];
-        const {
-            name,
-            employeeId,
-            email,
-            department,
-            position,
-            region,
-            password,
-            confirmPassword
-        } = formData;
-
-        if (!name || !name.trim()) errors.push('Full name is required');
-        else if (name.length < 5) errors.push('Full name must be at least 5 characters');
-
-        const govIdRegex = /^[A-Z0-9]{8,15}$/i;
-        if (!govIdRegex.test(employeeId || '')) errors.push('Government ID must be 8-15 alphanumeric characters');
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email || '')) errors.push('Invalid staff email address');
-        else if (!email.endsWith('.gov.ke')) errors.push('Staff email must be a .gov.ke domain');
-
-        if (!department || department === "") errors.push('Department selection is required');
-        if (!position || !position.trim()) errors.push('Position/Rank is required');
-        if (!region || region === "") errors.push('Region selection is required');
-
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-        if (!passwordRegex.test(password || '')) errors.push('Password must contain: 10+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special character');
-
-        if (password !== confirmPassword) errors.push('Passwords do not match');
-
+        if (!data.name || data.name.length < 5) errors.push('Full name must be at least 5 characters');
+        if (!/^[A-Z0-9]{8,15}$/i.test(data.employeeId || '')) errors.push('Government ID must be 8–15 alphanumeric characters');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || '')) errors.push('Invalid staff email address');
+        if (!data.email.endsWith('.gov.ke')) errors.push('Staff email must use a .gov.ke domain');
+        if (!data.department) errors.push('Please select a department');
+        if (!data.position || !data.position.trim()) errors.push('Position / Rank is required');
+        if (!data.region) errors.push('Please select a region');
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/.test(data.password || ''))
+            errors.push('Password: 10+ chars, uppercase, lowercase, number, special character');
+        if (data.password !== data.confirmPassword) errors.push('Passwords do not match');
         return errors;
     };
 
-    // Submit handler: POST to register_user.php and handle JSON response
+    // ── Form submit ──
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -293,18 +478,13 @@
         const errorDiv = document.getElementById('error-message');
         const successDiv = document.getElementById('success-message');
 
-        // Reset messages
-        errorDiv.textContent = '';
-        successDiv.textContent = '';
         errorDiv.style.display = 'none';
         successDiv.style.display = 'none';
 
         const fd = new FormData(form);
-        // Convert FormData to object for validation convenience
         const plain = Object.fromEntries(fd.entries());
-
-        // Client-side validate
         const errors = validateGovernmentForm(plain);
+
         if (errors.length > 0) {
             errorDiv.innerHTML = errors.join('<br>');
             errorDiv.style.display = 'block';
@@ -312,35 +492,24 @@
             return;
         }
 
-        // Disable button & show spinner
         submitBtn.disabled = true;
         const originalLabel = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
+        submitBtn.innerHTML = '<span class="spinner"></span> Processing…';
 
         try {
-            // Send FormData to server endpoint
-            const resp = await fetch('register_user.php', {
-                method: 'POST',
-                body: fd
-            });
-
-            if (!resp.ok) {
-                throw new Error('Network response was not ok');
-            }
-
+            const resp = await fetch('register_user.php', { method: 'POST', body: fd });
+            if (!resp.ok) throw new Error('Network error');
             const json = await resp.json();
 
             if (json.success) {
-                successDiv.textContent = json.message || 'Registration successful! Redirecting to login...';
+                successDiv.textContent = json.message || 'Registration successful! Redirecting…';
                 successDiv.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
                 form.reset();
-                // Redirect after short delay
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 setTimeout(() => {
                     window.location.href = `Log_in.html?signup=success&email=${encodeURIComponent(plain.email)}`;
                 }, 1500);
             } else {
-                // Show server-side error message (e.g., Email already exists)
                 errorDiv.textContent = json.message || 'Registration failed. Please try again.';
                 errorDiv.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -348,18 +517,15 @@
         } catch (err) {
             errorDiv.textContent = 'Network or server error. Please try again later.';
             errorDiv.style.display = 'block';
-            console.error('Signup error:', err);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalLabel;
         }
     });
 
-    // Clean URL parameters (optional)
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.pathname);
     }
 </script>
-
 </body>
 </html>

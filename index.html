@@ -3,574 +3,1349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government of Kenya - Official Portal</title>
-    <link rel="stylesheet" href="mobile-nav.css">
+    <title>Government of Kenya — Official Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0b9d3f;
-            --primary-dark: #087a31;
-            --secondary: #1a237e;
-            --accent: #ff6b35;
-            --light: #f8fafc;
+            --green: #0b6e31;
+            --green-mid: #0f9544;
+            --green-light: #d4f0de;
+            --red: #b91c1c;
+            --red-light: #fee2e2;
+            --black: #0a0a0a;
+            --ink: #111827;
+            --muted: #6b7280;
+            --pale: #f4f7f4;
             --white: #ffffff;
-            --dark: #0f172a;
-            --text-main: #334155;
-            --text-light: #64748b;
-            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold: #d4af37;
+            --border: rgba(0,0,0,0.08);
+            --shadow: 0 4px 32px rgba(0,0,0,0.07);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.13);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--light);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--ink);
             overflow-x: hidden;
         }
 
+        /* ─── HEADER ─────────────────────────────── */
         header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 0.75rem 0;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+        header.scrolled { box-shadow: 0 2px 30px rgba(0,0,0,0.1); }
+
+        .header-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
-        .header-container {
-            max-width: 1280px;
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-wrap img {
+            height: 46px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-text span:first-child {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+        .logo-text span:last-child {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--green);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 480px) {
+            .logo-text span:first-child { font-size: 0.95rem; }
+            .logo-text span:last-child { font-size: 0.55rem; }
+            .logo-wrap img { height: 38px; }
+            .logo-wrap { gap: 8px; }
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: auto;
+        }
+        .header-nav a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .header-nav a:hover { color: var(--ink); background: var(--pale); }
+
+        .header-socials {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .header-socials a {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            font-size: 0.78rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .header-socials a:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
+        .btn-login {
+            background: var(--green);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.55rem 1.4rem;
+            border-radius: 9px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            white-space: nowrap;
+        }
+        .btn-login:hover {
+            background: #0a5a28;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11,110,49,0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .menu-toggle span {
+            width: 24px; height: 2px;
+            background: var(--ink);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero {
+            height: 100vh;
+            min-height: 640px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('Photos/ke flag.jpg') center/cover no-repeat;
+            transform: scale(1.05);
+            animation: heroZoom 12s ease-out forwards;
+        }
+        @keyframes heroZoom {
+            from { transform: scale(1.05); }
+            to { transform: scale(1.0); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                170deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(0,0,0,0.1) 40%,
+                rgba(0,0,0,0.72) 100%
+            );
+        }
+
+        /* Decorative Kenya flag stripe accent */
+        .hero-stripe {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #000 33.3%, var(--red) 33.3% 66.6%, var(--green) 66.6%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            width: 100%;
+            opacity: 0;
+            animation: heroFadeUp 1s 0.4s ease forwards;
+        }
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge i { color: var(--gold); font-size: 0.65rem; }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 8vw, 5rem);
+            font-weight: 900;
+            color: white;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: #7effa8;
+        }
+
+        .hero-desc {
+            color: rgba(255,255,255,0.78);
+            font-size: 1.1rem;
+            max-width: 460px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--ink);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.25s;
+            border: 2px solid transparent;
+        }
+        .btn-primary:hover {
+            background: var(--green);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(11,110,49,0.4);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.45);
+            transition: all 0.25s;
+        }
+        .btn-ghost:hover {
+            border-color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* ─── STATS BAR ──────────────────────────── */
+        .stats-bar {
+            background: var(--ink);
+            padding: 2.5rem 0;
+        }
+        .stats-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+        }
+        .stat-item {
+            padding: 0 2.5rem;
+            border-right: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #7effa8;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* ─── SERVICES ───────────────────────────── */
+        .section { padding: 7rem 0; }
+        .section-inner { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+        .section-tag::before {
+            content: '';
+            display: block;
+            width: 20px; height: 2px;
+            background: var(--green);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 3.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .service-card {
+            background: var(--pale);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--green), #22c55e);
+            transform: scaleX(0);
+            transition: transform 0.35s ease;
+            transform-origin: left;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            background: var(--white);
+        }
+        .service-card:hover::after { transform: scaleX(1); }
+
+        .svc-icon {
+            width: 52px; height: 52px;
+            background: var(--green-light);
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: var(--green);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        .service-card:hover .svc-icon {
+            background: var(--green);
+            color: white;
+        }
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        .service-card p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
+        }
+        .svc-link {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+        .service-card:hover .svc-link { gap: 10px; }
+
+        /* ─── PROJECTS ───────────────────────────── */
+        .projects-section { background: var(--ink); padding: 7rem 0; }
+        .projects-section .section-title { color: white; }
+        .projects-section .section-tag { color: #7effa8; }
+        .projects-section .section-tag::before { background: #7effa8; }
+        .projects-section .section-sub { color: rgba(255,255,255,0.55); }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .project-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .project-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+        }
+
+        .proj-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        .proj-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.9);
+        }
+        .project-card:hover .proj-img img { transform: scale(1.06); }
+
+        .proj-status {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            color: white;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .proj-body { padding: 1.75rem; }
+        .proj-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .proj-body p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .progress-wrap { margin-bottom: 1.5rem; }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .progress-label-text {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'DM Mono', monospace;
+        }
+        .progress-pct {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #7effa8;
+        }
+        .prog-bar {
+            height: 5px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .prog-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--green-mid), #4ade80);
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0;
+        }
+        .prog-fill.animated { width: var(--pct); }
+
+        .btn-proj {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #7effa8;
+            text-decoration: none;
+            transition: gap 0.2s;
+        }
+        .btn-proj:hover { gap: 10px; }
+
+        /* ─── LEADERSHIP ─────────────────────────── */
+        .leadership-section { padding: 7rem 0; background: var(--pale); }
+
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .leader-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .leader-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(135deg, var(--green-light), #bbf7d0);
+        }
+        .leader-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .leader-avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.25rem;
+        }
+        .leader-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.35rem;
+        }
+        .leader-card p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── TIMELINE ───────────────────────────── */
+        .timeline-section { padding: 7rem 0; }
+
+        .timeline-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 3.5rem;
+        }
+        .tl-tab {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            padding: 0.65rem 1.5rem;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: none;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+        .tl-tab.active {
+            background: var(--ink);
+            color: white;
+            border-color: var(--ink);
+        }
+        .tl-tab:hover:not(.active) { border-color: var(--ink); color: var(--ink); }
+
+        .tl-content { display: none; }
+        .tl-content.active {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tl-item {
+            background: var(--pale);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--green), var(--green-mid));
+        }
+
+        .tl-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--green-light);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            -webkit-text-stroke: 2px var(--green);
+            color: transparent;
+        }
+        .tl-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        .tl-item p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* ─── SUBSCRIBE ──────────────────────────── */
+        .subscribe-section {
+            background: linear-gradient(135deg, var(--green) 0%, #0a5a28 100%);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .subscribe-section::before {
+            content: 'KE';
+            position: absolute;
+            right: -30px;
+            top: -40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 20rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.04);
+            pointer-events: none;
+        }
+
+        .subscribe-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .subscribe-inner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .subscribe-inner p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        .sub-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+        .sub-form input {
+            flex: 1;
+            padding: 0.9rem 1.25rem;
+            border-radius: 11px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.12);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .sub-form input::placeholder { color: rgba(255,255,255,0.5); }
+        .sub-form input:focus { border-color: rgba(255,255,255,0.6); }
+        .sub-form button {
+            background: white;
+            color: var(--green);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.875rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 11px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .sub-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        footer {
+            background: var(--black);
+            color: rgba(255,255,255,0.45);
+            padding: 2.5rem 2rem;
+        }
+        .footer-inner {
+            max-width: 1320px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-
-        .logo-container {
+        .footer-links {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            gap: 1.5rem;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.4);
             text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: #7effa8; }
+        .footer-copy {
+            font-size: 0.8rem;
+            font-family: 'DM Mono', monospace;
         }
 
-        .national-logo { height: 50px; width: auto; }
-
-        .header-title h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--secondary);
-            letter-spacing: -0.02em;
-        }
-
-        nav.desktop-nav ul {
+        /* ─── MOBILE NAV ─────────────────────────── */
+        .mobile-nav {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,10,0.97);
+            z-index: 998;
             display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav.desktop-nav ul li a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        nav.desktop-nav ul li a:hover { color: var(--primary); }
-
-        .login-button {
-            background: var(--primary);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 10px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-        }
-
-        .login-button:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 10px 15px -3px rgba(11, 157, 63, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Hero */
-        .hero {
-            height: 85vh;
-            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.45)), 
-                        url('Photos/ke flag.jpg') center/cover no-repeat;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 0 1.5rem;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.04em;
-        }
-
-        .hero-button {
-            background: var(--white);
-            color: var(--dark);
-            padding: 1.1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            transition: var(--transition);
-            display: inline-block;
-        }
-
-        .hero-button:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        /* Cards & Grid */
-        .container-box { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
-        .section-padding { padding: 5rem 0; }
-
-        .section-title { text-align: center; margin-bottom: 4rem; }
-        .section-title h2 { font-size: 2.5rem; font-weight: 800; color: var(--secondary); }
-
-        .services, .projects-grid, .leaders-grid {
-            display: grid;
             gap: 2rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
         }
-
-        .service-card, .project-card, .leader-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.02);
+        .mobile-nav.open { transform: translateX(0); }
+        .mobile-nav a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
         }
-
-        .service-card { padding: 3rem 2rem; text-align: center; }
-        .service-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem; }
-
-        .project-card { overflow: hidden; }
-        .project-image { height: 220px; overflow: hidden; }
-        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .project-card:hover .project-image img { transform: scale(1.1); }
-        .project-content { padding: 2rem; }
-
-        .progress-container { margin: 1.5rem 0; }
-        progress {
-            width: 100%;
-            height: 8px;
-            border-radius: 10px;
-            appearance: none;
+        .mobile-nav a:hover { color: #7effa8; }
+        .mobile-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+            background: none;
             border: none;
-        }
-        progress::-webkit-progress-bar { background: #f1f5f9; border-radius: 10px; }
-        progress::-webkit-progress-value { background: var(--primary); border-radius: 10px; }
-
-        .leader-card { padding: 2rem; text-align: center; }
-        .leader-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid var(--light); }
-
-        /* Timeline Tabs */
-        .timeline-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
-        .timeline-tab { 
-            padding: 0.75rem 1.5rem; 
-            border-radius: 50px; 
-            border: 1px solid var(--primary); 
-            background: none; 
-            cursor: pointer; 
-            font-weight: 600; 
-            color: var(--primary);
-            transition: var(--transition);
-        }
-        .timeline-tab.active { background: var(--primary); color: white; }
-        .timeline-content { display: none; }
-        .timeline-content.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Scroll Reveal Animation Styles */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            will-change: opacity, transform;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+            cursor: pointer;
+            width: 44px; height: 44px;
+            display: grid;
+            place-items: center;
         }
 
-        @media (max-width: 900px) {
-            .desktop-nav, .social-icons { display: none; }
+        /* ─── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 1100px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .leaders-grid { grid-template-columns: repeat(2, 1fr); }
+            .tl-content.active { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav, .header-socials { display: none; }
             .menu-toggle { display: flex; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1.5rem 1rem; }
+            .stat-item:nth-child(2), .stat-item:last-child { border-bottom: none; }
+            .services-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .leaders-grid { grid-template-columns: repeat(2, 1fr); }
+            .tl-content.active { grid-template-columns: 1fr; }
+            .sub-form { flex-direction: column; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .hero h1 { line-height: 1.1; }
+        }
+
+        @media (max-width: 400px) {
+            .stats-inner { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .leaders-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <a href="index.html" class="logo-container">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
-                <div class="header-title">
-                    <h1>Government of Kenya</h1>
+
+    <!-- HEADER -->
+    <header id="mainHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo-wrap">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+                <div class="logo-text">
+                    <span>Government of Kenya</span>
+                    <span>Official Digital Portal</span>
                 </div>
             </a>
-            
-            <nav class="desktop-nav">
-                <ul>
-                    <li><a href="#about-us" class="active">Our Timeline</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#leadership">Leadership</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+
+            <nav class="header-nav">
+                <a href="#about-us">Timeline</a>
+                <a href="#projects">Projects</a>
+                <a href="#leadership">Leadership</a>
+                <a href="#contact">Contact</a>
             </nav>
 
-            <button class="menu-toggle" aria-label="Open Menu" id="menuToggleBtn">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-
-            <div class="social-icons">
-                <a href="https://x.com/MyGovKe"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.facebook.com/@SpokesPersonKenya/"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/governmentofkenya/"><i class="fab fa-instagram"></i></a>
+            <div class="header-socials">
+                <a href="https://x.com/MyGovKe" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com/@SpokesPersonKenya/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/governmentofkenya/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <a href="Log_in.html" class="login-button">Log In</a>
-        </div>
 
-        <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
-            <ul>
-                <li><a href="#about-us">Our Timeline</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#leadership">Leadership</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="Log_in.html">Log In</a></li>
-            </ul>
-        </nav>
+            <a href="Log_in.html" class="btn-login">Log In</a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </header>
 
+    <!-- MOBILE NAV -->
+    <nav class="mobile-nav" id="mobileNav">
+        <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#about-us">Timeline</a>
+        <a href="#projects">Projects</a>
+        <a href="#leadership">Leadership</a>
+        <a href="#contact">Contact</a>
+        <a href="Log_in.html" style="color:#7effa8">Log In →</a>
+    </nav>
+
+    <!-- HERO -->
     <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-stripe"></div>
         <div class="hero-content">
-            <h1>Building a Prosperous Kenya</h1>
-            <p>Transparent governance for sustainable development and inclusive growth</p>
-            <a href="#projects" class="hero-button">Explore Our Projects</a>
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                Official Portal — Republic of Kenya
+            </div>
+            <h1>Building a <em>Prosperous</em> Kenya Together</h1>
+            <p class="hero-desc">Transparent governance for sustainable development, inclusive growth, and a future every Kenyan deserves.</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn-primary">Explore Projects</a>
+                <a href="#about-us" class="btn-ghost">Our Progress</a>
+            </div>
         </div>
     </section>
-    
-    <div class="container-box">
-        <section class="services section-padding">
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-project-diagram"></i>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-num" data-target="47">0</div>
+                <div class="stat-label">Counties</div>
             </div>
-            <h2>Projects & Plans</h2>
-            <p>View our ongoing projects and inspect our progress across various sectors of development.</p>
-            <a href="Log_in.html" class="service-button">View Details</a>
-        </div>
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-bell"></i>
+            <div class="stat-item">
+                <div class="stat-num" data-target="8">0</div>
+                <div class="stat-label">Active Mega-Projects</div>
             </div>
-            <h2>Government Updates</h2>
-            <p>Stay informed with weekly notifications and updates on government operations and progress.</p>
-            <a href="Log_in.html" class="service-button">Get Updates</a>
-        </div>
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-landmark"></i>
+            <div class="stat-item">
+                <div class="stat-num" data-suffix="M" data-target="56">0</div>
+                <div class="stat-label">Citizens Served</div>
             </div>
-            <h2>National Government</h2>
-            <p>Access forums, news, and reports on national budgeting and financial utilization.</p>
-            <a href="Log_in.html" class="service-button">Explore</a>
-        </div>
-        <div class="service-card">
-            <div class="service-icon">
-                <i class="fas fa-city"></i>
+            <div class="stat-item">
+                <div class="stat-num" data-target="2030">0</div>
+                <div class="stat-label">Vision Target Year</div>
             </div>
-            <h2>County Government</h2>
-            <p>View county-specific forums, news, and financial reports from all 47 counties.</p>
-            <a href="Log_in.html" class="service-button">County Portals</a>
         </div>
-    </section>
     </div>
 
-    <section id="projects" class="projects-section section-padding container-box">
-        <div class="section-title">
-            <h2>Featured Projects</h2>
-        </div>
-        <div class="projects-grid">
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
-                </div>
-                <div class="project-content">
-                    <h3>Talanta Stadium</h3>
-                    <p>The construction of a modern stadium along Ngong Road to promote sports and talent development.</p>
-                    <div class="progress-container">
-                        <progress value="50" max="100"></progress>
-                        <span class="progress-label">50% Complete</span>
-                    </div>
-                    <a href="Log_in.html" class="project-button">View Project</a>
-                </div>
-            </div>
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/gtc1.jpeg" alt="GTC Towers">
-                </div>
-                <div class="project-content">
-                    <h3>GTC Towers</h3>
-                    <p>A global establishment for both local events, staycations, and official government functions.</p>
-                    <div class="progress-container">
-                        <progress value="99" max="100"></progress>
-                        <span class="progress-label">99% Complete</span>
-                    </div>
-                    <a href="Log_in.html" class="project-button">View Project</a>
-                </div>
-            </div>
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
-                </div>
-                <div class="project-content">
-                    <h3>Thika Superhighway</h3>
-                    <p>A modern transportation network connecting Nairobi to Thika, fostering economic growth.</p>
-                    <div class="progress-container">
-                        <progress value="100" max="100"></progress>
-                        <span class="progress-label">100% Complete</span>
-                    </div>
-                    <a href="Log_in.html" class="project-button">View Project</a>
-                </div>
-            </div>
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Highway">
-                </div>
-                <div class="project-content">
-                    <h3>Nairobi-Mombasa Highway</h3>
-                    <p>A major infrastructure project connecting the port city of Mombasa to the capital Nairobi.</p>
-                    <div class="progress-container">
-                        <progress value="10" max="100"></progress>
-                        <span class="progress-label">10% Complete</span>
-                    </div>
-                    <a href="Log_in.html" class="project-button">View Project</a>
-                </div>
-              </div>
+    <!-- SERVICES -->
+    <section class="section">
+        <div class="section-inner">
+            <div class="section-tag">Government Services</div>
+            <h2 class="section-title">What We Offer</h2>
+            <p class="section-sub">Access Kenya's government services — from project tracking to county reports — all in one place.</p>
 
-
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/Nhif-removebg-preview.png" alt="Nhif">
-                </div>
-                <div class="project-content">
-                  <h3>National Hospital Insurance Funds</h3>
-                  <p>NHIF for all citizens in Kenya.</p>
-                  <div class="progress-container">
-                      <progress value="86" max="100"></progress>
-                      <span class="progress-label">86% Complete</span>
-                  </div>
-                  <a href="Log_in.html" class="project-button">View Program</a>
-              </div>
-            </div>
-
-            <div class="project-card reveal">
-                <div class="project-image">
-                    <img src="Photos/sgr2.avif" alt="Madaraka Express">
-                </div>
-                <div class="project-content">
-                  <h3>Madaraka-Express</h3>
-              
-                  <div class="progress-container">
-                      <progress value="100" max="100"></progress>
-                      <span class="progress-label">100% Complete</span>
-                  </div>
-                  <a href="Log_in.html" class="project-button">View project</a>
-              </div>
-          </div>
-            
-            <div class="project-card reveal">
-              <div class="project-image">
-                  <img src="Photos/OIP__3_-removebg-preview.png" alt="Nhif">
-              </div>
-              <div class="project-content">
-                <h3>Vision 2030</h3>
-                <p>Check out our global standard visions</p>
-                <div class="progress-container">
-                    <progress value="72" max="100"></progress>
-                    <span class="progress-label">72% Complete</span>
-                </div>
-                <a href="Log_in.html" class="project-button">Inspect Our Visions</a>
-            </div>
-          </div>
-                     
-            <div class="project-card reveal">
-              <div class="project-image">
-                  <img src="Photos/Konza2.jpeg" alt="AHP">
-              </div>
-              <div class="project-content">
-                <h3>Afordable Housing Program</h3>
-            
-                <div class="progress-container">
-                    <progress value="21" max="100"></progress>
-                    <span class="progress-label">21% Complete</span>
-                </div>
-                <a href="Log_in.html" class="project-button">Check our milestones</a>
-            </div>
-          </div>
-        </div>
-    </section>
-
-    <section id="leadership" class="leadership-section section-padding container-box">
-        <div class="section-title">
-            <h2>Our Leadership</h2>
-        </div>
-        <div class="leaders-grid">
-            <div class="leader-card">
-                <img src="Photos/ruto-removebg-preview.png" alt="President William Ruto" class="leader-image">
-                <h4>H.E. William Ruto</h4>
-                <p>President of Kenya</p>
-            </div>
-            <div class="leader-card">
-                <img src="Photos/Kindiki.jpg" alt="Prof. Kithure Kindiki" class="leader-image">
-                <h4>Prof. Kithure Kindiki</h4>
-                <p>Cabinet Secretary for Interior</p>
-            </div>
-            <div class="leader-card">
-                <img src="Photos/Mudavadi.jpeg" alt="Hon. Musalia Mudavadi" class="leader-image">
-                <h4>Hon. Musalia Mudavadi</h4>
-                <p>Prime Cabinet Secretary</p>
-            </div>
-            <div class="leader-card">
-                <img src="Photos/Picture-Njuguna.jpg" alt="Hon. Musalia Mudavadi" class="leader-image">
-                <h4>Prof.Njuguna Ndung'u</h4>
-                <p>National Treasury</p>
+            <div class="services-grid">
+                <a href="Log_in.html" class="service-card">
+                    <div class="svc-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Projects & Plans</h3>
+                    <p>View ongoing projects and inspect real-time progress across all development sectors.</p>
+                    <div class="svc-link">View Details <i class="fas fa-arrow-right"></i></div>
+                </a>
+                <a href="Log_in.html" class="service-card">
+                    <div class="svc-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Government Updates</h3>
+                    <p>Stay informed with weekly notifications on government operations and milestones.</p>
+                    <div class="svc-link">Get Updates <i class="fas fa-arrow-right"></i></div>
+                </a>
+                <a href="Log_in.html" class="service-card">
+                    <div class="svc-icon"><i class="fas fa-landmark"></i></div>
+                    <h3>National Government</h3>
+                    <p>Access national forums, news, and detailed budget utilization reports.</p>
+                    <div class="svc-link">Explore <i class="fas fa-arrow-right"></i></div>
+                </a>
+                <a href="Log_in.html" class="service-card">
+                    <div class="svc-icon"><i class="fas fa-city"></i></div>
+                    <h3>County Government</h3>
+                    <p>County-specific portals, forums, and financial reports from all 47 counties.</p>
+                    <div class="svc-link">County Portals <i class="fas fa-arrow-right"></i></div>
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="about-us" class="timeline-section section-padding container-box">
-        <div class="section-title">
-            <h2>Our Progress Timeline</h2>
+    <!-- PROJECTS -->
+    <section id="projects" class="projects-section">
+        <div class="section-inner">
+            <div class="section-tag">Development Progress</div>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-sub">Flagship infrastructure and social programmes shaping Kenya's future.</p>
+
+            <div class="projects-grid">
+                <!-- 1 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
+                        <span class="proj-status">In Progress</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Talanta Stadium</h3>
+                        <p>A modern stadium along Ngong Road to promote sports and talent development in Nairobi.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">85%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:50%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Project <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/gtc1.jpeg" alt="GTC Towers">
+                        <span class="proj-status">Complete</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>GTC Towers</h3>
+                        <p>A global convention and hospitality hub for local events, staycations, and official functions.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text"style="background:rgba(11,110,49,0.75)>Completion</span>
+                                <span class="progress-pct">100%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:99%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Project <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
+                        <span class="proj-status" style="background:rgba(11,110,49,0.75)">Complete</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Thika Superhighway</h3>
+                        <p>Modern transport corridor connecting Nairobi to Thika, fostering economic growth.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">100%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:100%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Project <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 4 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Highway">
+                        <span class="proj-status">Early Stage</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Nairobi–Mombasa Highway</h3>
+                        <p>Major infrastructure project connecting the port city of Mombasa to the capital.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">10%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:10%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Project <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 5 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/Nhif-removebg-preview.png" alt="NHIF">
+                        <span class="proj-status">In Progress</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>National Hospital Insurance Fund</h3>
+                        <p>Universal health insurance coverage for all citizens across Kenya.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">86%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:86%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Programme <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 6 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/sgr2.avif" alt="Madaraka Express">
+                        <span class="proj-status" style="background:rgba(11,110,49,0.75)">Complete</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Madaraka Express SGR</h3>
+                        <p>Standard Gauge Railway connecting Mombasa to Nairobi, transforming national logistics.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">100%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:100%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">View Project <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 7 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/OIP__3_-removebg-preview.png" alt="Vision 2030">
+                        <span class="proj-status">In Progress</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Vision 2030</h3>
+                        <p>Kenya's long-term development blueprint driving socio-economic transformation.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">72%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:72%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">Explore Vision <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- 8 -->
+                <div class="project-card">
+                    <div class="proj-img">
+                        <img src="Photos/Konza2.jpeg" alt="Affordable Housing">
+                        <span class="proj-status">Early Stage</span>
+                    </div>
+                    <div class="proj-body">
+                        <h3>Affordable Housing Programme</h3>
+                        <p>Delivering quality, affordable homes to Kenyans across urban and rural areas.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-header">
+                                <span class="progress-label-text">Completion</span>
+                                <span class="progress-pct">21%</span>
+                            </div>
+                            <div class="prog-bar"><div class="prog-fill" style="--pct:21%"></div></div>
+                        </div>
+                        <a href="Log_in.html" class="btn-proj">Check Milestones <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="timeline-container">
+    </section>
+
+    <!-- LEADERSHIP -->
+    <section id="leadership" class="leadership-section">
+        <div class="section-inner">
+            <div class="section-tag">National Leadership</div>
+            <h2 class="section-title">Our Leaders</h2>
+            <p class="section-sub">The principals steering Kenya towards its Vision 2030 goals.</p>
+            <div class="leaders-grid">
+                <div class="leader-card">
+                    <img src="Photos/ruto-removebg-preview.png" alt="President William Ruto" class="leader-avatar">
+                    <h4>H.E. William Ruto</h4>
+                    <p>President of Kenya</p>
+                </div>
+                <div class="leader-card">
+                    <img src="Photos/Kindiki.jpg" alt="Prof. Kithure Kindiki" class="leader-avatar">
+                    <h4>Prof. Kithure Kindiki</h4>
+                    <p>Cabinet Secretary, Interior</p>
+                </div>
+                <div class="leader-card">
+                    <img src="Photos/Mudavadi.jpeg" alt="Hon. Musalia Mudavadi" class="leader-avatar">
+                    <h4>Hon. Musalia Mudavadi</h4>
+                    <p>Prime Cabinet Secretary</p>
+                </div>
+                <div class="leader-card">
+                    <img src="Photos/Picture-Njuguna.jpg" alt="Prof. Njuguna Ndung'u" class="leader-avatar">
+                    <h4>Prof. Njuguna Ndung'u</h4>
+                    <p>National Treasury</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="about-us" class="timeline-section">
+        <div class="section-inner">
+            <div class="section-tag">Milestones</div>
+            <h2 class="section-title">Our Progress Timeline</h2>
+            <p class="section-sub" style="margin-bottom:2rem">From Vision 2030's launch to today — key moments in Kenya's development journey.</p>
+
             <div class="timeline-tabs">
-                <button class="timeline-tab active" onclick="showTimeline('first')">2008-2012</button>
-                <button class="timeline-tab" onclick="showTimeline('second')">2013-2025</button>
+                <button class="tl-tab active" onclick="showTimeline('first')">2008 – 2012</button>
+                <button class="tl-tab" onclick="showTimeline('second')">2013 – 2025</button>
             </div>
-            <div id="first-timeline" class="timeline-content active">
-                <div class="timeline-items">
-                    <div class="timeline-item">
-                        <div class="timeline-year">2008</div>
-                        <div class="timeline-title">Vision 2030 Launched</div>
-                        <p>Kenya's long-term development blueprint was officially launched, setting the country's development agenda.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2010</div>
-                        <div class="timeline-title">New Constitution</div>
-                        <p>The new constitution was promulgated, marking a significant milestone in Kenya's governance structure.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2012</div>
-                        <div class="timeline-title">Thika Superhighway</div>
-                        <p>The completed Thika Superhighway was commissioned, revolutionizing transport in the Nairobi metropolitan area.</p>
-                    </div>
+
+            <div id="first-timeline" class="tl-content active">
+                <div class="tl-item">
+                    <div class="tl-year">2008</div>
+                    <div class="tl-title">Vision 2030 Launched</div>
+                    <p>Kenya's long-term development blueprint was officially launched, setting the national development agenda for decades.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">2010</div>
+                    <div class="tl-title">New Constitution</div>
+                    <p>A new constitution was promulgated, marking a significant milestone in Kenya's governance and devolution structure.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">2012</div>
+                    <div class="tl-title">Thika Superhighway</div>
+                    <p>The completed Thika Superhighway was commissioned, revolutionising transport in the Nairobi metropolitan area.</p>
                 </div>
             </div>
-            <div id="second-timeline" class="timeline-content">
-                <div class="timeline-items">
-                    <div class="timeline-item">
-                        <div class="timeline-year">2017</div>
-                        <div class="timeline-title">Standard Gauge Railway</div>
-                        <p>The first phase of the SGR was launched, connecting Mombasa to Nairobi.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2022</div>
-                        <div class="timeline-title">Digital Transformation</div>
-                        <p>Major government services were digitized through the eCitizen platform.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2025</div>
-                        <div class="timeline-title">Universal Healthcare</div>
-                        <p>Projected completion of universal healthcare coverage rollout across all counties.</p>
-                    </div>
+
+            <div id="second-timeline" class="tl-content">
+                <div class="tl-item">
+                    <div class="tl-year">2017</div>
+                    <div class="tl-title">Standard Gauge Railway</div>
+                    <p>Phase one of the SGR was launched, connecting Mombasa to Nairobi and transforming national logistics.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">2022</div>
+                    <div class="tl-title">Digital Transformation</div>
+                    <p>Major government services were digitised through the eCitizen platform, improving public access.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-year">2025</div>
+                    <div class="tl-title">Universal Healthcare</div>
+                    <p>Projected completion of universal healthcare coverage rollout across all 47 counties.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="subscription-section section-padding container-box">
-        <div class="subscription-container">
-            <h3>Stay Updated</h3>
-            <p>Subscribe to receive the latest news and updates from the Government of Kenya</p>
-            <form class="subscription-form" method="post">
-                <input type="email" name="email" placeholder="Enter your email address" required>
+    <!-- SUBSCRIBE -->
+    <section id="contact" class="subscribe-section">
+        <div class="subscribe-inner">
+            <h2>Stay Informed</h2>
+            <p>Subscribe to receive the latest updates, project milestones, and news from the Government of Kenya.</p>
+            <form class="sub-form" method="post">
+                <input type="email" name="email" placeholder="your@email.com" required>
                 <button type="submit">Subscribe</button>
             </form>
-            
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
-        <div class="footer-links">
-            <a href="Log_in.html">Log In</a>
-            <a href="#about-us">About</a>
-            <a href="Log_in.html#signupBtn">Sign Up</a>
-            <a href="tel:0768343558">Contact Us</a>
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="Log_in.html">Log In</a>
+                <a href="#about-us">About</a>
+                <a href="Log_in.html#signupBtn">Sign Up</a>
+                <a href="tel:0768343558">Contact</a>
+            </div>
+            <p class="footer-copy">© 2025 Government of Kenya. All rights reserved.</p>
         </div>
-        <p class="copyright">&copy; 2025 Government of Kenya. All rights reserved.</p>
     </footer>
 
     <script>
-        // Mobile Menu Toggle Logic
-        document.getElementById('menuToggleBtn').addEventListener('click', function() {
-            const nav = document.getElementById('mobileNav');
-            const isOpen = nav.classList.toggle('open');
-            this.setAttribute('aria-expanded', isOpen);
-            nav.setAttribute('aria-hidden', !isOpen);
+        // Sticky header shadow
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 30);
         });
 
-        // Timeline Tab Switcher
+        // Mobile nav
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('mobileNav').classList.add('open');
+        });
+        document.getElementById('mobileClose').addEventListener('click', () => {
+            document.getElementById('mobileNav').classList.remove('open');
+        });
+        document.querySelectorAll('.mobile-nav a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.getElementById('mobileNav').classList.remove('open');
+            });
+        });
+
+        // Timeline switcher
         function showTimeline(period) {
-            const first = document.getElementById('first-timeline');
-            const second = document.getElementById('second-timeline');
-            const tabs = document.querySelectorAll('.timeline-tab');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            if(period === 'first') {
-                first.classList.add('active');
-                second.classList.remove('active');
-                tabs[0].classList.add('active');
-            } else {
-                second.classList.add('active');
-                first.classList.remove('active');
-                tabs[1].classList.add('active');
-            }
+            document.querySelectorAll('.tl-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tl-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(period + '-timeline').classList.add('active');
+            const tabs = document.querySelectorAll('.tl-tab');
+            (period === 'first' ? tabs[0] : tabs[1]).classList.add('active');
         }
 
-        // Scroll Reveal Observer
-        const revealObserver = new IntersectionObserver((entries) => {
+        // Intersection Observer for project cards + progress bars
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    // Stop observing once it has revealed
-                    revealObserver.unobserve(entry.target);
+                    entry.target.classList.add('revealed');
+                    // Animate progress bars inside this card
+                    entry.target.querySelectorAll('.prog-fill').forEach(bar => {
+                        bar.classList.add('animated');
+                    });
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.15 });
 
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.project-card').forEach((card, i) => {
+            card.style.transitionDelay = `${i * 80}ms`;
+            observer.observe(card);
+        });
+
+        // Counter animation for stats
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const target = parseInt(el.dataset.target);
+                const suffix = el.dataset.suffix || '';
+                let current = 0;
+                const inc = target / 60;
+                const timer = setInterval(() => {
+                    current = Math.min(current + inc, target);
+                    el.textContent = Math.floor(current) + suffix;
+                    if (current >= target) clearInterval(timer);
+                }, 20);
+                counterObserver.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
     </script>
 </body>
 </html>
