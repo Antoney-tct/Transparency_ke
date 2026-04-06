@@ -4,21 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Government of Kenya - Official Portal</title>
-    <link rel="stylesheet"href="Landing_pg.css">
-    <script src="Landing_pg.js"></script>
+    <link rel="stylesheet" href="mobile-nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-   
+    <style>
+        :root {
+            --primary: #0b9d3f;
+            --primary-dark: #087a31;
+            --secondary: #1a237e;
+            --accent: #ff6b35;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --dark: #0f172a;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0.75rem 0;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .national-logo { height: 50px; width: auto; }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: -0.02em;
+        }
+
+        nav.desktop-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav.desktop-nav ul li a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        nav.desktop-nav ul li a:hover { color: var(--primary); }
+
+        .login-button {
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 10px 15px -3px rgba(11, 157, 63, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.45)), 
+                        url('Photos/ke flag.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-button {
+            background: var(--white);
+            color: var(--dark);
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .hero-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Cards & Grid */
+        .container-box { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .section-padding { padding: 5rem 0; }
+
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 2.5rem; font-weight: 800; color: var(--secondary); }
+
+        .services, .projects-grid, .leaders-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .service-card, .project-card, .leader-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .service-card { padding: 3rem 2rem; text-align: center; }
+        .service-icon { font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem; }
+
+        .project-card { overflow: hidden; }
+        .project-image { height: 220px; overflow: hidden; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .project-card:hover .project-image img { transform: scale(1.1); }
+        .project-content { padding: 2rem; }
+
+        .progress-container { margin: 1.5rem 0; }
+        progress {
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            appearance: none;
+            border: none;
+        }
+        progress::-webkit-progress-bar { background: #f1f5f9; border-radius: 10px; }
+        progress::-webkit-progress-value { background: var(--primary); border-radius: 10px; }
+
+        .leader-card { padding: 2rem; text-align: center; }
+        .leader-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid var(--light); }
+
+        /* Timeline Tabs */
+        .timeline-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+        .timeline-tab { 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 50px; 
+            border: 1px solid var(--primary); 
+            background: none; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .timeline-tab.active { background: var(--primary); color: white; }
+        .timeline-content { display: none; }
+        .timeline-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Scroll Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            .desktop-nav, .social-icons { display: none; }
+            .menu-toggle { display: flex; }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-container">
-            <div class="logo-container">
+            <a href="index.html" class="logo-container">
                 <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
                 <div class="header-title">
                     <h1>Government of Kenya</h1>
                 </div>
-            </div>
-            <nav>
+            </a>
+            
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="#about-us" class="active">Our Timeline</a></li>
                     <li><a href="#projects">Projects</a></li>
@@ -26,15 +236,30 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
+
+            <button class="menu-toggle" aria-label="Open Menu" id="menuToggleBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
             <div class="social-icons">
                 <a href="https://x.com/MyGovKe"><i class="fab fa-twitter"></i></a>
                 <a href="https://www.facebook.com/@SpokesPersonKenya/"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/governmentofkenya/"><i class="fab fa-instagram"></i></a>
             </div>
-            <a href="Log_in.html">
-                <button class="login-button">Log In</button>
-            </a>
+            <a href="Log_in.html" class="login-button">Log In</a>
         </div>
+
+        <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+            <ul>
+                <li><a href="#about-us">Our Timeline</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="Log_in.html">Log In</a></li>
+            </ul>
+        </nav>
     </header>
 
     <section class="hero">
@@ -44,8 +269,9 @@
             <a href="#projects" class="hero-button">Explore Our Projects</a>
         </div>
     </section>
-
-    <section class="services">
+    
+    <div class="container-box">
+        <section class="services section-padding">
         <div class="service-card">
             <div class="service-icon">
                 <i class="fas fa-project-diagram"></i>
@@ -79,13 +305,14 @@
             <a href="Log_in.html" class="service-button">County Portals</a>
         </div>
     </section>
+    </div>
 
-    <section id="projects" class="projects-section">
+    <section id="projects" class="projects-section section-padding container-box">
         <div class="section-title">
             <h2>Featured Projects</h2>
         </div>
         <div class="projects-grid">
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
                     <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
                 </div>
@@ -99,7 +326,7 @@
                     <a href="Log_in.html" class="project-button">View Project</a>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
                     <img src="Photos/gtc1.jpeg" alt="GTC Towers">
                 </div>
@@ -113,7 +340,7 @@
                     <a href="Log_in.html" class="project-button">View Project</a>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
                     <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
                 </div>
@@ -127,7 +354,7 @@
                     <a href="Log_in.html" class="project-button">View Project</a>
                 </div>
             </div>
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
                     <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Highway">
                 </div>
@@ -143,7 +370,7 @@
               </div>
 
 
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
                     <img src="Photos/Nhif-removebg-preview.png" alt="Nhif">
                 </div>
@@ -158,9 +385,9 @@
               </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="project-image">
-                    <img src="Photos/sgr2.avif"> alt="Madaraka
+                    <img src="Photos/sgr2.avif" alt="Madaraka Express">
                 </div>
                 <div class="project-content">
                   <h3>Madaraka-Express</h3>
@@ -173,7 +400,7 @@
               </div>
           </div>
             
-            <div class="project-card">
+            <div class="project-card reveal">
               <div class="project-image">
                   <img src="Photos/OIP__3_-removebg-preview.png" alt="Nhif">
               </div>
@@ -188,7 +415,7 @@
             </div>
           </div>
                      
-            <div class="project-card">
+            <div class="project-card reveal">
               <div class="project-image">
                   <img src="Photos/Konza2.jpeg" alt="AHP">
               </div>
@@ -205,7 +432,7 @@
         </div>
     </section>
 
-    <section id="leadership" class="leadership-section">
+    <section id="leadership" class="leadership-section section-padding container-box">
         <div class="section-title">
             <h2>Our Leadership</h2>
         </div>
@@ -233,7 +460,7 @@
         </div>
     </section>
 
-    <section id="about-us" class="timeline-section">
+    <section id="about-us" class="timeline-section section-padding container-box">
         <div class="section-title">
             <h2>Our Progress Timeline</h2>
         </div>
@@ -283,7 +510,7 @@
         </div>
     </section>
 
-    <section id="contact" class="subscription-section">
+    <section id="contact" class="subscription-section section-padding container-box">
         <div class="subscription-container">
             <h3>Stay Updated</h3>
             <p>Subscribe to receive the latest news and updates from the Government of Kenya</p>
@@ -305,6 +532,45 @@
         <p class="copyright">&copy; 2025 Government of Kenya. All rights reserved.</p>
     </footer>
 
-   
+    <script>
+        // Mobile Menu Toggle Logic
+        document.getElementById('menuToggleBtn').addEventListener('click', function() {
+            const nav = document.getElementById('mobileNav');
+            const isOpen = nav.classList.toggle('open');
+            this.setAttribute('aria-expanded', isOpen);
+            nav.setAttribute('aria-hidden', !isOpen);
+        });
+
+        // Timeline Tab Switcher
+        function showTimeline(period) {
+            const first = document.getElementById('first-timeline');
+            const second = document.getElementById('second-timeline');
+            const tabs = document.querySelectorAll('.timeline-tab');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            if(period === 'first') {
+                first.classList.add('active');
+                second.classList.remove('active');
+                tabs[0].classList.add('active');
+            } else {
+                second.classList.add('active');
+                first.classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+
+        // Scroll Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Stop observing once it has revealed
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
 </body>
 </html>

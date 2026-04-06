@@ -3,6 +3,13 @@
    Add <link rel="stylesheet" href="mobile-nav.css"> into your pages' <head>.
 */
 
+:root {
+  --primary-color: #0b9d3f;
+  --primary-dark: #087a31;
+  --nav-bg: rgba(15, 23, 42, 0.98); /* Deep slate instead of pure black */
+  --transition-speed: 0.3s;
+}
+
 /* Basic reset for the elements we touch */
 header .menu-toggle,
 header nav.mobile-nav {
@@ -76,11 +83,12 @@ header nav.mobile-nav {
     left: 0;
     right: 0;
     top: 100%;
-    background: rgba(0, 0, 0, 0.95); /* dark overlay look — adjust to match site */
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px); /* Modern frosted glass effect */
     z-index: 9999;
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.28s ease;
+    transition: max-height var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-overflow-scrolling: touch;
   }
 
@@ -109,12 +117,14 @@ header nav.mobile-nav {
     padding: 12px 16px;
     color: #ffffff; /* ensure contrast on dark bg */
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
+    transition: background var(--transition-speed);
   }
 
   header nav.mobile-nav ul li a:hover,
   header nav.mobile-nav ul li a:focus {
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.1);
+    padding-left: 24px; /* Subtle slide effect on hover */
   }
 
   /* If your header has additional right-side controls (social icons, login),

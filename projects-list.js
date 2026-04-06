@@ -179,7 +179,7 @@ document.head.insertAdjacentHTML('beforeend', `
     .projects-table-container {
         background-color: white;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         margin-top: 20px;
         overflow: hidden;
     }
@@ -188,7 +188,7 @@ document.head.insertAdjacentHTML('beforeend', `
         display: flex;
         padding: 15px;
         background-color: #f9f9f9;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #edf2f7;
     }
     
     .filter-group {
@@ -215,17 +215,17 @@ document.head.insertAdjacentHTML('beforeend', `
     }
     
     .projects-table th {
-        background-color: #f5f5f5;
+        background-color: #f8fafc;
         padding: 12px 15px;
         text-align: left;
         font-weight: 600;
-        color: #333;
-        border-bottom: 2px solid #ddd;
+        color: #475569;
+        border-bottom: 2px solid #e2e8f0;
     }
     
     .projects-table td {
         padding: 12px 15px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
     }
     
@@ -235,7 +235,7 @@ document.head.insertAdjacentHTML('beforeend', `
     
     .status-badge {
         padding: 6px 12px;
-        border-radius: 20px;
+        border-radius: 6px; /* Slightly more modern than full pills */
         font-size: 0.85em;
         font-weight: 500;
     }

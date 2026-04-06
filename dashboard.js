@@ -23,7 +23,8 @@ function initializeCharts() {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 0 // Set animation duration to 0 to disable it
+                    duration: 1200, // Smooth entrance
+                    easing: 'easeOutQuart'
                 },
                 plugins: {
                     legend: {
@@ -60,7 +61,8 @@ function initializeCharts() {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 0 // Set animation duration to 0 to disable it
+                    duration: 1000,
+                    delay: 300 // Staggered load for better UX
                 },
                 scales: {
                     y: {
