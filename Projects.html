@@ -1,847 +1,1676 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenya Government Projects & Transparency Hub</title>
+    <title>Projects & Transparency Hub — Government of Kenya</title>
+    <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* ════════════════════════════════════════════
+           DESIGN TOKENS
+        ════════════════════════════════════════════ */
         :root {
-            --primary: #2E7D32; 
-            --secondary: #1A237E; 
-            --accent: #FF6D00; 
-            --light: #f8f9fa;
-            --dark: #212529;
-            --text: #333333;
-            --white: #ffffff;
+            --green:        #0b6e31;
+            --green-mid:    #0f9544;
+            --green-light:  #e8f5ee;
+            --green-glow:   rgba(11,149,68,0.18);
+            --amber:        #d97706;
+            --amber-light:  #fef3c7;
+            --red:          #b91c1c;
+            --red-light:    #fee2e2;
+            --blue:         #1d4ed8;
+            --blue-light:   #dbeafe;
+
+            /* Light */
+            --bg:           #f2f4f3;
+            --surface:      #ffffff;
+            --surface-2:    #f8faf9;
+            --border:       rgba(0,0,0,0.07);
+            --border-strong:rgba(0,0,0,0.13);
+            --ink:          #111a14;
+            --ink-mid:      #374840;
+            --muted:        #7a8a80;
+            --shadow:       0 2px 20px rgba(0,0,0,0.06);
+            --shadow-lg:    0 12px 50px rgba(0,0,0,0.12);
+            --header-bg:    rgba(255,255,255,0.9);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        [data-theme="dark"] {
+            --bg:           #0c1410;
+            --surface:      #141d17;
+            --surface-2:    #1a2520;
+            --border:       rgba(255,255,255,0.06);
+            --border-strong:rgba(255,255,255,0.12);
+            --ink:          #e8f0ea;
+            --ink-mid:      #b4c4ba;
+            --muted:        #6b7d71;
+            --shadow:       0 2px 20px rgba(0,0,0,0.4);
+            --shadow-lg:    0 12px 50px rgba(0,0,0,0.5);
+            --header-bg:    rgba(14,22,17,0.94);
+            --green-light:  rgba(11,149,68,0.12);
+            --amber-light:  rgba(217,119,6,0.15);
+            --red-light:    rgba(185,28,28,0.15);
+            --blue-light:   rgba(29,78,216,0.15);
         }
-        
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-color: var(--light);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
         }
-        
-        /* Header Styles */
+
+        /* ── SCROLLBAR ─────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 10px; }
+
+        /* ════════════════════════════════════════════
+           HEADER
+        ════════════════════════════════════════════ */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
-            top: 0;
-            z-index: 100;
+            top: 0; z-index: 999;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s, border-color 0.3s;
         }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+        .header-inner {
+            max-width: 1440px; margin: 0 auto;
+            padding: 0 2rem; height: 68px;
+            display: flex; align-items: center; gap: 1.5rem;
         }
-        
-        .logo img {
-            height: 60px;
-            transition: transform 0.3s;
+        .logo-wrap {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; flex-shrink: 0;
         }
-        
-        .logo img:hover {
-            transform: scale(1.05);
+        .logo-wrap img { height: 40px; }
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem; font-weight: 700; color: var(--ink); line-height: 1.2;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
+        .logo-text span { color: var(--green-mid); }
+
+        nav { margin-left: auto; }
+        nav ul { display: flex; list-style: none; gap: 0.2rem; }
         nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s;
-            position: relative;
+            font-size: 0.82rem; font-weight: 500; color: var(--muted);
+            text-decoration: none; padding: 0.45rem 0.85rem;
+            border-radius: 8px; transition: all 0.2s; white-space: nowrap;
         }
-        
-        nav ul li a:hover {
-            background-color: rgba(255,255,255,0.2);
+        nav ul li a:hover,
+        nav ul li a.active { color: var(--green-mid); background: var(--green-light); }
+
+        .hdr-actions { display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0; }
+
+        .search-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--surface-2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 0.4rem 0.9rem;
+            transition: all 0.2s;
         }
-        
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--white);
-            transition: width 0.3s;
+        .search-pill:focus-within { border-color: var(--green-mid); box-shadow: 0 0 0 3px var(--green-glow); }
+        .search-pill i { color: var(--muted); font-size: 0.75rem; }
+        .search-pill input {
+            background: none; border: none; outline: none;
+            font-family: 'Outfit', sans-serif; font-size: 0.82rem;
+            color: var(--ink); width: 160px;
         }
-        
-        nav ul li a:hover::after {
-            width: 100%;
+        .search-pill input::placeholder { color: var(--muted); }
+
+        .icon-btn {
+            width: 36px; height: 36px;
+            background: var(--surface-2); border: 1px solid var(--border);
+            border-radius: 9px; display: grid; place-items: center;
+            color: var(--muted); font-size: 0.82rem; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
         }
-        
-        .search-icons {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        
-        .search-box {
-            position: relative;
-        }
-        
-        .search-box input {
-            padding: 0.8rem 1.5rem 0.8rem 3rem;
-            border-radius: 30px;
-            border: none;
-            width: 250px;
-            font-size: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .search-box input:focus {
-            outline: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            width: 300px;
-        }
-        
-        .search-box i {
-            position: absolute;
-            top: 50%;
-            left: 1rem;
-            transform: translateY(-50%);
-            color: var(--primary);
-        }
-        
-        .icon-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .icon-circle:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        /* Hero Section */
+        .icon-btn:hover { border-color: var(--green-mid); color: var(--green-mid); background: var(--green-light); }
+
+        .theme-btn { all: unset; cursor: pointer; }
+
+        /* ════════════════════════════════════════════
+           HERO
+        ════════════════════════════════════════════ */
         .hero {
-            position: relative;
-            height: 70vh;
-            overflow: hidden;
+            position: relative; height: 72vh; min-height: 520px;
+            display: flex; align-items: flex-end; overflow: hidden;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
-            z-index: 1;
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('Photos/back.jpeg') center/cover no-repeat;
+            transform: scale(1.04);
+            animation: heroZoom 14s ease-out forwards;
         }
-        
-        .hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+        @keyframes heroZoom { from { transform: scale(1.04); } to { transform: scale(1); } }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(165deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.08) 40%, rgba(5,30,12,0.82) 100%);
         }
-        
+        .hero-stripe {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, #000 33.3%, var(--red) 33.3% 66.6%, var(--green) 66.6%);
+            z-index: 3;
+        }
         .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: var(--white);
-            z-index: 2;
-            width: 80%;
+            position: relative; z-index: 2;
+            max-width: 1440px; margin: 0 auto; padding: 0 2rem 4.5rem; width: 100%;
+            opacity: 0; animation: fadeUp 1s 0.3s ease forwards;
         }
-        
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            animation: fadeInUp 1s ease;
+        @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.25rem;
         }
-        
-        .hero-content p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            animation: fadeInUp 1s ease 0.3s forwards;
-            opacity: 0;
+        .hero-eyebrow i { color: #7effa8; }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 700;
+            color: white; line-height: 1.08; letter-spacing: -0.02em;
+            margin-bottom: 1rem; max-width: 680px;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero h1 em { font-style: normal; color: #7effa8; }
+
+        .hero-desc {
+            color: rgba(255,255,255,0.68); font-size: 1.05rem;
+            max-width: 480px; line-height: 1.72; margin-bottom: 2rem;
         }
-        
-        /* CTA Bar */
-        .cta-bar {
-            background-color: var(--primary);
-            color: var(--white);
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+        .hero-actions { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+
+        .btn-white {
+            background: white; color: var(--ink); font-weight: 700;
+            font-size: 0.85rem; padding: 0.8rem 1.75rem; border-radius: 11px;
+            text-decoration: none; transition: all 0.25s; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 7px;
         }
-        
-        .cta-bar p {
-            margin: 0;
+        .btn-white:hover { background: var(--green-mid); color: white; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(11,110,49,0.4); }
+
+        .btn-outline-white {
+            background: transparent; color: white; font-weight: 600;
+            font-size: 0.85rem; padding: 0.8rem 1.75rem; border-radius: 11px;
+            text-decoration: none; border: 1.5px solid rgba(255,255,255,0.45);
+            transition: all 0.25s; display: inline-flex; align-items: center; gap: 7px;
         }
-        
-        .cta-btn {
-            background: var(--white);
-            color: var(--primary);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+        /* ════════════════════════════════════════════
+           STATS ROW
+        ════════════════════════════════════════════ */
+        .stats-row {
+            background: var(--ink);
+            display: grid; grid-template-columns: repeat(5, 1fr);
         }
-        
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .stat-cell {
+            padding: 1.75rem 2rem; text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.07);
         }
-        
-        /* Projects Section */
-        .projects-section {
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        .stat-cell:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem; font-weight: 700; color: #7effa8;
+            line-height: 1; margin-bottom: 0.3rem;
         }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
+        .stat-lbl {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
         }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
+
+        /* ════════════════════════════════════════════
+           LAYOUT WRAPPER
+        ════════════════════════════════════════════ */
+        .page-body {
+            max-width: 1440px; margin: 0 auto; padding: 3.5rem 2rem;
         }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 5px;
+
+        /* Section header */
+        .sec-head {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
         }
-        
+        .sec-eyebrow {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.63rem;
+            letter-spacing: 0.16em; text-transform: uppercase; color: var(--green-mid);
+            display: flex; align-items: center; gap: 6px; margin-bottom: 0.3rem;
+        }
+        .sec-eyebrow::before { content: ''; display: block; width: 16px; height: 2px; background: var(--green-mid); }
+        .sec-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem; font-weight: 700; color: var(--ink);
+        }
+
+        /* ── FILTER BAR ──────────────────────────── */
+        .filter-bar {
+            display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        .filter-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+            display: flex; align-items: center; gap: 6px; margin-right: 0.5rem;
+            white-space: nowrap;
+        }
+        .filter-label i { font-size: 0.7rem; }
+        .filter-btn {
+            font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 500;
+            padding: 0.45rem 1.1rem; border-radius: 8px;
+            border: 1px solid var(--border-strong); background: none;
+            color: var(--muted); cursor: pointer; transition: all 0.2s;
+        }
+        .filter-btn:hover { color: var(--ink); border-color: var(--ink); }
+        .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        [data-theme="dark"] .filter-btn.active { background: white; color: #0c1410; border-color: white; }
+
+        .filter-sep { width: 1px; background: var(--border); margin: 0 0.5rem; }
+
+        .sort-select {
+            margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+            padding: 0.45rem 0.9rem; border-radius: 8px; border: 1px solid var(--border-strong);
+            background: var(--surface-2); color: var(--ink); cursor: pointer; outline: none;
+        }
+
+        /* ── PROJECTS GRID ───────────────────────── */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .project-card {
-            background: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
-        .project-img {
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .project-card:hover .project-img img {
-            transform: scale(1.1);
-        }
-        
-        .project-content {
-            padding: 1.5rem;
-        }
-        
-        .project-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-        
-        .project-content p {
-            margin-bottom: 1.5rem;
-            color: var(--text);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .more-btn {
-            background-color: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 0.6rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .more-btn:hover {
-            background-color: #1e5c21;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-        
-        .more-btn i {
-            font-size: 0.8rem;
-        }
-        
-        /* Completed Projects Section */
-        .completed-projects {
-            background-color: var(--white);
-            padding: 4rem 2rem;
-        }
-        
-        .completed-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .projects-carousel {
-            display: flex;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
-            overflow-x: auto;
-            padding: 1rem 0;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) var(--light);
         }
-        
-        .projects-carousel::-webkit-scrollbar {
-            height: 8px;
+
+        /* Featured (spans 2 cols) */
+        .proj-card { 
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            display: flex; flex-direction: column;
+            opacity: 0; transform: translateY(30px);
         }
-        
-        .projects-carousel::-webkit-scrollbar-track {
-            background: var(--light);
-            border-radius: 10px;
-        }
-        
-        .projects-carousel::-webkit-scrollbar-thumb {
-            background-color: var(--primary);
-            border-radius: 10px;
-        }
-        
-        .completed-project {
-            min-width: 300px;
-            scroll-snap-align: start;
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .completed-project img {
-            width: 100%;
+        .proj-card.visible { opacity: 1; transform: translateY(0); }
+        .proj-card.featured { grid-column: span 2; }
+        .proj-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+        .proj-img {
+            position: relative; overflow: hidden;
             height: 200px;
-            object-fit: cover;
         }
-        
-        .project-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: var(--white);
+        .proj-card.featured .proj-img { height: 280px; }
+        .proj-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .proj-card:hover .proj-img img { transform: scale(1.06); }
+
+        /* Status badge */
+        .status-badge {
+            position: absolute; top: 12px; left: 12px;
+            display: inline-flex; align-items: center; gap: 5px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+            letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;
+            padding: 0.28rem 0.75rem; border-radius: 50px;
+        }
+        .status-badge .dot {
+            width: 6px; height: 6px; border-radius: 50%;
+        }
+        .status-ongoing   { background: rgba(15,149,68,0.18);  color: #0f9544; }
+        .status-ongoing .dot  { background: #0f9544; box-shadow: 0 0 0 3px rgba(15,149,68,0.3); animation: pulse 2s infinite; }
+        .status-complete  { background: rgba(29,78,216,0.15);  color: #1d4ed8; }
+        .status-complete .dot  { background: #1d4ed8; }
+        .status-planning  { background: rgba(217,119,6,0.15);  color: #d97706; }
+        .status-planning .dot  { background: #d97706; }
+        .status-paused    { background: rgba(185,28,28,0.14);  color: #b91c1c; }
+        .status-paused .dot    { background: #b91c1c; }
+
+        @keyframes pulse {
+            0%,100% { box-shadow: 0 0 0 3px rgba(15,149,68,0.3); }
+            50%      { box-shadow: 0 0 0 6px rgba(15,149,68,0.1); }
+        }
+
+        /* Sector tag */
+        .sector-tag {
+            position: absolute; top: 12px; right: 12px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            background: rgba(0,0,0,0.52); backdrop-filter: blur(6px);
+            color: rgba(255,255,255,0.85); padding: 0.25rem 0.65rem;
+            border-radius: 50px; border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .proj-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
+        .proj-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem; font-weight: 700; color: var(--ink);
+            margin-bottom: 0.5rem; line-height: 1.3;
+        }
+        .proj-card.featured .proj-body h3 { font-size: 1.5rem; }
+
+        .proj-body p {
+            font-size: 0.83rem; color: var(--muted); line-height: 1.68;
+            margin-bottom: 1.25rem; flex: 1;
+        }
+
+        /* Progress */
+        .prog-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 0.45rem;
+        }
+        .prog-row-left { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+        .prog-pct { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 500; color: var(--green-mid); }
+        .prog-track {
+            height: 5px; background: var(--surface-2); border-radius: 10px; overflow: hidden; margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), #22c55e);
+            border-radius: 10px;
+            transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
+            width: 0;
+        }
+
+        /* Meta row */
+        .proj-meta {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 1rem; border-top: 1px solid var(--border);
+        }
+        .proj-meta-info { display: flex; gap: 1rem; }
+        .meta-item {
+            display: flex; align-items: center; gap: 5px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.63rem;
+            color: var(--muted);
+        }
+        .meta-item i { font-size: 0.65rem; }
+        .proj-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.78rem; font-weight: 600; color: var(--green-mid);
+            text-decoration: none; transition: gap 0.2s;
+        }
+        .proj-link:hover { gap: 9px; }
+
+        /* ── COMPLETED CAROUSEL ─────────────────── */
+        .completed-section {
+            background: var(--ink);
+            padding: 5rem 0;
+            margin: 3rem 0;
+        }
+        .completed-inner {
+            max-width: 1440px; margin: 0 auto; padding: 0 2rem;
+        }
+        .completed-section .sec-eyebrow { color: #7effa8; }
+        .completed-section .sec-eyebrow::before { background: #7effa8; }
+        .completed-section .sec-title { color: white; }
+
+        .carousel-wrapper { position: relative; }
+        .carousel-track {
+            display: flex; gap: 1.25rem;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            padding-bottom: 6px;
+            scrollbar-width: none;
+        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+
+        .carousel-card {
+            min-width: 320px; border-radius: 16px; overflow: hidden;
+            scroll-snap-align: start; position: relative;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s; cursor: pointer; flex-shrink: 0;
+        }
+        .carousel-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
+        .carousel-card img {
+            width: 100%; height: 210px; object-fit: cover;
+            filter: brightness(0.85); transition: all 0.4s;
+        }
+        .carousel-card:hover img { filter: brightness(1); transform: scale(1.04); }
+
+        .carousel-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end;
             padding: 1.5rem;
-            transform: translateY(100%);
-            transition: transform 0.3s;
         }
-        
-        .completed-project:hover .project-overlay {
-            transform: translateY(0);
+        .carousel-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(11,149,68,0.85); color: white;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.25rem 0.65rem; border-radius: 50px;
+            margin-bottom: 0.6rem; width: fit-content;
         }
-        
-        .project-overlay h3 {
-            margin-bottom: 0.5rem;
+        .carousel-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 0.25rem;
         }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 3rem 2rem;
-            text-align: center;
+        .carousel-year {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+            color: rgba(255,255,255,0.55);
         }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: left;
+
+        .carousel-nav {
+            display: flex; gap: 0.5rem; margin-top: 1.5rem; justify-content: flex-end;
         }
-        
-        .footer-column h3 {
-            font-size: 1.3rem;
+        .carousel-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            color: white; cursor: pointer; display: grid; place-items: center;
+            font-size: 0.85rem; transition: all 0.2s;
+        }
+        .carousel-btn:hover { background: var(--green-mid); border-color: var(--green-mid); }
+
+        /* ── VISION 2030 BANNER ──────────────────── */
+        .vision-banner {
+            background: linear-gradient(135deg, var(--green) 0%, #073d1a 100%);
+            border-radius: 24px; padding: 3.5rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            align-items: center; position: relative; overflow: hidden;
+            margin-bottom: 3rem;
+        }
+        .vision-banner::after {
+            content: '2030';
+            position: absolute; right: -20px; top: -30px;
+            font-family: 'Cormorant Garamond', serif; font-size: 14rem;
+            font-weight: 700; color: rgba(255,255,255,0.05);
+            line-height: 1; pointer-events: none;
+        }
+        .vision-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 1rem;
+        }
+        .vision-text h2 em { font-style: normal; color: #7effa8; }
+        .vision-text p { color: rgba(255,255,255,0.68); font-size: 0.9rem; line-height: 1.75; margin-bottom: 0.75rem; }
+        .btn-vision-cta {
+            display: inline-flex; align-items: center; gap: 7px;
+            margin-top: 1.25rem; background: white; color: var(--green);
+            font-weight: 700; font-size: 0.85rem; padding: 0.8rem 1.6rem;
+            border-radius: 11px; text-decoration: none; transition: all 0.25s;
+        }
+        .btn-vision-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+
+        .vision-pillars { display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 1; }
+        .pillar {
+            background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px; padding: 1.25rem 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            transition: all 0.2s;
+        }
+        .pillar:hover { background: rgba(255,255,255,0.13); }
+        .pillar-icon {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: rgba(255,255,255,0.15); display: grid; place-items: center;
+            font-size: 1.1rem; color: #7effa8; flex-shrink: 0;
+        }
+        .pillar-text h4 { font-size: 0.9rem; font-weight: 600; color: white; margin-bottom: 0.2rem; }
+        .pillar-text p { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+
+        /* ── BUDGET HIGHLIGHTS ───────────────────── */
+        .budget-cards {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .budget-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; padding: 1.75rem;
+            transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .budget-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--green), #22c55e);
+            transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
+        }
+        .budget-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .budget-card:hover::before { transform: scaleX(1); }
+        .bc-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: var(--green-light); color: var(--green-mid);
+            display: grid; place-items: center; font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .bc-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem; font-weight: 700; color: var(--ink);
+            line-height: 1; margin-bottom: 0.3rem;
+        }
+        .bc-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .bc-trend {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+            font-weight: 500; display: flex; align-items: center; gap: 4px;
+        }
+        .bc-trend.up { color: var(--green-mid); }
+        .bc-trend.down { color: var(--red); }
+
+        /* ── MODAL / DETAIL OVERLAY ──────────────── */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px); z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: var(--surface); border-radius: 24px;
+            max-width: 700px; width: 100%; max-height: 88vh; overflow-y: auto;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            border: 1px solid var(--border-strong);
+        }
+        .modal-backdrop.open .modal { transform: scale(1) translateY(0); }
+        .modal-img { width: 100%; height: 280px; object-fit: cover; }
+        .modal-body { padding: 2rem; }
+        .modal-status { margin-bottom: 1rem; }
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem; font-weight: 700; color: var(--ink);
+            margin-bottom: 0.75rem; line-height: 1.2;
+        }
+        .modal-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
+        .modal-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+            padding: 1.25rem; background: var(--surface-2); border-radius: 14px;
             margin-bottom: 1.5rem;
-            color: var(--white);
-            position: relative;
-            display: inline-block;
         }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 3px;
-            background-color: var(--accent);
-            bottom: -5px;
-            left: 0;
+        .modal-stat-label { font-size: 0.68rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+        .modal-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+        .modal-close {
+            position: absolute; top: 1rem; right: 1rem;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--surface-2); border: 1px solid var(--border);
+            color: var(--muted); cursor: pointer; display: grid; place-items: center;
+            font-size: 0.85rem; transition: all 0.2s;
         }
-        
-        .footer-column ul {
-            list-style: none;
+        .modal-close:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+        .modal-footer-btns { display: flex; gap: 0.75rem; }
+        .btn-green {
+            background: var(--green); color: white; font-weight: 600;
+            font-size: 0.85rem; padding: 0.75rem 1.5rem; border-radius: 11px;
+            text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+            display: inline-flex; align-items: center; gap: 6px;
         }
-        
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
+        .btn-green:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 20px var(--green-glow); }
+        .btn-outline-green {
+            background: none; color: var(--green-mid); font-weight: 600;
+            font-size: 0.85rem; padding: 0.75rem 1.5rem; border-radius: 11px;
+            border: 1.5px solid var(--green-mid); text-decoration: none;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
         }
-        
-        .footer-column ul li a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s;
+        .btn-outline-green:hover { background: var(--green-light); }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer { background: #080f0a; color: rgba(255,255,255,0.4); padding: 3.5rem 2rem 2rem; }
+        .footer-inner {
+            max-width: 1440px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 1.5rem;
         }
-        
-        .footer-column ul li a:hover {
-            color: var(--white);
+        .footer-brand img { height: 38px; margin-bottom: 0.75rem; }
+        .footer-brand-name {
+            font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700;
+            color: white; margin-bottom: 0.75rem;
         }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+        .footer-brand-name em { color: #4ade80; font-style: normal; }
+        .footer-brand p { font-size: 0.82rem; line-height: 1.7; max-width: 300px; }
+        .footer-socials { display: flex; gap: 0.5rem; margin-top: 1.25rem; }
+        .footer-socials a {
+            width: 34px; height: 34px; border-radius: 9px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: grid; place-items: center;
+            color: rgba(255,255,255,0.4); font-size: 0.78rem; text-decoration: none;
+            transition: all 0.2s;
         }
-        
-        .social-links a {
-            color: var(--white);
-            background-color: rgba(255,255,255,0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .footer-socials a:hover { border-color: #4ade80; color: #4ade80; }
+        .footer-col h4 {
+            font-size: 0.75rem; font-weight: 600; color: white;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.55rem; }
+        .footer-col ul li a { font-size: 0.82rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #4ade80; }
+        .footer-col ul li i { margin-right: 6px; font-size: 0.72rem; color: var(--green-mid); }
+        .footer-bottom {
+            max-width: 1440px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.67rem; flex-wrap: wrap; gap: 0.5rem;
+        }
+
+        /* ── BACK TO TOP ─────────────────────────── */
+        .back-top {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 800;
+            width: 44px; height: 44px; border-radius: 12px;
+            background: var(--green); color: white; border: none; cursor: pointer;
+            display: grid; place-items: center; font-size: 0.9rem;
+            box-shadow: 0 8px 20px rgba(11,110,49,0.4);
+            transform: translateY(80px); opacity: 0;
             transition: all 0.3s;
         }
-        
-        .social-links a:hover {
-            background-color: var(--accent);
-            transform: translateY(-3px);
+        .back-top.show { transform: translateY(0); opacity: 1; }
+        .back-top:hover { background: var(--green-mid); transform: translateY(-3px); }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 1100px) {
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .proj-card.featured { grid-column: span 1; }
+            .budget-cards { grid-template-columns: repeat(2, 1fr); }
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            .vision-banner { grid-template-columns: 1fr; }
+            .vision-banner::after { display: none; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
         }
-        
-        .copyright {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-            
-            nav ul {
-                gap: 1rem;
-            }
-            
-            .search-box input {
-                width: 200px;
-            }
-        }
-        
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .search-box input {
-                width: 180px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-        
-        @media (max-width: 576px) {
-            header {
-                padding: 1rem;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: center;
-            }
-            
-            .search-box input {
-                width: 150px;
-                padding: 0.6rem 1rem 0.6rem 2.5rem;
-            }
-            
-            .hero-content h1 {
-                font-size: 1.8rem;
-            }
-            
-            .cta-bar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
+            nav { display: none; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .proj-card.featured { grid-column: span 1; }
+            .budget-cards { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .filter-bar { flex-wrap: wrap; }
+            .sort-select { margin-left: 0; }
+            .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+            .modal-stats { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Government Logo">
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="user_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
-                    <li><a href="pregress.html"><i class="fas fa-chart-line"></i> Progress</a></li>
-                    <li><a href="User - inquirery.html"><i class="fas fa-envelope"></i> Contact</a></li>
-                </ul>
-            </nav>
-            <div class="search-icons">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search projects...">
-                </div>
-                <div class="icon-circle">
-                    <a href="pprofile.html">
-                    <i class="fas fa-user"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <section class="hero">
-        <img src="Photos/back.jpeg" alt="Kenya Government Projects">
-        <div class="hero-content">
-            <h1>Kenya Government Projects & Transparency Hub</h1>
-            <p>Tracking our nation's development journey, one project at a time</p>
-        </div>
-    </section>
-
-    <div class="cta-bar">
-        <p>We are diligently focused on achieving our development goals for the Kenyan citizens</p>
-        <a href="visions.html">
-        <button class="cta-btn">Learn About Vision 2030 <i class="fas fa-arrow-right"></i></button>
+<!-- ════════ HEADER ════════ -->
+<header>
+    <div class="header-inner">
+        <a href="index.html" class="logo-wrap">
+            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+            <div class="logo-text">Kenya <span>Transparency</span></div>
         </a>
+
+        <nav>
+            <ul>
+                <li><a href="user_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="updates.html"><i class="fas fa-newspaper"></i> Updates</a></li>
+                <li><a href="Projects.html" class="active"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li><a href="Budget.html"><i class="fas fa-coins"></i> Budget</a></li>
+                <li><a href="User_inquirery.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="hdr-actions">
+            <div class="search-pill">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search projects..." id="searchInput">
+            </div>
+            <a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a>
+            <button class="icon-btn theme-btn" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+        </div>
+    </div>
+</header>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-stripe"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow"><i class="fas fa-star"></i> Official Projects Registry</div>
+        <h1>Kenya's<br><em>Development</em><br>Projects Hub</h1>
+        <p class="hero-desc">Track every shilling, every milestone, every breakthrough. A transparent window into Kenya's national and county development journey.</p>
+        <div class="hero-actions">
+            <a href="#projects" class="btn-white"><i class="fas fa-chart-line"></i> Browse Projects</a>
+            <a href="visions.html" class="btn-outline-white"><i class="fas fa-eye"></i> Vision 2030</a>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ STATS ROW ════════ -->
+<div class="stats-row">
+    <div class="stat-cell">
+        <div class="stat-num" data-target="18">0</div>
+        <div class="stat-lbl">Active Projects</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num" data-target="5">0</div>
+        <div class="stat-lbl">Completed</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num" data-suffix="B" data-target="890">0</div>
+        <div class="stat-lbl">KSh Invested</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num" data-target="47">0</div>
+        <div class="stat-lbl">Counties Covered</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num" data-target="2030">0</div>
+        <div class="stat-lbl">Vision Target</div>
+    </div>
+</div>
+
+<!-- ════════ PAGE BODY ════════ -->
+<div class="page-body">
+
+    <!-- Budget Highlights -->
+    <div class="sec-head" style="margin-bottom:1.5rem">
+        <div>
+            <div class="sec-eyebrow">Fiscal Overview</div>
+            <h2 class="sec-title">Budget Highlights</h2>
+        </div>
+    </div>
+    <div class="budget-cards">
+        <div class="budget-card">
+            <div class="bc-icon"><i class="fas fa-coins"></i></div>
+            <div class="bc-value">KSh 3.3T</div>
+            <div class="bc-label">National Budget FY 2023/24</div>
+            <div class="bc-trend up"><i class="fas fa-arrow-up"></i> +8.2% from last year</div>
+        </div>
+        <div class="budget-card">
+            <div class="bc-icon"><i class="fas fa-hard-hat"></i></div>
+            <div class="bc-value">KSh 890B</div>
+            <div class="bc-label">Infrastructure Allocation</div>
+            <div class="bc-trend up"><i class="fas fa-arrow-up"></i> +12% from last year</div>
+        </div>
+        <div class="budget-card">
+            <div class="bc-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="bc-value">1,247</div>
+            <div class="bc-label">Projects Delivered This Year</div>
+            <div class="bc-trend up"><i class="fas fa-arrow-up"></i> +15% completion rate</div>
+        </div>
+        <div class="budget-card">
+            <div class="bc-icon"><i class="fas fa-percentage"></i></div>
+            <div class="bc-value">92%</div>
+            <div class="bc-label">Procurement Transparency</div>
+            <div class="bc-trend down"><i class="fas fa-arrow-down"></i> -3% compliance flag</div>
+        </div>
     </div>
 
-    <section class="projects-section">
-        <div class="section-title">
-            <h2>Ongoing Projects</h2>
+    <!-- Projects Grid -->
+    <div id="projects" class="sec-head" style="scroll-margin-top:80px">
+        <div>
+            <div class="sec-eyebrow">National Initiatives</div>
+            <h2 class="sec-title">Ongoing Projects</h2>
         </div>
-        
-        <div class="projects-grid">
-            <!-- Project 1 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
-                </div>
-                <div class="project-content">
-                    <h3>Talanta Stadium</h3>
-                    <p>The construction of a modern stadium along Ngong Road to boost sports infrastructure and host international events.</p>
-                    <a href="project-details.html" class="more-btn"id="tal">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 2 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/gtc1.jpeg" alt="GTC Towers">
-                </div>
-                <div class="project-content">
-                    <h3>GTC Towers</h3>
-                    <p>A global establishment for both local events, staycations and official government functions in the heart of Nairobi.</p>
-                    <a href="Gtc-details.html" class="more-btn"id="gtc">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 3 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
-                </div>
-                <div class="project-content">
-                    <h3>Thika Superhighway</h3>
-                    <p>A modern transportation network connecting Nairobi to Thika, fostering economic growth and urban development.</p>
-                    <a href="Thika-detailes.htm" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 4 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/back.jpeg" alt="Konza City">
-                </div>
-                <div class="project-content">
-                    <h3>Konza Techno City</h3>
-                    <p>Africa's silicon savannah - a smart city between Nairobi and Mombasa to drive technological innovation.</p>
-                    <a href="Konza-city-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 5 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Road">
-                </div>
-                <div class="project-content">
-                    <h3>Nairobi-Mombasa Highway</h3>
-                    <p>Modernizing Kenya's busiest transport corridor to boost trade between the port city and the capital.</p>
-                    <a href="Usahihi-road.html" class="more-btn"id="nbm">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 6 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/OIP__3_-removebg-preview.png" alt="Vision 2030">
-                </div>
-                <div class="project-content">
-                    <h3>Vision 2030 Projects</h3>
-                    <p>Kenya's blueprint to transform into a globally competitive, industrialized middle-income country.</p>
-                    <a href="Vision2030-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 7 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/Konza2.jpeg" alt="Affordable Housing">
-                </div>
-                <div class="project-content">
-                    <h3>Affordable Housing Program</h3>
-                    <p>Delivering quality, affordable homes to Kenyans under the Big Four Agenda.</p>
-                    <a href="Affordable-housing.html" class="more-btn"id="housing">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Project 8 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/Nhif-removebg-preview.png" alt="NHIF Reforms">
-                </div>
-                <div class="project-content">
-                    <h3>NHIF Reforms</h3>
-                    <p>Transforming healthcare financing to achieve universal health coverage for all Kenyans.</p>
-                    <a href="NHIF.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-            <!-- Project 9 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/sgr1.jpeg" alt="GTC Towers">
-                </div>
-                <div class="project-content">
-                    <h3>SGR</h3>
-                    <p>The nairobi city railway line is being connected to other neighbouring cities.</p>
-                    <a href="Rail-details.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
+        <div style="display:flex;align-items:center;gap:0.5rem">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted)" id="countLabel">Showing 18 projects</span>
+        </div>
+    </div>
 
-             <!-- Project 10 -->
-             <div class="project-card">
-                <div class="project-img">
-                    <img src="Photos/usahihi.jpg" alt="usahihi road">
-                </div>
-                <div class="project-content">
-                    <h3>Usahihi Road</h3>
-                    <p>Usaihi Road in Kenya is located in the Machakos County, near the town of Masii. It's a local road primarily serving the surrounding rural and semi-urban communities. </p>
-                    <a href="Usahihi-road.html" class="more-btn">View Details <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <span class="filter-label"><i class="fas fa-filter"></i> Filter</span>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ongoing">Ongoing</button>
+        <button class="filter-btn" data-filter="complete">Completed</button>
+        <button class="filter-btn" data-filter="planning">Planning</button>
+        <div class="filter-sep"></div>
+        <button class="filter-btn" data-sector="infrastructure">Infrastructure</button>
+        <button class="filter-btn" data-sector="health">Health</button>
+        <button class="filter-btn" data-sector="housing">Housing</button>
+        <button class="filter-btn" data-sector="tech">Technology</button>
+        <button class="filter-btn" data-sector="sports">Sports</button>
+        <select class="sort-select" id="sortSelect">
+            <option value="default">Sort: Default</option>
+            <option value="progress-high">Progress: Highest</option>
+            <option value="progress-low">Progress: Lowest</option>
+            <option value="name">Name A–Z</option>
+        </select>
+    </div>
 
-    <section class="completed-projects">
-        <div class="completed-container">
-            <div class="section-title">
-                <h2>Completed Projects</h2>
-            </div>
-            
-            <div class="projects-carousel">
-                <!-- Completed Project 1 -->
-                <div class="completed-project">
-                    <img src="Photos/gtc3.jpeg" alt="Completed Project 1">
-                    <div class="project-overlay">
-                        <h3>GTC Towers</h3>
-                        <p>Completed: 2022</p>
-                    </div>
-                </div>
-                
-                <!-- Completed Project 2 -->
-                <div class="completed-project">
-                    <img src="Photos/Thika1.jpeg" alt="Completed Project 2">
-                    <div class="project-overlay">
-                        <h3>Thika Superhighway</h3>
-                        <p>Completed: 2018</p>
-                    </div>
-                </div>
-                
-                <!-- Completed Project 3 -->
-                <div class="completed-project">
-                    <img src="Photos/sgr1.jpeg" alt="Completed Project 3">
-                    <div class="project-overlay">
-                        <h3>Standard Gauge Railway</h3>
-                        <p>Phase 1 Completed: 2017</p>
-                    </div>
-                </div>
-                
-                <!-- Completed Project 4 -->
-                <div class="completed-project">
-                    <img src="Photos/konza techno.jpg" alt="Completed Project 4">
-                    <div class="project-overlay">
-                        <h3>Konza Technopolies</h3>
-                        <p>First(horizontal Infrastructure) Completed: 2024</p>
-                    </div>
-                </div>
-                
-               
-            </div>
-        </div>
-    </section>
+    <!-- Grid -->
+    <div class="projects-grid" id="projectsGrid">
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>About Us</h3>
-                <p>The Kenya Government Projects Portal provides transparent information about national development projects across all sectors.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+        <!-- 1: Talanta Stadium — FEATURED -->
+        <div class="proj-card featured" data-status="ongoing" data-sector="sports"
+             data-title="Talanta Stadium"
+             data-desc="Construction of a modern 60,000-seater stadium along Ngong Road to host international sports events, concerts, and talent showcases. The facility will include world-class amenities such as a velodrome, indoor arena, and public park."
+             data-progress="70" data-budget="KSh 22B" data-county="Nairobi" data-completion="2026"
+             data-img="Photos/talanta.jpeg" data-link="project-details.html">
+            <div class="proj-img">
+                <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Sports</div>
+            </div>
+            <div class="proj-body">
+                <h3>Talanta Sports Stadium</h3>
+                <p>Construction of a modern 60,000-seater stadium along Ngong Road to host international sports events, concerts, and talent showcases. The facility will include a velodrome, indoor arena, and public park.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">70%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:70%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 22B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Nairobi</div>
+                        <div class="meta-item"><i class="fas fa-calendar"></i> 2026</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
                 </div>
             </div>
-            
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Projects</a></li>
-                    <li><a href="#">Progress Reports</a></li>
-                    <li><a href="#">News & Updates</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
+        </div>
+
+        <!-- 2: GTC Towers -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="GTC Towers"
+             data-desc="A world-class Global Trade Centre featuring luxury hotel, Grade A office spaces, conference facilities, and hospitality services in Nairobi's Upper Hill financial district. A landmark redefining Kenya's skyline."
+             data-progress="99" data-budget="KSh 45B" data-county="Nairobi" data-completion="2024"
+             data-img="Photos/gtc1.jpeg" data-link="Gtc-details.html">
+            <div class="proj-img">
+                <img src="Photos/gtc1.jpeg" alt="GTC Towers">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Near Complete</div>
+                <div class="sector-tag">Infrastructure</div>
             </div>
-            
-            <div class="footer-column">
-                <h3>Resources</h3>
-                <ul>
-                    <li><a href="#">Vision 2030</a></li>
-                    <li><a href="#">Big Four Agenda</a></li>
-                    <li><a href="#">County Projects</a></li>
-                    <li><a href="#">Budget Reports</a></li>
-                    <li><a href="#">Annual Reports</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> Harambee House, Nairobi</li>
-                    <li><i class="fas fa-phone"></i> +254 20 222 7469</li>
-                    <li><i class="fas fa-envelope"></i> info@govprojects.go.ke</li>
-                </ul>
+            <div class="proj-body">
+                <h3>GTC Towers</h3>
+                <p>A world-class Global Trade Centre featuring luxury hotel, Grade A offices, conference facilities, and hospitality services in Nairobi's Upper Hill financial district.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">99%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:99%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 45B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Nairobi</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
             </div>
         </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 Kenya Government Projects Portal. All Rights Reserved.</p>
+
+        <!-- 3: Thika Superhighway -->
+        <div class="proj-card" data-status="complete" data-sector="infrastructure"
+             data-title="Thika Superhighway"
+             data-desc="A modern 50km multi-lane transportation network connecting Nairobi to Thika, revolutionising urban mobility and fostering economic growth along the corridor. Commissioned in 2012, it remains a flagship infrastructure milestone."
+             data-progress="100" data-budget="KSh 31B" data-county="Kiambu / Nairobi" data-completion="2012"
+             data-img="Photos/Thika 3.jpg" data-link="Thika-detailes.htm">
+            <div class="proj-img">
+                <img src="Photos/Thika 3.jpg" alt="Thika Superhighway">
+                <div class="status-badge status-complete"><div class="dot"></div>Completed</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Thika Superhighway</h3>
+                <p>A modern 50km multi-lane network connecting Nairobi to Thika, revolutionising urban mobility and fostering economic growth along the corridor.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">100%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 31B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Kiambu</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
         </div>
-    </footer>
+
+        <!-- 4: Konza Techno City -->
+        <div class="proj-card" data-status="ongoing" data-sector="tech"
+             data-title="Konza Technopolis"
+             data-desc="Africa's Silicon Savannah — a purpose-built smart city 60km south-east of Nairobi designed to anchor Kenya's knowledge economy. Phase 1 infrastructure including roads, power, and fibre is complete. Data centre and university campuses are under development."
+             data-progress="55" data-budget="KSh 150B" data-county="Machakos" data-completion="2030"
+             data-img="Photos/back.jpeg" data-link="Konza-city-details.html">
+            <div class="proj-img">
+                <img src="Photos/back.jpeg" alt="Konza Techno City">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Technology</div>
+            </div>
+            <div class="proj-body">
+                <h3>Konza Technopolis</h3>
+                <p>Africa's Silicon Savannah — a purpose-built smart city designed to anchor Kenya's knowledge economy with data centres, university campuses, and innovation hubs.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">55%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:55%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 150B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Machakos</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5: Nairobi-Mombasa Highway -->
+        <div class="proj-card" id="nbm" data-status="planning" data-sector="infrastructure"
+             data-title="Nairobi–Mombasa Highway"
+             data-desc="Modernising Kenya's busiest trade corridor — upgrading the A109 to a dual carriageway spanning 480km. The project will integrate rest stops, weighbridges, emergency response stations, and smart traffic management systems along the route."
+             data-progress="10" data-budget="KSh 200B" data-county="Multiple" data-completion="2029"
+             data-img="Photos/Thika 2.jpeg" data-link="Usahihi-road.html">
+            <div class="proj-img">
+                <img src="Photos/Thika 2.jpeg" alt="Nairobi-Mombasa Highway">
+                <div class="status-badge status-planning"><div class="dot"></div>Early Stage</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Nairobi–Mombasa Highway</h3>
+                <p>Modernising Kenya's busiest 480km trade corridor with dual carriageway upgrades, smart traffic management, and integrated logistics infrastructure.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">10%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:10%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 200B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> National</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6: Vision 2030 -->
+        <div class="proj-card" data-status="ongoing" data-sector="tech"
+             data-title="Vision 2030 Programme"
+             data-desc="Kenya's long-term development blueprint covering 2008–2030 targeting a newly industrialised, middle-income economy. The Vision has three pillars: Economic, Social, and Political Governance — tracked across rolling five-year medium-term plans."
+             data-progress="72" data-budget="KSh 3.3T (total)" data-county="National" data-completion="2030"
+             data-img="Photos/OIP__3_-removebg-preview.png" data-link="Vision2030-details.html">
+            <div class="proj-img">
+                <img src="Photos/OIP__3_-removebg-preview.png" alt="Vision 2030">
+                <div class="status-badge status-ongoing"><div class="dot"></div>In Progress</div>
+                <div class="sector-tag">National</div>
+            </div>
+            <div class="proj-body">
+                <h3>Vision 2030 Programme</h3>
+                <p>Kenya's flagship blueprint targeting a globally competitive, middle-income economy — spanning economic transformation, social equity, and governance reform.</p>
+                <div class="prog-row"><span class="prog-row-left">Overall Progress</span><span class="prog-pct">72%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:72%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> National</div>
+                        <div class="meta-item"><i class="fas fa-calendar"></i> 2030</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7: Affordable Housing -->
+        <div class="proj-card" id="housing" data-status="ongoing" data-sector="housing"
+             data-title="Affordable Housing Programme"
+             data-desc="Government's flagship social initiative targeting 500,000 affordable housing units across 15 counties under the Big Four Agenda. Units are priced between KSh 800,000 and KSh 3M, with government-backed mortgage schemes for low-income households."
+             data-progress="21" data-budget="KSh 100B" data-county="15 Counties" data-completion="2027"
+             data-img="Photos/Konza2.jpeg" data-link="Affordable-housing.html">
+            <div class="proj-img">
+                <img src="Photos/Konza2.jpeg" alt="Affordable Housing">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Housing</div>
+            </div>
+            <div class="proj-body">
+                <h3>Affordable Housing Programme</h3>
+                <p>Delivering 500,000 quality, affordable housing units across 15 counties with government-backed mortgage schemes for low-income Kenyan households.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">21%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:21%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 100B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> 15 Counties</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8: NHIF -->
+        <div class="proj-card" data-status="ongoing" data-sector="health"
+             data-title="NHIF Universal Healthcare Reforms"
+             data-desc="Comprehensive transformation of Kenya's National Hospital Insurance Fund to achieve universal health coverage for all 56 million citizens. Reforms include expanded benefit packages, streamlined claims processing, and county-level health financing partnerships."
+             data-progress="86" data-budget="KSh 30B" data-county="National" data-completion="2025"
+             data-img="Photos/Nhif-removebg-preview.png" data-link="NHIF.html">
+            <div class="proj-img">
+                <img src="Photos/Nhif-removebg-preview.png" alt="NHIF">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Health</div>
+            </div>
+            <div class="proj-body">
+                <h3>NHIF Universal Healthcare Reforms</h3>
+                <p>Transforming Kenya's healthcare financing to achieve universal health coverage — expanded benefits, streamlined claims, and county health financing partnerships.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">86%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:86%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 30B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> National</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9: SGR -->
+        <div class="proj-card" data-status="complete" data-sector="infrastructure"
+             data-title="Madaraka Express SGR"
+             data-desc="The Standard Gauge Railway Phase 1 connecting Mombasa and Nairobi (472km) was completed in 2017 and launched the Madaraka Express passenger and freight service. Phase 2 extends the line to Naivasha, with future phases targeting Kisumu and Malaba."
+             data-progress="100" data-budget="KSh 327B" data-county="National" data-completion="2017"
+             data-img="Photos/sgr1.jpeg" data-link="Rail-details.html">
+            <div class="proj-img">
+                <img src="Photos/sgr1.jpeg" alt="SGR">
+                <div class="status-badge status-complete"><div class="dot"></div>Phase 1 Complete</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Madaraka Express — SGR</h3>
+                <p>The 472km Standard Gauge Railway connecting Mombasa and Nairobi, transforming freight logistics and passenger transport across the country.</p>
+                <div class="prog-row"><span class="prog-row-left">Phase 1 Progress</span><span class="prog-pct">100%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 327B</div>
+                        <div class="meta-item"><i class="fas fa-calendar"></i> 2017</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10: Usahihi Road -->
+        <div class="proj-card" data-status="planning" data-sector="infrastructure"
+             data-title="Usahihi Road — Machakos"
+             data-desc="A county-level road rehabilitation project in Machakos County near Masii, upgrading rural and semi-urban access routes to all-weather tarmac standards. The project aims to open agricultural corridors and improve emergency access for surrounding communities."
+             data-progress="30" data-budget="KSh 2.8B" data-county="Machakos" data-completion="2026"
+             data-img="Photos/usahihi.jpg" data-link="Usahihi-road.html">
+            <div class="proj-img">
+                <img src="Photos/usahihi.jpg" alt="Usahihi Road">
+                <div class="status-badge status-planning"><div class="dot"></div>Planning</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Usahihi Road — Machakos</h3>
+                <p>Upgrading rural and semi-urban access roads in Machakos County to all-weather tarmac, opening agricultural corridors and improving emergency access.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">30%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:30%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 2.8B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Machakos</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11: LAPSSET Lamu Port -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="LAPSSET Corridor - Lamu Port"
+             data-desc="Construction of the first three berths of the Lamu Port, part of the Lamu Port-South Sudan-Ethiopia-Transport (LAPSSET) Corridor. Designed to facilitate trade with landlocked neighbors and open up Northern Kenya."
+             data-progress="95" data-budget="KSh 40B" data-county="Lamu" data-completion="2024"
+             data-img="Photos/new port.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/new port.jpeg" alt="Lamu Port">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Phase 1 Near Complete</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>LAPSSET Corridor - Lamu Port</h3>
+                <p>Construction of the first three berths of the Lamu Port, designed to facilitate trade with landlocked neighbors and open up Northern Kenya's economic potential.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">95%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:95%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 40B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Lamu</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12: Galana Kulalu -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Galana Kulalu Food Security Project"
+             data-desc="A massive irrigation project aimed at making Kenya food secure by bringing 1 million acres under irrigation. Currently focusing on model farm production and water infrastructure development."
+             data-progress="45" data-budget="KSh 7B" data-county="Kilifi / Tana River" data-completion="2027"
+             data-img="Photos/agric.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/agric.jpeg" alt="Galana Kulalu">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Galana Kulalu Food Security Project</h3>
+                <p>A massive irrigation project aimed at making Kenya food secure by bringing 1 million acres under irrigation, focusing on model farm production and water infrastructure.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">45%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:45%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 7B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Kilifi</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13: Kenol-Sagana-Marua -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Kenol-Sagana-Marua Dual Carriageway"
+             data-desc="Upgrading the existing 84km road to a four-lane dual carriageway. Part of the Great North Road linking Kenya to Ethiopia via Moyale."
+             data-progress="80" data-budget="KSh 14B" data-county="Murang'a / Nyeri" data-completion="2024"
+             data-img="Photos/road3.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/road3.jpeg" alt="Kenol-Sagana-Marua Road">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Kenol-Sagana-Marua Highway</h3>
+                <p>Upgrading the 84km road to a four-lane dual carriageway, part of the Great North Road linking Kenya to Ethiopia and improving trade transit.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">80%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 14B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Mt. Kenya</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14: Dongo Kundu -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Dongo Kundu Bypass"
+             data-desc="Construction of bridges and roads to link Mombasa mainland west to the south coast without entering Mombasa island, easing congestion and unlocking the Dongo Kundu SEZ."
+             data-progress="90" data-budget="KSh 28B" data-county="Mombasa" data-completion="2024"
+             data-img="Photos/eyeke.jpg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/eyeke.jpg" alt="Dongo Kundu Bypass">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Near Complete</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Dongo Kundu Bypass</h3>
+                <p>A strategic transport link connecting Mombasa West to the South Coast via bridges, easing Likoni ferry congestion and unlocking the Special Economic Zone.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">90%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:90%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 28B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Mombasa</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15: Last Mile -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Last Mile Connectivity Project"
+             data-desc="Increasing electricity access by connecting households to the national grid through transformers within 600m of premises, targeting rural and peri-urban populations."
+             data-progress="85" data-budget="KSh 50B" data-county="National" data-completion="2025"
+             data-img="Photos/Usa2.jpg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/Usa2.jpg" alt="Last Mile Connectivity">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Last Mile Connectivity Project</h3>
+                <p>Scaling up national electricity access by connecting millions of households to the grid, transforming lives in rural and peri-urban Kenya.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">85%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:85%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 50B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> National</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 16: Mwache Dam -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Mwache Multi-purpose Dam"
+             data-desc="A critical water supply project in Kwale aimed at providing 186,000 cubic meters of water daily to Mombasa and Kwale counties. It includes a 84m high dam and significant irrigation infrastructure."
+             data-progress="15" data-budget="KSh 20B" data-county="Kwale" data-completion="2027"
+             data-img="Photos/agric.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/agric.jpeg" alt="Mwache Dam">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Ongoing</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Mwache Multi-purpose Dam</h3>
+                <p>Solving the coastal water crisis by supplying 186 million liters of water daily to Mombasa and Kwale, while supporting local irrigation schemes.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">15%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:15%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 20B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Kwale</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 17: Kisumu Port -->
+        <div class="proj-card" data-status="ongoing" data-sector="infrastructure"
+             data-title="Kisumu Port Revitalization"
+             data-desc="Modernization of Kisumu Port to handle larger vessels and increase cargo throughput to neighboring countries via Lake Victoria. Includes shipyard upgrades and new oil jetties."
+             data-progress="90" data-budget="KSh 3B" data-county="Kisumu" data-completion="2024"
+             data-img="Photos/new port.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/new port.jpeg" alt="Kisumu Port">
+                <div class="status-badge status-ongoing"><div class="dot"></div>Near Complete</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Kisumu Port Revitalization</h3>
+                <p>Restoring Kisumu as a premier regional trade hub by modernizing port infrastructure and shipyards to serve the East African Community.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">90%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:90%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 3B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Kisumu</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 18: Riruta-Ngong Rail -->
+        <div class="proj-card" data-status="planning" data-sector="infrastructure"
+             data-title="Riruta-Ngong Commuter Rail"
+             data-desc="Expansion of the Nairobi Commuter Rail network to include a new 12.5km line from Riruta to Ngong. Designed to reduce travel time for commuters and de-congest the Ngong Road corridor."
+             data-progress="5" data-budget="KSh 1.2B" data-county="Nairobi / Kajiado" data-completion="2025"
+             data-img="Photos/road3.jpeg" data-link="#">
+            <div class="proj-img">
+                <img src="Photos/road3.jpeg" alt="Riruta-Ngong Rail">
+                <div class="status-badge status-planning"><div class="dot"></div>Planning</div>
+                <div class="sector-tag">Infrastructure</div>
+            </div>
+            <div class="proj-body">
+                <h3>Riruta-Ngong Commuter Rail</h3>
+                <p>A major transit expansion project providing a reliable rail link between Nairobi and Ngong to ease traffic congestion and improve urban mobility.</p>
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct">5%</span></div>
+                <div class="prog-track"><div class="prog-fill" style="--w:5%"></div></div>
+                <div class="proj-meta">
+                    <div class="proj-meta-info">
+                        <div class="meta-item"><i class="fas fa-coins"></i> KSh 1.2B</div>
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Metropolitan</div>
+                    </div>
+                    <button class="proj-link open-modal"><i class="fas fa-arrow-right"></i> Details</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /projects-grid -->
+
+    <!-- No results state -->
+    <div id="noResults" style="display:none; text-align:center; padding:4rem 2rem;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;opacity:0.3">🔍</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem">No projects found</div>
+        <div style="color:var(--muted);font-size:0.875rem">Try adjusting your filters or search query</div>
+    </div>
+
+</div><!-- /page-body -->
+
+<!-- ════════ COMPLETED CAROUSEL ════════ -->
+<section class="completed-section">
+    <div class="completed-inner">
+        <div class="sec-head">
+            <div>
+                <div class="sec-eyebrow">Delivered Milestones</div>
+                <h2 class="sec-title">Completed Projects</h2>
+            </div>
+            <div class="carousel-nav">
+                <button class="carousel-btn" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-card">
+                    <img src="Photos/gtc3.jpeg" alt="GTC Towers">
+                    <div class="carousel-overlay">
+                        <div class="carousel-badge"><i class="fas fa-check"></i> Complete</div>
+                        <div class="carousel-title">GTC Towers</div>
+                        <div class="carousel-year">Completed 2022 · KSh 45B</div>
+                    </div>
+                </div>
+                <div class="carousel-card">
+                    <img src="Photos/Thika1.jpeg" alt="Thika Superhighway">
+                    <div class="carousel-overlay">
+                        <div class="carousel-badge"><i class="fas fa-check"></i> Complete</div>
+                        <div class="carousel-title">Thika Superhighway</div>
+                        <div class="carousel-year">Completed 2012 · KSh 31B</div>
+                    </div>
+                </div>
+                <div class="carousel-card">
+                    <img src="Photos/sgr1.jpeg" alt="SGR Phase 1">
+                    <div class="carousel-overlay">
+                        <div class="carousel-badge"><i class="fas fa-check"></i> Phase 1 Complete</div>
+                        <div class="carousel-title">Madaraka Express SGR</div>
+                        <div class="carousel-year">Completed 2017 · KSh 327B</div>
+                    </div>
+                </div>
+                <div class="carousel-card">
+                    <img src="Photos/konza techno.jpg" alt="Konza Infrastructure">
+                    <div class="carousel-overlay">
+                        <div class="carousel-badge"><i class="fas fa-check"></i> Phase 1 Complete</div>
+                        <div class="carousel-title">Konza Horizontal Infrastructure</div>
+                        <div class="carousel-year">Completed 2024 · KSh 12B</div>
+                    </div>
+                </div>
+                <div class="carousel-card">
+                    <img src="Photos/Thika 3.jpg" alt="Thika Road">
+                    <div class="carousel-overlay">
+                        <div class="carousel-badge"><i class="fas fa-check"></i> Complete</div>
+                        <div class="carousel-title">Thika Road Interchange</div>
+                        <div class="carousel-year">Completed 2018 · KSh 4.5B</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════ VISION 2030 BANNER ════════ -->
+<div class="page-body" style="padding-top:3rem;padding-bottom:0">
+    <div class="vision-banner">
+        <div class="vision-text">
+            <h2>Kenya <em>Vision 2030</em></h2>
+            <p>Kenya's development blueprint aims to transform the country into a globally competitive, middle-income nation by 2030. Every project listed on this portal contributes to one or more of the Vision's three pillars.</p>
+            <p>This portal tracks progress across all pillars to ensure transparent accountability in implementation for every Kenyan citizen.</p>
+            <a href="visions.html" class="btn-vision-cta"><i class="fas fa-chart-line"></i> Track Full Progress</a>
+        </div>
+        <div class="vision-pillars">
+            <div class="pillar">
+                <div class="pillar-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="pillar-text">
+                    <h4>Economic Pillar</h4>
+                    <p>Achieving 10% GDP growth through infrastructure, trade and finance</p>
+                </div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon"><i class="fas fa-users"></i></div>
+                <div class="pillar-text">
+                    <h4>Social Pillar</h4>
+                    <p>Investing in people through education, health, housing and environment</p>
+                </div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon"><i class="fas fa-balance-scale"></i></div>
+                <div class="pillar-text">
+                    <h4>Political Pillar</h4>
+                    <p>Nurturing issue-based, transparent and accountable democratic governance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+            <div class="footer-brand-name">Kenya <em>Transparency</em></div>
+            <p>The Kenya Government Projects Portal provides citizens with transparent information about national development projects across all sectors — promoting accountability and public participation.</p>
+            <div class="footer-socials">
+                <a href="https://twitter.com/StateHouseKenya"><i class="fab fa-twitter"></i></a>
+                <a href="https://facebook.com/StateHouseKenya"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/statehousekenya"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@StateHouseKenya"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="user_dashboard.html">Dashboard</a></li>
+                <li><a href="Projects.html">All Projects</a></li>
+                <li><a href="Budget.html">Budget Reports</a></li>
+                <li><a href="updates.html">News & Updates</a></li>
+                <li><a href="User_inquirery.html">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="visions.html">Vision 2030</a></li>
+                <li><a href="#">Big Four Agenda</a></li>
+                <li><a href="county.html">County Projects</a></li>
+                <li><a href="#">Annual Reports</a></li>
+                <li><a href="Tenders.html">Tender Opportunities</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Harambee House, Nairobi</a></li>
+                <li><a href="tel:+254202227469"><i class="fas fa-phone"></i> +254 20 222 7469</a></li>
+                <li><a href="mailto:info@govprojects.go.ke"><i class="fas fa-envelope"></i> info@govprojects.go.ke</a></li>
+                <li><a href="#"><i class="fas fa-globe"></i> www.kenya.go.ke</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 Government of Kenya. All rights reserved.</span>
+        <span>Kenya Transparency Portal v2.0</span>
+    </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<!-- ════════ MODAL ════════ -->
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modal">
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+        <img src="" alt="" class="modal-img" id="modalImg">
+        <div class="modal-body">
+            <div class="modal-status" id="modalStatus"></div>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-stats">
+                <div><div class="modal-stat-label">Budget</div><div class="modal-stat-val" id="modalBudget">—</div></div>
+                <div><div class="modal-stat-label">County</div><div class="modal-stat-val" id="modalCounty">—</div></div>
+                <div><div class="modal-stat-label">Target</div><div class="modal-stat-val" id="modalCompletion">—</div></div>
+            </div>
+            <div id="modalProgWrap">
+                <div class="prog-row"><span class="prog-row-left">Completion Progress</span><span class="prog-pct" id="modalProgPct"></span></div>
+                <div class="prog-track"><div class="prog-fill" id="modalProgFill" style="width:0"></div></div>
+            </div>
+            <div class="modal-footer-btns" style="margin-top:1.5rem">
+                <a href="#" id="modalLink" class="btn-green"><i class="fas fa-external-link-alt"></i> Full Project Page</a>
+                <button class="btn-outline-green" id="modalCloseBtn"><i class="fas fa-times"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════ SCRIPTS ════════ -->
+<script>
+/* ── THEME TOGGLE ─────────────────────────── */
+(function() {
+    const btn = document.getElementById('themeToggle');
+    const icon = btn.querySelector('i');
+    const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    function apply(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        icon.className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', t);
+    }
+    apply(saved);
+    btn.addEventListener('click', () => apply(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+})();
+
+/* ── COUNTER ANIMATION ────────────────────── */
+const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let c = 0; const inc = target / 60;
+        const t = setInterval(() => {
+            c = Math.min(c + inc, target);
+            el.textContent = Math.floor(c) + suffix;
+            if (c >= target) clearInterval(t);
+        }, 20);
+        counterObs.unobserve(el);
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+
+/* ── SCROLL REVEAL ────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+        if (!e.isIntersecting) return;
+        setTimeout(() => e.target.classList.add('visible'), 80);
+        revealObs.unobserve(e.target);
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.proj-card').forEach((c, i) => {
+    c.style.transitionDelay = `${i * 60}ms`;
+    revealObs.observe(c);
+});
+
+/* ── PROGRESS BAR ANIMATE ─────────────────── */
+const progObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.prog-fill').forEach(bar => {
+            const w = bar.style.getPropertyValue('--w') || bar.getAttribute('style').match(/--w:([\d.%]+)/)?.[1];
+            if (w) bar.style.width = w;
+        });
+        progObs.unobserve(e.target);
+    });
+}, { threshold: 0.2 });
+document.querySelectorAll('.proj-card').forEach(c => progObs.observe(c));
+
+/* ── FILTER & SEARCH ──────────────────────── */
+let activeStatus = 'all', activeSector = 'all', searchQuery = '';
+
+function applyFilters() {
+    const cards = document.querySelectorAll('.proj-card');
+    const sort = document.getElementById('sortSelect').value;
+    let visible = 0;
+
+    // Collect & sort
+    const arr = Array.from(cards);
+    if (sort === 'progress-high') arr.sort((a,b) => +b.dataset.progress - +a.dataset.progress);
+    else if (sort === 'progress-low') arr.sort((a,b) => +a.dataset.progress - +b.dataset.progress);
+    else if (sort === 'name') arr.sort((a,b) => a.dataset.title.localeCompare(b.dataset.title));
+
+    const grid = document.getElementById('projectsGrid');
+    arr.forEach(c => grid.appendChild(c)); // re-order DOM
+
+    cards.forEach(card => {
+        const matchStatus = activeStatus === 'all' || card.dataset.status === activeStatus;
+        const matchSector = activeSector === 'all' || card.dataset.sector === activeSector;
+        const matchSearch = !searchQuery || 
+            card.dataset.title.toLowerCase().includes(searchQuery) || 
+            card.dataset.desc.toLowerCase().includes(searchQuery);
+        const show = matchStatus && matchSector && matchSearch;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+    });
+
+    document.getElementById('countLabel').textContent = `Showing ${visible} project${visible !== 1 ? 's' : ''}`;
+    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+// Status filters
+document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeStatus = btn.dataset.filter;
+        applyFilters();
+    });
+});
+
+// Sector filters
+document.querySelectorAll('[data-sector]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-sector]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeSector = btn.dataset.sector;
+        applyFilters();
+    });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    applyFilters();
+});
+
+// Sort
+document.getElementById('sortSelect').addEventListener('change', applyFilters);
+
+/* ── MODAL ────────────────────────────────── */
+const backdrop = document.getElementById('modalBackdrop');
+
+function openModal(card) {
+    document.getElementById('modalImg').src = card.dataset.img;
+    document.getElementById('modalTitle').textContent = card.dataset.title;
+    document.getElementById('modalDesc').textContent = card.dataset.desc;
+    document.getElementById('modalBudget').textContent = card.dataset.budget || '—';
+    document.getElementById('modalCounty').textContent = card.dataset.county || '—';
+    document.getElementById('modalCompletion').textContent = card.dataset.completion || '—';
+    document.getElementById('modalLink').href = card.dataset.link || '#';
+
+    const pct = card.dataset.progress;
+    document.getElementById('modalProgPct').textContent = pct + '%';
+    const fill = document.getElementById('modalProgFill');
+    fill.style.width = '0';
+    setTimeout(() => { fill.style.width = pct + '%'; }, 100);
+
+    // Status badge
+    const statusMap = { ongoing: 'status-ongoing', complete: 'status-complete', planning: 'status-planning', paused: 'status-paused' };
+    const statusLabel = { ongoing: 'Ongoing', complete: 'Completed', planning: 'Planning Stage', paused: 'Paused' };
+    const st = card.dataset.status;
+    document.getElementById('modalStatus').innerHTML = `<div class="status-badge ${statusMap[st] || ''}"><div class="dot"></div>${statusLabel[st] || st}</div>`;
+
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+document.querySelectorAll('.open-modal').forEach(btn => {
+    btn.addEventListener('click', e => {
+        const card = e.target.closest('.proj-card');
+        if (card) openModal(card);
+    });
+});
+
+function closeModal() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── CAROUSEL ─────────────────────────────── */
+const track = document.getElementById('carouselTrack');
+document.getElementById('carouselNext').addEventListener('click', () => {
+    track.scrollBy({ left: 340, behavior: 'smooth' });
+});
+document.getElementById('carouselPrev').addEventListener('click', () => {
+    track.scrollBy({ left: -340, behavior: 'smooth' });
+});
+
+/* ── BACK TO TOP ──────────────────────────── */
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > 500);
+});
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ── HEADER SCROLL SHADOW ─────────────────── */
+window.addEventListener('scroll', () => {
+    document.querySelector('header').style.boxShadow = window.scrollY > 30 ? '0 2px 30px rgba(0,0,0,0.1)' : '';
+});
+</script>
+
 </body>
 </html>
