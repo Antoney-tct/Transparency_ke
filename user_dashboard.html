@@ -1,749 +1,1569 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenya Government Transparency Portal</title>
-    <script src="video.js"></script>
-    <link rel="Stylesheet"href="user_dashboard.css">
-    <link rel="stylesheet" href="mobile-nav.css">
-    <script src="theme.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Kenya Transparency Portal — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- 
+
     <style>
+        /* ══════════════════════════════════════════
+           DESIGN TOKENS — LIGHT & DARK
+        ══════════════════════════════════════════ */
         :root {
-            --primary-color: #0b9d3f;
+            --green: #0b6e31;
+            --green-mid: #0f9544;
+            --green-glow: rgba(11,149,68,0.18);
+            --green-subtle: #e8f5ee;
+
+            /* Light mode */
+            --bg: #f2f4f3;
+            --surface: #ffffff;
+            --surface-2: #f8faf9;
+            --border: rgba(0,0,0,0.07);
+            --border-strong: rgba(0,0,0,0.12);
+            --ink: #111a14;
+            --ink-mid: #374840;
+            --muted: #7a8a80;
+            --shadow: 0 2px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
+            --header-bg: rgba(255,255,255,0.88);
+            --card-hover: #f0faf4;
+            --chart-grid: rgba(0,0,0,0.06);
+            --chart-tick: #7a8a80;
+            --chart-legend: #374840;
+            --metric-up: #0b6e31;
+            --metric-down: #b91c1c;
+            --sidebar-bg: #0f1f15;
         }
-        
-        .video-player {
-            max-width: 800px;
+
+        [data-theme="dark"] {
+            --bg: #0c1410;
+            --surface: #141d17;
+            --surface-2: #1a2520;
+            --border: rgba(255,255,255,0.06);
+            --border-strong: rgba(255,255,255,0.12);
+            --ink: #e8f0ea;
+            --ink-mid: #b4c4ba;
+            --muted: #6b7d71;
+            --shadow: 0 2px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+            --header-bg: rgba(14,22,17,0.92);
+            --card-hover: #1c2d22;
+            --chart-grid: rgba(255,255,255,0.06);
+            --chart-tick: #6b7d71;
+            --chart-legend: #b4c4ba;
+            --metric-up: #4ade80;
+            --metric-down: #f87171;
+            --green-subtle: rgba(11,149,68,0.12);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ══════════════════════════════════════════
+           HEADER
+        ══════════════════════════════════════════ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .header-inner {
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
-        
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-wrap img { height: 40px; width: auto; }
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+        .logo-text span { color: var(--green-mid); }
+
+        nav { margin-left: auto; }
+        nav ul { display: flex; list-style: none; gap: 0.2rem; }
+        nav ul li a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        nav ul li a:hover { color: var(--ink); background: var(--green-subtle); }
+        nav ul li a.active { color: var(--green-mid); background: var(--green-subtle); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-wrap i {
+            position: absolute;
+            left: 10px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            pointer-events: none;
+        }
+        .search-wrap input {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--ink);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            padding: 0.45rem 0.9rem 0.45rem 2rem;
+            border-radius: 9px;
+            width: 180px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-wrap input:focus {
+            border-color: var(--green-mid);
+            width: 220px;
+            box-shadow: 0 0 0 3px var(--green-glow);
+        }
+        .search-wrap input::placeholder { color: var(--muted); }
+
+        .icon-btn {
+            width: 38px; height: 38px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover { border-color: var(--green-mid); color: var(--green-mid); background: var(--green-subtle); }
+
+        .notif-badge {
+            position: absolute;
+            top: -4px; right: -4px;
+            background: var(--green-mid);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--bg);
+        }
+
+        /* Notification dropdown */
+        .notif-wrapper { position: relative; }
+        .notif-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 320px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-8px) scale(0.97);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            z-index: 200;
+        }
+        .notif-wrapper.open .notif-dropdown {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+        .notif-head {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .notif-head h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .notif-count-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            background: var(--green-subtle);
+            color: var(--green-mid);
+            padding: 0.2rem 0.55rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .notif-item {
+            display: flex;
+            gap: 0.85rem;
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .notif-item:hover { background: var(--surface-2); }
+        .notif-item.unread { background: var(--green-subtle); }
+        .notif-item.unread:hover { background: var(--card-hover); }
+        .notif-icon {
+            width: 34px; height: 34px;
+            background: var(--surface-2);
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            color: var(--green-mid);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .notif-item.unread .notif-icon { background: rgba(11,149,68,0.15); }
+        .notif-text p { font-size: 0.8rem; color: var(--ink-mid); line-height: 1.4; }
+        .notif-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+        .notif-view-all {
+            display: block;
+            text-align: center;
+            padding: 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--green-mid);
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .notif-view-all:hover { background: var(--surface-2); }
+
+        .profile-btn {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--green-mid);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .profile-btn:hover { box-shadow: 0 0 0 4px var(--green-glow); }
+        .profile-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+        .theme-btn {
+            width: 38px; height: 38px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .theme-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
+
+        /* ══════════════════════════════════════════
+           HERO BANNER
+        ══════════════════════════════════════════ */
+        .hero {
+            background: linear-gradient(135deg, var(--green) 0%, #0a4a20 100%);
+            padding: 3.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: 'KE';
+            position: absolute;
+            right: -20px; top: -40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.04);
+            pointer-events: none;
+            line-height: 1;
+        }
+        .hero-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .hero-text {}
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.75rem;
+        }
+        .hero-tag span {
+            width: 16px; height: 1px;
+            background: rgba(255,255,255,0.4);
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 0.75rem;
+        }
+        .hero p {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.95rem;
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-hero:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+
+        /* Hero quick stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .hero-stat {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            backdrop-filter: blur(10px);
+            min-width: 140px;
+        }
+        .hero-stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #7effa8;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+        .hero-stat-label {
+            font-size: 0.73rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ══════════════════════════════════════════
+           MAIN LAYOUT
+        ══════════════════════════════════════════ */
+        .main-content {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+        }
+
+        /* ══════════════════════════════════════════
+           SECTION HEADER
+        ══════════════════════════════════════════ */
+        .sec-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .sec-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--green-mid);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 0.35rem;
+        }
+        .sec-label::before {
+            content: '';
+            display: block;
+            width: 16px; height: 2px;
+            background: var(--green-mid);
+        }
+        .sec-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .btn-sm {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--green-mid);
+            text-decoration: none;
+            border: 1px solid var(--border-strong);
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+        }
+        .btn-sm:hover { border-color: var(--green-mid); background: var(--green-subtle); }
+
+        /* ══════════════════════════════════════════
+           KPI CARDS
+        ══════════════════════════════════════════ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), #22c55e);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .kpi-card:hover::after { transform: scaleX(1); }
+
+        .kpi-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+        .kpi-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted);
+        }
+        .kpi-icon {
+            width: 38px; height: 38px;
+            background: var(--green-subtle);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: var(--green-mid);
+            font-size: 0.9rem;
+        }
+        .kpi-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+        .kpi-sub { font-size: 0.73rem; color: var(--muted); margin-bottom: 0.6rem; }
+        .kpi-trend {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .trend-up { color: var(--metric-up); }
+        .trend-down { color: var(--metric-down); }
+
+        /* ══════════════════════════════════════════
+           PROJECTS GRID
+        ══════════════════════════════════════════ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .proj-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .proj-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .proj-img-wrap {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        .proj-img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.92);
+        }
+        .proj-card:hover .proj-img-wrap img { transform: scale(1.06); }
+        .proj-badge {
+            position: absolute;
+            top: 10px; right: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            color: white;
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .proj-body { padding: 1.5rem; }
+        .proj-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        .proj-body p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1.1rem;
+        }
+        .prog-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+        }
+        .prog-pct { color: var(--green-mid); font-weight: 500; }
+        .prog-track {
+            height: 4px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+        .prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), #22c55e);
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4,0,0.2,1);
+        }
+        .proj-link {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--green-mid);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.2s;
+        }
+        .proj-link:hover { gap: 9px; }
+
+        /* ══════════════════════════════════════════
+           CHARTS
+        ══════════════════════════════════════════ */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.75rem;
+        }
+        .chart-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+        .chart-wrap { position: relative; }
+
+        /* ══════════════════════════════════════════
+           VISION BANNER
+        ══════════════════════════════════════════ */
+        .vision-banner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .vision-banner::before {
+            content: '2030';
+            position: absolute;
+            right: -10px; top: -20px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 10rem;
+            font-weight: 700;
+            color: var(--green-subtle);
+            line-height: 1;
+            pointer-events: none;
+        }
+        [data-theme="dark"] .vision-banner::before { color: rgba(11,149,68,0.08); }
+        .vision-icon-wrap {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--green), #22c55e);
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .vision-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+        }
+        .vision-text h2 span { color: var(--green-mid); }
+        .vision-text p {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.75;
+            margin-bottom: 0.5rem;
+            max-width: 620px;
+        }
+        .btn-vision {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 1.25rem;
+            background: var(--green);
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-vision:hover {
+            background: var(--green-mid);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--green-glow);
+        }
+
+        /* ══════════════════════════════════════════
+           VIDEO PLAYER
+        ══════════════════════════════════════════ */
+        .video-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            margin-bottom: 3rem;
+        }
         .main-video {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            max-height: 460px;
+            object-fit: cover;
+            background: #000;
         }
-        
-        .thumbnails {
+        .thumbnails-strip {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
             overflow-x: auto;
-            padding-bottom: 10px;
+            padding-bottom: 4px;
         }
-        
-        .thumbnail {
+        .thumbnails-strip::-webkit-scrollbar { height: 4px; }
+        .thumbnails-strip::-webkit-scrollbar-track { background: var(--border); border-radius: 10px; }
+        .thumbnails-strip::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 10px; }
+        .thumb {
             position: relative;
-            width: 120px;
+            width: 130px;
             height: 80px;
-            border-radius: 4px;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            transition: all 0.2s;
         }
-        
-        .thumbnail:hover {
-            transform: scale(1.05);
-        }
-        
-        .thumbnail.active {
-            border: 3px solid var(--primary-color);
-        }
-        
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .play-icon {
+        .thumb:hover { transform: scale(1.04); border-color: var(--green-mid); }
+        .thumb.active { border-color: var(--green-mid); }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-play {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            background: rgba(0,0,0,0.6);
-            width: 30px;
-            height: 30px;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(0,0,0,0.35);
+            transition: background 0.2s;
+        }
+        .thumb-play i { color: white; font-size: 1rem; }
+        .thumb:hover .thumb-play { background: rgba(11,110,49,0.5); }
+
+        /* ══════════════════════════════════════════
+           LEADERS
+        ══════════════════════════════════════════ */
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .leader-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .leader-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, var(--green-subtle), transparent);
+        }
+        .leader-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .leader-img {
+            width: 80px; height: 80px;
             border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1rem;
+        }
+        .leader-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.3rem;
+        }
+        .leader-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+
+        /* ══════════════════════════════════════════
+           TIMELINE
+        ══════════════════════════════════════════ */
+        .timeline-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .tl-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .tl-tab-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            padding: 0.55rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-strong);
+            background: none;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+        .tl-tab-btn:hover { color: var(--ink); border-color: var(--ink); }
+        .tl-tab-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        [data-theme="dark"] .tl-tab-btn.active { background: white; color: #0c1410; border-color: white; }
+
+        .tl-items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+        }
+        .tl-items::before {
+            content: '';
+            position: absolute;
+            top: 28px; left: 0; right: 0;
+            height: 1px;
+            background: var(--border-strong);
+        }
+        .tl-item { position: relative; padding-top: 0.5rem; cursor: pointer; }
+        .tl-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            border: 2px solid var(--border-strong);
+            margin-bottom: 1.25rem;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .tl-item.active .tl-dot,
+        .tl-item:hover .tl-dot {
+            background: var(--green-mid);
+            border-color: var(--green-mid);
+            box-shadow: 0 0 0 4px var(--green-glow);
+        }
+        .tl-year {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+        .tl-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ink-mid);
+            margin-bottom: 0.4rem;
+        }
+        .tl-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .tl-item.active .tl-desc { max-height: 100px; }
+
+        /* ══════════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════════ */
+        footer {
+            background: #0a1209;
+            color: rgba(255,255,255,0.4);
+            padding: 3rem 2rem 2rem;
+        }
+        .footer-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 1.5rem;
+        }
+        .footer-about-text {
+            font-size: 0.82rem;
+            line-height: 1.7;
+            max-width: 420px;
+            margin-top: 0.75rem;
+        }
+        .footer-logo-wrap {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 12px;
+            gap: 10px;
+            margin-bottom: 0.75rem;
+        }
+        .footer-logo-wrap img { height: 36px; }
+        .footer-logo-wrap span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+        }
+        .footer-logo-wrap span em { color: #4ade80; font-style: normal; }
+        .footer-socials {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+        .footer-socials a {
+            width: 34px; height: 34px;
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: grid;
+            place-items: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.78rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .footer-socials a:hover { border-color: #4ade80; color: #4ade80; }
+
+        .footer-links h4 {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 0.5rem; }
+        .footer-links ul li a {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links ul li a:hover { color: #4ade80; }
+        .footer-bottom {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+        }
+
+        /* ══════════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════════ */
+        @media (max-width: 1200px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-row { grid-template-columns: 1fr; }
+            .leaders-grid { grid-template-columns: repeat(2, 1fr); }
+            .tl-items { grid-template-columns: repeat(2, 1fr); }
+            .tl-items::before { display: none; }
+        }
+        @media (max-width: 900px) {
+            nav { display: none; }
+            .search-wrap { display: none; }
+            .hero-stats { display: none; }
+            .vision-banner { flex-direction: column; gap: 1.5rem; }
+            .footer-inner { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .kpi-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .leaders-grid { grid-template-columns: 1fr 1fr; }
+            .tl-items { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
     <header>
-        <div class="header-container">
-            <div class="logo">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
-                <span class="logo-text">Kenya <span>Transparency</span></span>
-            </div>
-            
+        <div class="header-inner">
+            <a href="index.html" class="logo-wrap">
+                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+                <div class="logo-text">Kenya <span>Transparency</span></div>
+            </a>
+
             <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="user_dashboard.html" class="active">Dashboard</a></li>
                     <li><a href="Budget.html">Budget</a></li>
-                    <li><a href="county.html">My county</a></li>
+                    <li><a href="county.html">My County</a></li>
                     <li><a href="Projects.html">Projects</a></li>
                     <li><a href="national.html">My Government</a></li>
-                     <li><a href="Reports.html">Reports</a></li>
-                    <li><a href="User_inquirery.html">Talk to us</a></li>
+                    <li><a href="Reports.html">Reports</a></li>
+                    <li><a href="User_inquirery.html">Talk to Us</a></li>
                 </ul>
             </nav>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                <i class="fas fa-moon"></i>
-            </button>
-            
+
             <div class="header-actions">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search...">
                 </div>
-                
-                <div class="notification-container">
-                    <button class="notification-btn">
+
+                <!-- Notifications -->
+                <div class="notif-wrapper" id="notifWrapper">
+                    <button class="icon-btn" id="notifBtn" aria-label="Notifications">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
+                        <span class="notif-badge">3</span>
                     </button>
+                    <div class="notif-dropdown" id="notifDropdown">
+                        <div class="notif-head">
+                            <h4>Notifications</h4>
+                            <span class="notif-count-badge">3 New</span>
+                        </div>
+                        <div class="notif-item unread">
+                            <div class="notif-icon"><i class="fas fa-project-diagram"></i></div>
+                            <div class="notif-text">
+                                <p>New project update: Nairobi–Mombasa Highway</p>
+                                <div class="notif-time">10 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="notif-item unread">
+                            <div class="notif-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <div class="notif-text">
+                                <p>Budget report for Q2 2023 is now available</p>
+                                <div class="notif-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-icon"><i class="fas fa-users"></i></div>
+                            <div class="notif-text">
+                                <p>5 new citizen inquiries received</p>
+                                <div class="notif-time">1 day ago</div>
+                            </div>
+                        </div>
+                        <a href="updates.html" class="notif-view-all">View All Notifications →</a>
+                    </div>
                 </div>
-<div class="notification-dropdown">
-    <div class="notification-header">
-        <h4>Notifications</h4>
-        <span class="notification-count">3 New</span>
-    </div>
-    <div class="notification-list">
-        <div class="notification-item unread">
-            <div class="notification-icon">
-                <i class="fas fa-project-diagram"></i>
-            </div>
-            <div class="notification-content">
-                <p>New project update: Nairobi-Mombasa Highway</p>
-                <span class="notification-time">10 minutes ago</span>
-            </div>
-        </div>
-        <div class="notification-item unread">
-            <div class="notification-icon">
-                <i class="fas fa-file-invoice-dollar"></i>
-            </div>
-            <div class="notification-content">
-                <p>Budget report for Q2 2023 is now available</p>
-                <span class="notification-time">2 hours ago</span>
-            </div>
-        </div>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="notification-content">
-                <p>5 new citizen inquiries received</p>
-                <span class="notification-time">1 day ago</span>
-            </div>
-        </div>
-    </div>
-    <a href="updates.html" class="view-all">View All Notifications</a>
-</div>
 
+                <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
 
-                <a href="pprofile.html" class="profile-button">
+                <a href="pprofile.html" class="profile-btn">
                     <img src="Photos/h1.jpg" alt="User Profile">
                 </a>
             </div>
         </div>
     </header>
-    
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Government Transparency Portal</h1>
-                <p>Access real-time data on government spending, projects, and performance metrics. Your window into how public resources are being utilized for national development.</p>
-                <button class="btn btn-primary">Explore Dashboard</button>
-            </div>
-        </section>
-        
-        <section>
-            <h2 class="section-title">Key Performance Indicators</h2>
-            <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">National Budget</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value">KSh 3.3 Trillion</div>
-                    <div class="metric-label">FY 2023/2024 Total Budget</div>
-                    <div class="metric-trend trend-up">+8.2% from previous year</div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Projects Completed</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value">1,247</div>
-                    <div class="metric-label">Projects delivered this year</div>
-                    <div class="metric-trend trend-up">+15% completion rate</div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Public Satisfaction</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value">78%</div>
-                    <div class="metric-label">Citizen satisfaction score</div>
-                    <div class="metric-trend trend-up">+5% from last quarter</div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Procurement Transparency</h3>
-                        <div class="card-icon">
-                            <i class="fas fa-search-dollar"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value">92%</div>
-                    <div class="metric-label">Open tenders published</div>
-                    <div class="metric-trend trend-down">-3% compliance issues</div>
-                </div>
-            </div>
-        </section>
-        
-        <section>
-            <div class="section-header">
-                <h2 class="section-title">Featured Government Projects</h2>
-                <a href="Projects.html" class="btn btn-sm">View All Projects</a>
-            </div>
-            
-            <div class="projects-grid">
-                <div class="project-card">
-                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Talanta Sports Stadium</h3>
-                        <p class="project-description">Construction of a modern 60,000-seater stadium along Ngong Road to host international sports events and concerts.</p>
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 70%"></div>
-                            </div>
-                            <div class="progress-label">
-                                <span>Completion</span>
-                                <span>70%</span>
-                            </div>
-                        </div>
-                        <a href="Projects.html#tal" class="btn btn-sm">View Details</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <img src="Photos/gtc1.jpeg" alt="GTC Towers" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">GTC Towers</h3>
-                        <p class="project-description">A global trade center featuring conference facilities, office spaces, and hospitality services in Nairobi's Upper Hill.</p>
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 80%"></div>
-                            </div>
-                            <div class="progress-label">
-                                <span>Completion</span>
-                                <span>80%</span>
-                            </div>
-                        </div>
-                        <a href="Projects.html#gtc" class="btn btn-sm">View Details</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <img src="Photos/Thika 3.jpg" alt="Nairobi-Mombasa Highway" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Nairobi-Mombasa Highway</h3>
-                        <p class="project-description">Upgrade of the A109 highway to a dual carriageway to improve connectivity between Kenya's two largest cities.</p>
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 10%"></div>
-                            </div>
-                            <div class="progress-label">
-                                <span>Completion</span>
-                                <span>10%</span>
-                            </div>
-                        </div>
-                        <a href="Projects.html#nbm" class="btn btn-sm">View Details</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <img src="Photos/Thika 2.jpeg" alt="Affordable Housing" class="project-image">
-                    <div class="project-content">
-                        <h3 class="project-title">Affordable Housing Program</h3>
-                        <p class="project-description">Construction of 500,000 affordable housing units across 15 counties to address urban housing shortages.</p>
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 35%"></div>
-                            </div>
-                            <div class="progress-label">
-                                <span>Completion</span>
-                                <span>35%</span>
-                            </div>
-                        </div>
-                        <a href="Projects.html#housing" class="btn btn-sm">View Details</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section>
-            <h2 class="section-title">Budget & Expenditure Analytics</h2>
-            <div class="charts-container">
-                <div class="chart-card">
-                    <h3 class="chart-title">Sector Allocation (2024/2025)</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="sectorChart" height="300"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <h3 class="chart-title">Expenditure Trend (Last 5 Years)</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="expenditureChart" height="300"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-       
-        <section class="vision-section">
-            <div class="vision-content">
-                <h2 class="vision-title">Kenya <span>Vision 2030</span></h2>
-                <p class="vision-text">Kenya Vision 2030 is the country's development blueprint covering the period 2008 to 2030. It aims to transform Kenya into a newly industrializing, middle-income country providing a high quality of life to all its citizens by 2030 in a clean and secure environment.</p>
-                <p class="vision-text">The Vision comprises of three key pillars: Economic, Social and Political Governance. This portal tracks progress across all pillars to ensure transparency and accountability in implementation.</p>
-                <a href="visions.html" class="btn">Track Progress</a>
-            </div>
-        </section>
-                
 
-        <div class="video-player">
-            <video controls class="main-video" id="mainVideo">
-               
-            </video>
-            
-            <div class="thumbnails" id="thumbnailsContainer">
-               
-                <div class="thumbnail active" data-video="Photos/ke eye.mp4">
-                    <img src="Photos/eyeke.jpg" alt="Video 1">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-tag"><span></span> Official Transparency Portal</div>
+                <h1>Government<br>Transparency<br>Dashboard</h1>
+                <p>Real-time data on government spending, projects, and performance metrics. Your window into how public resources drive national development.</p>
+                <button class="btn-hero">
+                    <i class="fas fa-chart-bar"></i> Explore Dashboard
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-num">3.3T</div>
+                    <div class="hero-stat-label">Budget (KSh)</div>
                 </div>
-                
-                <!-- Thumbnail 2 -->
-                <div class="thumbnail" data-video="Photos/good raods.mp4">
-                    <img src="Photos/road.jpeg" alt="Video 2">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">1,247</div>
+                    <div class="hero-stat-label">Projects Done</div>
                 </div>
-                
-                <!-- Thumbnail 3 -->
-                <div class="thumbnail" data-video="Photos/fllyer flag.mp4">
-                    <img src="Photos/ke flag.jpg" alt="Video 3">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">78%</div>
+                    <div class="hero-stat-label">Satisfaction</div>
                 </div>
-                
-                <!-- Thumbnail 4 -->
-                <div class="thumbnail" data-video="Photos/flying flag.mp4">
-                    <img src="Photos/f2.jpg" alt="Video 4">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
-                </div>
-
-                 <!-- Thumbnail 5 -->
-                 <div class="thumbnail" data-video="Photos/18750424-hd_1920_1080_30fps.mp4">
-                    <img src="Photos/gtc3.jpeg"alt="Video 4">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
-                </div>
-
-                 <!-- Thumbnail 6 -->
-                 <div class="thumbnail" data-video="Photos/Konza.mp4">
-                    <img src="Photos/konza techno.jpg" alt="Video 4">
-                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">92%</div>
+                    <div class="hero-stat-label">Transparency</div>
                 </div>
             </div>
         </div>
-        
-        <section>
-            <h2 class="section-title">Government Leadership</h2>
-            <div class="leaders-container">
-                <div class="leader-card">
-                    <img src="Photos/ruto-removebg-preview.png" alt="President William Ruto" class="leader-image">
-                    <div class="leader-info">
-                        <h4 class="leader-name">H.E. William Ruto</h4>
-                        <p class="leader-position">President of Kenya</p>
-                    </div>
+    </section>
+
+    <!-- ═══════════════ MAIN ═══════════════ -->
+    <main class="main-content">
+
+        <!-- KPIs -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Live Metrics</div>
+                <h2 class="sec-title">Key Performance Indicators</h2>
+            </div>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span class="kpi-label">National Budget</span>
+                    <div class="kpi-icon"><i class="fas fa-coins"></i></div>
                 </div>
-                <div class="leader-card">
-                    <img src="Photos/Kindiki.jpg" alt="CS Kithure Kindiki" class="leader-image">
-                    <div class="leader-info">
-                        <h4 class="leader-name">Prof. Kithure Kindiki</h4>
-                        <p class="leader-position">Cabinet Secretary for Interior</p>
-                    </div>
+                <div class="kpi-value">KSh 3.3T</div>
+                <div class="kpi-sub">FY 2023/2024 Total Budget</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> +8.2% from previous year</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span class="kpi-label">Projects Completed</span>
+                    <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
                 </div>
-                <div class="leader-card">
-                    <img src="Photos/Mudavadi.jpeg" alt="PM Musalia Mudavadi" class="leader-image">
-                    <div class="leader-info">
-                        <h4 class="leader-name">Rt. Hon. Musalia Mudavadi</h4>
-                        <p class="leader-position">Prime Cabinet Secretary</p>
-                    </div>
+                <div class="kpi-value">1,247</div>
+                <div class="kpi-sub">Projects delivered this year</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> +15% completion rate</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span class="kpi-label">Public Satisfaction</span>
+                    <div class="kpi-icon"><i class="fas fa-smile"></i></div>
                 </div>
-                <div class="leader-card">
-                    <img src="Photos/Picture-Njuguna.jpg" alt="National Treasury" class="leader-image">
-                    <div class="leader-info">
-                        <h4 class="leader-name">Prof. Njuguna Ndung'u</h4>
-                        <p class="leader-position">Cabinet Secretary, National Treasury</p>
-                    </div>
+                <div class="kpi-value">78%</div>
+                <div class="kpi-sub">Citizen satisfaction score</div>
+                <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> +5% from last quarter</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top">
+                    <span class="kpi-label">Procurement Transparency</span>
+                    <div class="kpi-icon"><i class="fas fa-search-dollar"></i></div>
+                </div>
+                <div class="kpi-value">92%</div>
+                <div class="kpi-sub">Open tenders published</div>
+                <div class="kpi-trend trend-down"><i class="fas fa-arrow-down"></i> -3% compliance issues</div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Active Initiatives</div>
+                <h2 class="sec-title">Featured Projects</h2>
+            </div>
+            <a href="Projects.html" class="btn-sm">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="projects-grid">
+            <div class="proj-card">
+                <div class="proj-img-wrap">
+                    <img src="Photos/talanta.jpeg" alt="Talanta Stadium">
+                    <span class="proj-badge">In Progress</span>
+                </div>
+                <div class="proj-body">
+                    <h3>Talanta Sports Stadium</h3>
+                    <p>Modern 60,000-seater stadium along Ngong Road for international sports and concerts.</p>
+                    <div class="prog-row"><span>Completion</span><span class="prog-pct">70%</span></div>
+                    <div class="prog-track"><div class="prog-fill" style="width:70%"></div></div>
+                    <a href="Projects.html#tal" class="proj-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </section>
-        
-        <section class="timeline-section">
-            <div class="timeline-header">
-                <h2 class="section-title">Development Timeline</h2>
-                <div class="timeline-tabs">
-                    <button class="tab-btn active" onclick="loadTimeline('first')">2008-2012</button>
-                    <button class="tab-btn" onclick="loadTimeline('second')">2013-2025</button>
+            <div class="proj-card">
+                <div class="proj-img-wrap">
+                    <img src="Photos/gtc1.jpeg" alt="GTC Towers">
+                    <span class="proj-badge">Near Complete</span>
+                </div>
+                <div class="proj-body">
+                    <h3>GTC Towers</h3>
+                    <p>Global trade center featuring conference facilities and hospitality in Nairobi's Upper Hill.</p>
+                    <div class="prog-row"><span>Completion</span><span class="prog-pct">80%</span></div>
+                    <div class="prog-track"><div class="prog-fill" style="width:80%"></div></div>
+                    <a href="Projects.html#gtc" class="proj-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-            
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                <div id="timeline-items">
-                    <div class="timeline-item active">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2008</div>
-                        <h3 class="timeline-title">Vision 2030 Launched</h3>
-                        <p class="timeline-desc">Kenya Vision 2030 officially launched as the national development blueprint.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2012</div>
-                        <h3 class="timeline-title">Thika Superhighway</h3>
-                        <p class="timeline-desc">Completion of the 50km Thika Road superhighway project.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2017</div>
-                        <h3 class="timeline-title">SGR Phase 1</h3>
-                        <p class="timeline-desc">Standard Gauge Railway Nairobi-Mombasa section completed.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-year">2022</div>
-                        <h3 class="timeline-title">Digital Transformation</h3>
-                        <p class="timeline-desc">5,000+ government services digitized on eCitizen platform.</p>
-                    </div>
+            <div class="proj-card">
+                <div class="proj-img-wrap">
+                    <img src="Photos/Thika 3.jpg" alt="Nairobi-Mombasa Highway">
+                    <span class="proj-badge">Early Stage</span>
+                </div>
+                <div class="proj-body">
+                    <h3>Nairobi–Mombasa Highway</h3>
+                    <p>Upgrade of A109 to a dual carriageway improving connectivity between Kenya's two largest cities.</p>
+                    <div class="prog-row"><span>Completion</span><span class="prog-pct">10%</span></div>
+                    <div class="prog-track"><div class="prog-fill" style="width:10%"></div></div>
+                    <a href="Projects.html#nbm" class="proj-link">View Details <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </section>
+            <div class="proj-card">
+                <div class="proj-img-wrap">
+                    <img src="Photos/Thika 2.jpeg" alt="Affordable Housing">
+                    <span class="proj-badge">In Progress</span>
+                </div>
+                <div class="proj-body">
+                    <h3>Affordable Housing Program</h3>
+                    <p>500,000 affordable housing units across 15 counties to address urban housing shortages.</p>
+                    <div class="prog-row"><span>Completion</span><span class="prog-pct">35%</span></div>
+                    <div class="prog-track"><div class="prog-fill" style="width:35%"></div></div>
+                    <a href="Projects.html#housing" class="proj-link">View Details <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Financial Analytics</div>
+                <h2 class="sec-title">Budget & Expenditure</h2>
+            </div>
+        </div>
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="chart-card-title">Sector Allocation 2024/25</div>
+                <div class="chart-wrap">
+                    <canvas id="sectorChart" height="280"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-card-title">County Expenditure (KSh Millions)</div>
+                <div class="chart-wrap">
+                    <canvas id="expenditureChart" height="280"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vision Banner -->
+        <div class="vision-banner">
+            <div class="vision-icon-wrap">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="vision-text">
+                <h2>Kenya <span>Vision 2030</span></h2>
+                <p>Kenya Vision 2030 is the country's development blueprint aiming to transform Kenya into a newly industrializing, middle-income country providing a high quality of life to all its citizens by 2030.</p>
+                <p>The Vision comprises three key pillars: Economic, Social and Political Governance. This portal tracks progress across all pillars to ensure transparency and accountability.</p>
+                <a href="visions.html" class="btn-vision"><i class="fas fa-chart-line"></i> Track Progress</a>
+            </div>
+        </div>
+
+        <!-- Video Player -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Media Gallery</div>
+                <h2 class="sec-title">Video Updates</h2>
+            </div>
+        </div>
+        <div class="video-section">
+            <video controls class="main-video" id="mainVideo"></video>
+            <div class="thumbnails-strip" id="thumbsContainer">
+                <div class="thumb active" data-video="Photos/ke eye.mp4">
+                    <img src="Photos/eyeke.jpg" alt="Kenya Eye">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="thumb" data-video="Photos/good raods.mp4">
+                    <img src="Photos/road.jpeg" alt="Roads">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="thumb" data-video="Photos/fllyer flag.mp4">
+                    <img src="Photos/ke flag.jpg" alt="Flag">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="thumb" data-video="Photos/flying flag.mp4">
+                    <img src="Photos/f2.jpg" alt="Flying Flag">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="thumb" data-video="Photos/18750424-hd_1920_1080_30fps.mp4">
+                    <img src="Photos/gtc3.jpeg" alt="GTC">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="thumb" data-video="Photos/Konza.mp4">
+                    <img src="Photos/konza techno.jpg" alt="Konza">
+                    <div class="thumb-play"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leadership -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Government</div>
+                <h2 class="sec-title">National Leadership</h2>
+            </div>
+        </div>
+        <div class="leaders-grid">
+            <div class="leader-card">
+                <img src="Photos/ruto-removebg-preview.png" alt="H.E. William Ruto" class="leader-img">
+                <div class="leader-name">H.E. William Ruto</div>
+                <div class="leader-role">President of Kenya</div>
+            </div>
+            <div class="leader-card">
+                <img src="Photos/Kindiki.jpg" alt="Prof. Kithure Kindiki" class="leader-img">
+                <div class="leader-name">Prof. Kithure Kindiki</div>
+                <div class="leader-role">CS for Interior</div>
+            </div>
+            <div class="leader-card">
+                <img src="Photos/Mudavadi.jpeg" alt="Rt. Hon. Musalia Mudavadi" class="leader-img">
+                <div class="leader-name">Rt. Hon. Musalia Mudavadi</div>
+                <div class="leader-role">Prime Cabinet Secretary</div>
+            </div>
+            <div class="leader-card">
+                <img src="Photos/Picture-Njuguna.jpg" alt="Prof. Njuguna Ndung'u" class="leader-img">
+                <div class="leader-name">Prof. Njuguna Ndung'u</div>
+                <div class="leader-role">CS, National Treasury</div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="sec-header">
+            <div>
+                <div class="sec-label">Milestones</div>
+                <h2 class="sec-title">Development Timeline</h2>
+            </div>
+        </div>
+        <div class="timeline-wrap">
+            <div class="tl-tabs">
+                <button class="tl-tab-btn active" onclick="loadTimeline('first')">2008 – 2012</button>
+                <button class="tl-tab-btn" onclick="loadTimeline('second')">2013 – 2025</button>
+            </div>
+            <div class="tl-items" id="timeline-items"></div>
+        </div>
+
     </main>
-    <script>
- //Timeline function
-window.timelineData = {
-    'first': [
-        { year: '2008', title: 'Vision 2030 Launched', desc: 'Kenya Vision 2030 officially launched as the national development blueprint.' },
-        { year: '2010', title: 'New Constitution', desc: 'Promulgation of the new constitution of Kenya.' },
-        { year: '2012', title: 'Thika Superhighway', desc: 'Completion of the 50km Thika Road superhighway project.' }
-    ],
-    'second': [
-        { year: '2013', title: 'Devolution Implementation', desc: 'County governments established under the new constitution.' },
-        { year: '2017', title: 'SGR Phase 1', desc: 'Standard Gauge Railway Nairobi-Mombasa section completed.' },
-        { year: '2022', title: 'Digital Transformation', desc: '5,000+ government services digitized on eCitizen platform.' },
-        { year: '2025', title: 'Vision 2030 Milestone', desc: 'Projected completion of key medium-term plan projects.' }
-    ]
-};
 
-    // Timeline Loading Function
-    function loadTimeline(period) {
-        const timelineContainer = document.querySelector('#timeline-items');
-        const timelineData = window.timelineData;
-        
-        // Clear existing timeline items
-        timelineContainer.innerHTML = '';
-        
-        // Add new timeline items
-        timelineData[period].forEach((item, index) => {
-            const timelineItem = document.createElement('div');
-            timelineItem.className = `timeline-item ${index === 0 ? 'active' : ''}`;
-            timelineItem.innerHTML = `
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">${item.year}</div>
-                <h3 class="timeline-title">${item.title}</h3>
-                <p class="timeline-desc">${item.desc}</p>
-            `;
-            
-            // Add click event to show description
-            timelineItem.addEventListener('click', function() {
-                document.querySelectorAll('.timeline-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-            
-            timelineContainer.appendChild(timelineItem);
-        });
-        
-        // Update active tab
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`.tab-btn[onclick="loadTimeline('${period}')"]`).classList.add('active');
-    }
-    
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Charts
-        initializeCharts();
-        
-        function initializeCharts() {
-            // Sector Allocation Pie Chart
-            const sectorCtx = document.getElementById('sectorChart');
-            if (sectorCtx) {
-                new Chart(sectorCtx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Education', 'Health', 'Infrastructure','Debt Servicing', 'Security', 'Agriculture', 'Others'],
-                        datasets: [{
-                            data:  [62, 74, 47, 42, 50, 50,30],
-                            backgroundColor: [
-                                '#0b9d3f',
-                                '#1d4ed8',
-                                '#ff6b35',
-                                '#6c757d',
-                                '#28a745',
-                                '#6610f2'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `${context.label}: ${context.raw}%`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Expenditure Trend Bar Chart
-            const expenditureCtx = document.getElementById('expenditureChart');
-            if (expenditureCtx) {
-                new Chart(expenditureCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: [
-    'Bomet',   
-    'Bungoma',   
-    'Busia',   
-    'Elgeyo-Marakwet',   
-    'Embu',   
-    'Garissa',   
-    'Homa Bay',   
-    'Isiolo',   
-    'Kajiado',   
-    'Kakamega',   
-    'Kericho',   
-    'Kiambu',   
-    'Kilifi',   
-    'Kirinyaga',   
-    'Kisii',   
-    'Kisumu',   
-    'Laikipia',   
-    'Lamu',   
-    'Machakos',   
-    'Makueni',   
-    'Mandera',   
-    'Marsabit',   
-    'Meru',   
-    'Migori',   
-    'Mombasa',   
-    'Nairobi',   
-    'Nakuru',   
-    'Nandi',   
-    'Narok',   
-    'Nyamira',   
-    'Nyandarua',   
-    'Nyeri',   
-    'Samburu',   
-    'Siaya',   
-    'Taita Taveta',   
-    'Tana River',   
-    'Tharaka-Nithi',   
-    'Trans Nzoia',   
-    'Uasin Gishu',   
-    'Vihiga',   
-    'Wajir',   
-    'West Pokot'  
-],
-                        datasets: [{
-                            label: 'Budget Expenditure (KSh Millions)',
-                            data: [  
-  29,  
-  41,  
-  37,  
-  45,  
-  39,  
-  42,  
-  36,  
-  47,  
-  33,  
-  31,  
-  34,  
-  39,  
-  41,  
-  60,  
-  36,  
-  38,  
-  32,
-  31,  
-  44,  
-  47,  
-  43,  
-  38,  
-  45,  
-  42,  
-  40,  
-  39,  
-  33,  
-  31,  
-  29,  
-  45,  
-  32,  
-  35,  
-  50,  
-  41,  
-  45,  
-  50,  
-  43,  
-  36,  
-  37,  
-  34,  
-  42,  
-  40  
-]
-,
-                            backgroundColor: 'rgba(11, 157, 63, 0.7)',
-                            borderColor: 'rgba(11, 157, 63, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'KSh Million'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Counties'
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `KSh ${context.raw} Million`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-    });
-
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function() {
-        const dropdown = document.querySelector('.notification-dropdown');
-        if (dropdown) {
-            dropdown.style.display = 'none';
-        }
-    });
-    // lighting script
-function saveUserPreferences() {
-    const preferences = {
-        theme: 'light', // or 'dark'
-        favoriteProjects: ['project1', 'project2'],
-        dashboardLayout: 'default' // or 'compact'
-    };
-    
-    localStorage.setItem('userPreferences', JSON.stringify(preferences));
-}
-
-function loadUserPreferences() {
-    const preferences = localStorage.getItem('userPreferences');
-    if (preferences) {
-        return JSON.parse(preferences);
-    }
-    return null;
-}
-
-    </script>
-    
-<script src="dashboard.js"></script>
-<script src="nav-hamburger.js"></script>
-
+    <!-- ═══════════════ FOOTER ═══════════════ -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-about">
-                <div class="footer-logo">
-                    <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
-                    <span class="footer-logo-text">Kenya Transparency</span>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-logo-wrap">
+                    <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+                    <span>Kenya <em>Transparency</em></span>
                 </div>
-                <p class="footer-about">The Kenya Government Transparency Portal provides citizens with access to government spending data, project information, and performance metrics to promote accountability and public participation.</p>
-                <div class="social-links">
+                <p class="footer-about-text">The Kenya Government Transparency Portal provides citizens with access to government spending data, project information, and performance metrics to promote accountability and public participation.</p>
+                <div class="footer-socials">
                     <a href="https://twitter.com/StateHouseKenya" target="_blank"><i class="fab fa-twitter"></i></a>
                     <a href="https://www.facebook.com/StateHouseKenya" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/statehousekenya/" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.youtube.com/@StateHouseKenya" target="_blank"><i class="fab fa-youtube"></i></a>
                 </div>
-                
             </div>
-            
             <div class="footer-links">
-
-                <h3>Quick Links</h3>
+                <h4>Quick Links</h4>
                 <ul>
-                   <li> <a href="index.html">Log out <i class="fas fa-sign-out-alt"></i></a></li>
-                    <li><a href="user_dashboard.html">Home</a></li>
+                    <li><a href="index.html">Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="user_dashboard.html">Dashboard</a></li>
                     <li><a href="Budget.html">Budget Reports</a></li>
                     <li><a href="Projects.html">Project Tracker</a></li>
                     <li><a href="Tenders.html">Tender Opportunities</a></li>
                     <li><a href="Service_delivery.html">Service Delivery</a></li>
                 </ul>
-
             </div>
         </div>
+        <div class="footer-bottom">
+            <span>© 2025 Government of Kenya. All rights reserved.</span>
+            <span>Kenya Transparency Portal v2.0</span>
+        </div>
     </footer>
+
+    <script src="theme.js"></script>
+
+    <script>
+        /* ── NOTIFICATION TOGGLE ── */
+        const notifWrapper = document.getElementById('notifWrapper');
+        document.getElementById('notifBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            notifWrapper.classList.toggle('open');
+        });
+        document.addEventListener('click', () => notifWrapper.classList.remove('open'));
+
+        /* ── VIDEO PLAYER ── */
+        const mainVideo = document.getElementById('mainVideo');
+        document.querySelectorAll('.thumb').forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                mainVideo.src = thumb.dataset.video;
+                mainVideo.play();
+            });
+        });
+        // Auto-load first video
+        const firstThumb = document.querySelector('.thumb');
+        if (firstThumb) mainVideo.src = firstThumb.dataset.video;
+
+        /* ── TIMELINE ── */
+        const timelineData = {
+            first: [
+                { year: '2008', title: 'Vision 2030 Launched', desc: 'Kenya Vision 2030 officially launched as the national development blueprint.' },
+                { year: '2010', title: 'New Constitution', desc: 'Promulgation of the new constitution of Kenya, ushering in devolution.' },
+                { year: '2012', title: 'Thika Superhighway', desc: 'Completion of the 50km Thika Road superhighway project.' }
+            ],
+            second: [
+                { year: '2013', title: 'Devolution', desc: 'County governments established under the new constitution.' },
+                { year: '2017', title: 'SGR Phase 1', desc: 'Standard Gauge Railway Nairobi–Mombasa section completed.' },
+                { year: '2022', title: 'Digital Govt', desc: '5,000+ government services digitised on eCitizen platform.' },
+                { year: '2025', title: 'Vision Milestone', desc: 'Projected completion of key medium-term plan projects.' }
+            ]
+        };
+
+        function loadTimeline(period) {
+            const container = document.getElementById('timeline-items');
+            container.innerHTML = '';
+            timelineData[period].forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = 'tl-item' + (i === 0 ? ' active' : '');
+                el.innerHTML = `
+                    <div class="tl-dot"></div>
+                    <div class="tl-year">${item.year}</div>
+                    <div class="tl-title">${item.title}</div>
+                    <div class="tl-desc">${item.desc}</div>
+                `;
+                el.addEventListener('click', () => {
+                    document.querySelectorAll('.tl-item').forEach(t => t.classList.remove('active'));
+                    el.classList.add('active');
+                });
+                container.appendChild(el);
+            });
+            document.querySelectorAll('.tl-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.tl-tab-btn[onclick="loadTimeline('${period}')"]`).classList.add('active');
+        }
+        loadTimeline('first');
+
+        /* ── CHARTS ── */
+        function getChartColors() {
+            const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+            return {
+                grid: dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+                tick: dark ? '#6b7d71' : '#7a8a80',
+                legend: dark ? '#b4c4ba' : '#374840'
+            };
+        }
+
+        let sectorChartInst, expendChartInst;
+
+        function initCharts() {
+            const c = getChartColors();
+
+            // Sector Pie
+            const sCtx = document.getElementById('sectorChart');
+            if (sCtx) {
+                sectorChartInst = new Chart(sCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Education', 'Health', 'Infrastructure', 'Debt Servicing', 'Security', 'Agriculture', 'Others'],
+                        datasets: [{
+                            data: [62, 74, 47, 42, 50, 50, 30],
+                            backgroundColor: ['#0f9544','#166534','#22c55e','#4ade80','#86efac','#bbf7d0','#dcfce7'],
+                            borderWidth: 2,
+                            borderColor: 'transparent',
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        cutout: '60%',
+                        plugins: {
+                            legend: { position: 'bottom', labels: { color: c.legend, font: { family: 'Outfit', size: 12 }, padding: 12 } },
+                            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} KSh B` } }
+                        }
+                    }
+                });
+            }
+
+            // County Bar
+            const eCtx = document.getElementById('expenditureChart');
+            if (eCtx) {
+                const counties = ['Bomet','Bungoma','Busia','Elgeyo','Embu','Garissa','Homa Bay','Isiolo','Kajiado','Kakamega','Kericho','Kiambu','Kilifi','Kirinyaga','Kisii','Kisumu','Laikipia','Lamu','Machakos','Makueni','Mandera','Marsabit','Meru','Migori','Mombasa','Nairobi','Nakuru','Nandi','Narok','Nyamira','Nyandarua','Nyeri','Samburu','Siaya','Taita Taveta','Tana River','Tharaka','Trans Nzoia','Uasin Gishu','Vihiga','Wajir','W. Pokot'];
+                const data = [29,41,37,45,39,42,36,47,33,31,34,39,41,60,36,38,32,31,44,47,43,38,45,42,40,39,33,31,29,45,32,35,50,41,45,50,43,36,37,34,42,40];
+                expendChartInst = new Chart(eCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: counties,
+                        datasets: [{
+                            label: 'Budget (KSh M)',
+                            data,
+                            backgroundColor: 'rgba(15,149,68,0.7)',
+                            borderColor: 'rgba(15,149,68,1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            hoverBackgroundColor: 'rgba(15,149,68,0.9)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: c.grid }, ticks: { color: c.tick, font: { family: 'JetBrains Mono', size: 10 } }, title: { display: true, text: 'KSh Million', color: c.tick } },
+                            x: { grid: { display: false }, ticks: { color: c.tick, font: { family: 'JetBrains Mono', size: 9 }, maxRotation: 45 }, title: { display: true, text: 'County', color: c.tick } }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: ctx => ` KSh ${ctx.raw}M` }, backgroundColor: 'rgba(10,18,9,0.9)', titleFont: { family: 'Outfit' }, bodyFont: { family: 'JetBrains Mono' } }
+                        }
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initCharts);
+
+        /* ── EXPOSE updateChartsTheme for theme.js ── */
+        window.updateChartsTheme = function(theme) {
+            const c = getChartColors();
+            [sectorChartInst, expendChartInst].forEach(chart => {
+                if (!chart) return;
+                if (chart.options.scales?.x) {
+                    chart.options.scales.x.grid.color = c.grid;
+                    chart.options.scales.x.ticks.color = c.tick;
+                }
+                if (chart.options.scales?.y) {
+                    chart.options.scales.y.grid.color = c.grid;
+                    chart.options.scales.y.ticks.color = c.tick;
+                }
+                if (chart.options.plugins?.legend) {
+                    chart.options.plugins.legend.labels.color = c.legend;
+                }
+                chart.update();
+            });
+        };
+    </script>
+
 </body>
 </html>
