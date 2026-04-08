@@ -1,992 +1,867 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antoney Citizen | Human Rights Activist</title>
+    <title>Citizen Profile — Kenya Transparency Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0b9d3f; 
-            --secondary-color: #1a237e;
-            --accent-color: #ff6b35; 
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --text-color: #333;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --green: #0b6e31;
+            --green-mid: #0f9544;
+            --green-light: #e8f5ee;
+            --green-glow: rgba(11,149,68,0.18);
+            --amber: #d97706;
+            --bg: #f2f4f3;
+            --surface: #ffffff;
+            --surface-2: #f8faf9;
+            --border: rgba(0,0,0,0.07);
+            --border-strong: rgba(0,0,0,0.13);
+            --ink: #111a14;
+            --ink-mid: #374840;
+            --muted: #7a8a80;
+            --shadow: 0 2px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 50px rgba(0,0,0,0.12);
+            --header-bg: rgba(255,255,255,0.9);
+            --input-bg: #f8faf9;
+        }
+        [data-theme="dark"] {
+            --bg: #0c1410;
+            --surface: #141d17;
+            --surface-2: #1a2520;
+            --border: rgba(255,255,255,0.06);
+            --border-strong: rgba(255,255,255,0.12);
+            --ink: #e8f0ea;
+            --ink-mid: #b4c4ba;
+            --muted: #6b7d71;
+            --shadow: 0 2px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 12px 50px rgba(0,0,0,0.5);
+            --header-bg: rgba(14,22,17,0.94);
+            --green-light: rgba(11,149,68,0.12);
+            --input-bg: #1a2520;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            background-color: #f5f7fa;
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
+            transition: background 0.3s, color 0.3s;
         }
 
-        .profile-card {
-            width: 100%;
-            max-width: 1000px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            position: relative;
+        /* ── HEADER ── */
+        header {
+            position: sticky; top:0; z-index:900;
+            background: var(--header-bg); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .hdr {
+            max-width:1200px; margin:0 auto; padding:0 2rem;
+            height:64px; display:flex; align-items:center; gap:1rem;
+        }
+        .logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .logo-wrap img { height:38px; }
+        .logo-text { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:700; color:var(--ink); }
+        .logo-text span { color:var(--green-mid); }
+        .hdr-right { margin-left:auto; display:flex; align-items:center; gap:0.6rem; }
+        .icon-btn {
+            width:36px; height:36px; border-radius:9px;
+            background:var(--surface-2); border:1px solid var(--border);
+            display:grid; place-items:center; color:var(--muted);
+            font-size:0.82rem; cursor:pointer; text-decoration:none;
+            transition:all 0.2s;
+        }
+        .icon-btn:hover { border-color:var(--green-mid); color:var(--green-mid); background:var(--green-light); }
+        .nav-link {
+            font-size:0.82rem; font-weight:500; color:var(--muted);
+            text-decoration:none; padding:0.4rem 0.85rem; border-radius:8px; transition:all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active { color:var(--green-mid); background:var(--green-light); }
+
+        /* ── TOAST ── */
+        .toast {
+            position:fixed; top:1.5rem; right:1.5rem; z-index:9999;
+            background:var(--ink); color:white; padding:0.85rem 1.5rem;
+            border-radius:12px; font-size:0.85rem; font-weight:500;
+            display:flex; align-items:center; gap:8px;
+            transform:translateY(-80px); opacity:0;
+            transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:var(--shadow-lg);
+        }
+        .toast.show { transform:translateY(0); opacity:1; }
+        .toast.success { background:var(--green); }
+        .toast.error { background:#b91c1c; }
+
+        /* ── COVER ── */
+        .cover-wrap {
+            position:relative; height:220px;
+            background:linear-gradient(135deg, var(--green) 0%, #073d1a 100%);
+            overflow:hidden;
+        }
+        .cover-wrap::before {
+            content:'KE';
+            position:absolute; right:-10px; top:-20px;
+            font-family:'Cormorant Garamond',serif; font-size:18rem; font-weight:700;
+            color:rgba(255,255,255,0.04); pointer-events:none; line-height:1;
+        }
+        .cover-change-btn {
+            position:absolute; bottom:1rem; right:1.5rem;
+            display:flex; align-items:center; gap:6px;
+            background:rgba(255,255,255,0.15); backdrop-filter:blur(8px);
+            border:1px solid rgba(255,255,255,0.25); color:white;
+            font-family:'Outfit',sans-serif; font-size:0.75rem; font-weight:500;
+            padding:0.45rem 1rem; border-radius:8px; cursor:pointer; transition:all 0.2s;
+        }
+        .cover-change-btn:hover { background:rgba(255,255,255,0.25); }
+
+        /* ── PROFILE HEADER AREA ── */
+        .profile-header-area {
+            max-width:1200px; margin:0 auto; padding:0 2rem;
+        }
+        .avatar-row {
+            display:flex; align-items:flex-end; gap:1.5rem;
+            margin-top:-56px; margin-bottom:1.5rem;
+            flex-wrap:wrap;
+        }
+        .avatar-wrap { position:relative; flex-shrink:0; }
+        .avatar {
+            width:112px; height:112px; border-radius:50%; object-fit:cover;
+            border:4px solid var(--bg); box-shadow:var(--shadow-lg);
+            transition:all 0.3s; display:block;
+        }
+        .avatar-edit-btn {
+            position:absolute; bottom:4px; right:4px;
+            width:32px; height:32px; border-radius:50%;
+            background:var(--green-mid); color:white; border:2px solid var(--bg);
+            display:grid; place-items:center; font-size:0.72rem;
+            cursor:pointer; transition:all 0.2s;
+        }
+        .avatar-edit-btn:hover { background:var(--green); transform:scale(1.1); }
+
+        .profile-name-block { flex:1; padding-bottom:0.25rem; min-width:220px; }
+        .profile-name-block h1 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.9rem; font-weight:700; color:var(--ink); line-height:1.1;
+            margin-bottom:0.25rem;
+        }
+        .profile-role {
+            font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+            letter-spacing:0.12em; text-transform:uppercase; color:var(--green-mid);
+            margin-bottom:0.4rem;
+        }
+        .profile-location {
+            display:flex; align-items:center; gap:5px;
+            font-size:0.82rem; color:var(--muted);
+        }
+        .profile-location i { font-size:0.72rem; color:var(--green-mid); }
+
+        .profile-header-actions { display:flex; gap:0.65rem; align-items:center; margin-left:auto; padding-bottom:0.25rem; }
+        .btn-edit-profile {
+            display:inline-flex; align-items:center; gap:6px;
+            background:var(--green); color:white; font-weight:600; font-size:0.82rem;
+            padding:0.6rem 1.25rem; border-radius:10px; border:none; cursor:pointer;
+            transition:all 0.2s;
+        }
+        .btn-edit-profile:hover { background:var(--green-mid); transform:translateY(-1px); box-shadow:0 6px 16px var(--green-glow); }
+        .btn-secondary {
+            display:inline-flex; align-items:center; gap:6px;
+            background:var(--surface); color:var(--ink-mid); font-weight:500; font-size:0.82rem;
+            padding:0.6rem 1.25rem; border-radius:10px; border:1px solid var(--border-strong);
+            cursor:pointer; transition:all 0.2s;
+        }
+        .btn-secondary:hover { border-color:var(--green-mid); color:var(--green-mid); }
+
+        /* ── CITIZEN BADGE ── */
+        .citizen-badge {
+            display:inline-flex; align-items:center; gap:6px;
+            background:var(--green-light); color:var(--green-mid);
+            font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:500;
+            letter-spacing:0.1em; text-transform:uppercase;
+            padding:0.3rem 0.85rem; border-radius:50px; border:1px solid rgba(11,149,68,0.2);
+        }
+        .citizen-badge i { font-size:0.65rem; }
+
+        /* ── MAIN LAYOUT ── */
+        .main-grid {
+            max-width:1200px; margin:0 auto; padding:0 2rem 4rem;
+            display:grid; grid-template-columns:320px 1fr; gap:1.5rem;
+            align-items:start;
         }
 
-        .profile-image {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            text-align: center;
-            color: white;
-            position: relative;
+        /* ── CARDS ── */
+        .card {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:20px; padding:1.75rem; margin-bottom:1.25rem;
+            transition:all 0.2s;
         }
-
-        .profile-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png') center/cover;
-            opacity: 0.1;
+        .card-title {
+            font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700;
+            color:var(--ink); margin-bottom:1.25rem;
+            display:flex; align-items:center; justify-content:space-between;
         }
-
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
+        .card-eyebrow {
+            font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+            letter-spacing:0.14em; text-transform:uppercase; color:var(--green-mid);
+            display:flex; align-items:center; gap:5px; margin-bottom:0.4rem;
         }
+        .card-eyebrow::before { content:''; display:block; width:12px; height:2px; background:var(--green-mid); }
 
-        .profile-img:hover {
-            transform: scale(1.05);
+        /* ── DETAIL ROW ── */
+        .detail-row {
+            display:flex; align-items:flex-start; gap:0.85rem;
+            padding:0.85rem 0; border-bottom:1px solid var(--border); position:relative;
         }
-
-        .profile-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .detail-row:last-child { border-bottom:none; }
+        .det-icon {
+            width:34px; height:34px; border-radius:9px;
+            background:var(--green-light); color:var(--green-mid);
+            display:grid; place-items:center; font-size:0.78rem; flex-shrink:0;
         }
+        .det-body { flex:1; min-width:0; }
+        .det-label { font-family:'JetBrains Mono',monospace; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.2rem; }
+        .det-value { font-size:0.88rem; font-weight:500; color:var(--ink); word-break:break-all; }
+        .det-value a { color:var(--green-mid); text-decoration:none; }
+        .det-value a:hover { text-decoration:underline; }
+        .det-value.readonly { color:var(--muted); font-style:italic; }
 
-        .profile-title {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
+        /* Inline edit */
+        .det-edit-btn {
+            width:28px; height:28px; border-radius:7px;
+            background:none; border:1px solid var(--border);
+            color:var(--muted); font-size:0.7rem; cursor:pointer;
+            display:grid; place-items:center; transition:all 0.2s; flex-shrink:0;
         }
+        .det-edit-btn:hover { border-color:var(--green-mid); color:var(--green-mid); background:var(--green-light); }
+        .det-edit-btn.locked { cursor:default; }
+        .det-edit-btn.locked:hover { border-color:var(--border); color:var(--muted); background:none; }
 
-        .profile-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background-color: var(--accent-color);
+        .inline-edit-wrap { display:none; margin-top:0.5rem; }
+        .inline-edit-wrap.open { display:block; }
+        .inline-input {
+            width:100%; padding:0.55rem 0.85rem; border-radius:9px;
+            border:1px solid var(--border-strong); background:var(--input-bg);
+            color:var(--ink); font-family:'Outfit',sans-serif; font-size:0.85rem;
+            outline:none; margin-bottom:0.5rem; transition:border-color 0.2s;
         }
-
-        .profile-bio {
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            line-height: 1.7;
+        .inline-input:focus { border-color:var(--green-mid); box-shadow:0 0 0 3px var(--green-glow); }
+        .inline-actions { display:flex; gap:0.4rem; }
+        .btn-save-small {
+            font-size:0.75rem; font-weight:600; padding:0.4rem 0.9rem;
+            border-radius:7px; background:var(--green); color:white; border:none; cursor:pointer; transition:all 0.2s;
         }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
+        .btn-save-small:hover { background:var(--green-mid); }
+        .btn-cancel-small {
+            font-size:0.75rem; font-weight:500; padding:0.4rem 0.9rem;
+            border-radius:7px; background:var(--surface-2); color:var(--muted); border:1px solid var(--border); cursor:pointer; transition:all 0.2s;
         }
+        .btn-cancel-small:hover { border-color:var(--border-strong); color:var(--ink); }
 
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-3px);
-        }
-
-        .profile-content {
-            padding: 2.5rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: var(--accent-color);
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .detail-icon {
-            width: 36px;
-            height: 36px;
-            background-color: rgba(11, 157, 63, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: var(--primary-color);
-        }
-
-        .detail-label {
-            font-weight: 600;
-            margin-right: 0.5rem;
-            color: var(--dark-color);
-        }
-
-        .detail-value {
-            color: var(--text-color);
-        }
-
-        .detail-value a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .detail-value a:hover {
-            color: var(--accent-color);
-            text-decoration: underline;
-        }
-
+        /* ── ABOUT SECTION ── */
         .about-text {
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            font-size:0.875rem; color:var(--ink-mid); line-height:1.78;
+        }
+        .about-textarea {
+            display:none; width:100%; padding:0.75rem; border-radius:10px;
+            border:1px solid var(--border-strong); background:var(--input-bg);
+            color:var(--ink); font-family:'Outfit',sans-serif; font-size:0.875rem;
+            line-height:1.7; resize:vertical; min-height:100px; outline:none;
+            transition:border-color 0.2s;
+        }
+        .about-textarea:focus { border-color:var(--green-mid); box-shadow:0 0 0 3px var(--green-glow); }
+        .about-textarea.open { display:block; }
+        .about-text.editing { display:none; }
+
+        /* ── SKILLS ── */
+        .skills-wrap { display:flex; flex-wrap:wrap; gap:0.6rem; }
+        .skill-tag {
+            display:inline-flex; align-items:center; gap:5px;
+            background:var(--green-light); color:var(--green-mid);
+            font-size:0.78rem; font-weight:500; padding:0.35rem 0.85rem;
+            border-radius:50px; border:1px solid rgba(11,149,68,0.15);
+            position:relative; transition:all 0.2s;
+        }
+        .skill-remove {
+            width:16px; height:16px; border-radius:50%; border:none;
+            background:rgba(11,149,68,0.2); color:var(--green-mid);
+            font-size:0.65rem; cursor:pointer; display:grid; place-items:center;
+            transition:all 0.2s; flex-shrink:0;
+        }
+        .skill-remove:hover { background:var(--green-mid); color:white; }
+        .add-skill-btn-wrap { display:flex; gap:0.5rem; margin-top:0.75rem; }
+        .skill-add-input {
+            flex:1; padding:0.45rem 0.85rem; border-radius:9px;
+            border:1px solid var(--border-strong); background:var(--input-bg);
+            color:var(--ink); font-family:'Outfit',sans-serif; font-size:0.82rem;
+            outline:none; transition:border-color 0.2s;
+        }
+        .skill-add-input:focus { border-color:var(--green-mid); box-shadow:0 0 0 3px var(--green-glow); }
+
+        /* ── SOCIAL LINKS ── */
+        .social-row { display:flex; gap:0.6rem; flex-wrap:wrap; }
+        .social-btn {
+            width:38px; height:38px; border-radius:10px;
+            border:1px solid var(--border); background:var(--surface-2);
+            color:var(--muted); font-size:0.85rem; display:grid; place-items:center;
+            text-decoration:none; transition:all 0.2s; cursor:pointer;
+        }
+        .social-btn:hover { border-color:var(--green-mid); color:var(--green-mid); background:var(--green-light); }
+
+        /* ── ACTIVITY FEED ── */
+        .activity-item {
+            display:flex; gap:0.85rem; padding:0.85rem 0;
+            border-bottom:1px solid var(--border);
+        }
+        .activity-item:last-child { border-bottom:none; }
+        .act-dot {
+            width:34px; height:34px; border-radius:9px;
+            background:var(--green-light); color:var(--green-mid);
+            display:grid; place-items:center; font-size:0.78rem; flex-shrink:0;
+        }
+        .act-body { flex:1; }
+        .act-text { font-size:0.83rem; color:var(--ink-mid); line-height:1.5; }
+        .act-text strong { color:var(--ink); }
+        .act-time {
+            font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+            color:var(--muted); margin-top:0.2rem;
         }
 
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1rem;
+        /* ── STATS ROW ── */
+        .stats-mini { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.25rem; }
+        .stat-mini {
+            background:var(--surface); padding:1rem; text-align:center;
+        }
+        .stat-mini-num {
+            font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700;
+            color:var(--green-mid); line-height:1;
+        }
+        .stat-mini-lbl {
+            font-family:'JetBrains Mono',monospace; font-size:0.58rem;
+            text-transform:uppercase; letter-spacing:0.08em; color:var(--muted);
+            margin-top:0.2rem;
         }
 
-        .skill {
-            background-color: rgba(11, 157, 63, 0.1);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+        /* ── VERIFICATION BANNER ── */
+        .verify-banner {
+            display:flex; align-items:center; gap:1rem;
+            background:var(--amber-light, #fef3c7); border:1px solid rgba(217,119,6,0.2);
+            border-radius:14px; padding:1rem 1.25rem; margin-bottom:1.25rem;
         }
-
-        .badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        [data-theme="dark"] .verify-banner { background:rgba(217,119,6,0.1); }
+        .verify-banner i { color:var(--amber); font-size:1.1rem; flex-shrink:0; }
+        .verify-banner p { font-size:0.8rem; color:var(--ink-mid); line-height:1.5; }
+        .verify-banner strong { color:var(--ink); }
+        .btn-verify {
+            margin-left:auto; flex-shrink:0;
+            font-size:0.75rem; font-weight:600; padding:0.45rem 1rem;
+            border-radius:8px; background:var(--amber); color:white; border:none; cursor:pointer;
+            transition:all 0.2s; white-space:nowrap;
         }
+        .btn-verify:hover { filter:brightness(1.1); }
 
-        /* Edit mode styles */
-        .edit-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: var(--transition);
+        /* ── FOOTER ── */
+        footer { background:#080f0a; padding:2rem; text-align:center; }
+        footer p { font-family:'JetBrains Mono',monospace; font-size:0.67rem; color:rgba(255,255,255,0.3); }
+
+        @media (max-width:900px) {
+            .main-grid { grid-template-columns:1fr; }
+            .avatar-row { flex-wrap:wrap; }
+            .profile-header-actions { width:100%; }
         }
-
-        .edit-btn:hover {
-            background-color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .edit-mode .detail-value {
-            display: none;
-        }
-
-        .edit-input {
-            display: none;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-
-        .edit-mode .edit-input {
-            display: block;
-        }
-
-        .edit-actions {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .edit-mode .edit-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .save-btn, .cancel-btn {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .save-btn {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .save-btn:hover {
-            background-color: #097e32;
-        }
-
-        .cancel-btn {
-            background-color: #f1f1f1;
-            color: var(--text-color);
-        }
-
-        .cancel-btn:hover {
-            background-color: #e1e1e1;
-        }
-
-        .edit-photo {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .edit-photo:hover {
-            background-color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .photo-input {
-            display: none;
-        }
-
-        .edit-textarea {
-            display: none;
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .edit-mode .edit-textarea {
-            display: block;
-        }
-
-        .edit-mode .about-text p {
-            display: none;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 4px;
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .notification.success {
-            background-color: var(--primary-color);
-        }
-
-        .notification.error {
-            background-color: #dc3545;
-        }
-
-        .add-skill-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: var(--transition);
-        }
-
-        .add-skill-btn:hover {
-            background-color: var(--accent-color);
-        }
-
-        .skill {
-            position: relative;
-        }
-
-        .remove-skill {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .skill:hover .remove-skill {
-            opacity: 1;
-        }
-
-        .skill-input-container {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .skill-input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .profile-card {
-                grid-template-columns: 1fr;
-            }
-            
-            .profile-image {
-                padding: 2rem 1rem;
-            }
-            
-            .profile-content {
-                padding: 1.5rem;
-            }
-            
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width:600px) {
+            .cover-wrap { height:160px; }
+            .avatar { width:88px; height:88px; }
+            .profile-name-block h1 { font-size:1.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="notification" id="notification"></div>
-    
-    <div class="profile-card">
-        <div class="badge">Human Rights Activist of the Year</div>
-        
-        <div class="profile-image">
-            <div style="position: relative;">
-                <img src="Photos/h1.jpg" alt="Antoney Citizen" class="profile-img" id="profile-img">
-                <button class="edit-photo" id="edit-photo">
-                    <i class="fas fa-camera"></i>
-                </button>
-                <input type="file" class="photo-input" id="photo-input" accept="image/*">
-            </div>
-            <h1 class="profile-name" id="profile-name">Antoney Citizen</h1>
-            <div class="edit-container">
-                <p class="profile-title" id="profile-title">Human Rights Activist & Web Designer</p>
-                <button class="edit-btn" onclick="editField('profile-title')">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <input type="text" class="edit-input" id="profile-title-input" value="Human Rights Activist & Web Designer">
-                <div class="edit-actions">
-                    <button class="save-btn" onclick="saveField('profile-title')">Save</button>
-                    <button class="cancel-btn" onclick="cancelEdit('profile-title')">Cancel</button>
-                </div>
-            </div>
-            <div class="edit-container">
-                <p class="profile-bio" id="profile-bio">I am a Kenyan citizen who loves to be heard and always steps ahead against my people's right violations.</p>
-                <button class="edit-btn" onclick="editField('profile-bio')">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <textarea class="edit-textarea" id="profile-bio-input">I am a Kenyan citizen who loves to be heard and always steps ahead against my people's right violations.</textarea>
-                <div class="edit-actions">
-                    <button class="save-btn" onclick="saveField('profile-bio')">Save</button>
-                    <button class="cancel-btn" onclick="cancelEdit('profile-bio')">Cancel</button>
-                </div>
-            </div>
-            
-            <div class="social-links">
-                <a href="#" class="social-link" aria-label="Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-        </div>
-        
-        <div class="profile-content">
-            <h2 class="section-title">Personal Details</h2>
-            <div class="details-grid">
-                <div class="detail-item" id="name-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Name:</span>
-                        <span class="detail-value" id="name-value">Antoney Citizen</span>
-                        <input type="text" class="edit-input" id="name-input" value="Antoney Citizen">
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('name')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('name')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('name')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="age-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Age:</span>
-                        <span class="detail-value" id="age-value">20 years</span>
-                        <input type="text" class="edit-input" id="age-input" value="20 years">
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('age')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('age')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('age')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="location-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Location:</span>
-                        <span class="detail-value" id="location-value">Nairobi, Kenya</span>
-                        <input type="text" class="edit-input" id="location-input" value="Nairobi, Kenya">
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('location')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('location')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('location')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="gender-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-venus-mars"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Gender:</span>
-                        <span class="detail-value" id="gender-value">Male</span>
-                        <select class="edit-input" id="gender-input">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('gender')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('gender')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('gender')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="county-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-flag"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">County:</span>
-                        <span class="detail-value" id="county-value">Nairobi</span>
-                        <input type="text" class="edit-input" id="county-input" value="Nairobi">
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('county')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('county')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('county')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="email-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Email:</span>
-                        <span class="detail-value" id="email-value">
-                            <a href="mailto:aouko178@gmail.com" id="email-link">aouko178@gmail.com</a>
-                        </span>
-                        <!-- Email is read-only as it comes from database -->
-                        <input type="email" class="edit-input" id="email-input" value="aouko178@gmail.com" disabled>
-                        <div class="edit-actions">
-                            <button class="cancel-btn" onclick="cancelDetail('email')">Close</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('email')" title="Email is auto-updated from your account">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                </div>
-                
-                <div class="detail-item" id="phone-container">
-                    <div class="detail-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div>
-                        <span class="detail-label">Phone:</span>
-                        <span class="detail-value" id="phone-value">
-                            <a href="tel:0768343558" id="phone-link">0768 343 558</a>
-                        </span>
-                        <input type="tel" class="edit-input" id="phone-input" value="0768343558">
-                        <div class="edit-actions">
-                            <button class="save-btn" onclick="saveDetail('phone')">Save</button>
-                            <button class="cancel-btn" onclick="cancelDetail('phone')">Cancel</button>
-                        </div>
-                    </div>
-                    <button class="edit-btn" onclick="editDetail('phone')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <h2 class="section-title">About Me</h2>
-            <div class="about-text" id="about-container">
-                <p id="about-value">I am an all-round web designer and an activist dedicated to human rights protection in Kenya. With a passion for justice and equality, I combine my technical skills with advocacy work to create positive change in my community.</p>
-                <p>My mission is to amplify voices that are often unheard and to stand against human rights violations through both digital platforms and grassroots activism.</p>
-                <textarea class="edit-textarea" id="about-input">I am an all-round web designer and an activist dedicated to human rights protection in Kenya. With a passion for justice and equality, I combine my technical skills with advocacy work to create positive change in my community.
 
-My mission is to amplify voices that are often unheard and to stand against human rights violations through both digital platforms and grassroots activism.</textarea>
-                <div class="edit-actions">
-                    <button class="save-btn" onclick="saveAbout()">Save</button>
-                    <button class="cancel-btn" onclick="cancelAbout()">Cancel</button>
-                </div>
-                <button class="edit-btn" style="margin-top: 10px;" onclick="editAbout()">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-            </div>
-            
-            <h2 class="section-title">Skills & Expertise</h2>
-            <div class="skills" id="skills-container">
-                <span class="skill">Human Rights Advocacy<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <span class="skill">Web Design<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <span class="skill">Community Mobilization<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <span class="skill">Public Speaking<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <span class="skill">Social Media Campaigns<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <span class="skill">UI/UX Design<button class="remove-skill" onclick="removeSkill(this)">×</button></span>
-                <button class="add-skill-btn" onclick="showAddSkill()">
-                    <i class="fas fa-plus"></i> Add Skill
-                </button>
-                <div class="skill-input-container" id="skill-input-container">
-                    <input type="text" class="skill-input" id="skill-input" placeholder="Enter skill...">
-                    <button class="save-btn" onclick="addSkill()">Add</button>
-                    <button class="cancel-btn" onclick="cancelAddSkill()">Cancel</button>
-                </div>
-            </div>
+<!-- ── HEADER ── -->
+<header>
+    <div class="hdr">
+        <a href="index.html" class="logo-wrap">
+            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+            <div class="logo-text">Kenya <span>Transparency</span></div>
+        </a>
+        <nav style="margin-left:2rem;display:flex;gap:0.2rem">
+            <a href="user_dashboard.html" class="nav-link">Dashboard</a>
+            <a href="Projects.html" class="nav-link">Projects</a>
+            <a href="Budget.html" class="nav-link">Budget</a>
+        </nav>
+        <div class="hdr-right">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+            <a href="gov_profile.html" class="icon-btn" title="Government Profile"><i class="fas fa-landmark"></i></a>
+            <a href="user_dashboard.html" class="icon-btn" title="Back to Dashboard"><i class="fas fa-home"></i></a>
         </div>
     </div>
+</header>
 
-    <script>
-        // Load user data from database when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simulate fetching user data from database
-            fetchUserData();
-        });
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
 
-        function fetchUserData() {
-            // This would normally be an AJAX call to your backend
-            // For demonstration, we'll simulate a database response
-            setTimeout(() => {
-                // Simulated response from database
-                const userData = {
-                    email: 'aouko178@gmail.com',
-                    name: 'Antoney Citizen',
-                    profile_image: 'Photos/h1.jpg'
-                    // Other fields would be here in a real implementation
-                };
-                
-                // Update email field from database (this field is not editable by user)
-                document.getElementById('email-value').innerHTML = `<a href="mailto:${userData.email}">${userData.email}</a>`;
-                document.getElementById('email-input').value = userData.email;
-                document.getElementById('email-link').href = `mailto:${userData.email}`;
-                document.getElementById('email-link').textContent = userData.email;
-            }, 500);
-        }
+<!-- ── COVER ── -->
+<div class="cover-wrap" id="coverWrap">
+    <button class="cover-change-btn" onclick="document.getElementById('coverInput').click()">
+        <i class="fas fa-camera"></i> Change Cover
+    </button>
+    <input type="file" id="coverInput" accept="image/*" style="display:none">
+</div>
 
-        // Edit field in the profile image section
-        function editField(fieldId) {
-            const field = document.getElementById(fieldId);
-            const input = document.getElementById(`${fieldId}-input`);
-            const container = field.parentElement;
-            
-            // Set input value to current field value
-            input.value = field.textContent;
-            
-            // Add edit mode class to container
-            container.classList.add('edit-mode');
-            
-            // Focus on input
-            input.focus();
-        }
+<!-- ── AVATAR ROW ── -->
+<div class="profile-header-area">
+    <div class="avatar-row">
+        <div class="avatar-wrap">
+            <img src="Photos/h1.jpg" alt="Profile" class="avatar" id="avatarImg">
+            <button class="avatar-edit-btn" onclick="document.getElementById('avatarInput').click()" title="Change photo">
+                <i class="fas fa-camera"></i>
+            </button>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none">
+        </div>
 
-        // Save field in the profile image section
-        function saveField(fieldId) {
-            const field = document.getElementById(fieldId);
-            const input = document.getElementById(`${fieldId}-input`);
-            const container = field.parentElement;
-            
-            // Update field with input value
-            field.textContent = input.value;
-            
-            // Remove edit mode class
-            container.classList.remove('edit-mode');
-            
-            // Save to database
-            saveToDatabase(fieldId, input.value);
-        }
+        <div class="profile-name-block">
+            <div class="citizen-badge"><i class="fas fa-user-check"></i> Registered Citizen</div>
+            <h1 id="displayName">Antoney Citizen</h1>
+            <div class="profile-role" id="displayRole">Human Rights Activist & Web Designer</div>
+            <div class="profile-location"><i class="fas fa-map-marker-alt"></i> <span id="displayLocation">Nairobi, Kenya</span></div>
+        </div>
 
-        // Cancel edit for field in the profile image section
-        function cancelEdit(fieldId) {
-            const container = document.getElementById(fieldId).parentElement;
-            container.classList.remove('edit-mode');
-        }
+        <div class="profile-header-actions">
+            <button class="btn-secondary" onclick="copyProfileLink()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="btn-edit-profile" id="globalEditBtn" onclick="toggleGlobalEdit()"><i class="fas fa-pen"></i> Edit Profile</button>
+        </div>
+    </div>
+</div>
 
-        // Edit detail in the personal details section
-        function editDetail(detailId) {
-            const container = document.getElementById(`${detailId}-container`);
-            container.classList.add('edit-mode');
-            
-            const input = document.getElementById(`${detailId}-input`);
-            input.focus();
-        }
+<!-- ── MAIN GRID ── -->
+<div class="main-grid">
 
-        // Save detail in the personal details section
-        function saveDetail(detailId) {
-            const container = document.getElementById(`${detailId}-container`);
-            const value = document.getElementById(`${detailId}-value`);
-            const input = document.getElementById(`${detailId}-input`);
-            
-            // Special handling for phone number
-            if (detailId === 'phone') {
-                const phoneLink = document.getElementById('phone-link');
-                phoneLink.textContent = formatPhoneNumber(input.value);
-                phoneLink.href = `tel:${input.value.replace(/\s/g, '')}`;
-            } else {
-                value.textContent = input.value;
-            }
-            
-            container.classList.remove('edit-mode');
-            
-            // If this is the name field, also update the profile name
-            if (detailId === 'name') {
-                document.getElementById('profile-name').textContent = input.value;
-            }
-            
-            // Save to database
-            saveToDatabase(detailId, input.value);
-        }
+    <!-- LEFT COLUMN -->
+    <aside>
+        <!-- Verification notice -->
+        <div class="verify-banner" id="verifyBanner">
+            <i class="fas fa-shield-halved"></i>
+            <p><strong>Verify your identity</strong><br>Complete ID verification to access premium civic services.</p>
+            <button class="btn-verify">Verify Now</button>
+        </div>
 
-        // Format phone number for display
-        function formatPhoneNumber(phone) {
-            // Simple formatting: add space after 4 digits
-            phone = phone.replace(/\s/g, ''); // Remove any existing spaces
-            if (phone.length > 4) {
-                return phone.substring(0, 4) + ' ' + phone.substring(4);
-            }
-            return phone;
-        }
+        <!-- Mini stats -->
+        <div class="stats-mini">
+            <div class="stat-mini"><div class="stat-mini-num" id="statInquiries">0</div><div class="stat-mini-lbl">Inquiries</div></div>
+            <div class="stat-mini"><div class="stat-mini-num" id="statVotes">0</div><div class="stat-mini-lbl">Votes Cast</div></div>
+            <div class="stat-mini"><div class="stat-mini-num" id="statDays">0</div><div class="stat-mini-lbl">Days Active</div></div>
+        </div>
 
-        // Cancel edit for detail in the personal details section
-        function cancelDetail(detailId) {
-            const container = document.getElementById(`${detailId}-container`);
-            const value = document.getElementById(`${detailId}-value`);
-            const input = document.getElementById(`${detailId}-input`);
-            
-            // Reset input value to current display value
-            if (detailId === 'phone') {
-                input.value = document.getElementById('phone-link').textContent.replace(/\s/g, '');
-            } else if (detailId === 'email') {
-                input.value = document.getElementById('email-link').textContent;
-            } else {
-                input.value = value.textContent;
-            }
-            
-            container.classList.remove('edit-mode');
-        }
+        <!-- Personal Details -->
+        <div class="card">
+            <div class="card-eyebrow">Profile</div>
+            <div class="card-title">Personal Details</div>
 
-        // Edit about section
-        function editAbout() {
-            const container = document.getElementById('about-container');
-            container.classList.add('edit-mode');
-            
-            const input = document.getElementById('about-input');
-            input.focus();
-        }
+            <!-- Full Name (auto from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-user"></i></div>
+                <div class="det-body">
+                    <div class="det-label">Full Name</div>
+                    <div class="det-value" id="det-name">Antoney Citizen</div>
+                    <div class="inline-edit-wrap" id="edit-name">
+                        <input class="inline-input" id="inp-name" type="text" placeholder="Full name">
+                        <div class="inline-actions">
+                            <button class="btn-save-small" onclick="saveField('name')">Save</button>
+                            <button class="btn-cancel-small" onclick="closeEdit('name')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="det-edit-btn" onclick="openEdit('name')" title="Edit"><i class="fas fa-pen"></i></button>
+            </div>
 
-        // Save about section
-        function saveAbout() {
-            const container = document.getElementById('about-container');
-            const value = document.getElementById('about-value');
-            const input = document.getElementById('about-input');
-            
-            // Update about text with input value
-            value.innerHTML = input.value.replace(/\n/g, '<br>');
-            
-            container.classList.remove('edit-mode');
-            
-            // Save to database
-            saveToDatabase('about', input.value);
-        }
+            <!-- ID Number (readonly — from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-id-card"></i></div>
+                <div class="det-body">
+                    <div class="det-label">National ID</div>
+                    <div class="det-value readonly" id="det-id">●●●●●●●● (verified)</div>
+                </div>
+                <button class="det-edit-btn locked" title="Set at signup"><i class="fas fa-lock"></i></button>
+            </div>
 
-        // Cancel edit for about section
-        function cancelAbout() {
-            const container = document.getElementById('about-container');
-            container.classList.remove('edit-mode');
-        }
+            <!-- Email (readonly — from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-envelope"></i></div>
+                <div class="det-body">
+                    <div class="det-label">Email Address</div>
+                    <div class="det-value" id="det-email"><a href="#" id="emailLink">aouko178@gmail.com</a></div>
+                </div>
+                <button class="det-edit-btn locked" title="Linked to your account"><i class="fas fa-lock"></i></button>
+            </div>
 
-        // Show add skill input
-        function showAddSkill() {
-            const container = document.getElementById('skill-input-container');
-            container.style.display = 'block';
-            document.getElementById('skill-input').focus();
-        }
+            <!-- Phone -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-phone"></i></div>
+                <div class="det-body">
+                    <div class="det-label">Phone Number</div>
+                    <div class="det-value" id="det-phone"><a href="#" id="phoneLink">0768 343 558</a></div>
+                    <div class="inline-edit-wrap" id="edit-phone">
+                        <input class="inline-input" id="inp-phone" type="tel" placeholder="Phone number">
+                        <div class="inline-actions">
+                            <button class="btn-save-small" onclick="saveField('phone')">Save</button>
+                            <button class="btn-cancel-small" onclick="closeEdit('phone')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="det-edit-btn" onclick="openEdit('phone')"><i class="fas fa-pen"></i></button>
+            </div>
 
-        // Add new skill
-        function addSkill() {
-            const input = document.getElementById('skill-input');
-            const skillsContainer = document.getElementById('skills-container');
-            
-            if (input.value.trim() !== '') {
-                const skill = document.createElement('span');
-                skill.className = 'skill';
-                skill.innerHTML = input.value + '<button class="remove-skill" onclick="removeSkill(this)">×</button>';
-                
-                // Insert before the add button
-                skillsContainer.insertBefore(skill, document.querySelector('.add-skill-btn'));
-                
-                // Clear input and hide container
-                input.value = '';
-                cancelAddSkill();
-                
-                // Save to database
-                saveSkillsToDatabase();
-            }
-        }
+            <!-- County (from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-flag"></i></div>
+                <div class="det-body">
+                    <div class="det-label">County</div>
+                    <div class="det-value" id="det-county">Nairobi</div>
+                    <div class="inline-edit-wrap" id="edit-county">
+                        <select class="inline-input" id="inp-county">
+                            <option>Nairobi</option><option>Mombasa</option><option>Kisumu</option>
+                            <option>Nakuru</option><option>Eldoret</option><option>Thika</option>
+                            <option>Kiambu</option><option>Machakos</option><option>Meru</option>
+                            <option>Other</option>
+                        </select>
+                        <div class="inline-actions">
+                            <button class="btn-save-small" onclick="saveField('county')">Save</button>
+                            <button class="btn-cancel-small" onclick="closeEdit('county')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="det-edit-btn" onclick="openEdit('county')"><i class="fas fa-pen"></i></button>
+            </div>
 
-        // Cancel add skill
-        function cancelAddSkill() {
-            const container = document.getElementById('skill-input-container');
-            container.style.display = 'none';
-        }
+            <!-- Gender (from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-venus-mars"></i></div>
+                <div class="det-body">
+                    <div class="det-label">Gender</div>
+                    <div class="det-value" id="det-gender">Male</div>
+                    <div class="inline-edit-wrap" id="edit-gender">
+                        <select class="inline-input" id="inp-gender">
+                            <option>Male</option><option>Female</option><option>Prefer not to say</option>
+                        </select>
+                        <div class="inline-actions">
+                            <button class="btn-save-small" onclick="saveField('gender')">Save</button>
+                            <button class="btn-cancel-small" onclick="closeEdit('gender')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="det-edit-btn" onclick="openEdit('gender')"><i class="fas fa-pen"></i></button>
+            </div>
 
-        // Remove skill
-        function removeSkill(button) {
-            const skill = button.parentElement;
-            skill.remove();
-            
-            // Save updated skills to database
-            saveSkillsToDatabase();
-        }
+            <!-- Date of Birth (from signup) -->
+            <div class="detail-row">
+                <div class="det-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="det-body">
+                    <div class="det-label">Date of Birth</div>
+                    <div class="det-value readonly" id="det-dob">Not set</div>
+                </div>
+                <button class="det-edit-btn locked"><i class="fas fa-lock"></i></button>
+            </div>
+        </div>
 
-        // Save skills to database
-        function saveSkillsToDatabase() {
-            const skills = [];
-            document.querySelectorAll('.skill').forEach(skill => {
-                // Get text content without the remove button text
-                const skillText = skill.childNodes[0].nodeValue;
-                if (skillText) {
-                    skills.push(skillText);
-                }
-            });
-            
-            // Save to database
-            saveToDatabase('skills', skills);
-        }
+        <!-- Social Links -->
+        <div class="card">
+            <div class="card-eyebrow">Connect</div>
+            <div class="card-title">Social Links</div>
+            <div class="social-row" id="socialRow">
+                <a href="#" class="social-btn" id="fb-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-btn" id="tw-link" title="Twitter / X"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn" id="ig-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn" id="li-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-btn" id="yt-link" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </aside>
 
-        // Handle profile image change
-        document.getElementById('edit-photo').addEventListener('click', function() {
-            document.getElementById('photo-input').click();
-        });
+    <!-- RIGHT COLUMN -->
+    <main>
+        <!-- About -->
+        <div class="card">
+            <div class="card-eyebrow">Introduction</div>
+            <div class="card-title">
+                About Me
+                <button class="det-edit-btn" onclick="toggleAboutEdit()" id="aboutEditBtn"><i class="fas fa-pen"></i></button>
+            </div>
+            <div class="about-text" id="aboutText">
+                I am an all-round web designer and an activist dedicated to human rights protection in Kenya. With a passion for justice and equality, I combine my technical skills with advocacy work to create positive change in my community.
+                <br><br>
+                My mission is to amplify voices that are often unheard and to stand against human rights violations through both digital platforms and grassroots activism.
+            </div>
+            <textarea class="about-textarea" id="aboutTextarea" rows="6" placeholder="Tell the public about yourself..."></textarea>
+            <div class="inline-actions" id="aboutActions" style="display:none;margin-top:0.75rem">
+                <button class="btn-save-small" onclick="saveAbout()">Save Changes</button>
+                <button class="btn-cancel-small" onclick="cancelAbout()">Cancel</button>
+            </div>
+        </div>
 
-        document.getElementById('photo-input').addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    document.getElementById('profile-img').src = e.target.result;
-                    
-                    // Save to database (in a real app, you'd upload the file to server)
-                    uploadProfileImage(e.target.files[0]);
-                };
-                
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
+        <!-- Skills -->
+        <div class="card">
+            <div class="card-eyebrow">Expertise</div>
+            <div class="card-title">Skills & Interests</div>
+            <div class="skills-wrap" id="skillsWrap">
+                <!-- Populated by JS -->
+            </div>
+            <div class="add-skill-btn-wrap" style="margin-top:0.85rem">
+                <input class="skill-add-input" id="skillInput" placeholder="Add a skill or interest..." onkeydown="if(event.key==='Enter') addSkill()">
+                <button class="btn-save-small" onclick="addSkill()"><i class="fas fa-plus"></i> Add</button>
+            </div>
+        </div>
 
-        // Upload profile image to server
-        function uploadProfileImage(file) {
-            // In a real application, you would use FormData to upload the file
-            // For demonstration, we'll just show a success notification
-            showNotification('Profile picture updated successfully!', 'success');
-        }
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="card-eyebrow">Engagement</div>
+            <div class="card-title">Recent Activity</div>
+            <div id="activityFeed">
+                <div class="activity-item">
+                    <div class="act-dot"><i class="fas fa-comment-alt"></i></div>
+                    <div class="act-body">
+                        <div class="act-text">Submitted an inquiry about <strong>Talanta Stadium funding</strong></div>
+                        <div class="act-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="act-dot"><i class="fas fa-eye"></i></div>
+                    <div class="act-body">
+                        <div class="act-text">Viewed the <strong>Q2 2023 Budget Report</strong></div>
+                        <div class="act-time">1 day ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="act-dot"><i class="fas fa-vote-yea"></i></div>
+                    <div class="act-body">
+                        <div class="act-text">Participated in the <strong>Vision 2030 citizen poll</strong></div>
+                        <div class="act-time">3 days ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="act-dot"><i class="fas fa-user-check"></i></div>
+                    <div class="act-body">
+                        <div class="act-text"><strong>Account created</strong> and email verified</div>
+                        <div class="act-time">7 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
 
-        // Save data to database
-        function saveToDatabase(field, value) {
-            // This would normally be an AJAX call to your backend
-            console.log(`Saving ${field}: `, value);
-            
-            // Simulate API call
-            setTimeout(() => {
-                showNotification('Profile updated successfully!', 'success');
-            }, 500);
-            
-            // In a real application, you would do something like:
-            /*
-            fetch('update_profile.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    field: field,
-                    value: value
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification('Profile updated successfully!', 'success');
-                } else {
-                    showNotification('Failed to update profile. Please try again.', 'error');
-                }
-            })
-            .catch(error => {
-                showNotification('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-            });
-            */
-        }
+<footer>
+    <p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p>
+</footer>
 
-        // Show notification
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-    </script>
+<script>
+/* ══ DATA LAYER — localStorage persists signup data ══ */
+const STORE_KEY = 'ktp_citizen_profile';
+
+// Default data (would normally come from signup session/DB)
+const defaults = {
+    name: 'Antoney Citizen',
+    email: 'aouko178@gmail.com',
+    phone: '0768343558',
+    county: 'Nairobi',
+    gender: 'Male',
+    dob: '',
+    nationalId: '●●●●●●●●',
+    role: 'Human Rights Activist & Web Designer',
+    about: 'I am an all-round web designer and an activist dedicated to human rights protection in Kenya. With a passion for justice and equality, I combine my technical skills with advocacy work to create positive change in my community.\n\nMy mission is to amplify voices that are often unheard and to stand against human rights violations through both digital platforms and grassroots activism.',
+    skills: ['Human Rights Advocacy','Web Design','Community Mobilization','Public Speaking','Social Media Campaigns','UI/UX Design'],
+    avatar: 'Photos/h1.jpg',
+    stats: { inquiries: 12, votes: 5, days: 7 }
+};
+
+// Merge saved data with defaults
+function loadProfile() {
+    // First check if signup data was passed
+    const signup = JSON.parse(localStorage.getItem('ktp_signup_data') || '{}');
+    const saved  = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    // Priority: saved edits > signup data > defaults
+    return Object.assign({}, defaults, signup, saved);
+}
+
+function saveProfile(partial) {
+    const current = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    const updated = Object.assign(current, partial);
+    localStorage.setItem(STORE_KEY, JSON.stringify(updated));
+}
+
+/* ══ RENDER ══ */
+function render() {
+    const p = loadProfile();
+
+    // Header
+    document.getElementById('displayName').textContent = p.name;
+    document.getElementById('displayRole').textContent = p.role;
+    document.getElementById('displayLocation').textContent = p.county + ', Kenya';
+
+    // Avatar
+    if (p.avatar) document.getElementById('avatarImg').src = p.avatar;
+
+    // Details
+    document.getElementById('det-name').textContent  = p.name;
+    document.getElementById('det-email').innerHTML   = `<a href="mailto:${p.email}" id="emailLink">${p.email}</a>`;
+    document.getElementById('det-phone').innerHTML   = `<a href="tel:${p.phone}" id="phoneLink">${formatPhone(p.phone)}</a>`;
+    document.getElementById('det-county').textContent = p.county;
+    document.getElementById('det-gender').textContent = p.gender;
+    document.getElementById('det-dob').textContent   = p.dob || 'Not provided';
+
+    // About
+    document.getElementById('aboutText').innerHTML = p.about.replace(/\n/g,'<br>');
+    document.getElementById('aboutTextarea').value = p.about;
+
+    // Skills
+    renderSkills(p.skills);
+
+    // Stats
+    document.getElementById('statInquiries').textContent = p.stats.inquiries;
+    document.getElementById('statVotes').textContent     = p.stats.votes;
+    document.getElementById('statDays').textContent      = p.stats.days;
+}
+
+/* ══ SKILLS ══ */
+function renderSkills(skills) {
+    const wrap = document.getElementById('skillsWrap');
+    wrap.innerHTML = '';
+    skills.forEach(s => {
+        const tag = document.createElement('span');
+        tag.className = 'skill-tag';
+        tag.innerHTML = `${s}<button class="skill-remove" onclick="removeSkill('${s}',this)">×</button>`;
+        wrap.appendChild(tag);
+    });
+}
+function addSkill() {
+    const inp = document.getElementById('skillInput');
+    const val = inp.value.trim();
+    if (!val) return;
+    const p = loadProfile();
+    if (!p.skills.includes(val)) { p.skills.push(val); saveProfile({skills:p.skills}); renderSkills(p.skills); }
+    inp.value = '';
+    showToast('Skill added','success');
+}
+function removeSkill(name) {
+    const p = loadProfile();
+    p.skills = p.skills.filter(s => s !== name);
+    saveProfile({skills:p.skills});
+    renderSkills(p.skills);
+}
+
+/* ══ INLINE EDIT HELPERS ══ */
+function openEdit(field) {
+    const wrap = document.getElementById('edit-'+field);
+    const inp  = document.getElementById('inp-'+field);
+    const p    = loadProfile();
+    if (inp.tagName === 'INPUT') inp.value = p[field] || '';
+    else { // select
+        Array.from(inp.options).forEach(o => o.selected = o.value === p[field]);
+    }
+    wrap.classList.add('open');
+    inp.focus?.();
+}
+function closeEdit(field) {
+    document.getElementById('edit-'+field).classList.remove('open');
+}
+function saveField(field) {
+    const inp = document.getElementById('inp-'+field);
+    const val = inp.value || inp.options?.[inp.selectedIndex]?.value || '';
+    saveProfile({[field]: val});
+    closeEdit(field);
+    render();
+    showToast('Profile updated','success');
+}
+
+/* ══ ABOUT ══ */
+function toggleAboutEdit() {
+    const text = document.getElementById('aboutText');
+    const ta   = document.getElementById('aboutTextarea');
+    const acts = document.getElementById('aboutActions');
+    const p    = loadProfile();
+    ta.value = p.about;
+    text.classList.add('editing');
+    ta.classList.add('open');
+    acts.style.display = 'flex';
+}
+function saveAbout() {
+    const ta = document.getElementById('aboutTextarea');
+    saveProfile({about: ta.value});
+    cancelAbout();
+    render();
+    showToast('About section saved','success');
+}
+function cancelAbout() {
+    document.getElementById('aboutText').classList.remove('editing');
+    document.getElementById('aboutTextarea').classList.remove('open');
+    document.getElementById('aboutActions').style.display = 'none';
+}
+
+/* ══ AVATAR / COVER ══ */
+document.getElementById('avatarInput').addEventListener('change', e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        saveProfile({avatar: ev.target.result});
+        document.getElementById('avatarImg').src = ev.target.result;
+        showToast('Photo updated','success');
+    };
+    reader.readAsDataURL(file);
+});
+document.getElementById('coverInput').addEventListener('change', e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        document.getElementById('coverWrap').style.background = `url(${ev.target.result}) center/cover`;
+        showToast('Cover photo updated','success');
+    };
+    reader.readAsDataURL(file);
+});
+
+/* ══ SHARE ══ */
+function copyProfileLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => showToast('Profile link copied!','success'));
+}
+
+/* ══ GLOBAL EDIT toggle (all pencils appear) ══ */
+let globalEdit = false;
+function toggleGlobalEdit() {
+    globalEdit = !globalEdit;
+    const btn = document.getElementById('globalEditBtn');
+    btn.innerHTML = globalEdit ? '<i class="fas fa-check"></i> Done' : '<i class="fas fa-pen"></i> Edit Profile';
+    // when done, close any open edits
+    if (!globalEdit) document.querySelectorAll('.inline-edit-wrap.open').forEach(w => w.classList.remove('open'));
+}
+
+/* ══ THEME ══ */
+(function(){
+    const btn = document.getElementById('themeToggle');
+    const icon = btn.querySelector('i');
+    const t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    function apply(th) { document.documentElement.setAttribute('data-theme',th); icon.className = th==='dark' ? 'fas fa-sun' : 'fas fa-moon'; localStorage.setItem('theme',th); }
+    apply(t);
+    btn.addEventListener('click', () => apply(document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark'));
+})();
+
+/* ══ TOAST ══ */
+function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ══ HELPERS ══ */
+function formatPhone(p) {
+    p = (p||'').replace(/\s/g,'');
+    return p.length > 4 ? p.slice(0,4)+' '+p.slice(4) : p;
+}
+
+/* ══ INIT ══ */
+render();
+</script>
 </body>
 </html>

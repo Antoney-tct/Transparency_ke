@@ -1,1722 +1,785 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'government') {
-    header("Location: login.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gov rep Dashboard Kenya Government Transparency Portal</title>
+    <title>Gov Rep Dashboard — Kenya Transparency Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="notific2,.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary-color: #0b9d3f;
-            --secondary-color: #1d4ed8;
-            --accent-color: #ff6b35;
-            --dark-color: #2c3e50;
-            --light-color: #f8f9fa;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background-color: var(--dark-color);
-            color: white;
-            position: fixed;
-            height: 100vh;
-            padding: 1.5rem 0;
-            transition: var(--transition);
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .sidebar-logo img {
-            height: 40px;
-        }
-
-        .sidebar-logo-text {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sidebar-logo-text span {
-            color: var(--primary-color);
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .menu-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: #bbb;
-            padding: 0 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1.5rem;
-            color: #bbb;
-            text-decoration: none;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-left: 3px solid var(--primary-color);
-        }
-
-        .menu-item i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .menu-item .badge {
-            margin-left: auto;
-            background-color: var(--danger-color);
-            color: white;
-            border-radius: 10px;
-            padding: 0.2rem 0.5rem;
-            font-size: 0.7rem;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            transition: margin-left 0.3s ease;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .main-content {
-                margin-left: 0 !important;
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-        }
-         /*notification*/
-    .notification-container {
-        position: relative;
-    }
-    
-    .notification-dropdown {
-        position: absolute;
-        right: 0;
-        top: 100%;
-        width: 350px;
-        background: white;
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        z-index: 1000;
-        display: none;
-        margin-top: 10px;
-    }
-    
-    .notification-dropdown.show {
-        display: block;
-    }
-    
-    .notification-header {
-        padding: 1rem;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .notification-count {
-        background-color: var(--danger-color);
-        color: white;
-        padding: 0.2rem 0.5rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
-    }
-    
-    .notification-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-    
-    .notification-item {
-        padding: 1rem;
-        display: flex;
-        gap: 1rem;
-        border-bottom: 1px solid #eee;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-    
-    .notification-item:hover {
-        background-color: #f8f9fa;
-    }
-    
-    .notification-item.unread {
-        background-color: #f0f7ff;
-    }
-    
-    .notification-icon {
-        width: 36px;
-        height: 36px;
-        background-color: rgba(11, 157, 63, 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--primary-color);
-    }
-    
-    .notification-content {
-        flex: 1;
-    }
-    
-    .notification-content p {
-        margin-bottom: 0.3rem;
-    }
-    
-    .notification-time {
-        color: #999;
-        font-size: 0.8rem;
-    }
-    .view-all {
-        display: block;
-        text-align: center;
-        padding: 0.8rem;
-        color: var(--primary-color);
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-
-
-        /* Top Navigation */
-        .top-nav {
-            background-color: white;
-            box-shadow: var(--box-shadow);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 90;
-        }
-
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
-
-        .search-container input {
-            padding: 0.6rem 1rem 0.6rem 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            outline: none;
-            transition: var(--transition);
-            width: 100%;
-        }
-
-        .search-container input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(11, 157, 63, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-
-        .top-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .notification-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            color: var(--dark-color);
-            font-size: 1.2rem;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger-color);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            cursor: pointer;
-        }
-
-        .profile-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
-        }
-
-        .profile-name {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        /* Content Container */
-        .content-container {
-            padding: 2rem;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--dark-color);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--box-shadow);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            background-color: #0a8a36;
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: #1a3eb7;
-        }
-
-        /* Dashboard Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 1.5rem;
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .stat-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(11, 157, 63, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .stat-trend {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-        }
-
-        .trend-up {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-color);
-        }
-
-        .trend-down {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: var(--danger-color);
-        }
-
-        /* Recent Activity Section */
-        .section-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .section-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .section-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Messages Table */
-        .messages-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .messages-table th, .messages-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .messages-table th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .messages-table tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .message-sender {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .sender-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .sender-name {
-            font-weight: 500;
-        }
-
-        .message-preview {
-            color: #666;
-            font-size: 0.9rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .message-date {
-            font-size: 0.8rem;
-            color: #999;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .status-unread {
-            background-color: rgba(29, 78, 216, 0.1);
-            color: var(--secondary-color);
-        }
-
-        .status-read {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-color);
-        }
-
-        .status-pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--warning-color);
-        }
-
-        /* Charts Section */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .chart-container {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 1.5rem;
-        }
-
-        .chart-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
-
-        /* Recent Users Section */
-        .users-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .user-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 1.2rem;
-            text-align: center;
-            transition: var(--transition);
-        }
-
-        .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1rem;
-            border: 3px solid var(--primary-color);
-        }
-
-        .user-name {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .user-role {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.8rem;
-        }
-
-        .user-stats {
-            display: flex;
-            justify-content: space-around;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .stat-count {
-            font-weight: 600;
-            color: var(--dark-color);
-            display: block;
-        }
-
-        /* Message Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: translateY(-20px);
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-        }
-
-        .message-sender-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .message-sender-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .message-sender-details h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .message-sender-details p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .message-date-time {
-            color: #666;
-            font-size: 0.9rem;
-            text-align: right;
-        }
-
-        .message-content {
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .message-attachments {
-            margin-top: 2rem;
-        }
-
-        .attachment-title {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.8rem;
-        }
-
-        .attachment-item {
-            display: inline-block;
-            margin-right: 1rem;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            border: 1px solid #eee;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .attachment-item:hover {
-            border-color: var(--primary-color);
-        }
-
-        .attachment-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .attachment-name {
-            font-size: 0.8rem;
-            display: block;
-            max-width: 100px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid #ddd;
-            color: var(--dark-color);
-        }
-
-        .btn-outline:hover {
-            background-color: #f8f9fa;
-        }
-        .chart-container {
-    position: relative;
-    height: 300px;
-    width: 100%;
-    min-height: 300px; 
-}
-
-canvas {
-    display: block; 
-    width: 100% !important;
-    height: 100% !important;
-}
-        /* Responsive Styles */
-        @media (max-width: 1200px) {
-            .sidebar {
-                width: 80px;
-                overflow: hidden;
-            }
-            
-            .sidebar-logo-text, .menu-title, .menu-item span {
-                display: none;
-            }
-            
-            .menu-item {
-                justify-content: center;
-                padding: 1rem;
-            }
-            
-            .menu-item i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
-            
-            .main-content {
-                margin-left: 80px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .top-nav {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .users-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .modal {
-                width: 95%;
-            }
-            .header-left {
-                width: 100%;
-                justify-content: space-between;
-            }
+            --navy:#0f1e4a; --navy-mid:#1d3a8a; --navy-light:#e8ecf8; --navy-glow:rgba(29,58,138,0.16);
+            --green:#0b6e31; --green-mid:#0f9544; --green-light:#e8f5ee; --green-glow:rgba(11,149,68,0.18);
+            --amber:#d97706; --amber-light:#fef3c7;
+            --red:#b91c1c; --red-light:#fee2e2;
+            --bg:#f0f2f8; --surface:#fff; --surface-2:#f5f7fc;
+            --border:rgba(0,0,0,0.07); --border-strong:rgba(0,0,0,0.13);
+            --ink:#0d1526; --ink-mid:#2d3d60; --muted:#6b7590;
+            --shadow:0 2px 20px rgba(0,0,0,0.07); --shadow-lg:0 12px 50px rgba(0,0,0,0.13);
+            --sidebar-w:256px;
+        }
+        [data-theme="dark"] {
+            --bg:#090d1a; --surface:#101828; --surface-2:#18253a;
+            --border:rgba(255,255,255,0.06); --border-strong:rgba(255,255,255,0.12);
+            --ink:#e8ecf8; --ink-mid:#9badd0; --muted:#5a6885;
+            --shadow:0 2px 20px rgba(0,0,0,0.5); --shadow-lg:0 12px 50px rgba(0,0,0,0.6);
+            --navy-light:rgba(29,58,138,0.18); --green-light:rgba(11,149,68,0.12);
+            --amber-light:rgba(217,119,6,0.12); --red-light:rgba(185,28,28,0.12);
+        }
+
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;transition:background .3s,color .3s;}
+        ::-webkit-scrollbar{width:5px;height:5px;}
+        ::-webkit-scrollbar-thumb{background:var(--navy-mid);border-radius:10px;}
+
+        /* ── SIDEBAR ── */
+        .sidebar{
+            width:var(--sidebar-w);background:var(--navy);color:white;
+            position:fixed;top:0;left:0;height:100vh;
+            display:flex;flex-direction:column;
+            transition:transform .3s,width .3s;z-index:200;
+            overflow:hidden;
+        }
+        .sidebar.collapsed{width:68px;}
+        .sidebar-head{
+            padding:1.5rem 1.25rem 1.25rem;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            display:flex;align-items:center;gap:10px;
+            flex-shrink:0;
+        }
+        .sidebar-head img{height:36px;flex-shrink:0;}
+        .sidebar-brand{
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.1rem;font-weight:700;color:white;white-space:nowrap;
+            overflow:hidden;transition:opacity .2s;
+        }
+        .sidebar-brand em{color:#7effa8;font-style:normal;}
+        .sidebar.collapsed .sidebar-brand{opacity:0;width:0;}
+
+        .sidebar-nav{flex:1;padding:.75rem 0;overflow-y:auto;}
+        .nav-section-label{
+            font-family:'JetBrains Mono',monospace;font-size:.58rem;
+            letter-spacing:.14em;text-transform:uppercase;
+            color:rgba(255,255,255,0.3);padding:.5rem 1.25rem .25rem;
+            white-space:nowrap;overflow:hidden;transition:opacity .2s;
+        }
+        .sidebar.collapsed .nav-section-label{opacity:0;}
+        .nav-item{
+            display:flex;align-items:center;gap:10px;
+            padding:.7rem 1.25rem;color:rgba(255,255,255,.55);
+            text-decoration:none;font-size:.85rem;font-weight:500;
+            border-left:3px solid transparent;
+            transition:all .2s;white-space:nowrap;position:relative;
+        }
+        .nav-item:hover,.nav-item.active{
+            background:rgba(255,255,255,.07);color:white;
+            border-left-color:#7effa8;
+        }
+        .nav-item i{width:18px;text-align:center;flex-shrink:0;font-size:.9rem;}
+        .nav-item span{overflow:hidden;transition:opacity .2s,width .2s;}
+        .sidebar.collapsed .nav-item span{opacity:0;width:0;}
+        .nav-badge{
+            margin-left:auto;background:#b91c1c;color:white;
+            font-size:.6rem;font-weight:700;padding:.15rem .45rem;
+            border-radius:50px;flex-shrink:0;transition:opacity .2s;
+        }
+        .sidebar.collapsed .nav-badge{opacity:0;}
+
+        .sidebar-footer{
+            padding:.75rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);
+        }
+        .sidebar-footer a{
+            display:flex;align-items:center;gap:10px;
+            color:rgba(255,255,255,.4);text-decoration:none;font-size:.82rem;
+            padding:.5rem 0;transition:color .2s;
+        }
+        .sidebar-footer a:hover{color:white;}
+        .sidebar-footer a span{overflow:hidden;white-space:nowrap;transition:opacity .2s;}
+        .sidebar.collapsed .sidebar-footer a span{opacity:0;}
+
+        /* ── MAIN ── */
+        .main-wrap{
+            flex:1;margin-left:var(--sidebar-w);
+            transition:margin-left .3s;min-width:0;
+            display:flex;flex-direction:column;
+        }
+        .main-wrap.expanded{margin-left:68px;}
+
+        /* ── TOPBAR ── */
+        .topbar{
+            background:var(--surface);border-bottom:1px solid var(--border);
+            height:64px;display:flex;align-items:center;
+            padding:0 2rem;gap:1rem;
+            position:sticky;top:0;z-index:100;
+            box-shadow:var(--shadow);
+        }
+        .toggle-btn{
+            width:36px;height:36px;border-radius:9px;border:1px solid var(--border);
+            background:var(--surface-2);color:var(--muted);
+            display:grid;place-items:center;cursor:pointer;font-size:.85rem;
+            transition:all .2s;flex-shrink:0;
+        }
+        .toggle-btn:hover{border-color:var(--navy-mid);color:var(--navy-mid);}
+
+        .search-pill{
+            display:flex;align-items:center;gap:8px;
+            background:var(--surface-2);border:1px solid var(--border);
+            border-radius:10px;padding:.4rem .9rem;width:240px;
+            transition:all .2s;
+        }
+        .search-pill:focus-within{border-color:var(--navy-mid);box-shadow:0 0 0 3px var(--navy-glow);}
+        .search-pill i{color:var(--muted);font-size:.75rem;}
+        .search-pill input{
+            background:none;border:none;outline:none;
+            font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--ink);width:100%;
+        }
+        .search-pill input::placeholder{color:var(--muted);}
+
+        .topbar-right{margin-left:auto;display:flex;align-items:center;gap:.75rem;}
+        .icon-btn{
+            width:36px;height:36px;border-radius:9px;border:1px solid var(--border);
+            background:var(--surface-2);color:var(--muted);font-size:.82rem;
+            display:grid;place-items:center;cursor:pointer;text-decoration:none;
+            transition:all .2s;position:relative;
+        }
+        .icon-btn:hover{border-color:var(--navy-mid);color:var(--navy-mid);background:var(--navy-light);}
+        .notif-dot{
+            position:absolute;top:-3px;right:-3px;
+            width:14px;height:14px;border-radius:50%;
+            background:#b91c1c;color:white;font-size:.55rem;font-weight:700;
+            display:grid;place-items:center;border:2px solid var(--bg);
+        }
+
+        /* Notif dropdown */
+        .notif-wrap{position:relative;}
+        .notif-dropdown{
+            position:absolute;top:calc(100% + 8px);right:0;
+            width:320px;background:var(--surface);
+            border:1px solid var(--border-strong);border-radius:16px;
+            box-shadow:var(--shadow-lg);overflow:hidden;
+            opacity:0;transform:translateY(-8px) scale(.97);
+            pointer-events:none;transition:all .22s ease;z-index:300;
+        }
+        .notif-wrap.open .notif-dropdown{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+        .notif-hdr{
+            padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .notif-hdr h4{font-size:.9rem;font-weight:600;color:var(--ink);}
+        .notif-pill{
+            font-family:'JetBrains Mono',monospace;font-size:.62rem;
+            background:var(--red-light);color:var(--red);padding:.2rem .55rem;border-radius:50px;
+        }
+        .notif-item{
+            display:flex;gap:.85rem;padding:.85rem 1.25rem;
+            border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;
+        }
+        .notif-item:hover{background:var(--surface-2);}
+        .notif-item.unread{background:var(--navy-light);}
+        [data-theme="dark"] .notif-item.unread{background:rgba(29,58,138,0.15);}
+        .notif-icon{
+            width:32px;height:32px;border-radius:9px;
+            background:var(--navy-light);color:var(--navy-mid);
+            display:grid;place-items:center;font-size:.75rem;flex-shrink:0;
+        }
+        .notif-text p{font-size:.8rem;color:var(--ink-mid);line-height:1.4;}
+        .notif-time{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.15rem;}
+        .notif-all{
+            display:block;text-align:center;padding:.85rem;
+            font-size:.78rem;font-weight:600;color:var(--navy-mid);text-decoration:none;
+            transition:background .15s;
+        }
+        .notif-all:hover{background:var(--surface-2);}
+
+        .avatar-btn{
+            width:36px;height:36px;border-radius:50%;overflow:hidden;
+            border:2px solid var(--navy-mid);cursor:pointer;text-decoration:none;
+        }
+        .avatar-btn img{width:100%;height:100%;object-fit:cover;}
+
+        /* ── PAGE CONTENT ── */
+        .content{padding:2rem;flex:1;}
+
+        .page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
+        .page-hdr-left{}
+        .page-eyebrow{
+            font-family:'JetBrains Mono',monospace;font-size:.62rem;
+            letter-spacing:.14em;text-transform:uppercase;color:var(--navy-mid);
+            display:flex;align-items:center;gap:5px;margin-bottom:.3rem;
+        }
+        .page-eyebrow::before{content:'';display:block;width:14px;height:2px;background:var(--navy-mid);}
+        .page-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--ink);}
+
+        .btn-primary{
+            display:inline-flex;align-items:center;gap:6px;
+            background:var(--navy-mid);color:white;font-weight:600;font-size:.82rem;
+            padding:.65rem 1.35rem;border-radius:11px;border:none;cursor:pointer;
+            text-decoration:none;transition:all .2s;
+        }
+        .btn-primary:hover{background:var(--navy);transform:translateY(-1px);box-shadow:0 6px 16px var(--navy-glow);}
+
+        /* ── KPI CARDS ── */
+        .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+        .kpi-card{
+            background:var(--surface);border:1px solid var(--border);border-radius:18px;
+            padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;
+        }
+        .kpi-card::after{
+            content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,var(--navy-mid),#6080e0);
+            transform:scaleX(0);transform-origin:left;transition:transform .35s;
+        }
+        .kpi-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+        .kpi-card:hover::after{transform:scaleX(1);}
+        .kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+        .kpi-label{font-size:.78rem;font-weight:500;color:var(--muted);}
+        .kpi-icon{
+            width:36px;height:36px;border-radius:10px;
+            background:var(--navy-light);color:var(--navy-mid);
+            display:grid;place-items:center;font-size:.85rem;
+        }
+        .kpi-value{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.3rem;}
+        .kpi-sub{font-size:.72rem;color:var(--muted);margin-bottom:.5rem;}
+        .kpi-trend{font-family:'JetBrains Mono',monospace;font-size:.68rem;display:flex;align-items:center;gap:4px;}
+        .kpi-trend.up{color:var(--green-mid);}
+        .kpi-trend.down{color:var(--red);}
+
+        /* ── CHARTS ROW ── */
+        .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+        .chart-card{
+            background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;
+        }
+        .chart-card-title{
+            font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;
+            color:var(--ink);margin-bottom:1.25rem;
+        }
+        .chart-wrap{position:relative;height:260px;}
+
+        /* ── MESSAGES TABLE ── */
+        .section-card{
+            background:var(--surface);border:1px solid var(--border);border-radius:18px;
+            padding:1.5rem;margin-bottom:1.5rem;
+        }
+        .section-hdr{
+            display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;
+        }
+        .section-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+        .section-link{
+            font-size:.78rem;font-weight:600;color:var(--navy-mid);text-decoration:none;
+            display:flex;align-items:center;gap:4px;transition:gap .2s;
+        }
+        .section-link:hover{gap:8px;}
+
+        table{width:100%;border-collapse:collapse;}
+        thead th{
+            padding:.75rem 1rem;text-align:left;
+            font-family:'JetBrains Mono',monospace;font-size:.62rem;
+            letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+            border-bottom:1px solid var(--border);background:var(--surface-2);
+        }
+        thead th:first-child{border-radius:10px 0 0 0;}
+        thead th:last-child{border-radius:0 10px 0 0;}
+        tbody tr{transition:background .15s;cursor:pointer;}
+        tbody tr:hover{background:var(--navy-light);}
+        [data-theme="dark"] tbody tr:hover{background:rgba(29,58,138,0.12);}
+        td{padding:.9rem 1rem;border-bottom:1px solid var(--border);font-size:.83rem;color:var(--ink-mid);}
+        .msg-sender{display:flex;align-items:center;gap:.75rem;}
+        .msg-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--border);}
+        .msg-name{font-weight:600;color:var(--ink);}
+        .msg-preview{color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px;}
+        .msg-date{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);}
+
+        .status-chip{
+            display:inline-flex;align-items:center;gap:4px;
+            font-family:'JetBrains Mono',monospace;font-size:.6rem;
+            letter-spacing:.06em;text-transform:uppercase;font-weight:500;
+            padding:.25rem .65rem;border-radius:50px;
+        }
+        .chip-unread{background:var(--navy-light);color:var(--navy-mid);}
+        .chip-pending{background:var(--amber-light);color:var(--amber);}
+        .chip-replied{background:var(--green-light);color:var(--green-mid);}
+
+        /* ── USERS GRID ── */
+        .users-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+        .user-card{
+            background:var(--surface-2);border:1px solid var(--border);border-radius:14px;
+            padding:1.25rem;text-align:center;transition:all .3s;
+        }
+        .user-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);background:var(--surface);}
+        .user-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto .75rem;border:3px solid var(--navy-light);}
+        .user-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+        .user-role{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--navy-mid);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem;}
+        .user-stats-row{display:flex;justify-content:space-around;}
+        .user-stat-val{display:block;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+        .user-stat-lbl{font-size:.68rem;color:var(--muted);}
+
+        /* ── MESSAGE MODAL ── */
+        .modal-backdrop{
+            position:fixed;inset:0;background:rgba(0,0,0,.6);
+            backdrop-filter:blur(6px);z-index:9000;
+            display:flex;align-items:center;justify-content:center;padding:1.5rem;
+            opacity:0;pointer-events:none;transition:opacity .3s;
+        }
+        .modal-backdrop.open{opacity:1;pointer-events:all;}
+        .modal{
+            background:var(--surface);border-radius:20px;
+            max-width:680px;width:100%;max-height:88vh;overflow-y:auto;
+            transform:scale(.95) translateY(20px);
+            transition:all .3s cubic-bezier(.4,0,.2,1);
+            border:1px solid var(--border-strong);
+        }
+        .modal-backdrop.open .modal{transform:scale(1) translateY(0);}
+        .modal-hdr{
+            padding:1.5rem;border-bottom:1px solid var(--border);
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+        .modal-close-btn{
+            width:32px;height:32px;border-radius:50%;border:1px solid var(--border);
+            background:var(--surface-2);color:var(--muted);cursor:pointer;
+            display:grid;place-items:center;font-size:.8rem;transition:all .2s;
+        }
+        .modal-close-btn:hover{background:var(--red-light);color:var(--red);border-color:var(--red);}
+        .modal-body{padding:1.5rem;}
+        .modal-sender-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+        .modal-sender-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid var(--navy-light);}
+        .modal-sender-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+        .modal-sender-meta{font-size:.78rem;color:var(--muted);}
+        .modal-msg-content{font-size:.875rem;color:var(--ink-mid);line-height:1.78;margin-bottom:1.5rem;}
+        .modal-msg-content p{margin-bottom:.65rem;}
+        .modal-msg-content ul,.modal-msg-content ol{padding-left:1.25rem;margin:.5rem 0;}
+        .modal-msg-content li{margin-bottom:.3rem;}
+        .modal-attachments{margin-bottom:1.5rem;}
+        .attach-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+        .attach-list{display:flex;gap:.6rem;flex-wrap:wrap;}
+        .attach-item{
+            display:flex;align-items:center;gap:6px;
+            background:var(--surface-2);border:1px solid var(--border);
+            border-radius:9px;padding:.45rem .85rem;font-size:.75rem;color:var(--ink-mid);
+            transition:all .2s;cursor:pointer;
+        }
+        .attach-item:hover{border-color:var(--navy-mid);color:var(--navy-mid);}
+        .attach-item i{color:var(--navy-mid);}
+        .modal-footer{
+            padding:1rem 1.5rem;border-top:1px solid var(--border);
+            display:flex;gap:.6rem;justify-content:flex-end;
+        }
+        .btn-outline{
+            background:none;color:var(--ink-mid);border:1px solid var(--border-strong);
+            font-weight:500;font-size:.82rem;padding:.6rem 1.2rem;border-radius:10px;
+            cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+        }
+        .btn-outline:hover{border-color:var(--navy-mid);color:var(--navy-mid);}
+        .btn-reply{
+            background:var(--navy-mid);color:white;border:none;
+            font-weight:600;font-size:.82rem;padding:.6rem 1.35rem;border-radius:10px;
+            cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+        }
+        .btn-reply:hover{background:var(--navy);transform:translateY(-1px);}
+
+        /* ── TOAST ── */
+        .toast{
+            position:fixed;top:1.5rem;right:1.5rem;z-index:9999;
+            background:var(--ink);color:white;padding:.85rem 1.5rem;
+            border-radius:12px;font-size:.85rem;font-weight:500;
+            display:flex;align-items:center;gap:8px;
+            transform:translateY(-80px);opacity:0;
+            transition:all .35s cubic-bezier(.4,0,.2,1);
+            box-shadow:var(--shadow-lg);
+        }
+        .toast.show{transform:translateY(0);opacity:1;}
+        .toast.success{background:var(--green);}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:1200px){
+            .kpi-grid{grid-template-columns:repeat(2,1fr);}
+            .charts-row{grid-template-columns:1fr;}
+            .users-grid{grid-template-columns:repeat(2,1fr);}
+        }
+        @media(max-width:900px){
+            .sidebar{transform:translateX(-100%);}
+            .sidebar.mobile-open{transform:translateX(0);}
+            .main-wrap{margin-left:0!important;}
+            .kpi-grid{grid-template-columns:repeat(2,1fr);}
+        }
+        @media(max-width:600px){
+            .kpi-grid{grid-template-columns:1fr;}
+            .users-grid{grid-template-columns:1fr 1fr;}
+            .content{padding:1rem;}
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
-                <span class="sidebar-logo-text">Gov<span>Rep</span></span>
-            </div>
-        </div>
-         
-        <div class="sidebar-menu">
-            <p class="menu-title">Management</p>
-            <a href="user-mangement.html" class="menu-item">
-                <i class="fas fa-users"></i>
-                <span>User Management</span>
-            </a>
-            <a href="Addmin-projects.html" class="menu-item">
-                <i class="fas fa-project-diagram"></i>
-                <span>Projects</span>
-            </a>
-            <a href="Budget.html" class="menu-item">
-                <i class="fas fa-file-invoice-dollar"></i>
-                <span>Budget & Finance</span>
-            </a>
-            <a href="Reports.html" class="menu-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Analytics</span>
-            </a>
-            
-            <p class="menu-title">Communication</p>
-            <a href="Reply-inquiries.html" class="menu-item">
-                <i class="fas fa-envelope"></i>
-                <span>Inquiries</span>
-                <span class="badge">5</span>
-            </a>
-            <a href="updates.html" class="menu-item">
-                <i class="fas fa-bullhorn"></i>
-                <span>Announcements</span>
-            </a>
-                <a href="index.html" class="menu-item">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Navigation sect -->
-        <nav class="top-nav">
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" placeholder="Search...">
-            </div>
 
-          
-            <div class="notification-container">
-                <button class="notification-btn">
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+        <div class="sidebar-brand">Gov<em>Rep</em> Portal</div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <a href="gov-rep-dashboard.html" class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+        </a>
+
+        <div class="nav-section-label">Management</div>
+        <a href="Addmin-projects.html" class="nav-item">
+            <i class="fas fa-project-diagram"></i><span>Projects</span>
+        </a>
+        <a href="Budget.html" class="nav-item">
+            <i class="fas fa-coins"></i><span>Budget & Finance</span>
+        </a>
+        <a href="user-mangement.html" class="nav-item">
+            <i class="fas fa-users"></i><span>User Management</span>
+        </a>
+        <a href="Reports.html" class="nav-item">
+            <i class="fas fa-chart-line"></i><span>Analytics</span>
+        </a>
+
+        <div class="nav-section-label">Communication</div>
+        <a href="Reply-inquiries.html" class="nav-item">
+            <i class="fas fa-envelope"></i><span>Inquiries</span>
+            <span class="nav-badge">5</span>
+        </a>
+        <a href="updates.html" class="nav-item">
+            <i class="fas fa-bullhorn"></i><span>Announcements</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="gov_profile.html"><i class="fas fa-user-tie"></i><span>My Profile</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </div>
+</aside>
+
+<!-- ── MAIN WRAP ── -->
+<div class="main-wrap" id="mainWrap">
+
+    <!-- TOPBAR -->
+    <nav class="topbar">
+        <button class="toggle-btn" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="search-pill">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search dashboard...">
+        </div>
+        <div class="topbar-right">
+
+            <!-- Notifications -->
+            <div class="notif-wrap" id="notifWrap">
+                <button class="icon-btn" id="notifBtn">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
+                    <span class="notif-dot">3</span>
                 </button>
-            </div>
-            <div class="notification-dropdown">
-                <div class="notification-header">
-                    <h4>Notifications</h4>
-                    <span class="notification-count">3 New</span>
-                </div>
-                <div class="notification-list">
-                    <div class="notification-item unread">
-                        <div class="notification-icon">
-                            <i class="fas fa-project-diagram"></i>
-                        </div>
-                        <div class="notification-content">
-                            <p>New project update: Nairobi-Mombasa Highway</p>
-                            <span class="notification-time">10 minutes ago</span>
+                <div class="notif-dropdown">
+                    <div class="notif-hdr">
+                        <h4>Notifications</h4>
+                        <span class="notif-pill">3 New</span>
+                    </div>
+                    <div class="notif-item unread">
+                        <div class="notif-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div class="notif-text">
+                            <p>Project update: Nairobi–Mombasa Highway milestone</p>
+                            <div class="notif-time">10 minutes ago</div>
                         </div>
                     </div>
-                    <div class="notification-item unread">
-                        <div class="notification-icon">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                        </div>
-                        <div class="notification-content">
+                    <div class="notif-item unread">
+                        <div class="notif-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="notif-text">
                             <p>Budget report for Q2 2023 is now available</p>
-                            <span class="notification-time">2 hours ago</span>
+                            <div class="notif-time">2 hours ago</div>
                         </div>
                     </div>
-                    <div class="notification-item">
-                        <div class="notification-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="notification-content">
+                    <div class="notif-item">
+                        <div class="notif-icon"><i class="fas fa-users"></i></div>
+                        <div class="notif-text">
                             <p>5 new citizen inquiries received</p>
-                            <span class="notification-time">1 day ago</span>
+                            <div class="notif-time">1 day ago</div>
                         </div>
                     </div>
-                </div>
-                <a href="updates.html" class="view-all">View All Notifications</a>
-            </div>
-                <div class="user-profile">
-                    <a href="Gov-rep-profile.html">
-                    <img src="Photos/Mudavadi.jpeg" alt="Admin Profile" class="profile-image">
-                </a>
-                    <span class="profile-name">Gov Rep</span>
+                    <a href="updates.html" class="notif-all">View All Notifications <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </nav>
-        
-        <!-- Content Container -->
-        <div class="content-container">
-            <style>
-            .add{text-decoration: none;
-            color: white;}
-            </style>
-            <div class="page-header">
-                <h1 class="page-title">Gov Rep</h1>
-                <button class="btn btn-secondary">
-                    <a href="manage-project.html#add"class="add">
-                    <i class="fas fa-plus"></i> New Project
-                </a>
-                </button>
-            </div>
-            
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <h3 class="stat-title">Total Users</h3>
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                    </div>
-                    <div class="stat-value">24,589</div>
-                    <div class="stat-label">Registered citizens</div>
-                    <div class="stat-trend trend-up">+12% from last month</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <h3 class="stat-title">Active Projects</h3>
-                        <div class="stat-icon">
-                            <i class="fas fa-project-diagram"></i>
-                        </div>
-                    </div>
-                    <div class="stat-value">347</div>
-                    <div class="stat-label">Ongoing government projects</div>
-                    <div class="stat-trend trend-up">+8 new projects</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <h3 class="stat-title">Pending Messages</h3>
-                        <div class="stat-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                    </div>
-                    <div class="stat-value">42</div>
-                    <div class="stat-label">Unanswered inquiries</div>
-                    <div class="stat-trend trend-down">-5 from yesterday</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <h3 class="stat-title">System Enguagement</h3>
-                        <div class="stat-icon">
-                            <i class="fas fa-desktop"></i>  
-                        </div>
-                    </div>
-                    <div class="stat-value">98%</div>
-                    <div class="stat-label"> this month</div>
-                    <div class="stat-trend trend-up">All systems normal</div>
-                </div>
-            </div>
-            
-            <!-- Charts Section -->
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3 class="chart-title">User Registration Trend</h3>
-                    <canvas id="userChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Project Completion Status</h3>
-                    <canvas id="projectChart"></canvas>
-                </div>
-            </div>
-            
-            <!-- Recent Messages Section -->
-            <div class="section-card">
-                <div class="section-header">
-                    <h2 class="section-title">Recent Messages</h2>
-                    <a href="#" class="section-link">View All Messages</a>
-                </div>
-                
-                <table class="messages-table">
-                    <thead>
-                        <tr>
-                            <th>Sender</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="message-row" data-message-id="1">
-                            <td>
-                                <div class="message-sender">
-                                    <img src="Photos/shw.jpg" alt="User" class="sender-avatar">
-                                    <span class="sender-name">Jane Mwangi</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="message-preview">Regarding the status of the Nairobi-Mombasa highway project completion...</div>
-                            </td>
-                            <td>
-                                <div class="message-date">Today, 10:45 AM</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-unread">Unread</span>
-                            </td>
-                        </tr>
-                        <tr class="message-row" data-message-id="2">
-                            <td>
-                                <div class="message-sender">
-                                    <img src="Photos/h1.jpg" alt="User" class="sender-avatar">
-                                    <span class="sender-name">Sarah Ochieng</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="message-preview">Inquiry about the affordable housing application process in Nakuru county...</div>
-                            </td>
-                            <td>
-                                <div class="message-date">Yesterday, 3:22 PM</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-pending">Pending</span>
-                            </td>
-                        </tr>
-                        <tr class="message-row" data-message-id="3">
-                            <td>
-                                <div class="message-sender">
-                                    <img src="Photos/h3.jpg" alt="User" class="sender-avatar">
-                                    <span class="sender-name">David Kamau</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="message-preview">Complaint about missing budget details for Kiambu county road projects...</div>
-                            </td>
-                            <td>
-                                <div class="message-date">Jul 12, 2023</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-read">Replied</span>
-                            </td>
-                        </tr>
-                        <tr class="message-row" data-message-id="4">
-                            <td>
-                                <div class="message-sender">
-                                    <img src="Photos/jane smith.jpeg" alt="User" class="sender-avatar">
-                                    <span class="sender-name">Grace Wambui</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="message-preview">Request for information on how to access county procurement records...</div>
-                            </td>
-                            <td>
-                                <div class="message-date">Jul 10, 2023</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-read">Replied</span>
-                            </td>
-                        </tr>
-                        <tr class="message-row" data-message-id="5">
-                            <td>
-                                <div class="message-sender">
-                                    <img src="Photos/h2.jpg" alt="User" class="sender-avatar">
-                                    <span class="sender-name">Peter Otieno</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="message-preview">Feedback about the transparency portal user interface improvements...</div>
-                            </td>
-                            <td>
-                                <div class="message-date">Jul 8, 2023</div>
-                            </td>
-                            <td>
-                                <span class="status-badge status-read">Replied</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Recent Users Section -->
-            <div class="section-card">
-                <div class="section-header">
-                    <h2 class="section-title">Recently Registered Users</h2>
-                    <a href="#" class="section-link">View All Users</a>
-                </div>
-                
-                <div class="users-grid">
-                    <div class="user-card">
-                        <img src="Photos/h3.jpg" alt="User" class="user-avatar">
-                        <h4 class="user-name">James Mutua</h4>
-                        <p class="user-role">Citizen</p>
-                        <div class="user-stats">
-                            <div>
-                                <span class="stat-count">5</span>
-                                <span>Inquiries</span>
-                            </div>
-                            <div>
-                                <span class="stat-count">12</span>
-                                <span>Logins</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="user-card">
-                        <img src="Photos/jane smith.jpeg" alt="User" class="user-avatar">
-                        <h4 class="user-name">Maryanne Kariuki</h4>
-                        <p class="user-role">Journalist</p>
-                        <div class="user-stats">
-                            <div>
-                                <span class="stat-count">18</span>
-                                <span>Inquiries</span>
-                            </div>
-                            <div>
-                                <span class="stat-count">42</span>
-                                <span>Logins</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="user-card">
-                        <img src="Photos/h2.jpg" alt="User" class="user-avatar">
-                        <h4 class="user-name">Robert Omondi</h4>
-                        <p class="user-role">Researcher</p>
-                        <div class="user-stats">
-                            <div>
-                                <span class="stat-count">7</span>
-                                <span>Inquiries</span>
-                            </div>
-                            <div>
-                                <span class="stat-count">23</span>
-                                <span>Logins</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="user-card">
-                        <img src="Photos/she2.jpg" alt="User" class="user-avatar">
-                        <h4 class="user-name">Elizabeth Wanjiru</h4>
-                        <p class="user-role">County Official</p>
-                        <div class="user-stats">
-                            <div>
-                                <span class="stat-count">3</span>
-                                <span>Inquiries</span>
-                            </div>
-                            <div>
-                                <span class="stat-count">56</span>
-                                <span>Logins</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-  
-<!-- Modal for  Jane Mwangi-->
-<div class="modal-overlay" id="messageModal1">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Message Details</h3>
-            <button class="modal-close" onclick="closeModal('messageModal1')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="message-header">
-                <div class="message-sender-info">
-                    <img src="Photos/shw.jpg" alt="Sender" class="message-sender-avatar">
-                    <div class="message-sender-details">
-                        <h4>Jane Mwangi</h4>
-                        <p>Citizen, Nairobi County</p>
-                    </div>
-                </div>
-                <div class="message-date-time">
-                    <p>Today, 10:45 AM</p>
-                    <p>Message ID: #MSG-2023-00145</p>
-                </div>
-            </div>
-            
-            <div class="message-content">
-                <p>Dear Transparency Portal Team,</p>
-                <p>I am writing to inquire about the current status of the Nairobi-Mombasa highway project. The last update on your portal shows 10% completion, but I haven't seen any recent activity along the sections near Mtito Andei.</p>
-                <p>Could you please provide:</p>
-                <ul>
-                    <li>The current completion percentage</li>
-                    <li>Updated timeline for project completion</li>
-                    <li>Any challenges causing delays</li>
-                </ul>
-                <p>As a frequent user of this route, I'm very interested in the progress of this important infrastructure project. Thank you for maintaining this transparency portal - it's been very helpful for citizens like me to track government projects.</p>
-                <p>Best regards,<br>Jane Mwangi</p>
-            </div>
-            
-            <div class="message-attachments">
-                <h5 class="attachment-title">Attachments (1)</h5>
-                <div class="attachment-item">
-                    <i class="fas fa-image attachment-icon"></i>
-                    <span class="attachment-name">highway-photo.jpg</span>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn btn-outline">
-                <i class="fas fa-reply"></i> Reply Later
-            </a>
-            <a href="Reply inquiries.html" class="btn">
-                <i class="fas fa-reply"></i> Reply Now
+
+            <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+
+            <a href="gov_profile.html" class="avatar-btn">
+                <img src="Photos/Mudavadi.jpeg" alt="Gov Rep">
             </a>
         </div>
-    </div>
-</div>
+    </nav>
 
-<!-- Modal for Message Sarah Ochieng -->
-<div class="modal-overlay" id="messageModal2">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Message Details</h3>
-            <button class="modal-close" onclick="closeModal('messageModal2')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="message-header">
-                <div class="message-sender-info">
-                    <img src="Photos/h1.jpg" alt="Sender" class="message-sender-avatar">
-                    <div class="message-sender-details">
-                        <h4>Sarah Ochieng</h4>
-                        <p>Citizen, Nakuru County</p>
-                    </div>
-                </div>
-                <div class="message-date-time">
-                    <p>Yesterday, 3:22 PM</p>
-                    <p>Message ID: #MSG-2023-00144</p>
-                </div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="page-hdr">
+            <div class="page-hdr-left">
+                <div class="page-eyebrow">Government Representative</div>
+                <h1 class="page-title">Command Dashboard</h1>
             </div>
-            
-            <div class="message-content">
-                <p>To Whom It May Concern,</p>
-                <p>I am interested in applying for the affordable housing program in Nakuru county but I'm having trouble understanding the application process. The portal instructions seem incomplete regarding:</p>
-                <ul>
-                    <li>Required documents for first-time applicants</li>
-                    <li>Income verification process</li>
-                    <li>Timeline for application review</li>
-                </ul>
-                <p>Additionally, I couldn't find information about the specific locations of the housing units in Nakuru. Could you please direct me to where I can find this information or provide it directly?</p>
-                <p>Thank you for your assistance.</p>
-                <p>Sincerely,<br>Sarah Ochieng</p>
-            </div>
-            
-            <div class="message-attachments">
-                <h5 class="attachment-title">Attachments (2)</h5>
-                <div class="attachment-item">
-                    <i class="fas fa-file-pdf attachment-icon"></i>
-                    <span class="attachment-name">application_attempt.pdf</span>
-                </div>
-                <div class="attachment-item">
-                    <i class="fas fa-image attachment-icon"></i>
-                    <span class="attachment-name">id_verification.jpg</span>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn btn-outline">
-                <i class="fas fa-reply"></i> Reply Later
-            </a>
-            <a href="Reply inquiries.html" class="btn">
-                <i class="fas fa-reply"></i> Reply Now
+            <a href="Addmin-projects.html" class="btn-primary">
+                <i class="fas fa-plus"></i> New Project
             </a>
         </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-top"><span class="kpi-label">Total Citizens</span><div class="kpi-icon"><i class="fas fa-users"></i></div></div>
+                <div class="kpi-value">24,589</div>
+                <div class="kpi-sub">Registered on portal</div>
+                <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> +12% from last month</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top"><span class="kpi-label">Active Projects</span><div class="kpi-icon"><i class="fas fa-hard-hat"></i></div></div>
+                <div class="kpi-value" id="kpiProjects">18</div>
+                <div class="kpi-sub">Ongoing government projects</div>
+                <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> +8 new this quarter</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top"><span class="kpi-label">Pending Inquiries</span><div class="kpi-icon"><i class="fas fa-envelope"></i></div></div>
+                <div class="kpi-value">42</div>
+                <div class="kpi-sub">Unanswered citizen messages</div>
+                <div class="kpi-trend down"><i class="fas fa-arrow-down"></i> -5 from yesterday</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-top"><span class="kpi-label">System Uptime</span><div class="kpi-icon"><i class="fas fa-server"></i></div></div>
+                <div class="kpi-value">98%</div>
+                <div class="kpi-sub">Portal availability this month</div>
+                <div class="kpi-trend up"><i class="fas fa-check"></i> All systems nominal</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="chart-card-title">User Registration Trend</div>
+                <div class="chart-wrap"><canvas id="userChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-card-title">Project Completion Status</div>
+                <div class="chart-wrap"><canvas id="projectChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="section-card">
+            <div class="section-hdr">
+                <h2 class="section-title">Recent Citizen Messages</h2>
+                <a href="Reply-inquiries.html" class="section-link">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sender</th>
+                        <th>Message Preview</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="msg-row" data-modal="modal1">
+                        <td><div class="msg-sender"><img src="Photos/shw.jpg" class="msg-avatar" alt=""><span class="msg-name">Jane Mwangi</span></div></td>
+                        <td><div class="msg-preview">Regarding the status of the Nairobi-Mombasa highway project completion...</div></td>
+                        <td><div class="msg-date">Today, 10:45 AM</div></td>
+                        <td><span class="status-chip chip-unread">Unread</span></td>
+                    </tr>
+                    <tr class="msg-row" data-modal="modal2">
+                        <td><div class="msg-sender"><img src="Photos/h1.jpg" class="msg-avatar" alt=""><span class="msg-name">Sarah Ochieng</span></div></td>
+                        <td><div class="msg-preview">Inquiry about the affordable housing application process in Nakuru county...</div></td>
+                        <td><div class="msg-date">Yesterday, 3:22 PM</div></td>
+                        <td><span class="status-chip chip-pending">Pending</span></td>
+                    </tr>
+                    <tr class="msg-row" data-modal="modal3">
+                        <td><div class="msg-sender"><img src="Photos/h3.jpg" class="msg-avatar" alt=""><span class="msg-name">David Kamau</span></div></td>
+                        <td><div class="msg-preview">Complaint about missing budget details for Kiambu county road projects...</div></td>
+                        <td><div class="msg-date">Jul 12, 2023</div></td>
+                        <td><span class="status-chip chip-replied">Replied</span></td>
+                    </tr>
+                    <tr class="msg-row" data-modal="modal4">
+                        <td><div class="msg-sender"><img src="Photos/jane smith.jpeg" class="msg-avatar" alt=""><span class="msg-name">Grace Wambui</span></div></td>
+                        <td><div class="msg-preview">Request for information on how to access county procurement records...</div></td>
+                        <td><div class="msg-date">Jul 10, 2023</div></td>
+                        <td><span class="status-chip chip-replied">Replied</span></td>
+                    </tr>
+                    <tr class="msg-row" data-modal="modal5">
+                        <td><div class="msg-sender"><img src="Photos/h2.jpg" class="msg-avatar" alt=""><span class="msg-name">Peter Otieno</span></div></td>
+                        <td><div class="msg-preview">Feedback about the transparency portal user interface improvements...</div></td>
+                        <td><div class="msg-date">Jul 8, 2023</div></td>
+                        <td><span class="status-chip chip-replied">Replied</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="section-card">
+            <div class="section-hdr">
+                <h2 class="section-title">Recently Registered Citizens</h2>
+                <a href="user-mangement.html" class="section-link">Manage Users <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="users-grid">
+                <div class="user-card">
+                    <img src="Photos/h3.jpg" class="user-avatar" alt="James Mutua">
+                    <div class="user-name">James Mutua</div>
+                    <div class="user-role">Citizen</div>
+                    <div class="user-stats-row">
+                        <div><span class="user-stat-val">5</span><span class="user-stat-lbl">Inquiries</span></div>
+                        <div><span class="user-stat-val">12</span><span class="user-stat-lbl">Logins</span></div>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <img src="Photos/jane smith.jpeg" class="user-avatar" alt="Maryanne Kariuki">
+                    <div class="user-name">Maryanne Kariuki</div>
+                    <div class="user-role">Journalist</div>
+                    <div class="user-stats-row">
+                        <div><span class="user-stat-val">18</span><span class="user-stat-lbl">Inquiries</span></div>
+                        <div><span class="user-stat-val">42</span><span class="user-stat-lbl">Logins</span></div>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <img src="Photos/h2.jpg" class="user-avatar" alt="Robert Omondi">
+                    <div class="user-name">Robert Omondi</div>
+                    <div class="user-role">Researcher</div>
+                    <div class="user-stats-row">
+                        <div><span class="user-stat-val">7</span><span class="user-stat-lbl">Inquiries</span></div>
+                        <div><span class="user-stat-val">23</span><span class="user-stat-lbl">Logins</span></div>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <img src="Photos/she2.jpg" class="user-avatar" alt="Elizabeth Wanjiru">
+                    <div class="user-name">Elizabeth Wanjiru</div>
+                    <div class="user-role">County Official</div>
+                    <div class="user-stats-row">
+                        <div><span class="user-stat-val">3</span><span class="user-stat-lbl">Inquiries</span></div>
+                        <div><span class="user-stat-val">56</span><span class="user-stat-lbl">Logins</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Modal for Message David Kamau -->
-<div class="modal-overlay" id="messageModal3">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Message Details</h3>
-            <button class="modal-close" onclick="closeModal('messageModal3')">&times;</button>
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── MESSAGE MODALS ── -->
+<script id="msgData" type="application/json">
+[
+  {"id":"modal1","avatar":"Photos/shw.jpg","name":"Jane Mwangi","meta":"Citizen, Nairobi County","date":"Today, 10:45 AM","msgId":"#MSG-2023-00145","body":"<p>Dear Transparency Portal Team,</p><p>I am writing to inquire about the current status of the Nairobi-Mombasa highway project. The last update shows 10% completion, but I haven't seen recent activity near Mtito Andei.</p><p>Could you please provide:</p><ul><li>The current completion percentage</li><li>Updated timeline for project completion</li><li>Any challenges causing delays</li></ul><p>As a frequent user of this route I'm very interested in this project. Thank you for maintaining the transparency portal.</p><p>Best regards,<br>Jane Mwangi</p>","attachments":[{"icon":"fa-image","name":"highway-photo.jpg"}]},
+  {"id":"modal2","avatar":"Photos/h1.jpg","name":"Sarah Ochieng","meta":"Citizen, Nakuru County","date":"Yesterday, 3:22 PM","msgId":"#MSG-2023-00144","body":"<p>To Whom It May Concern,</p><p>I am interested in the affordable housing program in Nakuru but have trouble understanding the application process. The instructions seem incomplete regarding:</p><ul><li>Required documents for first-time applicants</li><li>Income verification process</li><li>Timeline for application review</li></ul><p>Could you please provide this information or direct me accordingly?</p><p>Sincerely,<br>Sarah Ochieng</p>","attachments":[{"icon":"fa-file-pdf","name":"application_attempt.pdf"},{"icon":"fa-image","name":"id_verification.jpg"}]},
+  {"id":"modal3","avatar":"Photos/h3.jpg","name":"David Kamau","meta":"Business Owner, Kiambu County","date":"Jul 12, 2023","msgId":"#MSG-2023-00132","body":"<p>Dear Transparency Portal,</p><p>I am writing to formally complain about incomplete budget information for ongoing road projects in Kiambu county. Several discrepancies include:</p><ol><li>The Githunguri-Kiambu road project shows allocated funds but no breakdown of expenditures</li><li>Three projects marked as completed have no final cost documentation</li><li>The Thika-Juja bypass has budget figures from 2021 with no updates</li></ol><p>I request these documents be made available within the statutory 14-day period.</p><p>Regards,<br>David Kamau</p>","attachments":[{"icon":"fa-file-pdf","name":"road_photos.pdf"},{"icon":"fa-file-excel","name":"cost_analysis.xlsx"},{"icon":"fa-image","name":"project_map.jpg"}]},
+  {"id":"modal4","avatar":"Photos/jane smith.jpeg","name":"Grace Wambui","meta":"Researcher, Transparency Kenya","date":"Jul 10, 2023","msgId":"#MSG-2023-00128","body":"<p>Dear Records Officer,</p><p>I am conducting research on county procurement processes and would like to access:</p><ul><li>All procurement records for medical equipment in the last fiscal year</li><li>List of prequalified suppliers for county services</li><li>Evaluation criteria used in the most recent tender for garbage collection</li></ul><p>I am prepared to pay any associated fees. Could you advise on cost, estimated processing time, and any required forms?</p><p>Yours sincerely,<br>Grace Wambui, Senior Researcher</p>","attachments":[{"icon":"fa-file-word","name":"research_request.docx"}]},
+  {"id":"modal5","avatar":"Photos/h2.jpg","name":"Peter Otieno","meta":"IT Consultant, Nairobi","date":"Jul 8, 2023","msgId":"#MSG-2023-00125","body":"<p>Hello Portal Team,</p><p>I'd like to offer constructive feedback for improving the user experience:</p><p><strong>Current Issues:</strong></p><ul><li>The search function doesn't handle misspellings well</li><li>Project timelines are difficult to visualize</li><li>Mobile experience needs improvement</li></ul><p><strong>Suggestions:</strong></p><ol><li>Add an interactive map of projects by location</li><li>Include a Save Search feature</li><li>Implement a simpler filter system for procurement records</li></ol><p>Best,<br>Peter Otieno</p>","attachments":[{"icon":"fa-file-pdf","name":"ui_mockups.pdf"},{"icon":"fa-file-code","name":"accessibility_checklist.txt"}]}
+]
+</script>
+
+<!-- Dynamic Modal Container -->
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="messageModal">
+        <div class="modal-hdr">
+            <div class="modal-title" id="mTitle">Message Details</div>
+            <button class="modal-close-btn" id="modalCloseBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <div class="message-header">
-                <div class="message-sender-info">
-                    <img src="Photos/h3.jpg" alt="Sender" class="message-sender-avatar">
-                    <div class="message-sender-details">
-                        <h4>David Kamau</h4>
-                        <p>Business Owner, Kiambu County</p>
-                    </div>
+            <div class="modal-sender-row">
+                <img src="" alt="" class="modal-sender-avatar" id="mAvatar">
+                <div>
+                    <div class="modal-sender-name" id="mName"></div>
+                    <div class="modal-sender-meta" id="mMeta"></div>
                 </div>
-                <div class="message-date-time">
-                    <p>Jul 12, 2023</p>
-                    <p>Message ID: #MSG-2023-00132</p>
+                <div style="margin-left:auto;text-align:right">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted)" id="mDate"></div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted)" id="mMsgId"></div>
                 </div>
             </div>
-            
-            <div class="message-content">
-                <p>Subject: Missing Budget Details for Kiambu Road Projects</p>
-                <p>Dear Transparency Portal Administrators,</p>
-                <p>I am writing to formally complain about incomplete budget information for the ongoing road projects in Kiambu county. As a local business owner affected by these constructions, I've noticed several discrepancies:</p>
-                <ol>
-                    <li>The Githunguri-Kiambu road project shows allocated funds but no breakdown of expenditures</li>
-                    <li>Three projects marked as "completed" have no final cost documentation</li>
-                    <li>The proposed Thika-Juja bypass has budget figures from 2021 but no updates</li>
-                </ol>
-                <p>This lack of transparency makes it difficult to hold officials accountable. I request that these documents be made available within the statutory 14-day period as per the Access to Information Act.</p>
-                <p>Regards,<br>David Kamau<br>Kamau Hardware & Construction</p>
-            </div>
-            
-            <div class="message-attachments">
-                <h5 class="attachment-title">Attachments (3)</h5>
-                <div class="attachment-item">
-                    <i class="fas fa-file-pdf attachment-icon"></i>
-                    <span class="attachment-name">road_photos.pdf</span>
-                </div>
-                <div class="attachment-item">
-                    <i class="fas fa-file-excel attachment-icon"></i>
-                    <span class="attachment-name">cost_analysis.xlsx</span>
-                </div>
-                <div class="attachment-item">
-                    <i class="fas fa-image attachment-icon"></i>
-                    <span class="attachment-name">project_map.jpg</span>
-                </div>
+            <div class="modal-msg-content" id="mBody"></div>
+            <div class="modal-attachments" id="mAttachWrap">
+                <div class="attach-label" id="mAttachLabel"></div>
+                <div class="attach-list" id="mAttachList"></div>
             </div>
         </div>
         <div class="modal-footer">
-            <div class="modal-footer">
-                <a href="#" class="btn btn-outline">
-                    <i class="fas fa-reply"></i> Reply Later
-                </a>
-                <a href="Reply inquiries.html" class="btn">
-                    <i class="fas fa-reply"></i> Reply Now
-                </a>
-            </div>
+            <button class="btn-outline" id="modalLaterBtn"><i class="fas fa-clock"></i> Reply Later</button>
+            <a href="Reply-inquiries.html" class="btn-reply"><i class="fas fa-reply"></i> Reply Now</a>
         </div>
     </div>
 </div>
-
-<!-- Modal for Message Grace Wambui-->
-<div class="modal-overlay" id="messageModal4">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Message Details</h3>
-            <button class="modal-close" onclick="closeModal('messageModal4')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="message-header">
-                <div class="message-sender-info">
-                    <img src="Photos/jane smith.jpeg" alt="Sender" class="message-sender-avatar">
-                    <div class="message-sender-details">
-                        <h4>Grace Wambui</h4>
-                        <p>Researcher, Transparency Kenya</p>
-                    </div>
-                </div>
-                <div class="message-date-time">
-                    <p>Jul 10, 2023</p>
-                    <p>Message ID: #MSG-2023-00128</p>
-                </div>
-            </div>
-            
-            <div class="message-content">
-                <p>Dear Records Officer,</p>
-                <p>I am conducting research on county procurement processes and would like to access the following records:</p>
-                <ul>
-                    <li>All procurement records for medical equipment in the last fiscal year</li>
-                    <li>List of prequalified suppliers for county services</li>
-                    <li>Evaluation criteria used in the most recent tender for garbage collection</li>
-                </ul>
-                <p>I understand there may be fees associated with this request and I'm prepared to pay the necessary charges. Could you please advise:</p>
-                <ol>
-                    <li>The total cost for these records</li>
-                    <li>Estimated processing time</li>
-                    <li>Any forms I need to complete</li>
-                </ol>
-                <p>This information will greatly assist our organization's work in promoting government accountability.</p>
-                <p>Yours sincerely,<br>Grace Wambui<br>Senior Researcher</p>
-            </div>
-            
-            <div class="message-attachments">
-                <h5 class="attachment-title">Attachments (1)</h5>
-                <div class="attachment-item">
-                    <i class="fas fa-file-word attachment-icon"></i>
-                    <span class="attachment-name">research_request.docx</span>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="modal-footer">
-                <a href="#" class="btn btn-outline">
-                    <i class="fas fa-reply"></i> Reply Later
-                </a>
-                <a href="Reply inquiries.html" class="btn">
-                    <i class="fas fa-reply"></i> Reply Now
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for Message Peter Otieno-->
-<div class="modal-overlay" id="messageModal5">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Message Details</h3>
-            <button class="modal-close" onclick="closeModal('messageModal5')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="message-header">
-                <div class="message-sender-info">
-                    <img src="Photos/h2.jpg" alt="Sender" class="message-sender-avatar">
-                    <div class="message-sender-details">
-                        <h4>Peter Otieno</h4>
-                        <p>IT Consultant, Nairobi</p>
-                    </div>
-                </div>
-                <div class="message-date-time">
-                    <p>Jul 8, 2023</p>
-                    <p>Message ID: #MSG-2023-00125</p>
-                </div>
-            </div>
-            
-            <div class="message-content">
-                <p>Subject: Portal UI/UX Feedback</p>
-                <p>Hello Portal Team,</p>
-                <p>First, I want to commend you on the transparency portal initiative. As a regular user and IT professional, I'd like to offer some constructive feedback for improving the user experience:</p>
-                
-                <p><strong>Current Issues:</strong></p>
-                <ul>
-                    <li>The search function doesn't handle misspellings well (no fuzzy search)</li>
-                    <li>Project timelines are difficult to visualize - consider adding Gantt charts</li>
-                    <li>Mobile experience needs improvement (buttons too small, text wrapping issues)</li>
-                </ul>
-                
-                <p><strong>Suggestions:</strong></p>
-                <ol>
-                    <li>Add an interactive map of projects by location</li>
-                    <li>Include a "Save Search" feature for frequent users</li>
-                    <li>Implement a simpler filter system for procurement records</li>
-                </ol>
-                
-                <p>I'd be happy to provide more detailed suggestions or participate in any user testing. The portal has great potential to become a model for other counties.</p>
-                <p>Best,<br>Peter Otieno</p>
-            </div>
-            
-            <div class="message-attachments">
-                <h5 class="attachment-title">Attachments (2)</h5>
-                <div class="attachment-item">
-                    <i class="fas fa-file-pdf attachment-icon"></i>
-                    <span class="attachment-name">ui_mockups.pdf</span>
-                </div>
-                <div class="attachment-item">
-                    <i class="fas fa-file-code attachment-icon"></i>
-                    <span class="attachment-name">accessibility_checklist.txt</span>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="modal-footer">
-                <a href="#" class="btn btn-outline">
-                    <i class="fas fa-reply"></i> Reply Later
-                </a>
-                <a href="Reply inquiries.html" class="btn">
-                    <i class="fas fa-reply"></i> Reply Now
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-    
-    
 
 <script>
- 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Sidebar toggle for mobile
-        const toggleBtn = document.querySelector('.toggle-sidebar');
-        const sidebar = document.querySelector('.sidebar');
-        if (toggleBtn && sidebar) {
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('active');
-            });
-        }
+/* ── THEME ── */
+(function(){
+    const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+    const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}
+    apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
 
-               Chart.defaults.animation = false;
-        Chart.defaults.transitions.active.animation.duration = 0;
+/* ── SIDEBAR TOGGLE ── */
+const sidebar=document.getElementById('sidebar'),mainWrap=document.getElementById('mainWrap');
+document.getElementById('sidebarToggle').addEventListener('click',()=>{
+    const isMobile=window.innerWidth<=900;
+    if(isMobile){sidebar.classList.toggle('mobile-open');}
+    else{sidebar.classList.toggle('collapsed');mainWrap.classList.toggle('expanded');}
+});
+document.addEventListener('click',e=>{
+    if(window.innerWidth<=900&&!sidebar.contains(e.target)&&!document.getElementById('sidebarToggle').contains(e.target)){
+        sidebar.classList.remove('mobile-open');
+    }
+});
 
-        // User Registration Chart
-        const userCtx = document.getElementById('userChart');
-        if (userCtx) {
-            new Chart(userCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                    datasets: [{
-                        label: 'New Registrations',
-                        data: [1250, 1900, 1700, 2100, 2400, 2800, 3100],
-                        backgroundColor: 'rgba(11, 157, 63, 0.1)',
-                        borderColor: 'rgba(11, 157, 63, 1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 0 
-                    },
-                    transitions: {
-                        active: {
-                            animation: {
-                                duration: 0 
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Number of Users'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Month'
-                            }
-                        }
-                    }
-                }
-            });
-        }
+/* ── NOTIFICATIONS ── */
+const notifWrap=document.getElementById('notifWrap');
+document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();notifWrap.classList.toggle('open');});
+document.addEventListener('click',()=>notifWrap.classList.remove('open'));
 
-        // Project Status Chart
-        const projectCtx = document.getElementById('projectChart');
-        if (projectCtx) {
-            new Chart(projectCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Completed', 'In Progress', 'Delayed', 'Not Started'],
-                    datasets: [{
-                        data: [120, 150, 50, 27],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.8)',
-                            'rgba(29, 78, 216, 0.8)',
-                            'rgba(220, 53, 69, 0.8)',
-                            'rgba(108, 117, 125, 0.8)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 0
-                    },
-                    transitions: {
-                        active: {
-                            animation: {
-                                duration: 0 
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = Math.round((value / total) * 100);
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
+/* ── CHARTS ── */
+document.addEventListener('DOMContentLoaded',()=>{
+    const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    const tick=isDark?'#5a6885':'#6b7590';
+    const grid=isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.06)';
 
-        // Message Modal Functionality 
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        document.querySelectorAll('.message-row').forEach(row => {
-            const messageId = row.getAttribute('data-message-id');
-            row.addEventListener('click', () => openModal(`messageModal${messageId}`));
-        });
-        
-       
-        document.querySelectorAll('.modal-close').forEach(button => {
-            button.addEventListener('click', function() {
-                const modalId = this.closest('.modal-overlay').id;
-                closeModal(modalId);
-            });
-        });
-        
-      
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal(this.id);
-                }
-            });
-        });
+    const uCtx=document.getElementById('userChart');
+    if(uCtx) new Chart(uCtx,{type:'line',data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],datasets:[{label:'New Registrations',data:[1250,1900,1700,2100,2400,2800,3100],backgroundColor:'rgba(29,58,138,0.08)',borderColor:'rgba(29,58,138,1)',borderWidth:2,tension:.4,fill:true,pointBackgroundColor:'#1d3a8a',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:0},plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:grid},ticks:{color:tick,font:{family:'JetBrains Mono',size:10}}},x:{grid:{display:false},ticks:{color:tick,font:{family:'JetBrains Mono',size:10}}}}}});
+
+    const pCtx=document.getElementById('projectChart');
+    if(pCtx) new Chart(pCtx,{type:'doughnut',data:{labels:['Completed','Ongoing','Planning','On Hold'],datasets:[{data:[5,10,3,0],backgroundColor:['rgba(11,149,68,0.85)','rgba(29,58,138,0.85)','rgba(217,119,6,0.85)','rgba(185,28,28,0.8)'],borderWidth:2,borderColor:'transparent',hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',animation:{duration:0},plugins:{legend:{position:'bottom',labels:{color:isDark?'#9badd0':'#2d3d60',font:{family:'Outfit',size:12},padding:12}}}}});
+});
+
+/* ── MESSAGES ── */
+const messages=JSON.parse(document.getElementById('msgData').textContent);
+const backdrop=document.getElementById('modalBackdrop');
+
+function openModal(id){
+    const m=messages.find(x=>x.id===id);if(!m)return;
+    document.getElementById('mAvatar').src=m.avatar;
+    document.getElementById('mName').textContent=m.name;
+    document.getElementById('mMeta').textContent=m.meta;
+    document.getElementById('mDate').textContent=m.date;
+    document.getElementById('mMsgId').textContent=m.msgId;
+    document.getElementById('mBody').innerHTML=m.body;
+    const al=document.getElementById('mAttachList');al.innerHTML='';
+    m.attachments.forEach(a=>{
+        al.innerHTML+=`<div class="attach-item"><i class="fas ${a.icon}"></i>${a.name}</div>`;
     });
-    // Notification Dropdown Toggle
-    document.querySelector('.notification-btn').addEventListener('click', function(e) {
-        e.stopPropagation();
-        const dropdown = document.querySelector('.notification-dropdown');
-        if (dropdown) {
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function() {
-        const dropdown = document.querySelector('.notification-dropdown');
-        if (dropdown) {
-            dropdown.style.display = 'none';
-        }
-    });
+    document.getElementById('mAttachLabel').textContent=`Attachments (${m.attachments.length})`;
+    backdrop.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){backdrop.classList.remove('open');document.body.style.overflow='';}
+
+document.querySelectorAll('.msg-row').forEach(r=>r.addEventListener('click',()=>openModal(r.dataset.modal)));
+document.getElementById('modalCloseBtn').addEventListener('click',closeModal);
+document.getElementById('modalLaterBtn').addEventListener('click',closeModal);
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ── SYNC PROJECT COUNT FROM STORAGE ── */
+const stored=JSON.parse(localStorage.getItem('ktp_projects')||'[]');
+if(stored.length>0)document.getElementById('kpiProjects').textContent=stored.length;
 </script>
+</body>
+</html>
