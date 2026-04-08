@@ -1,606 +1,496 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Inquiries - Government Portal</title>
+    <title>Citizen Inquiries — Kenya Transparency Portal</title>
     <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a5276;
-            --primary-light: #2980b9;
-            --primary-dark: #154360;
-            --secondary: #2c3e50;
-            --accent: #f39c12;
-            --success: #27ae60;
-            --danger: #c0392b;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --gray: #95a5a6;
-            --white: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --green:#0b6e31; --green-mid:#0f9544; --green-light:#e8f5ee; --green-glow:rgba(11,149,68,0.18);
+            --amber:#d97706; --amber-light:#fef3c7;
+            --red:#b91c1c; --red-light:#fee2e2;
+            --blue:#1d4ed8; --blue-light:#dbeafe;
+            --bg:#f2f4f3; --surface:#fff; --surface-2:#f8faf9;
+            --border:rgba(0,0,0,0.07); --border-strong:rgba(0,0,0,0.13);
+            --ink:#111a14; --ink-mid:#374840; --muted:#7a8a80;
+            --shadow:0 2px 20px rgba(0,0,0,0.06); --shadow-lg:0 12px 50px rgba(0,0,0,0.12);
+            --header-bg:rgba(255,255,255,0.9);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        [data-theme="dark"] {
+            --bg:#0c1410; --surface:#141d17; --surface-2:#1a2520;
+            --border:rgba(255,255,255,0.06); --border-strong:rgba(255,255,255,0.12);
+            --ink:#e8f0ea; --ink-mid:#b4c4ba; --muted:#6b7d71;
+            --shadow:0 2px 20px rgba(0,0,0,0.4); --shadow-lg:0 12px 50px rgba(0,0,0,0.5);
+            --header-bg:rgba(14,22,17,0.94);
+            --green-light:rgba(11,149,68,0.12); --red-light:rgba(185,28,28,0.12);
+            --blue-light:rgba(29,78,216,0.12); --amber-light:rgba(217,119,6,0.12);
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: #f5f7fa;
-            color: var(--dark);
-            min-height: 100vh;
+
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;transition:background .3s,color .3s;}
+        ::-webkit-scrollbar{width:5px;}
+        ::-webkit-scrollbar-thumb{background:var(--green-mid);border-radius:10px;}
+
+        /* ── HEADER ── */
+        header{position:sticky;top:0;z-index:900;background:var(--header-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+        .hdr{max-width:1100px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;gap:1rem;}
+        .logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .logo-wrap img{height:38px;}
+        .logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+        .logo-text span{color:var(--green-mid);}
+        .hdr-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+        .icon-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--muted);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+        .icon-btn:hover{border-color:var(--green-mid);color:var(--green-mid);background:var(--green-light);}
+        .nav-pill{font-size:.82rem;font-weight:500;color:var(--muted);text-decoration:none;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+        .nav-pill:hover{color:var(--green-mid);background:var(--green-light);}
+
+        /* ── HERO ── */
+        .hero{background:linear-gradient(140deg,var(--green) 0%,#073d1a 100%);padding:4rem 2rem;position:relative;overflow:hidden;}
+        .hero::before{content:'TALK';position:absolute;right:-20px;top:-30px;font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:700;color:rgba(255,255,255,0.04);pointer-events:none;line-height:1;}
+        .hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);}
+        .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+        .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:1rem;}
+        .hero-eyebrow i{color:#7effa8;}
+        .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:white;line-height:1.1;margin-bottom:.75rem;}
+        .hero h1 em{font-style:normal;color:#7effa8;}
+        .hero-desc{color:rgba(255,255,255,.65);font-size:.95rem;max-width:520px;line-height:1.72;}
+
+        /* ── MAIN ── */
+        .page-wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem;}
+
+        /* ── TAB BAR ── */
+        .tab-bar{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:.4rem;gap:.35rem;margin-bottom:2rem;width:fit-content;}
+        .tab-btn{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1.35rem;border-radius:11px;border:none;background:none;color:var(--muted);cursor:pointer;transition:all .2s;font-weight:500;display:flex;align-items:center;gap:6px;}
+        .tab-btn:hover{color:var(--ink);}
+        .tab-btn.active{background:var(--ink);color:var(--bg);}
+        [data-theme="dark"] .tab-btn.active{background:white;color:#0c1410;}
+        .tab-content{display:none;}
+        .tab-content.active{display:block;animation:fadeUp .4s ease;}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+        /* ── LAYOUT GRID ── */
+        .form-layout{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start;}
+
+        /* ── FORM CARD ── */
+        .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;box-shadow:var(--shadow);}
+        .card-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green-mid);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+        .card-eyebrow::before{content:'';display:block;width:12px;height:2px;background:var(--green-mid);}
+        .card-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:1.5rem;}
+
+        .form-group{margin-bottom:1.25rem;}
+        label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.45rem;}
+        .input-wrap{position:relative;}
+        .input-wrap i{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem;pointer-events:none;}
+        input[type=text],input[type=email],input[type=tel],select{width:100%;padding:.7rem .9rem .7rem 2.4rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;outline:none;transition:all .2s;}
+        input:focus,select:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px var(--green-glow);}
+        input::placeholder{color:var(--muted);}
+        textarea.msg-area{width:100%;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;outline:none;resize:vertical;min-height:130px;line-height:1.65;transition:all .2s;}
+        textarea.msg-area:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px var(--green-glow);}
+        textarea.msg-area::placeholder{color:var(--muted);}
+        select{padding-left:.9rem;}
+
+        .char-count{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);text-align:right;margin-top:.3rem;}
+
+        .btn-submit{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--green);color:white;font-weight:700;font-size:.9rem;padding:.85rem 1.5rem;border-radius:12px;border:none;cursor:pointer;transition:all .25s;margin-top:1.5rem;}
+        .btn-submit:hover{background:var(--green-mid);transform:translateY(-2px);box-shadow:0 10px 25px var(--green-glow);}
+        .btn-submit:disabled{background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+
+        /* ── INFO SIDEBAR ── */
+        .info-card{background:linear-gradient(135deg,var(--green) 0%,#073d1a 100%);border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+        .info-card::before{content:'';position:absolute;right:-20px;bottom:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);}
+        .info-card h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:white;margin-bottom:1rem;}
+        .info-row{display:flex;gap:.75rem;margin-bottom:.75rem;align-items:flex-start;}
+        .info-icon{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,0.12);color:rgba(255,255,255,.7);display:grid;place-items:center;font-size:.8rem;flex-shrink:0;margin-top:1px;}
+        .info-text h4{font-size:.85rem;font-weight:600;color:white;margin-bottom:.15rem;}
+        .info-text p{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.5;}
+
+        .tips-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;}
+        .tips-card h3{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.85rem;}
+        .tip-item{display:flex;gap:.65rem;align-items:flex-start;margin-bottom:.6rem;}
+        .tip-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;color:var(--green-mid);min-width:18px;}
+        .tip-text{font-size:.78rem;color:var(--muted);line-height:1.55;}
+
+        /* ── MY INQUIRIES ── */
+        .search-row{display:flex;gap:.75rem;margin-bottom:1.5rem;}
+        .search-input{flex:1;padding:.7rem .9rem .7rem 2.4rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;outline:none;transition:all .2s;}
+        .search-input:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px var(--green-glow);}
+        .search-input::placeholder{color:var(--muted);}
+        .search-icon-wrap{position:relative;flex:1;}
+        .search-icon-wrap i{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem;pointer-events:none;}
+        .btn-search{display:inline-flex;align-items:center;gap:6px;background:var(--green-mid);color:white;font-weight:600;font-size:.82rem;padding:.7rem 1.4rem;border-radius:11px;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;}
+        .btn-search:hover{background:var(--green);}
+
+        /* Inquiry thread card */
+        .inquiry-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .2s;}
+        .inquiry-card:hover{box-shadow:var(--shadow-lg);}
+        .inquiry-card-hdr{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+        .inquiry-card-subject{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+        .inquiry-card-meta{display:flex;align-items:center;gap:.5rem;flex-shrink:0;flex-wrap:wrap;}
+        .inquiry-card-date{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);}
+
+        .inquiry-card-msg{padding:1.25rem 1.5rem;font-size:.875rem;color:var(--ink-mid);line-height:1.75;border-bottom:1px solid var(--border);}
+
+        .reply-bubble{background:var(--green-light);border-left:3px solid var(--green-mid);margin:1rem 1.5rem;border-radius:12px;padding:1.1rem 1.25rem;}
+        [data-theme="dark"] .reply-bubble{background:rgba(11,149,68,0.1);}
+        .reply-bubble-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+        .reply-bubble-from{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--green-mid);}
+        .reply-bubble-from i{font-size:.75rem;}
+        .reply-bubble-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);}
+        .reply-bubble-text{font-size:.85rem;color:var(--ink-mid);line-height:1.7;}
+
+        /* status chips */
+        .s-chip{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:.2rem .55rem;border-radius:50px;}
+        .chip-new{background:var(--amber-light);color:var(--amber);}
+        .chip-replied{background:var(--green-light);color:var(--green-mid);}
+        .chip-closed{background:var(--surface-2);color:var(--muted);border:1px solid var(--border);}
+
+        /* Empty / loading states */
+        .state-box{text-align:center;padding:3rem 1.5rem;color:var(--muted);}
+        .state-box i{font-size:2.5rem;margin-bottom:1rem;opacity:.3;}
+        .state-box h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+        .state-box p{font-size:.85rem;}
+
+        /* ── SUCCESS BANNER ── */
+        .success-banner{background:var(--green-light);border:1px solid rgba(11,149,68,.2);border-radius:14px;padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1.5rem;animation:fadeUp .4s ease;}
+        .success-banner i{color:var(--green-mid);font-size:1.1rem;flex-shrink:0;margin-top:2px;}
+        .success-banner h4{font-size:.9rem;font-weight:600;color:var(--green);margin-bottom:.2rem;}
+        .success-banner p{font-size:.82rem;color:var(--muted);}
+
+        .error-banner{background:var(--red-light);border:1px solid rgba(185,28,28,.2);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;font-size:.85rem;color:var(--red);}
+        .error-banner i{flex-shrink:0;}
+
+        /* ── TOAST ── */
+        .toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--ink);color:white;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);}
+        .toast.show{transform:translateY(0);opacity:1;}
+        .toast.success{background:var(--green);}
+        .toast.error{background:var(--red);}
+
+        /* ── FOOTER ── */
+        footer{background:#080f0a;padding:2rem;text-align:center;margin-top:4rem;}
+        footer p{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:rgba(255,255,255,.3);}
+
+        @media(max-width:900px){
+            .form-layout{grid-template-columns:1fr;}
+            .tab-bar{width:100%;}
+            .tab-btn{flex:1;justify-content:center;}
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            padding: 1.5rem 0;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-        
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .container {
-            max-width: 1100px;
-            margin: -3rem auto 3rem auto;
-            background: var(--white);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .tabs {
-            display: flex;
-            background-color: var(--primary);
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 1.2rem;
-            text-align: center;
-            color: var(--white);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tab:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .tab.active {
-            background-color: var(--white);
-            color: var(--primary);
-        }
-        
-        .tab i {
-            margin-right: 8px;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 2rem;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
-        }
-        
-        textarea {
-            height: 150px;
-            resize: vertical;
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        button i {
-            margin-right: 8px;
-        }
-        
-        .inquiry-list {
-            margin-top: 1.5rem;
-        }
-        
-        .inquiry-item {
-            background-color: var(--white);
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-        
-        .inquiry-item:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .inquiry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .inquiry-subject {
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: var(--secondary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .inquiry-subject i {
-            margin-right: 8px;
-            color: var(--primary);
-        }
-        
-        .inquiry-date {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .inquiry-status {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-        
-        .status-new {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-        
-        .status-replied {
-            background-color: var(--success);
-            color: var(--white);
-        }
-        
-        .status-closed {
-            background-color: var(--gray);
-            color: var(--white);
-        }
-        
-        .inquiry-message {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            color: #555;
-        }
-        
-        .reply-container {
-            background-color: #f0f7ff;
-            padding: 1.2rem;
-            border-radius: 4px;
-            margin-top: 1rem;
-            border-left: 3px solid var(--primary-light);
-        }
-        
-        .reply-header {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .reply-header i {
-            margin-right: 8px;
-        }
-        
-        .reply-message {
-            color: #444;
-        }
-        
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .alert i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-        
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-        
-        .loading i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--gray);
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary-light);
-        }
-        
-        .empty-state h3 {
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: var(--secondary);
-            color: var(--white);
-            margin-top: 2rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                margin-top: -2rem;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .tab {
-                padding: 1rem 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .tab-content {
-                padding: 1.5rem;
-            }
-            
-            .inquiry-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .inquiry-date {
-                margin-top: 0.5rem;
-            }
+        @media(max-width:600px){
+            .page-wrap{padding:1.5rem 1rem;}
+            .search-row{flex-direction:column;}
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1><i class="fas fa-landmark"></i> Government Portal</h1>
-        <p>Citizen Inquiry System</p>
-    </div>
-    
-    <div class="container">
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('new-inquiry')">
-                <i class="fas fa-pen-to-square"></i> New Inquiry
-            </div>
-            <div class="tab" onclick="switchTab('my-inquiries')">
-                <i class="fas fa-inbox"></i> My Inquiries
-            </div>
-        </div>
-        
-        <div id="alert-container"></div>
-        
-        <div id="new-inquiry" class="tab-content active">
-            <form id="inquiry-form">
-                <div class="form-group">
-                    <label for="name"><i class="fas fa-user"></i> Your Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="subject"><i class="fas fa-heading"></i> Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="Enter the subject of your inquiry" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message"><i class="fas fa-comment-alt"></i> Your Message</label>
-                    <textarea id="message" name="message" placeholder="Please describe your inquiry in detail..." required></textarea>
-                </div>
-                
-                <button type="submit"><i class="fas fa-paper-plane"></i> Submit Inquiry</button>
-            </form>
-        </div>
-        
-        <div id="my-inquiries" class="tab-content">
-            <div class="form-group">
-                <label for="search-email"><i class="fas fa-search"></i> Enter your email to view your inquiries</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="email" id="search-email" placeholder="Enter your email address">
-                    <button onclick="loadUserInquiries()"><i class="fas fa-search"></i> Search</button>
-                </div>
-            </div>
-            
-            <div id="inquiries-list" class="inquiry-list">
-                <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <h3>No Inquiries Found</h3>
-                    <p>Enter your email and click Search to view your inquiries</p>
-                </div>
-            </div>
+
+<!-- ── HEADER ── -->
+<header>
+    <div class="hdr">
+        <a href="index.html" class="logo-wrap">
+            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+            <div class="logo-text">Kenya <span>Transparency</span></div>
+        </a>
+        <nav style="margin-left:1.5rem;display:flex;gap:.2rem">
+            <a href="user_dashboard.html" class="nav-pill">Dashboard</a>
+            <a href="Projects.html" class="nav-pill">Projects</a>
+            <a href="Budget.html" class="nav-pill">Budget</a>
+        </nav>
+        <div class="hdr-right">
+            <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a>
         </div>
     </div>
-    
-    <div class="footer">
-        <p>&copy; 2025 Government Portal. All rights reserved.</p>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-stripe"></div>
+    <div class="hero-inner">
+        <div class="hero-eyebrow"><i class="fas fa-comment-dots"></i> Citizen Engagement</div>
+        <h1>Talk to <em>Your</em> Government</h1>
+        <p class="hero-desc">Submit inquiries, request information, raise concerns, or provide feedback directly to government officials. Every voice matters.</p>
+    </div>
+</section>
+
+<!-- ── MAIN ── -->
+<div class="page-wrap">
+
+    <div id="alertBanner"></div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="new-inquiry"><i class="fas fa-pen-to-square"></i> New Inquiry</button>
+        <button class="tab-btn" data-tab="my-inquiries"><i class="fas fa-inbox"></i> My Inquiries</button>
     </div>
 
-    <script>
-        // Switch between tabs
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
-        }
-        
-        // Show alert message
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alert-container');
-            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            alertContainer.innerHTML = `<div class="alert alert-${type}"><i class="${icon}"></i>${message}</div>`;
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                alertContainer.innerHTML = '';
-            }, 5000);
-        }
-        
-        // Submit new inquiry
-        document.getElementById('inquiry-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData();
-            formData.append('name', document.getElementById('name').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('subject', document.getElementById('subject').value);
-            formData.append('message', document.getElementById('message').value);
-            
-            // Show loading state
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-            submitButton.disabled = true;
-            
-            fetch('submit_inquiry.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showAlert('Your inquiry has been submitted successfully!', 'success');
-                    document.getElementById('inquiry-form').reset();
-                } else {
-                    showAlert('Error: ' + data.message, 'error');
-                }
-                
-                // Restore button state
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-            })
-            .catch(error => {
-                showAlert('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-                
-                // Restore button state
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-            });
+    <!-- ── NEW INQUIRY TAB ── -->
+    <div id="new-inquiry" class="tab-content active">
+        <div class="form-layout">
+
+            <!-- Form -->
+            <div class="card">
+                <div class="card-eyebrow">Submit</div>
+                <div class="card-title">New Inquiry</div>
+                <div id="formBanner"></div>
+
+                <form id="inquiryForm" novalidate>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="f-name" name="name" placeholder="Your full legal name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="f-email" name="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="f-category" name="category">
+                            <option value="">Select a category</option>
+                            <option value="Infrastructure">Infrastructure & Roads</option>
+                            <option value="Health">Health & NHIF</option>
+                            <option value="Housing">Affordable Housing</option>
+                            <option value="Budget">Budget & Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Corruption">Corruption Report</option>
+                            <option value="County">County Government</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject *</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-heading"></i>
+                            <input type="text" id="f-subject" name="subject" placeholder="Brief description of your inquiry" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Message *</label>
+                        <textarea class="msg-area" id="f-message" name="message" placeholder="Describe your inquiry in detail. Be specific about the project, location, or service you are asking about…" required maxlength="2000" oninput="updateChar(this)"></textarea>
+                        <div class="char-count"><span id="charUsed">0</span> / 2000</div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Inquiry
+                    </button>
+                </form>
+            </div>
+
+            <!-- Info sidebar -->
+            <div>
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle" style="margin-right:6px;color:rgba(255,255,255,0.6)"></i>How it works</h3>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-paper-plane"></i></div>
+                        <div class="info-text"><h4>Submit</h4><p>Fill in the form and send your inquiry to the relevant government office.</p></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-clock"></i></div>
+                        <div class="info-text"><h4>Review</h4><p>A government representative reviews and responds within 5 working days.</p></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fas fa-reply"></i></div>
+                        <div class="info-text"><h4>Response</h4><p>You receive an official response linked to your email address.</p></div>
+                    </div>
+                </div>
+
+                <div class="tips-card">
+                    <h3>Tips for a good inquiry</h3>
+                    <div class="tip-item"><div class="tip-num">01</div><div class="tip-text">Be specific — name the project, location, or ministry you are asking about.</div></div>
+                    <div class="tip-item"><div class="tip-num">02</div><div class="tip-text">Use a valid email — responses are sent directly to your inbox.</div></div>
+                    <div class="tip-item"><div class="tip-num">03</div><div class="tip-text">Attach reference numbers or dates where available for faster processing.</div></div>
+                    <div class="tip-item"><div class="tip-num">04</div><div class="tip-text">Keep your message factual and respectful for the best outcome.</div></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── MY INQUIRIES TAB ── -->
+    <div id="my-inquiries" class="tab-content">
+        <div style="max-width:760px">
+            <div class="card-eyebrow" style="margin-bottom:.4rem">Track</div>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:1.5rem">My Submitted Inquiries</h2>
+
+            <div class="search-row">
+                <div class="search-icon-wrap">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class="search-input" id="searchEmail" placeholder="Enter the email you used when submitting">
+                </div>
+                <button class="btn-search" onclick="loadUserInquiries()"><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div id="inquiriesList">
+                <div class="state-box">
+                    <i class="fas fa-inbox"></i>
+                    <h3>Your inquiries will appear here</h3>
+                    <p>Enter the email address you used when submitting your inquiry and click Search.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<footer>
+    <p>© 2025 Government of Kenya Transparency Portal · All rights reserved · <em>Harambee — Let's Pull Together</em></p>
+</footer>
+
+<script>
+/* ── THEME ── */
+(function(){
+    const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+    const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}
+    apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
+
+/* ── TABS ── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+});
+
+/* ── TOAST ── */
+function showToast(msg,type='success'){
+    const t=document.getElementById('toast');
+    t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+    t.className=`toast ${type} show`;
+    setTimeout(()=>t.classList.remove('show'),4200);
+}
+
+/* ── CHAR COUNT ── */
+function updateChar(el){document.getElementById('charUsed').textContent=el.value.length;}
+
+/* ── DATE FORMAT ── */
+function fmtDate(s){
+    if(!s)return'—';
+    return new Date(s).toLocaleDateString('en-KE',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+function chipClass(s){return s==='new'?'chip-new':s==='replied'?'chip-replied':'chip-closed';}
+function chipLabel(s){return s==='new'?'Pending':s==='replied'?'Replied':'Closed';}
+
+/* ── PRE-FILL FROM PROFILE ── */
+(function(){
+    const d=JSON.parse(localStorage.getItem('ktp_signup_data')||'{}');
+    const p=JSON.parse(localStorage.getItem('ktp_citizen_profile')||'{}');
+    const src={...d,...p};
+    if(src.name)document.getElementById('f-name').value=src.name;
+    if(src.email)document.getElementById('f-email').value=src.email;
+})();
+
+/* ── SUBMIT INQUIRY ── */
+document.getElementById('inquiryForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    const name=document.getElementById('f-name').value.trim();
+    const email=document.getElementById('f-email').value.trim();
+    const subject=document.getElementById('f-subject').value.trim();
+    const message=document.getElementById('f-message').value.trim();
+    const banner=document.getElementById('formBanner');
+
+    if(!name||!email||!subject||!message){
+        banner.innerHTML=`<div class="error-banner"><i class="fas fa-exclamation-circle"></i> Please fill in all required fields.</div>`;
+        return;
+    }
+
+    const btn=document.getElementById('submitBtn');
+    btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…';btn.disabled=true;
+    banner.innerHTML='';
+
+    const fd=new FormData();
+    fd.append('name',name);fd.append('email',email);
+    fd.append('subject',subject);fd.append('message',message);
+    fd.append('category',document.getElementById('f-category').value);
+
+    fetch('submit_inquiry.php',{method:'POST',body:fd})
+        .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(data=>{
+            btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Inquiry';btn.disabled=false;
+            if(data.success){
+                banner.innerHTML=`<div class="success-banner"><i class="fas fa-check-circle"></i><div><h4>Inquiry submitted!</h4><p>We will respond to <strong>${email}</strong> within 5 working days. You can track replies in the "My Inquiries" tab.</p></div></div>`;
+                document.getElementById('inquiryForm').reset();document.getElementById('charUsed').textContent='0';
+                showToast('Inquiry submitted successfully','success');
+            } else {
+                banner.innerHTML=`<div class="error-banner"><i class="fas fa-exclamation-circle"></i> ${data.message||'Submission failed. Please try again.'}</div>`;
+                showToast('Submission failed','error');
+            }
+        })
+        .catch(err=>{
+            btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Inquiry';btn.disabled=false;
+            banner.innerHTML=`<div class="error-banner"><i class="fas fa-exclamation-circle"></i> Network error. Please check your connection and try again.</div>`;
+            showToast('Network error','error');console.error(err);
         });
-        
-        // Load user inquiries
-        function loadUserInquiries() {
-            const email = document.getElementById('search-email').value;
-            if (!email) {
-                showAlert('Please enter your email address', 'error');
+});
+
+/* ── LOAD USER INQUIRIES ── */
+function loadUserInquiries(){
+    const email=document.getElementById('searchEmail').value.trim();
+    if(!email){showToast('Please enter your email address','error');return;}
+
+    const list=document.getElementById('inquiriesList');
+    list.innerHTML=`<div class="state-box"><i class="fas fa-spinner fa-spin"></i><h3>Searching…</h3><p>Looking up inquiries for ${email}</p></div>`;
+
+    fetch(`get_user_inquiries.php?email=${encodeURIComponent(email)}`)
+        .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(data=>{
+            if(!data.success){
+                list.innerHTML=`<div class="state-box"><i class="fas fa-exclamation-circle"></i><h3>Error</h3><p>${data.message||'Could not load inquiries.'}</p></div>`;
                 return;
             }
-            
-            const inquiriesList = document.getElementById('inquiries-list');
-            inquiriesList.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p>Loading your inquiries...</p>
-                </div>
-            `;
-            
-            fetch(`get_user_inquiries.php?email=${encodeURIComponent(email)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (data.inquiries.length === 0) {
-                        inquiriesList.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-folder-open"></i>
-                                <h3>No Inquiries Found</h3>
-                                <p>You haven't submitted any inquiries yet.</p>
+            if(!data.inquiries||data.inquiries.length===0){
+                list.innerHTML=`<div class="state-box"><i class="fas fa-folder-open"></i><h3>No inquiries found</h3><p>No submissions found for <strong>${email}</strong>. Check your email or submit a new inquiry.</p></div>`;
+                return;
+            }
+            list.innerHTML=data.inquiries.map(inq=>`
+                <div class="inquiry-card">
+                    <div class="inquiry-card-hdr">
+                        <div>
+                            <div class="inquiry-card-subject">${inq.subject||'(No subject)'}</div>
+                            <div style="margin-top:.3rem;font-size:.75rem;color:var(--muted)"><i class="far fa-calendar-alt" style="margin-right:4px"></i>${fmtDate(inq.created_at)}</div>
+                        </div>
+                        <div class="inquiry-card-meta">
+                            <span class="s-chip ${chipClass(inq.status)}">${chipLabel(inq.status)}</span>
+                            ${inq.replies&&inq.replies.length>0?`<span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted)">${inq.replies.length} repl${inq.replies.length>1?'ies':'y'}</span>`:''}
+                        </div>
+                    </div>
+                    <div class="inquiry-card-msg">${inq.message||''}</div>
+                    ${(inq.replies||[]).map(r=>`
+                        <div class="reply-bubble">
+                            <div class="reply-bubble-hdr">
+                                <div class="reply-bubble-from"><i class="fas fa-user-shield"></i> Official Government Response</div>
+                                <div class="reply-bubble-date">${fmtDate(r.replied_at)}</div>
                             </div>
-                        `;
-                    } else {
-                        let html = '';
-                        data.inquiries.forEach(inquiry => {
-                            let statusClass = '';
-                            let statusIcon = '';
-                            
-                            switch(inquiry.status) {
-                                case 'new': 
-                                    statusClass = 'status-new'; 
-                                    statusIcon = 'fas fa-clock';
-                                    break;
-                                case 'replied': 
-                                    statusClass = 'status-replied'; 
-                                    statusIcon = 'fas fa-reply';
-                                    break;
-                                case 'closed': 
-                                    statusClass = 'status-closed'; 
-                                    statusIcon = 'fas fa-check-circle';
-                                    break;
-                            }
-                            
-                            html += `
-                                <div class="inquiry-item">
-                                    <div class="inquiry-header">
-                                        <div class="inquiry-subject">
-                                            <i class="fas fa-file-alt"></i> ${inquiry.subject}
-                                            <span class="inquiry-status ${statusClass}">
-                                                <i class="${statusIcon}"></i> ${inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
-                                            </span>
-                                        </div>
-                                        <div class="inquiry-date">
-                                            <i class="far fa-calendar-alt"></i> ${formatDate(inquiry.created_at)}
-                                        </div>
-                                    </div>
-                                    <div class="inquiry-message">${inquiry.message}</div>
-                            `;
-                            
-                            if (inquiry.replies && inquiry.replies.length > 0) {
-                                inquiry.replies.forEach(reply => {
-                                    html += `
-                                        <div class="reply-container">
-                                            <div class="reply-header">
-                                                <i class="fas fa-reply"></i> Admin Reply (${formatDate(reply.replied_at)})
-                                            </div>
-                                            <div class="reply-message">${reply.reply_message}</div>
-                                        </div>
-                                    `;
-                                });
-                            }
-                            
-                            html += `</div>`;
-                        });
-                        
-                        inquiriesList.innerHTML = html;
-                    }
-                } else {
-                    showAlert('Error: ' + data.message, 'error');
-                    inquiriesList.innerHTML = '';
-                }
-            })
-            .catch(error => {
-                showAlert('An error occurred. Please try again.', 'error');
-                inquiriesList.innerHTML = '';
-                console.error('Error:', error);
-            });
-        }
-        
-        // Format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-    </script>
+                            <div class="reply-bubble-text">${r.reply_message}</div>
+                        </div>
+                    `).join('')}
+                    ${(!inq.replies||inq.replies.length===0)?`<div style="padding:.75rem 1.5rem 1rem;font-size:.78rem;color:var(--muted);font-family:'JetBrains Mono',monospace"><i class="fas fa-clock" style="margin-right:4px"></i>Awaiting response from government representative</div>`:''}
+                </div>
+            `).join('');
+        })
+        .catch(err=>{
+            list.innerHTML=`<div class="state-box"><i class="fas fa-wifi"></i><h3>Network error</h3><p>Could not connect to the server. Please try again.</p></div>`;
+            showToast('Network error','error');console.error(err);
+        });
+}
+
+/* ── ENTER to search ── */
+document.getElementById('searchEmail').addEventListener('keydown',e=>{if(e.key==='Enter')loadUserInquiries();});
+</script>
 </body>
 </html>

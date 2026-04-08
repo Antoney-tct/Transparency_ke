@@ -1,1411 +1,610 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Republic of Kenya Inquiry Management</title>
+    <title>Inquiry Management — Gov Rep Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --kenyan-black: #000000;
-            --kenyan-red: #BB0000;
-            --kenyan-green: #006600;
-            --kenyan-white: #FFFFFF;
-            --kenyan-gold: #D4AF37;
-            --light-green: #EAFFEA;
-            --light-red: #FFEEEE;
-            --dark-green: #004400;
-            --dark-red: #990000;
-            --gray: #777777;
-            --light-gray: #F5F5F5;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: #F5F5F5;
-            color: #333;
-            min-height: 100vh;
-            background-image: url("Photos/f1.jpg");
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--kenyan-black) 0%, #333333 100%);
-            color: var(--kenyan-white);
-            padding: 1.5rem 0;
-            text-align: center;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(to right, var(--kenyan-black) 33%, var(--kenyan-red) 33%, var(--kenyan-red) 66%, var(--kenyan-green) 66%);
-        }
-        
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header-logo {
-            margin-right: 20px;
-        }
-        
-        .shield-logo {
-            width: 60px;
-            height: 70px;
-            background-color: var(--kenyan-white);
-            position: relative;
-            border-radius: 30px 30px 5px 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .shield-logo::before {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 50px;
-            background-color: var(--kenyan-red);
-            border-radius: 20px 20px 3px 3px;
-        }
-        
-        .shield-logo::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 40px;
-            background-color: var(--kenyan-black);
-            border-radius: 15px 15px 2px 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--kenyan-white);
-            font-weight: bold;
-        }
-        
-        .spears {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            transform: rotate(45deg);
-        }
-        
-        .spear {
-            position: absolute;
-            width: 4px;
-            height: 100px;
-            background-color: var(--kenyan-gold);
-            top: -10px;
-        }
-        
-        .spear:first-child {
-            left: 30px;
-            transform: rotate(-45deg);
-        }
-        
-        .spear:last-child {
-            left: 30px;
-            transform: rotate(45deg);
-        }
-        
-        .spear::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -3px;
-            width: 10px;
-            height: 15px;
-            background-color: var(--kenyan-gold);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        }
-        
-        .header-text h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .header-text p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .kenyan-flag-stripe {
-            height: 8px;
-            background: linear-gradient(to right, 
-                var(--kenyan-black) 25%, 
-                var(--kenyan-red) 25%, var(--kenyan-red) 50%, 
-                var(--kenyan-green) 50%, var(--kenyan-green) 75%, 
-                var(--kenyan-black) 75%);
-        }
-        
-        .container {
-            max-width: 1300px;
-            margin: -3rem auto 3rem auto;
-            background: var(--kenyan-white);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            position: relative;
-            border-top: 5px solid var(--kenyan-red);
-        }
-        
-        .admin-controls {
-            background-color: var(--kenyan-black);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .admin-title {
-            color: var(--kenyan-white);
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-        
-        .admin-title i {
-            margin-right: 10px;
-            font-size: 1.4rem;
-            color: var(--kenyan-gold);
-        }
-        
-        .filter-controls {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .filter-btn {
-            padding: 0.6rem 1rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 4px;
-            color: var(--kenyan-white);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-        
-        .filter-btn i {
-            margin-right: 6px;
-        }
-        
-        .filter-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .filter-btn.active {
-            background-color: var(--kenyan-green);
-        }
-        
-        .dashboard {
-            display: flex;
-            height: calc(100vh - 200px);
-            min-height: 500px;
-        }
-        
-        .inquiries-list {
-            width: 35%;
-            border-right: 1px solid #eee;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-        
-        .inquiry-detail {
-            width: 65%;
-            overflow-y: auto;
-            padding: 0;
-        }
-        
-        .inquiry-item {
-            padding: 1.2rem;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .inquiry-item:hover {
-            background-color: rgba(0, 102, 0, 0.05);
-        }
-        
-        .inquiry-item.active {
-            background-color: var(--light-green);
-            border-left: 4px solid var(--kenyan-green);
-        }
-        
-        .inquiry-item.unread::before {
-            content: '';
-            position: absolute;
-            top: 1.2rem;
-            left: 0.5rem;
-            width: 8px;
-            height: 8px;
-            background-color: var(--kenyan-red);
-            border-radius: 50%;
-        }
-        
-        .inquiry-subject {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--kenyan-black);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .inquiry-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-        
-        .inquiry-status {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-        
-        .status-new {
-            background-color: var(--kenyan-red);
-            color: var(--kenyan-white);
-        }
-        
-        .status-replied {
-            background-color: var(--kenyan-green);
-            color: var(--kenyan-white);
-        }
-        
-        .status-closed {
-            background-color: var(--kenyan-black);
-            color: var(--kenyan-white);
-        }
-        
-        .detail-container {
-            padding: 2rem;
-        }
-        
-        .detail-header {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .detail-subject {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--kenyan-black);
-        }
-        
-        .detail-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .detail-meta i {
-            margin-right: 6px;
-            color: var(--kenyan-green);
-        }
-        
-        .detail-message {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            border-left: 3px solid var(--kenyan-green);
-        }
-        
-        .replies-section {
-            margin-bottom: 2rem;
-        }
-        
-        .replies-section h3 {
-            margin-bottom: 1rem;
-            color: var(--kenyan-black);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .replies-section h3 i {
-            margin-right: 8px;
-            color: var(--kenyan-green);
-        }
-        
-        .reply-container {
-            background-color: var(--light-green);
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--kenyan-green);
-        }
-        
-        .reply-header {
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--kenyan-green);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .reply-header i {
-            margin-right: 8px;
-        }
-        
-        .reply-date {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: normal;
-        }
-        
-        .reply-message {
-            color: #444;
-            line-height: 1.6;
-        }
-        
-        .reply-form {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
-        }
-        
-        .reply-form h3 {
-            margin-bottom: 1rem;
-            color: var(--kenyan-black);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .reply-form h3 i {
-            margin-right: 8px;
-            color: var(--kenyan-green);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--kenyan-black);
-        }
-        
-        textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            height: 150px;
-            resize: vertical;
-            transition: var(--transition);
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--kenyan-green);
-            box-shadow: 0 0 0 3px rgba(0, 102, 0, 0.1);
-        }
-        
-        button {
-            background-color: var(--kenyan-green);
-            color: var(--kenyan-white);
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        button:hover {
-            background-color: var(--dark-green);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        button i {
-            margin-right: 8px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 1rem;
-        }
-        
-        .btn-close {
-            background-color: var(--kenyan-red);
-        }
-        
-        .btn-close:hover {
-            background-color: var(--dark-red);
-        }
-        
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .alert i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .alert-success {
-            background-color: var(--light-green);
-            color: var(--kenyan-green);
-            border-left: 4px solid var(--kenyan-green);
-        }
-        
-        .alert-error {
-            background-color: var(--light-red);
-            color: var(--kenyan-red);
-            border-left: 4px solid var(--kenyan-red);
-        }
-        
-        .no-inquiry-selected {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 2rem;
-            text-align: center;
-            color: var(--gray);
-        }
-        
-        .no-inquiry-selected i {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            color: var(--kenyan-green);
-            opacity: 0.5;
-        }
-        
-        .no-inquiry-selected h3 {
-            margin-bottom: 0.5rem;
-            color: var(--kenyan-black);
-        }
-        
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-        
-        .loading i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--kenyan-green);
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: var(--kenyan-black);
-            color: var(--kenyan-white);
-            margin-top: 2rem;
-            position: relative;
-        }
-        
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(to right, var(--kenyan-black) 33%, var(--kenyan-red) 33%, var(--kenyan-red) 66%, var(--kenyan-green) 66%);
-        }
-        
-        .footer p {
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer .motto {
-            font-style: italic;
-            color: var(--kenyan-gold);
-            font-weight: 600;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: var(--kenyan-white);
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--kenyan-black);
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            padding: 0;
-        }
-        
-        .modal-body {
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        /* Feedback styles */
-        .btn-spinner {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            vertical-align: middle;
-            border: 0.2em solid currentColor;
-            border-right-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.75s linear infinite;
-            margin-right: 8px;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--kenyan-green);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .toast.error {
-            background-color: var(--kenyan-red);
-        }
-        
-        .toast i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .overlay.show {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        .spinner-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .large-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--kenyan-green);
-            border-right-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        
-        @media (max-width: 992px) {
-            .dashboard {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .inquiries-list, .inquiry-detail {
-                width: 100%;
-                max-height: 500px;
-            }
-            
-            .inquiries-list {
-                border-right: none;
-                border-bottom: 1px solid #eee;
-            }
-            
-            .admin-controls {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .filter-controls {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                margin-top: -2rem;
-            }
-            
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .header-logo {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-            
-            .header-text h1 {
-                font-size: 1.8rem;
-            }
-            
-            .detail-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
+            --navy:#0f1e4a; --navy-mid:#1d3a8a; --navy-light:#e8ecf8; --navy-glow:rgba(29,58,138,0.16);
+            --green:#0b6e31; --green-mid:#0f9544; --green-light:#e8f5ee;
+            --amber:#d97706; --amber-light:#fef3c7;
+            --red:#b91c1c; --red-light:#fee2e2;
+            --bg:#f0f2f8; --surface:#fff; --surface-2:#f5f7fc;
+            --border:rgba(0,0,0,0.07); --border-strong:rgba(0,0,0,0.13);
+            --ink:#0d1526; --ink-mid:#2d3d60; --muted:#6b7590;
+            --shadow:0 2px 20px rgba(0,0,0,0.07); --shadow-lg:0 12px 50px rgba(0,0,0,0.13);
+            --sidebar-w:256px;
+        }
+        [data-theme="dark"] {
+            --bg:#090d1a; --surface:#101828; --surface-2:#18253a;
+            --border:rgba(255,255,255,0.06); --border-strong:rgba(255,255,255,0.12);
+            --ink:#e8ecf8; --ink-mid:#9badd0; --muted:#5a6885;
+            --shadow:0 2px 20px rgba(0,0,0,0.5); --shadow-lg:0 12px 50px rgba(0,0,0,0.6);
+            --navy-light:rgba(29,58,138,0.18); --green-light:rgba(11,149,68,0.12);
+            --amber-light:rgba(217,119,6,0.12); --red-light:rgba(185,28,28,0.12);
+        }
+
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;transition:background .3s,color .3s;}
+        ::-webkit-scrollbar{width:5px;height:5px;}
+        ::-webkit-scrollbar-thumb{background:var(--navy-mid);border-radius:10px;}
+
+        /* ── SIDEBAR ── */
+        .sidebar{width:var(--sidebar-w);background:var(--navy);color:white;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;overflow:hidden;transition:transform .3s,width .3s;}
+        .sidebar.collapsed{width:68px;}
+        .sidebar-head{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+        .sidebar-head img{height:36px;flex-shrink:0;}
+        .sidebar-brand{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:white;white-space:nowrap;overflow:hidden;transition:opacity .2s;}
+        .sidebar-brand em{color:#7effa8;font-style:normal;}
+        .sidebar.collapsed .sidebar-brand{opacity:0;width:0;}
+        .sidebar-nav{flex:1;padding:.75rem 0;overflow-y:auto;}
+        .nav-sec{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.5rem 1.25rem .25rem;white-space:nowrap;transition:opacity .2s;}
+        .sidebar.collapsed .nav-sec{opacity:0;}
+        .nav-item{display:flex;align-items:center;gap:10px;padding:.7rem 1.25rem;color:rgba(255,255,255,.55);text-decoration:none;font-size:.85rem;font-weight:500;border-left:3px solid transparent;transition:all .2s;white-space:nowrap;}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,.07);color:white;border-left-color:#7effa8;}
+        .nav-item i{width:18px;text-align:center;flex-shrink:0;font-size:.9rem;}
+        .nav-item span{overflow:hidden;transition:opacity .2s;}
+        .sidebar.collapsed .nav-item span{opacity:0;width:0;}
+        .nav-badge{margin-left:auto;background:#b91c1c;color:white;font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:50px;flex-shrink:0;transition:opacity .2s;}
+        .sidebar.collapsed .nav-badge{opacity:0;}
+        .sidebar-foot{padding:.75rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+        .sidebar-foot a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);text-decoration:none;font-size:.82rem;padding:.5rem 0;transition:color .2s;}
+        .sidebar-foot a:hover{color:white;}
+        .sidebar-foot a span{white-space:nowrap;transition:opacity .2s;}
+        .sidebar.collapsed .sidebar-foot a span{opacity:0;}
+
+        /* ── MAIN ── */
+        .main-wrap{flex:1;margin-left:var(--sidebar-w);display:flex;flex-direction:column;min-width:0;transition:margin-left .3s;}
+        .main-wrap.expanded{margin-left:68px;}
+
+        /* ── TOPBAR ── */
+        .topbar{background:var(--surface);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;padding:0 2rem;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
+        .toggle-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--muted);display:grid;place-items:center;cursor:pointer;font-size:.85rem;transition:all .2s;flex-shrink:0;}
+        .toggle-btn:hover{border-color:var(--navy-mid);color:var(--navy-mid);}
+        .topbar-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+        .topbar-right{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+        .icon-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--muted);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+        .icon-btn:hover{border-color:var(--navy-mid);color:var(--navy-mid);background:var(--navy-light);}
+        .count-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#b91c1c;color:white;font-size:.55rem;font-weight:700;display:grid;place-items:center;border:2px solid var(--bg);}
+        .avatar-btn{width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid var(--navy-mid);cursor:pointer;text-decoration:none;}
+        .avatar-btn img{width:100%;height:100%;object-fit:cover;}
+
+        /* ── LAYOUT ── */
+        .inbox-layout{display:flex;height:calc(100vh - 64px);overflow:hidden;}
+
+        /* ── SIDEBAR PANEL (inbox list) ── */
+        .inbox-panel{width:320px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--surface);}
+
+        .inbox-panel-hdr{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
+        .inbox-search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:.45rem .9rem;margin-bottom:.85rem;}
+        .inbox-search:focus-within{border-color:var(--navy-mid);}
+        .inbox-search i{color:var(--muted);font-size:.75rem;}
+        .inbox-search input{background:none;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--ink);width:100%;}
+        .inbox-search input::placeholder{color:var(--muted);}
+
+        .filter-tabs{display:flex;gap:.3rem;}
+        .ftab{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .7rem;border-radius:7px;border:none;background:none;color:var(--muted);cursor:pointer;transition:all .2s;font-weight:500;}
+        .ftab:hover{color:var(--ink);}
+        .ftab.active{background:var(--navy-mid);color:white;}
+
+        .inbox-list{flex:1;overflow-y:auto;}
+        .inbox-item{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;}
+        .inbox-item:hover{background:var(--surface-2);}
+        .inbox-item.selected{background:var(--navy-light);}
+        [data-theme="dark"] .inbox-item.selected{background:rgba(29,58,138,0.2);}
+        .inbox-item.unread .inbox-item-subject{font-weight:700;}
+        .unread-dot{position:absolute;top:1.25rem;left:.5rem;width:7px;height:7px;border-radius:50%;background:var(--red);}
+
+        .inbox-item-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem;}
+        .inbox-item-name{font-size:.85rem;font-weight:600;color:var(--ink);}
+        .inbox-item-date{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
+        .inbox-item-subject{font-size:.8rem;color:var(--ink-mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.3rem;}
+        .inbox-item-preview{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+        .s-chip{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:.15rem .5rem;border-radius:50px;}
+        .chip-new{background:var(--red-light);color:var(--red);}
+        .chip-replied{background:var(--green-light);color:var(--green-mid);}
+        .chip-closed{background:var(--surface-2);color:var(--muted);border:1px solid var(--border);}
+
+        /* empty list */
+        .empty-list{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center;color:var(--muted);flex:1;}
+        .empty-list i{font-size:2.5rem;margin-bottom:1rem;opacity:.3;}
+        .empty-list p{font-size:.85rem;}
+
+        /* ── DETAIL PANEL ── */
+        .detail-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+
+        .detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:2rem;}
+        .detail-empty i{font-size:3.5rem;margin-bottom:1.5rem;opacity:.2;}
+        .detail-empty h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+        .detail-empty p{font-size:.85rem;}
+
+        .detail-scroll{flex:1;overflow-y:auto;padding:2rem;}
+
+        /* Message thread */
+        .thread-hdr{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem 1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow);}
+        .thread-subject{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
+        .thread-meta-row{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+        .thread-meta-item{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--muted);}
+        .thread-meta-item i{font-size:.72rem;color:var(--navy-mid);}
+        .thread-meta-item strong{color:var(--ink-mid);}
+
+        .message-bubble{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem 1.75rem;margin-bottom:1rem;box-shadow:var(--shadow);}
+        .bubble-hdr{display:flex;align-items:center;gap:.85rem;margin-bottom:1rem;}
+        .bubble-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
+        .bubble-avatar-icon{width:38px;height:38px;border-radius:50%;background:var(--navy-light);color:var(--navy-mid);display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+        .bubble-name{font-size:.88rem;font-weight:600;color:var(--ink);}
+        .bubble-role{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);}
+        .bubble-date{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);}
+        .bubble-body{font-size:.875rem;color:var(--ink-mid);line-height:1.78;}
+
+        /* reply bubble — gov */
+        .message-bubble.gov-reply{background:var(--navy-light);border-color:rgba(29,58,138,.15);}
+        [data-theme="dark"] .message-bubble.gov-reply{background:rgba(29,58,138,0.15);}
+        .message-bubble.gov-reply .bubble-body{color:var(--ink-mid);}
+
+        /* ── REPLY COMPOSER ── */
+        .composer{background:var(--surface);border-top:1px solid var(--border);padding:1.25rem 2rem;flex-shrink:0;}
+        .composer-inner{max-width:900px;}
+        .composer-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:5px;}
+        .composer-label::before{content:'';display:block;width:12px;height:2px;background:var(--navy-mid);}
+        textarea.reply-area{width:100%;padding:.9rem 1.1rem;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;line-height:1.65;resize:none;height:110px;outline:none;transition:border-color .2s;}
+        textarea.reply-area:focus{border-color:var(--navy-mid);box-shadow:0 0 0 3px var(--navy-glow);}
+        .composer-actions{display:flex;align-items:center;gap:.6rem;margin-top:.75rem;}
+        .btn-send{display:inline-flex;align-items:center;gap:6px;background:var(--navy-mid);color:white;font-weight:600;font-size:.82rem;padding:.65rem 1.35rem;border-radius:11px;border:none;cursor:pointer;transition:all .2s;}
+        .btn-send:hover{background:var(--navy);transform:translateY(-1px);box-shadow:0 6px 16px var(--navy-glow);}
+        .btn-send:disabled{background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+        .btn-close-inq{display:inline-flex;align-items:center;gap:6px;background:var(--red-light);color:var(--red);font-weight:600;font-size:.82rem;padding:.65rem 1.35rem;border-radius:11px;border:1px solid rgba(185,28,28,.2);cursor:pointer;transition:all .2s;}
+        .btn-close-inq:hover{background:var(--red);color:white;}
+        .btn-reopen{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green-mid);font-weight:600;font-size:.82rem;padding:.65rem 1.35rem;border-radius:11px;border:1px solid rgba(11,149,68,.2);cursor:pointer;transition:all .2s;}
+        .btn-reopen:hover{background:var(--green-mid);color:white;}
+        .closed-notice{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-size:.82rem;color:var(--muted);}
+        .closed-notice i{color:var(--muted);}
+
+        /* ── TOAST ── */
+        .toast{position:fixed;top:1.5rem;right:1.5rem;z-index:9999;background:var(--ink);color:white;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(-80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);}
+        .toast.show{transform:translateY(0);opacity:1;}
+        .toast.success{background:var(--green);}
+        .toast.error{background:var(--red);}
+
+        /* ── CONFIRM MODAL ── */
+        .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+        .modal-back.open{opacity:1;pointer-events:all;}
+        .modal-box{background:var(--surface);border-radius:18px;padding:2rem;max-width:380px;width:90%;border:1px solid var(--border-strong);text-align:center;transform:scale(.95);transition:transform .3s;box-shadow:var(--shadow-lg);}
+        .modal-back.open .modal-box{transform:scale(1);}
+        .modal-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;margin:0 auto 1rem;}
+        .modal-icon.red{background:var(--red-light);color:var(--red);}
+        .modal-icon.green{background:var(--green-light);color:var(--green-mid);}
+        .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+        .modal-body-text{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem;}
+        .modal-acts{display:flex;gap:.6rem;justify-content:center;}
+        .btn-cancel{background:none;color:var(--ink-mid);border:1px solid var(--border-strong);font-weight:500;font-size:.82rem;padding:.6rem 1.2rem;border-radius:10px;cursor:pointer;transition:all .2s;}
+        .btn-cancel:hover{border-color:var(--navy-mid);color:var(--navy-mid);}
+        .btn-confirm-red{background:var(--red);color:white;font-weight:600;font-size:.82rem;padding:.6rem 1.4rem;border-radius:10px;border:none;cursor:pointer;transition:all .2s;}
+        .btn-confirm-red:hover{filter:brightness(1.1);}
+        .btn-confirm-green{background:var(--green-mid);color:white;font-weight:600;font-size:.82rem;padding:.6rem 1.4rem;border-radius:10px;border:none;cursor:pointer;transition:all .2s;}
+        .btn-confirm-green:hover{background:var(--green);}
+
+        /* ── LOADING OVERLAY ── */
+        .load-over{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);z-index:8000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+        .load-over.show{opacity:1;pointer-events:all;}
+        .spinner-box{background:var(--surface);border-radius:16px;padding:2rem 2.5rem;text-align:center;border:1px solid var(--border);}
+        .spinner{width:44px;height:44px;border:3px solid var(--navy-light);border-top-color:var(--navy-mid);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        .spinner-box p{font-size:.82rem;color:var(--muted);}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px){.sidebar{transform:translateX(-100%);}.sidebar.mobile-open{transform:translateX(0);}.main-wrap{margin-left:0!important;}.inbox-panel{width:260px;}}
+        @media(max-width:680px){.inbox-layout{flex-direction:column;height:auto;}.inbox-panel{width:100%;height:300px;border-right:none;border-bottom:1px solid var(--border);}.detail-panel{height:calc(100vh - 364px);}}
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="header-logo">
-                <div class="shield-logo">
-                    <div class="spears">
-                        <div class="spear"></div>
-                        <div class="spear"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-text">
-                <h1>Republic of Kenya</h1>
-                <p>Administrative Inquiry Management</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="kenyan-flag-stripe"></div>
-    
-    <div class="container">
-        <div class="admin-controls">
-            <div class="admin-title">
-                <i class="fas fa-user-shield"></i> Government Administrator Dashboard
-            </div>
-            
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all" onclick="filterInquiries('all')">
-                    <i class="fas fa-list"></i> All Inquiries
-                </button>
-                <button class="filter-btn" data-filter="new" onclick="filterInquiries('new')">
-                    <i class="fas fa-clock"></i> New
-                </button>
-                <button class="filter-btn" data-filter="replied" onclick="filterInquiries('replied')">
-                    <i class="fas fa-reply"></i> Replied
-                </button>
-                <button class="filter-btn" data-filter="closed" onclick="filterInquiries('closed')">
-                    <i class="fas fa-check-circle"></i> Closed
-                </button>
-            </div>
-        </div>
-        
-        <div id="alert-container"></div>
-        
-        <div class="dashboard">
-            <div class="inquiries-list" id="inquiries-list">
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p>Loading inquiries...</p>
-                </div>
-            </div>
-            
-            <div class="inquiry-detail" id="inquiry-detail">
-                <div class="no-inquiry-selected">
-                    <i class="fas fa-inbox"></i>
-                    <h3>No inquiry selected</h3>
-                    <p>Please select an inquiry from the list to view details and reply.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Confirmation</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                Are you sure you want to proceed with this action?
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal()">Cancel</button>
-                <button id="confirmButton" class="btn-close">Confirm</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="overlay">
-        <div class="spinner-container">
-            <div class="large-spinner"></div>
-            <p id="loadingMessage">Sending your response...</p>
-        </div>
-    </div>
-    
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <i id="toastIcon" class="fas fa-check-circle"></i>
-        <span id="toastMessage">Message sent successfully!</span>
-    </div>
-    
-    <div class="footer">
-        <p>&copy; 2025 Republic of Kenya. All rights reserved.</p>
-        <p class="motto">Harambee - Let's Pull Together</p>
-    </div>
 
-    <script>
-        let currentInquiries = [];
-        let currentFilter = 'all';
-        let selectedInquiryId = null;
-        let isLoading = false;
-        
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-            
-            toastMessage.textContent = message;
-            
-            if (type === 'success') {
-                toast.classList.remove('error');
-                toastIcon.className = 'fas fa-check-circle';
-            } else {
-                toast.classList.add('error');
-                toastIcon.className = 'fas fa-exclamation-circle';
-            }
-            
-            toast.classList.add('show');
-            
-            // Hide after 5 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 5000);
-        }
-        
-        // Show loading overlay
-        function showLoading(message = 'Processing...') {
-            const overlay = document.getElementById('loadingOverlay');
-            const loadingMessage = document.getElementById('loadingMessage');
-            
-            loadingMessage.textContent = message;
-            overlay.classList.add('show');
-        }
-        
-        // Hide loading overlay
-        function hideLoading() {
-            const overlay = document.getElementById('loadingOverlay');
-            overlay.classList.remove('show');
-        }
-        
-        // Show alert message
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alert-container');
-            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            alertContainer.innerHTML = `<div class="alert alert-${type}"><i class="${icon}"></i>${message}</div>`;
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                alertContainer.innerHTML = '';
-            }, 5000);
-            
-            // Scroll to top to show the alert
-            window.scrollTo(0, 0);
-        }
-        
-        // Show confirmation modal
-        function showConfirmationModal(title, message, confirmCallback) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalBody').textContent = message;
-            
-            const confirmButton = document.getElementById('confirmButton');
-            
-            // Remove previous event listeners
-            const newConfirmButton = confirmButton.cloneNode(true);
-            confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
-            
-            // Add new event listener
-            newConfirmButton.addEventListener('click', () => {
-                confirmCallback();
-                closeModal();
-            });
-            
-            document.getElementById('confirmationModal').style.display = 'flex';
-        }
-        
-        // Close modal
-        function closeModal() {
-            document.getElementById('confirmationModal').style.display = 'none';
-        }
-        
-        // Load all inquiries
-        function loadInquiries() {
-            if (isLoading) return;
-            
-            isLoading = true;
-            const inquiriesList = document.getElementById('inquiries-list');
-            inquiriesList.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+        <div class="sidebar-brand">Gov<em>Rep</em> Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-sec">Overview</div>
+        <a href="gov-rep-dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <div class="nav-sec">Management</div>
+        <a href="Addmin-projects.html" class="nav-item"><i class="fas fa-project-diagram"></i><span>Projects</span></a>
+        <a href="Budget.html" class="nav-item"><i class="fas fa-coins"></i><span>Budget & Finance</span></a>
+        <a href="user-mangement.html" class="nav-item"><i class="fas fa-users"></i><span>User Management</span></a>
+        <a href="Reports.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+        <div class="nav-sec">Communication</div>
+        <a href="Reply-inquiries.html" class="nav-item active"><i class="fas fa-envelope"></i><span>Inquiries</span><span class="nav-badge" id="newCount">—</span></a>
+        <a href="updates.html" class="nav-item"><i class="fas fa-bullhorn"></i><span>Announcements</span></a>
+    </nav>
+    <div class="sidebar-foot">
+        <a href="gov_profile.html"><i class="fas fa-user-tie"></i><span>My Profile</span></a>
+        <a href="index.html"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main-wrap" id="mainWrap">
+
+    <!-- TOPBAR -->
+    <nav class="topbar">
+        <button class="toggle-btn" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title">Inquiry Management</div>
+        <div class="topbar-right">
+            <button class="icon-btn" id="refreshBtn" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+            <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <a href="gov_profile.html" class="avatar-btn"><img src="Photos/Mudavadi.jpeg" alt="Gov Rep"></a>
+        </div>
+    </nav>
+
+    <!-- INBOX LAYOUT -->
+    <div class="inbox-layout">
+
+        <!-- LEFT: Inbox list -->
+        <div class="inbox-panel">
+            <div class="inbox-panel-hdr">
+                <div class="inbox-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="inboxSearch" placeholder="Search inquiries...">
+                </div>
+                <div class="filter-tabs">
+                    <button class="ftab active" data-filter="all">All</button>
+                    <button class="ftab" data-filter="new">New</button>
+                    <button class="ftab" data-filter="replied">Replied</button>
+                    <button class="ftab" data-filter="closed">Closed</button>
+                </div>
+            </div>
+            <div class="inbox-list" id="inboxList">
+                <div class="empty-list">
+                    <i class="fas fa-spinner fa-spin"></i>
                     <p>Loading inquiries...</p>
                 </div>
-            `;
-            
-            fetch('get_all_inquiries.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+            </div>
+        </div>
+
+        <!-- RIGHT: Detail + Composer -->
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-empty" id="detailEmpty">
+                <i class="fas fa-inbox"></i>
+                <h3>Select an inquiry</h3>
+                <p>Choose a message from the list to view details and respond.</p>
+            </div>
+            <div id="detailContent" style="display:none;flex:1;flex-direction:column;overflow:hidden;display:none;">
+                <div class="detail-scroll" id="detailScroll"></div>
+                <div class="composer" id="composerArea"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── CONFIRM MODAL ── -->
+<div class="modal-back" id="confirmModal">
+    <div class="modal-box">
+        <div class="modal-icon" id="confirmIcon"><i id="confirmIconI" class="fas fa-question"></i></div>
+        <div class="modal-title" id="confirmTitle">Confirm Action</div>
+        <div class="modal-body-text" id="confirmBody">Are you sure?</div>
+        <div class="modal-acts">
+            <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+            <button id="confirmYes" class="btn-confirm-red">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── LOADING OVERLAY ── -->
+<div class="load-over" id="loadOver">
+    <div class="spinner-box">
+        <div class="spinner"></div>
+        <p id="loadMsg">Processing...</p>
+    </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
+let allInquiries = [];
+let currentFilter = 'all';
+let selectedId = null;
+let searchQ = '';
+
+/* ═══════════════════════════════════
+   HELPERS
+═══════════════════════════════════ */
+function showToast(msg, type='success'){
+    const t=document.getElementById('toast');
+    t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+    t.className=`toast ${type} show`;
+    setTimeout(()=>t.classList.remove('show'),4000);
+}
+function showLoad(msg='Processing...'){document.getElementById('loadMsg').textContent=msg;document.getElementById('loadOver').classList.add('show');}
+function hideLoad(){document.getElementById('loadOver').classList.remove('show');}
+
+function formatDate(str){
+    if(!str)return'—';
+    const d=new Date(str);
+    return d.toLocaleDateString('en-KE',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+function chipClass(s){return s==='new'?'chip-new':s==='replied'?'chip-replied':'chip-closed';}
+function chipLabel(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+/* ═══════════════════════════════════
+   CONFIRM MODAL
+═══════════════════════════════════ */
+let confirmCb=null;
+function showConfirm(title,body,cb,type='red'){
+    document.getElementById('confirmTitle').textContent=title;
+    document.getElementById('confirmBody').textContent=body;
+    const icon=document.getElementById('confirmIcon');
+    const yi=document.getElementById('confirmYes');
+    if(type==='red'){icon.className='modal-icon red';yi.className='btn-confirm-red';}
+    else{icon.className='modal-icon green';yi.className='btn-confirm-green';}
+    document.getElementById('confirmIconI').className=type==='red'?'fas fa-exclamation-triangle':'fas fa-lock-open';
+    confirmCb=cb;
+    document.getElementById('confirmModal').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirmModal').classList.remove('open');confirmCb=null;}
+document.getElementById('confirmYes').addEventListener('click',()=>{if(confirmCb)confirmCb();closeConfirm();});
+document.getElementById('confirmModal').addEventListener('click',e=>{if(e.target===document.getElementById('confirmModal'))closeConfirm();});
+
+/* ═══════════════════════════════════
+   LOAD INQUIRIES  (PHP backend)
+═══════════════════════════════════ */
+function loadInquiries(){
+    setListLoading();
+    fetch('get_all_inquiries.php')
+        .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(data=>{
+            if(data.success){
+                allInquiries=data.inquiries||[];
+                updateNewCount();
+                renderList();
+                if(selectedId){
+                    const still=allInquiries.find(x=>x.id===selectedId);
+                    if(still)renderDetail(still);
                 }
-                return response.json();
-            })
-            .then(data => {
-                isLoading = false;
-                if (data.success) {
-                    currentInquiries = data.inquiries;
-                    renderInquiriesList();
-                    
-                    // If there are inquiries and none is selected, select the first one
-                    if (currentInquiries.length > 0 && !selectedInquiryId) {
-                        selectInquiry(currentInquiries[0].id);
-                    }
-                } else {
-                    showAlert('Error: ' + data.message, 'error');
-                    inquiriesList.innerHTML = '';
-                }
-            })
-            .catch(error => {
-                isLoading = false;
-                showAlert('An error occurred while loading inquiries. Please try again.', 'error');
-                console.error('Error:', error);
-                inquiriesList.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Failed to load inquiries. Click to retry.</p>
-                        <button onclick="loadInquiries()">Retry</button>
-                    </div>
-                `;
-            });
-        }
-        
-        // Render inquiries list based on current filter
-        function renderInquiriesList() {
-            const inquiriesList = document.getElementById('inquiries-list');
-            
-            if (currentInquiries.length === 0) {
-                inquiriesList.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-folder-open"></i>
-                        <p>No inquiries found</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let filteredInquiries = currentInquiries;
-            if (currentFilter !== 'all') {
-                filteredInquiries = currentInquiries.filter(inquiry => inquiry.status === currentFilter);
-            }
-            
-            if (filteredInquiries.length === 0) {
-                inquiriesList.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-folder-open"></i>
-                        <p>No ${currentFilter} inquiries found</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            filteredInquiries.forEach(inquiry => {
-                let statusClass = '';
-                let statusIcon = '';
-                
-                switch(inquiry.status) {
-                    case 'new': 
-                        statusClass = 'status-new'; 
-                        statusIcon = 'fas fa-clock';
-                        break;
-                    case 'replied': 
-                        statusClass = 'status-replied'; 
-                        statusIcon = 'fas fa-reply';
-                        break;
-                    case 'closed': 
-                        statusClass = 'status-closed'; 
-                        statusIcon = 'fas fa-check-circle';
-                        break;
-                }
-                
-                const isActive = selectedInquiryId === inquiry.id ? 'active' : '';
-                const isUnread = inquiry.status === 'new' ? 'unread' : '';
-                
-                html += `
-                    <div class="inquiry-item ${isActive} ${isUnread}" onclick="selectInquiry(${inquiry.id})">
-                        <div class="inquiry-subject">${inquiry.subject}</div>
-                        <div class="inquiry-meta">
-                            <span>${inquiry.user_name}</span>
-                            <span>
-                                ${formatDate(inquiry.created_at)}
-                                <span class="inquiry-status ${statusClass}">
-                                    <i class="${statusIcon}"></i> ${inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            inquiriesList.innerHTML = html;
-        }
-        
-        // Filter inquiries
-        function filterInquiries(filter) {
-            currentFilter = filter;
-            
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.filter-btn[data-filter="${filter}"]`).classList.add('active');
-            
-            renderInquiriesList();
-        }
-        
-        // Select an inquiry to view details
-        function selectInquiry(inquiryId) {
-            selectedInquiryId = inquiryId;
-            renderInquiriesList(); // Update active state in list
-            
-            const inquiryDetail = document.getElementById('inquiry-detail');
-            const selectedInquiry = currentInquiries.find(inquiry => inquiry.id === inquiryId);
-            
-            if (!selectedInquiry) {
-                inquiryDetail.innerHTML = `
-                    <div class="no-inquiry-selected">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <h3>Inquiry not found</h3>
-                        <p>The selected inquiry could not be found.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let statusClass = '';
-            let statusIcon = '';
-            
-            switch(selectedInquiry.status) {
-                case 'new': 
-                    statusClass = 'status-new'; 
-                    statusIcon = 'fas fa-clock';
-                    break;
-                case 'replied': 
-                    statusClass = 'status-replied'; 
-                    statusIcon = 'fas fa-reply';
-                    break;
-                case 'closed': 
-                    statusClass = 'status-closed'; 
-                    statusIcon = 'fas fa-check-circle';
-                    break;
-            }
-            
-            let html = `
-                <div class="detail-container">
-                    <div class="detail-header">
-                        <div class="detail-subject">${selectedInquiry.subject}</div>
-                        <div class="detail-meta">
-                            <span><i class="fas fa-user"></i> From: ${selectedInquiry.user_name} (${selectedInquiry.user_email})</span>
-                            <span><i class="far fa-calendar-alt"></i> ${formatDate(selectedInquiry.created_at)}</span>
-                            <span>
-                                <i class="fas fa-tag"></i> Status: 
-                                <span class="inquiry-status ${statusClass}">
-                                    <i class="${statusIcon}"></i> ${selectedInquiry.status.charAt(0).toUpperCase() + selectedInquiry.status.slice(1)}
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-message">
-                        ${selectedInquiry.message}
-                    </div>
-            `;
-            
-            // Show previous replies if any
-            if (selectedInquiry.replies && selectedInquiry.replies.length > 0) {
-                html += `
-                    <div class="replies-section">
-                        <h3><i class="fas fa-reply-all"></i> Previous Responses</h3>
-                `;
-                
-                selectedInquiry.replies.forEach(reply => {
-                    html += `
-                        <div class="reply-container">
-                            <div class="reply-header">
-                                <span><i class="fas fa-user-shield"></i> Government Response</span>
-                                <span class="reply-date">${formatDate(reply.replied_at)}</span>
-                            </div>
-                            <div class="reply-message">${reply.reply_message}</div>
-                        </div>
-                    `;
-                });
-                
-                html += `</div>`;
-            }
-            
-            // Add reply form if not closed
-            if (selectedInquiry.status !== 'closed') {
-                html += `
-                    <div class="reply-form">
-                        <h3><i class="fas fa-paper-plane"></i> Respond to this Inquiry</h3>
-                        <div class="form-group">
-                            <label for="reply-message">Your Response</label>
-                            <textarea id="reply-message" placeholder="Type your official response here..." required></textarea>
-                        </div>
-                        
-                        <div class="action-buttons">
-                            <button onclick="submitReply(${inquiryId})"><i class="fas fa-paper-plane"></i> Send Response</button>
-                            <button class="btn-close" onclick="confirmCloseInquiry(${inquiryId})"><i class="fas fa-times-circle"></i> Close Inquiry</button>
-                        </div>
-                    </div>
-                `;
             } else {
-                html += `
-                    <div class="reply-form">
-                        <h3><i class="fas fa-lock"></i> This inquiry is closed</h3>
-                        <button onclick="confirmReopenInquiry(${inquiryId})"><i class="fas fa-lock-open"></i> Reopen Inquiry</button>
-                    </div>
-                `;
+                showToast('Could not load inquiries: '+data.message,'error');
+                setListError();
             }
-            
-            html += `</div>`;
-            inquiryDetail.innerHTML = html;
-        }
-        
-        // Confirm before closing inquiry
-        function confirmCloseInquiry(inquiryId) {
-            showConfirmationModal(
-                "Close Inquiry", 
-                "Are you sure you want to close this inquiry? This will mark it as resolved.",
-                () => closeInquiry(inquiryId)
-            );
-        }
-        
-        // Confirm before reopening inquiry
-        function confirmReopenInquiry(inquiryId) {
-            showConfirmationModal(
-                "Reopen Inquiry", 
-                "Are you sure you want to reopen this inquiry?",
-                () => reopenInquiry(inquiryId)
-            );
-        }
-        
-        // Submit a reply to an inquiry - IMPROVED VERSION
-        function submitReply(inquiryId) {
-            const replyMessage = document.getElementById('reply-message').value;
-            
-            if (!replyMessage.trim()) {
-                showAlert('Please enter a response message', 'error');
-                return;
+        })
+        .catch(err=>{
+            console.error(err);
+            showToast('Network error — check server connection','error');
+            setListError();
+        });
+}
+
+function setListLoading(){
+    document.getElementById('inboxList').innerHTML=`<div class="empty-list"><i class="fas fa-spinner fa-spin"></i><p>Loading…</p></div>`;
+}
+function setListError(){
+    document.getElementById('inboxList').innerHTML=`<div class="empty-list"><i class="fas fa-exclamation-circle"></i><p>Failed to load. <a href="#" onclick="loadInquiries()" style="color:var(--navy-mid)">Retry</a></p></div>`;
+}
+function updateNewCount(){
+    const n=allInquiries.filter(x=>x.status==='new').length;
+    const el=document.getElementById('newCount');
+    if(el)el.textContent=n>0?n:'';
+}
+
+/* ═══════════════════════════════════
+   RENDER INBOX LIST
+═══════════════════════════════════ */
+function renderList(){
+    const list=document.getElementById('inboxList');
+    let items=allInquiries;
+    if(currentFilter!=='all') items=items.filter(x=>x.status===currentFilter);
+    if(searchQ) items=items.filter(x=>(x.subject||'').toLowerCase().includes(searchQ)||(x.user_name||'').toLowerCase().includes(searchQ));
+
+    if(items.length===0){
+        list.innerHTML=`<div class="empty-list"><i class="fas fa-folder-open"></i><p>No ${currentFilter==='all'?'':currentFilter+' '}inquiries found</p></div>`;
+        return;
+    }
+
+    list.innerHTML=items.map(inq=>`
+        <div class="inbox-item ${inq.status==='new'?'unread':''} ${selectedId===inq.id?'selected':''}"
+             onclick="selectInquiry(${inq.id})">
+            ${inq.status==='new'?'<div class="unread-dot"></div>':''}
+            <div class="inbox-item-row1">
+                <div class="inbox-item-name">${inq.user_name||'Unknown'}</div>
+                <div class="inbox-item-date">${formatDate(inq.created_at).split(',')[0]}</div>
+            </div>
+            <div class="inbox-item-subject">${inq.subject||'(No subject)'}</div>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-top:.2rem">
+                <span class="s-chip ${chipClass(inq.status)}">${chipLabel(inq.status)}</span>
+                ${inq.replies&&inq.replies.length>0?`<span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted)">${inq.replies.length} repl${inq.replies.length>1?'ies':'y'}</span>`:''}
+            </div>
+        </div>
+    `).join('');
+}
+
+/* ═══════════════════════════════════
+   SELECT & RENDER DETAIL
+═══════════════════════════════════ */
+function selectInquiry(id){
+    selectedId=id;
+    renderList();
+    const inq=allInquiries.find(x=>x.id===id);
+    if(!inq)return;
+    renderDetail(inq);
+}
+
+function renderDetail(inq){
+    document.getElementById('detailEmpty').style.display='none';
+    const dc=document.getElementById('detailContent');
+    dc.style.display='flex';
+    dc.style.flexDirection='column';
+    dc.style.overflow='hidden';
+    dc.style.flex='1';
+
+    // Thread header
+    const scroll=document.getElementById('detailScroll');
+    scroll.innerHTML=`
+        <div class="thread-hdr">
+            <div class="thread-subject">${inq.subject||'(No subject)'}</div>
+            <div class="thread-meta-row">
+                <div class="thread-meta-item"><i class="fas fa-user"></i><span>From</span><strong>${inq.user_name}</strong></div>
+                <div class="thread-meta-item"><i class="fas fa-envelope"></i><strong>${inq.user_email||'—'}</strong></div>
+                <div class="thread-meta-item"><i class="far fa-calendar-alt"></i><strong>${formatDate(inq.created_at)}</strong></div>
+                <div class="thread-meta-item"><i class="fas fa-tag"></i><span class="s-chip ${chipClass(inq.status)}">${chipLabel(inq.status)}</span></div>
+            </div>
+        </div>
+
+        <!-- Citizen's original message -->
+        <div class="message-bubble">
+            <div class="bubble-hdr">
+                <div class="bubble-avatar-icon" style="background:var(--green-light);color:var(--green-mid)"><i class="fas fa-user"></i></div>
+                <div><div class="bubble-name">${inq.user_name}</div><div class="bubble-role">Citizen</div></div>
+                <div class="bubble-date">${formatDate(inq.created_at)}</div>
+            </div>
+            <div class="bubble-body">${inq.message||''}</div>
+        </div>
+
+        <!-- Replies -->
+        ${(inq.replies||[]).map(r=>`
+            <div class="message-bubble gov-reply">
+                <div class="bubble-hdr">
+                    <div class="bubble-avatar-icon"><i class="fas fa-user-shield"></i></div>
+                    <div><div class="bubble-name">Government Response</div><div class="bubble-role" style="color:var(--navy-mid)">Official Reply</div></div>
+                    <div class="bubble-date">${formatDate(r.replied_at)}</div>
+                </div>
+                <div class="bubble-body">${r.reply_message}</div>
+            </div>
+        `).join('')}
+    `;
+
+    // Composer
+    const comp=document.getElementById('composerArea');
+    if(inq.status==='closed'){
+        comp.innerHTML=`
+            <div class="composer-inner">
+                <div class="closed-notice"><i class="fas fa-lock"></i> This inquiry is closed and no further replies can be sent.</div>
+                <div style="margin-top:.75rem">
+                    <button class="btn-reopen" onclick="doReopen(${inq.id})"><i class="fas fa-lock-open"></i> Reopen Inquiry</button>
+                </div>
+            </div>`;
+    } else {
+        comp.innerHTML=`
+            <div class="composer-inner">
+                <div class="composer-label">Official Response</div>
+                <textarea class="reply-area" id="replyArea" placeholder="Type your official government response here…"></textarea>
+                <div class="composer-actions">
+                    <button class="btn-send" id="sendBtn" onclick="doReply(${inq.id})"><i class="fas fa-paper-plane"></i> Send Response</button>
+                    <button class="btn-close-inq" onclick="doClose(${inq.id})"><i class="fas fa-times-circle"></i> Close Inquiry</button>
+                </div>
+            </div>`;
+    }
+
+    scroll.scrollTop=scroll.scrollHeight;
+}
+
+/* ═══════════════════════════════════
+   REPLY
+═══════════════════════════════════ */
+function doReply(id){
+    const msg=(document.getElementById('replyArea')?.value||'').trim();
+    if(!msg){showToast('Please enter a response message','error');return;}
+
+    const btn=document.getElementById('sendBtn');
+    btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending…';btn.disabled=true;
+    showLoad('Sending your response…');
+
+    const fd=new FormData();
+    fd.append('inquiry_id',id);
+    fd.append('reply_message',msg);
+
+    fetch('submit_reply.php',{method:'POST',body:fd})
+        .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(data=>{
+            hideLoad();
+            if(data.success){
+                showToast('Response sent successfully','success');
+                loadInquiries();
+            } else {
+                btn.innerHTML='<i class="fas fa-paper-plane"></i> Send Response';btn.disabled=false;
+                showToast('Error: '+data.message,'error');
             }
-            
-            const formData = new FormData();
-            formData.append('inquiry_id', inquiryId);
-            formData.append('reply_message', replyMessage);
-            
-            // Show loading state on button
-            const submitButton = document.querySelector('.action-buttons button');
-            const originalText = submitButton.innerHTML;
-            submitButton.innerHTML = '<span class="btn-spinner"></span> Sending...';
-            submitButton.disabled = true;
-            
-            // Show loading overlay after 500ms if the request is still processing
-            const loadingTimeout = setTimeout(() => {
-                showLoading('Sending your response...');
-            }, 500);
-            
-            // Set a timeout to handle very slow connections
-            const requestTimeout = setTimeout(() => {
-                hideLoading();
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                showToast('Request is taking longer than expected. Please check your connection and try again.', 'error');
-            }, 30000); // 30 seconds timeout
-            
-            fetch('submit_reply.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                clearTimeout(loadingTimeout);
-                clearTimeout(requestTimeout);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                hideLoading();
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                if (data.success) {
-                    // Show success notification
-                    showToast('Response sent successfully!');
-                    
-                    // Clear the textarea
-                    document.getElementById('reply-message').value = '';
-                    
-                    // Also show alert at the top
-                    showAlert('Response sent successfully!', 'success');
-                    
-                    // Refresh the list after a short delay
-                    setTimeout(() => {
-                        loadInquiries();
-                    }, 1000);
-                } else {
-                    showToast('Error: ' + data.message, 'error');
-                    showAlert('Error: ' + data.message, 'error');
-                }
-            })
-            .catch(error => {
-                clearTimeout(loadingTimeout);
-                clearTimeout(requestTimeout);
-                hideLoading();
-                
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                showToast('Failed to send response. Please try again.', 'error');
-                showAlert('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-            });
-        }
-        
-        // Close an inquiry
-        function closeInquiry(inquiryId) {
-            const formData = new FormData();
-            formData.append('inquiry_id', inquiryId);
-            formData.append('status', 'closed');
-            
-            // Show loading state in the detail view
-            const inquiryDetail = document.getElementById('inquiry-detail');
-            inquiryDetail.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p>Updating inquiry status...</p>
-                </div>
-            `;
-            
-            fetch('update_inquiry_status.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showAlert('Inquiry closed successfully!', 'success');
-                    loadInquiries(); // Refresh the list
-                } else {
-                    showAlert('Error: ' + data.message, 'error');
-                    selectInquiry(inquiryId); // Reload the inquiry detail
-                }
-            })
-            .catch(error => {
-                showAlert('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-                selectInquiry(inquiryId); // Reload the inquiry detail
-            });
-        }
-        
-        // Reopen a closed inquiry
-        function reopenInquiry(inquiryId) {
-            const formData = new FormData();
-            formData.append('inquiry_id', inquiryId);
-            formData.append('status', 'replied');
-            
-            // Show loading state in the detail view
-            const inquiryDetail = document.getElementById('inquiry-detail');
-            inquiryDetail.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner"></i>
-                    <p>Updating inquiry status...</p>
-                </div>
-            `;
-            
-            fetch('update_inquiry_status.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showAlert('Inquiry reopened successfully!', 'success');
-                    loadInquiries(); // Refresh the list
-                } else {
-                    showAlert('Error: ' + data.message, 'error');
-                    selectInquiry(inquiryId); // Reload the inquiry detail
-                }
-            })
-            .catch(error => {
-                showAlert('An error occurred. Please try again.', 'error');
-                console.error('Error:', error);
-                selectInquiry(inquiryId); // Reload the inquiry detail
-            });
-        }
-        
-        // Format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-        
-        // Load inquiries when page loads
-        window.onload = function() {
-            loadInquiries();
-        };
-    </script>
+        })
+        .catch(err=>{
+            hideLoad();btn.innerHTML='<i class="fas fa-paper-plane"></i> Send Response';btn.disabled=false;
+            showToast('Network error — could not send','error');console.error(err);
+        });
+}
+
+/* ═══════════════════════════════════
+   CLOSE / REOPEN
+═══════════════════════════════════ */
+function doClose(id){
+    showConfirm('Close Inquiry','This will mark the inquiry as resolved. Citizens will be notified.',()=>changeStatus(id,'closed'),'red');
+}
+function doReopen(id){
+    showConfirm('Reopen Inquiry','This will reopen the inquiry and allow further replies.',()=>changeStatus(id,'replied'),'green');
+}
+function changeStatus(id,status){
+    showLoad(status==='closed'?'Closing inquiry…':'Reopening inquiry…');
+    const fd=new FormData();fd.append('inquiry_id',id);fd.append('status',status);
+    fetch('update_inquiry_status.php',{method:'POST',body:fd})
+        .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(data=>{
+            hideLoad();
+            if(data.success){showToast(status==='closed'?'Inquiry closed':'Inquiry reopened','success');loadInquiries();}
+            else showToast('Error: '+data.message,'error');
+        })
+        .catch(err=>{hideLoad();showToast('Network error','error');console.error(err);});
+}
+
+/* ═══════════════════════════════════
+   FILTERS & SEARCH
+═══════════════════════════════════ */
+document.querySelectorAll('.ftab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter=btn.dataset.filter;
+        renderList();
+    });
+});
+document.getElementById('inboxSearch').addEventListener('input',e=>{
+    searchQ=e.target.value.toLowerCase().trim();
+    renderList();
+});
+
+/* ═══════════════════════════════════
+   SIDEBAR & THEME
+═══════════════════════════════════ */
+const sidebar=document.getElementById('sidebar'),mainWrap=document.getElementById('mainWrap');
+document.getElementById('sidebarToggle').addEventListener('click',()=>{
+    if(window.innerWidth<=900){sidebar.classList.toggle('mobile-open');}
+    else{sidebar.classList.toggle('collapsed');mainWrap.classList.toggle('expanded');}
+});
+document.addEventListener('click',e=>{
+    if(window.innerWidth<=900&&!sidebar.contains(e.target)&&!document.getElementById('sidebarToggle').contains(e.target))
+        sidebar.classList.remove('mobile-open');
+});
+
+(function(){
+    const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+    const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}
+    apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
+
+document.getElementById('refreshBtn').addEventListener('click',()=>{loadInquiries();showToast('Refreshed','success');});
+
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+window.addEventListener('DOMContentLoaded',loadInquiries);
+</script>
 </body>
 </html>
