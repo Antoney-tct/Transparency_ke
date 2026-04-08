@@ -778,7 +778,7 @@ backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 /* ── SYNC PROJECT COUNT FROM STORAGE ── */
-const stored=JSON.parse(localStorage.getItem('ktp_projects')||'[]');
+const stored=JSON.parse(localStorage.getItem('projects')||'[]');
 if(stored.length>0)document.getElementById('kpiProjects').textContent=stored.length;
 </script>
 </body>

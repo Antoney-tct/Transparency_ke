@@ -218,7 +218,7 @@
         <div class="nav-section-label">Overview</div>
         <a href="gov-rep-dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
         <div class="nav-section-label">Management</div>
-        <a href="Addmin-projects.html" class="nav-item active"><i class="fas fa-project-diagram"></i><span>Projects</span></a>
+        <a href="manage-project.html" class="nav-item active"><i class="fas fa-project-diagram"></i><span>Projects</span></a>
         <a href="Budget.html" class="nav-item"><i class="fas fa-coins"></i><span>Budget & Finance</span></a>
         <a href="user-mangement.html" class="nav-item"><i class="fas fa-users"></i><span>User Management</span></a>
         <a href="Reports.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
@@ -336,9 +336,9 @@
                         <input type="text" id="fName" placeholder="e.g. Talanta Stadium" required>
                     </div>
                     <div class="form-group">
-                        <label>Sector *</label>
-                        <select id="fSector" required>
-                            <option value="">Select sector</option>
+                        <label>Category *</label>
+                        <select id="fCategory" required>
+                            <option value="">Select category</option>
                             <option value="infrastructure">Infrastructure</option>
                             <option value="health">Health</option>
                             <option value="housing">Housing</option>
@@ -352,16 +352,15 @@
                 </div>
                 <div class="form-group">
                     <label>Description *</label>
-                    <textarea id="fDesc" placeholder="Detailed project description..." required></textarea>
+                    <textarea id="fDescription" placeholder="Detailed project description..." required></textarea>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Status *</label>
                         <select id="fStatus" required>
                             <option value="ongoing">Ongoing</option>
-                            <option value="complete">Completed</option>
-                            <option value="planning">Planning</option>
-                            <option value="paused">Paused</option>
+                            <option value="completed">Completed</option>
+                            <option value="planned">Planned</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -371,12 +370,18 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Budget (e.g. KSh 22B) *</label>
-                        <input type="text" id="fBudget" placeholder="KSh 22B" required>
+                        <label>Budget (Numeric Value) *</label>
+                        <input type="number" id="fBudget" placeholder="e.g. 22000000000" required>
                     </div>
                     <div class="form-group">
-                        <label>Target Completion Year *</label>
-                        <input type="text" id="fYear" placeholder="e.g. 2026" required>
+                        <label>Start Date *</label>
+                        <input type="date" id="fStartDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>End Date *</label>
+                        <input type="date" id="fEndDate" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -390,11 +395,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Project Image Path (Photos/...)</label>
-                        <input type="text" id="fImg" placeholder="Photos/talanta.jpeg">
-                    </div>
-                    <div class="form-group">
-                        <label>Detail Page Link</label>
-                        <input type="text" id="fLink" placeholder="project-details.html">
+                        <input type="text" id="fImage" placeholder="Photos/talanta.jpeg">
                     </div>
                 </div>
             </form>
@@ -425,27 +426,18 @@
    These load the first time — after that, localStorage takes over
 ════════════════════════════════════════════ */
 const DEFAULT_PROJECTS = [
-    {id:'p1',title:'Talanta Sports Stadium',sector:'sports',status:'ongoing',desc:'Construction of a modern 60,000-seater stadium along Ngong Road to host international sports events, concerts, and talent showcases. The facility will include world-class amenities such as a velodrome, indoor arena, and public park.',progress:70,budget:'KSh 22B',county:'Nairobi',year:'2026',img:'Photos/talanta.jpeg',link:'project-details.html'},
-    {id:'p2',title:'GTC Towers',sector:'infrastructure',status:'ongoing',desc:'A world-class Global Trade Centre featuring luxury hotel, Grade A office spaces, conference facilities, and hospitality services in Nairobi\'s Upper Hill financial district.',progress:99,budget:'KSh 45B',county:'Nairobi',year:'2024',img:'Photos/gtc1.jpeg',link:'Gtc-details.html'},
-    {id:'p3',title:'Thika Superhighway',sector:'infrastructure',status:'complete',desc:'A modern 50km multi-lane transportation network connecting Nairobi to Thika, revolutionising urban mobility and fostering economic growth along the corridor.',progress:100,budget:'KSh 31B',county:'Kiambu / Nairobi',year:'2012',img:'Photos/Thika 3.jpg',link:'Thika-detailes.htm'},
-    {id:'p4',title:'Konza Technopolis',sector:'tech',status:'ongoing',desc:'Africa\'s Silicon Savannah — a purpose-built smart city 60km south-east of Nairobi designed to anchor Kenya\'s knowledge economy. Phase 1 infrastructure complete.',progress:55,budget:'KSh 150B',county:'Machakos',year:'2030',img:'Photos/back.jpeg',link:'Konza-city-details.html'},
-    {id:'p5',title:'Nairobi–Mombasa Highway',sector:'infrastructure',status:'planning',desc:'Modernising Kenya\'s busiest trade corridor — upgrading the A109 to a dual carriageway spanning 480km with smart traffic management systems.',progress:10,budget:'KSh 200B',county:'Multiple',year:'2029',img:'Photos/Thika 2.jpeg',link:'Usahihi-road.html'},
-    {id:'p6',title:'Vision 2030 Programme',sector:'tech',status:'ongoing',desc:'Kenya\'s long-term development blueprint covering 2008–2030 targeting a newly industrialised, middle-income economy across three pillars.',progress:72,budget:'KSh 3.3T',county:'National',year:'2030',img:'Photos/OIP__3_-removebg-preview.png',link:'Vision2030-details.html'},
-    {id:'p7',title:'Affordable Housing Programme',sector:'housing',status:'ongoing',desc:'Government\'s flagship social initiative targeting 500,000 affordable housing units across 15 counties with government-backed mortgage schemes.',progress:21,budget:'KSh 100B',county:'15 Counties',year:'2027',img:'Photos/Konza2.jpeg',link:'Affordable-housing.html'},
-    {id:'p8',title:'NHIF Universal Healthcare Reforms',sector:'health',status:'ongoing',desc:'Comprehensive transformation of Kenya\'s National Hospital Insurance Fund to achieve universal health coverage for all 56 million citizens.',progress:86,budget:'KSh 30B',county:'National',year:'2025',img:'Photos/Nhif-removebg-preview.png',link:'NHIF.html'},
-    {id:'p9',title:'Madaraka Express — SGR',sector:'infrastructure',status:'complete',desc:'The 472km Standard Gauge Railway connecting Mombasa and Nairobi, transforming freight logistics and passenger transport across the country.',progress:100,budget:'KSh 327B',county:'National',year:'2017',img:'Photos/sgr1.jpeg',link:'Rail-details.html'},
-    {id:'p10',title:'Usahihi Road — Machakos',sector:'infrastructure',status:'planning',desc:'Upgrading rural and semi-urban access roads in Machakos County to all-weather tarmac, opening agricultural corridors.',progress:30,budget:'KSh 2.8B',county:'Machakos',year:'2026',img:'Photos/usahihi.jpg',link:'Usahihi-road.html'},
-    {id:'p11',title:'LAPSSET Corridor - Lamu Port',sector:'infrastructure',status:'ongoing',desc:'Construction of the first three berths of the Lamu Port, designed to facilitate trade with landlocked neighbors.',progress:95,budget:'KSh 40B',county:'Lamu',year:'2024',img:'Photos/new port.jpeg',link:'#'},
-    {id:'p12',title:'Galana Kulalu Food Security Project',sector:'infrastructure',status:'ongoing',desc:'A massive irrigation project aimed at making Kenya food secure by bringing 1 million acres under irrigation.',progress:45,budget:'KSh 7B',county:'Kilifi / Tana River',year:'2027',img:'Photos/agric.jpeg',link:'#'},
-    {id:'p13',title:'Kenol-Sagana-Marua Highway',sector:'infrastructure',status:'ongoing',desc:'Upgrading the 84km road to a four-lane dual carriageway, part of the Great North Road linking Kenya to Ethiopia.',progress:80,budget:'KSh 14B',county:"Murang'a / Nyeri",year:'2024',img:'Photos/road3.jpeg',link:'#'},
-    {id:'p14',title:'Dongo Kundu Bypass',sector:'infrastructure',status:'ongoing',desc:'Strategic transport link connecting Mombasa West to the South Coast, easing Likoni ferry congestion.',progress:90,budget:'KSh 28B',county:'Mombasa',year:'2024',img:'Photos/eyeke.jpg',link:'#'},
-    {id:'p15',title:'Last Mile Connectivity Project',sector:'energy',status:'ongoing',desc:'Scaling up national electricity access by connecting millions of households to the grid in rural Kenya.',progress:85,budget:'KSh 50B',county:'National',year:'2025',img:'Photos/Usa2.jpg',link:'#'},
-    {id:'p16',title:'Mwache Multi-purpose Dam',sector:'infrastructure',status:'ongoing',desc:'Solving the coastal water crisis by supplying 186 million liters of water daily to Mombasa and Kwale.',progress:15,budget:'KSh 20B',county:'Kwale',year:'2027',img:'Photos/agric.jpeg',link:'#'},
-    {id:'p17',title:'Kisumu Port Revitalization',sector:'infrastructure',status:'ongoing',desc:'Restoring Kisumu as a premier regional trade hub by modernizing port infrastructure and shipyards.',progress:90,budget:'KSh 3B',county:'Kisumu',year:'2024',img:'Photos/new port.jpeg',link:'#'},
-    {id:'p18',title:'Riruta-Ngong Commuter Rail',sector:'infrastructure',status:'planning',desc:'A major transit expansion project providing a reliable rail link between Nairobi and Ngong.',progress:5,budget:'KSh 1.2B',county:'Nairobi / Kajiado',year:'2025',img:'Photos/road3.jpeg',link:'#'},
+    {id:1,name:'Talanta Sports Stadium',category:'sports',status:'ongoing',description:'Construction of a modern 60,000-seater stadium...',progress:70,budget:22000000000,county:'Nairobi',startDate:'2025-01-01',endDate:'2026-12-31',image:'Photos/talanta.jpeg'},
+    {id:2,name:'GTC Towers',category:'infrastructure',status:'ongoing',description:'A world-class Global Trade Centre...',progress:99,budget:45000000000,county:'Nairobi',startDate:'2021-01-01',endDate:'2024-12-31',image:'Photos/gtc1.jpeg'},
+    {id:3,name:'Thika Superhighway',category:'infrastructure',status:'completed',description:'A modern 50km multi-lane transportation network...',progress:100,budget:31000000000,county:'Kiambu / Nairobi',startDate:'2009-01-01',endDate:'2012-12-31',image:'Photos/Thika 3.jpg'},
+    {id:4,name:'Konza Technopolis',category:'tech',status:'ongoing',description:'Africa\'s Silicon Savannah...',progress:55,budget:150000000000,county:'Machakos',startDate:'2013-01-01',endDate:'2030-12-31',image:'Photos/back.jpeg'},
+    {id:5,name:'Nairobi–Mombasa Highway',category:'infrastructure',status:'planned',description:'Modernising Kenya\'s busiest trade corridor...',progress:10,budget:200000000000,county:'Multiple',startDate:'2024-01-01',endDate:'2029-12-31',image:'Photos/Thika 2.jpeg'},
+    {id:6,name:'Vision 2030 Programme',category:'tech',status:'ongoing',description:'Kenya\'s long-term development blueprint...',progress:72,budget:3300000000000,county:'National',startDate:'2008-01-01',endDate:'2030-12-31',image:'Photos/OIP__3_-removebg-preview.png'},
+    {id:7,name:'Affordable Housing Programme',category:'housing',status:'ongoing',description:'Government\'s flagship social initiative...',progress:21,budget:100000000000,county:'15 Counties',startDate:'2023-01-01',endDate:'2027-12-31',image:'Photos/Konza2.jpeg'},
+    {id:8,name:'NHIF Universal Healthcare Reforms',category:'health',status:'ongoing',description:'Comprehensive transformation of Kenya\'s NHIF...',progress:86,budget:30000000000,county:'National',startDate:'2022-01-01',endDate:'2025-12-31',image:'Photos/Nhif-removebg-preview.png'},
+    {id:9,name:'Madaraka Express — SGR',category:'infrastructure',status:'completed',description:'The 472km Standard Gauge Railway...',progress:100,budget:327000000000,county:'National',startDate:'2014-01-01',endDate:'2017-12-31',image:'Photos/sgr1.jpeg'},
 ];
 
-const STORE_KEY = 'ktp_projects';
+const STORE_KEY = 'projects';
 
 /* ── DATA LAYER ── */
 function getProjects(){
@@ -454,7 +446,7 @@ function getProjects(){
     try { return JSON.parse(stored); } catch(e){ return DEFAULT_PROJECTS; }
 }
 function saveProjects(arr){ localStorage.setItem(STORE_KEY, JSON.stringify(arr)); }
-function genId(){ return 'p'+Date.now(); }
+function genId(){ return Date.now(); }
 
 /* ── STATE ── */
 let currentTab = 'all';
@@ -467,18 +459,22 @@ function render(){
     const projects = getProjects();
     let filtered = projects;
 
-    if(currentTab !== 'all') filtered = filtered.filter(p => p.status === currentTab);
+    if(currentTab !== 'all') {
+        if(currentTab === 'planning') filtered = filtered.filter(p => p.status === 'planned');
+        else if(currentTab === 'complete') filtered = filtered.filter(p => p.status === 'completed');
+        else filtered = filtered.filter(p => p.status === currentTab);
+    }
     if(searchQ) filtered = filtered.filter(p =>
-        p.title.toLowerCase().includes(searchQ) ||
-        p.sector.toLowerCase().includes(searchQ) ||
+        p.name.toLowerCase().includes(searchQ) ||
+        p.category.toLowerCase().includes(searchQ) ||
         p.county.toLowerCase().includes(searchQ)
     );
 
     // Stats
     document.getElementById('statTotal').textContent = projects.length;
     document.getElementById('statOngoing').textContent = projects.filter(p=>p.status==='ongoing').length;
-    document.getElementById('statComplete').textContent = projects.filter(p=>p.status==='complete').length;
-    document.getElementById('statPlanning').textContent = projects.filter(p=>p.status==='planning').length;
+    document.getElementById('statComplete').textContent = projects.filter(p=>p.status==='completed').length;
+    document.getElementById('statPlanning').textContent = projects.filter(p=>p.status==='planned').length;
 
     const tbody = document.getElementById('projectsTableBody');
     tbody.innerHTML = '';
@@ -490,16 +486,16 @@ function render(){
     document.getElementById('emptyState').style.display='none';
 
     filtered.forEach(p => {
-        const statusMap = {ongoing:'sc-ongoing Ongoing',complete:'sc-complete Completed',planning:'sc-planning Planning',paused:'sc-planning Paused'};
+        const statusMap = {ongoing:'sc-ongoing Ongoing',completed:'sc-complete Completed',planned:'sc-planning Planning'};
         const [sc,sl] = (statusMap[p.status]||'sc-planning Planning').split(' ');
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>
                 <div class="proj-name-cell">
-                    <img class="proj-thumb" src="${p.img||'Photos/back.jpeg'}" alt="${p.title}" onerror="this.src='Photos/back.jpeg'">
+                    <img class="proj-thumb" src="${p.image||'Photos/back.jpeg'}" alt="${p.name}" onerror="this.src='Photos/back.jpeg'">
                     <div>
-                        <div class="proj-name">${p.title}</div>
-                        <div class="proj-sector">${p.sector}</div>
+                        <div class="proj-name">${p.name}</div>
+                        <div class="proj-sector">${p.category}</div>
                     </div>
                 </div>
             </td>
@@ -510,9 +506,9 @@ function render(){
                     <span class="prog-pct">${p.progress}%</span>
                 </div>
             </td>
-            <td>${p.budget||'—'}</td>
+            <td>${p.budget ? Number(p.budget).toLocaleString() : '—'}</td>
             <td>${p.county||'—'}</td>
-            <td>${p.year||'—'}</td>
+            <td>${p.endDate ? new Date(p.endDate).getFullYear() : '—'}</td>
             <td>
                 <div class="row-actions">
                     <button class="btn-edit" data-id="${p.id}"><i class="fas fa-pen"></i> Edit</button>
@@ -565,16 +561,16 @@ function openEdit(id){
     editTarget = id;
     document.getElementById('formModalTitle').textContent = 'Edit Project';
     document.getElementById('formId').value = p.id;
-    document.getElementById('fName').value = p.title;
-    document.getElementById('fSector').value = p.sector;
-    document.getElementById('fDesc').value = p.desc;
+    document.getElementById('fName').value = p.name;
+    document.getElementById('fCategory').value = p.category;
+    document.getElementById('fDescription').value = p.description;
     document.getElementById('fStatus').value = p.status;
     document.getElementById('fCounty').value = p.county;
     document.getElementById('fBudget').value = p.budget;
-    document.getElementById('fYear').value = p.year;
+    document.getElementById('fStartDate').value = p.startDate || '';
+    document.getElementById('fEndDate').value = p.endDate || '';
     document.getElementById('fProgress').value = p.progress;
-    document.getElementById('fImg').value = p.img||'';
-    document.getElementById('fLink').value = p.link||'';
+    document.getElementById('fImage').value = p.image||'';
     document.getElementById('progLabel').textContent = p.progress;
     document.getElementById('progLabelPct').textContent = p.progress+'%';
     document.getElementById('fProgFill').style.width = p.progress+'%';
@@ -602,24 +598,24 @@ document.getElementById('fProgress').addEventListener('input', function(){
 // Save
 document.getElementById('formSaveBtn').addEventListener('click', ()=>{
     const name = document.getElementById('fName').value.trim();
-    const desc = document.getElementById('fDesc').value.trim();
-    const sector = document.getElementById('fSector').value;
+    const description = document.getElementById('fDescription').value.trim();
+    const category = document.getElementById('fCategory').value;
     const status = document.getElementById('fStatus').value;
     const county = document.getElementById('fCounty').value.trim();
     const budget = document.getElementById('fBudget').value.trim();
-    const year = document.getElementById('fYear').value.trim();
+    const startDate = document.getElementById('fStartDate').value;
+    const endDate = document.getElementById('fEndDate').value;
     const progress = +document.getElementById('fProgress').value;
-    const img = document.getElementById('fImg').value.trim() || 'Photos/back.jpeg';
-    const link = document.getElementById('fLink').value.trim() || '#';
+    const image = document.getElementById('fImage').value.trim() || 'Photos/back.jpeg';
 
-    if(!name||!desc||!sector||!county||!budget||!year){ showToast('Please fill all required fields','error'); return; }
+    if(!name||!description||!category||!county||!budget||!startDate||!endDate){ showToast('Please fill all required fields','error'); return; }
 
     const projects = getProjects();
     if(editTarget){
         const idx = projects.findIndex(p=>p.id===editTarget);
-        if(idx>-1){ projects[idx]={...projects[idx],title:name,sector,desc,status,county,budget,year,progress,img,link}; }
+        if(idx>-1){ projects[idx]={...projects[idx],name,category,description,status,county,budget,startDate,endDate,progress,image}; }
     } else {
-        projects.push({id:genId(),title:name,sector,desc,status,county,budget,year,progress,img,link});
+        projects.push({id:genId(),name,category,description,status,county,budget,startDate,endDate,progress,image});
     }
     saveProjects(projects);
     closeForm();
