@@ -1,1000 +1,458 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details - Government Portal</title>
-    <link rel="stylesheet" href="land.css">
-    <script src="tabs.js"></script>
-    <script src="project_details.js"></script>
-    <script src="notification.js"></script>
-    <script src="timeline.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        
-        .project-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-        }
-        
-        .project-title {
-            flex: 1;
-        }
-
-        .project-title h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .project-meta {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        .project-meta span {
-            margin-right: 20px;
-        }
-        
-        .project-status {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            min-width: 200px;
-        }
-        
-        .status-label {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .progress-circle {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-        }
-        
-        .progress-circle canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .progress-percentage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #0b9d3f;
-        }
-        
-        
-
-
-
-
-
-/*  Search */
-.search-container {
-    display: flex;
-    align-items: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 25px;
-    overflow: hidden;
-    width: 300px;
-    margin: 20px auto;
-    background-color: #fff;
-    transition: box-shadow 0.3s ease;
-}
-
-.search-container:focus-within {
-    box-shadow: 0 0 8px rgba(11, 157, 63, 0.3);
-    border-color: #0b9d3f;
-}
-
-.search-container input[type="text"] {
-    border: none;
-    padding: 12px 15px;
-    flex: 1;
-    font-size: 16px;
-    outline: none;
-    background: transparent;
-}
-
-.search-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search-icon {
-    width: 20px;
-    height: 20px;
-    fill: #666;
-    transition: fill 0.3s ease;
-}
-
-.search-button:hover .search-icon {
-    fill: #0b9d3f;
-}
-
-
-
-
-
-/*  Notification  */
-.notification-container {
-    position: relative;
-    display: inline-block;
-    margin-right: 15px;
-}
-
-.notification-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.bell-icon {
-    width: 24px;
-    height: 24px;
-    fill: #333;
-    transition: fill 0.3s ease;
-}
-
-.notification-btn:hover .bell-icon {
-    fill: #0b9d3f;
-}
-
-.notification-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #e74c3c;
-    color: white;
-    font-size: 12px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.notification-dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    width: 320px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    z-index: 100;
-    margin-top: 10px;
-    overflow: hidden;
-}
-
-.notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.notification-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
-}
-
-.mark-all-read {
-    background: none;
-    border: none;
-    color: #0b9d3f;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 0;
-}
-
-.notification-list {
-    max-height: 350px;
-    overflow-y: auto;
-}
-
-.notification-item {
-    display: flex;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.3s;
-}
-
-.notification-item:hover {
-    background-color: #f9f9f9;
-}
-
-.notification-item.unread {
-    background-color: #f0f7ff;
-}
-
-.notification-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 15px;
-    background-color: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.admin-icon {
-    background-color: #3498db;
-}
-
-.system-icon {
-    background-color: #9b59b6;
-}
-
-.event-icon {
-    background-color: #f39c12;
-}
-
-.report-icon {
-    background-color: #2ecc71;
-}
-
-.notification-content {
-    flex: 1;
-}
-
-.notification-title {
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.notification-time {
-    font-size: 12px;
-    color: #999;
-}
-
-.notification-footer {
-    padding: 12px;
-    text-align: center;
-    border-top: 1px solid #f0f0f0;
-}
-
-.notification-footer a {
-    color: #0b9d3f;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.notification-footer a:hover {
-    text-decoration: underline;
-}
-
-
-
-/*timeline*/
-
-    .simple-timeline {
-        margin: 30px 0;
-        border-left: 4px solid #ddd;
-        padding-left: 20px;
-    }
-
-    .timeline-event {
-        margin-bottom: 30px;
-        position: relative;
-        padding-left: 15px;
-    }
-
-    .timeline-event:before {
-        content: '';
-        width: 15px;
-        height: 15px;
-        background-color: #ddd;
-        border-radius: 50%;
-        position: absolute;
-        left: -29px;
-        top: 5px;
-    }
-
-    .timeline-event.completed:before {
-        background-color: #0b9d3f;
-    }
-
-    .timeline-event.current:before {
-        background-color: #f39c12;
-    }
-
-    .timeline-date {
-        font-weight: bold;
-        color: #0b9d3f;
-        margin-bottom: 5px;
-    }
-
-    .timeline-info h4 {
-        margin: 0 0 5px 0;
-    }
-
-    .timeline-info p {
-        margin: 0;
-        color: #666;
-    }
-
-
-    /*budget cards*/
-
-    .budget-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .budget-card {
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .budget-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .budget-amount {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #0b9d3f;
-            margin: 10px 0;
-        }
-        
-        .budget-label {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        .budget-change {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .budget-increase {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
-        }
-        
-        .budget-decrease {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #c0392b;
-        }
-        
-        .chart-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-</style>
-
-
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talanta Stadium — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="project-shared.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
-        </div>
-        
-        <!--  Search Bar -->
-<div class="search-container">
-    <input type="text" placeholder="Search...">
-    <button type="submit" class="search-button">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-        </svg>
-    </button>
-</div>
 
-<!--  Notification Button -->
-<div class="notification-container">
-    <button class="notification-btn" id="notificationButton">
-        <svg class="bell-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
-        </svg>
-        <span class="notification-badge" id="notificationBadge">4</span>
-    </button>
-    <div class="notification-dropdown" id="notificationDropdown">
-        <div class="notification-header">
-            <h3>Notifications</h3>
-            <button class="mark-all-read">Mark all as read</button>
-        </div>
-        <div class="notification-list">
-            <a href="page1.html" class="notification-item unread">
-                <div class="notification-icon admin-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">New message from Admin</div>
-                    <div class="notification-time">2 hours ago</div>
-                </div>
-            </a>
-            <a href="page2.html" class="notification-item unread">
-                <div class="notification-icon system-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">System Update Available</div>
-                    <div class="notification-time">Yesterday</div>
-                </div>
-            </a>
-            <a href="page3.html" class="notification-item">
-                <div class="notification-icon event-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">Reminder: Upcoming Event</div>
-                    <div class="notification-time">3 days ago</div>
-                </div>
-            </a>
-            <a href="page4.html" class="notification-item">
-                <div class="notification-icon report-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">Weekly Report Ready</div>
-                    <div class="notification-time">1 week ago</div>
-                </div>
-            </a>
-        </div>
-        <div class="notification-footer">
-            <a href="updates.html">View all notifications</a>
-        </div>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
+      <div class="logo-text">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem">
+      <a href="user_dashboard.html">Dashboard</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Budget.html">Budget</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a>
     </div>
-</div>
+  </div>
+</header>
 
-        <div class="profile-section">
-            
-            </div>
-            <a href="pprofile.html">
-                <div class="profile-button"></div>
-            </a>
-        </div>
-    </header>
-
-    <div class="project-container">
-        <div class="project-header">
-            <div class="project-title">
-                <h1>Talanta Stadium</h1>
-                <div class="project-meta">
-                    <span><strong>Location:</strong> Ngong Road, Nairobi</span>
-                    <span><strong>Started:</strong> January 1, 2025</span>
-                    <span><strong>Expected Completion:</strong> December 31, 2026</span>
-                </div>
-            </div>
-            <div class="project-status">
-                <div class="status-label">Project Progress</div>
-                <div class="progress-circle">
-                    <canvas id="progressCircle" width="120" height="120"></canvas>
-                    <div class="progress-percentage">45%</div>
-                </div>
-                <div>On going</div>
-            </div>
-        </div>
-        
-
-
-            <style>
-                /* Base Styles */
-                body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #f9f9f9;
-                }
-                
-                /* Tab Container */
-                .tab-container {
-                    background: white;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                    overflow: hidden;
-                }
-                
-                /* Tab Header */
-                .tab-header {
-                    display: flex;
-                    background: #f5f5f5;
-                    border-bottom: 1px solid #ddd;
-                }
-                
-                .tab-btn {
-                    padding: 12px 24px;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 16px;
-                    transition: all 0.3s;
-                    position: relative;
-                    margin-right: 1px;
-                    color: #555;
-                }
-                
-                .tab-btn:hover {
-                    background-color: #e9e9e9;
-                }
-                
-                .tab-btn.active {
-                    background: white;
-                    color: #0066cc;
-                    font-weight: 600;
-                }
-                
-                .tab-btn.active::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -1px;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background-color: #0066cc;
-                }
-                
-                /* Tab Content */
-                .tab-content {
-                    display: none;
-                    padding: 25px;
-                    animation: fadeIn 0.5s;
-                }
-                
-                .tab-content.active {
-                    display: block;
-                }
-                
-                /* Media Section */
-                .media-section {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                    gap: 20px;
-                    margin-top: 20px;
-                }
-                
-                .media-item {
-                    border-radius: 6px;
-                    overflow: hidden;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                    transition: transform 0.3s;
-                }
-                
-                .media-item:hover {
-                    transform: translateY(-5px);
-                }
-                
-                .media-item img, .media-item video {
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                }
-                
-                .media-caption {
-                    padding: 12px;
-                    background: white;
-                    font-size: 14px;
-                }
-                
-                /* Comments Section */
-                .comments-section {
-                    margin-top: 20px;
-                }
-                
-                .comment-form {
-                    margin-bottom: 30px;
-                    padding: 20px;
-                    background: #f8f8f8;
-                    border-radius: 6px;
-                }
-                
-                .comment-form textarea {
-                    width: 100%;
-                    padding: 12px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    resize: vertical;
-                    min-height: 100px;
-                    margin-bottom: 10px;
-                    font-family: inherit;
-                }
-                
-                .comment-form button {
-                    background: #0066cc;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    transition: background 0.3s;
-                }
-                
-                .comment-form button:hover {
-                    background: #0055aa;
-                }
-                
-                .comment-list {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                }
-                
-                .comment {
-                    padding: 15px;
-                    background: white;
-                    border-radius: 6px;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                }
-                
-                .comment-header {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 10px;
-                    font-size: 14px;
-                    color: #666;
-                }
-                
-                .comment-author {
-                    font-weight: bold;
-                    color: #333;
-                }
-                
-                .comment-date {
-                    color: #999;
-                }
-                
-                .comment-body {
-                    line-height: 1.5;
-                }
-                
-                /* Animations */
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="tab-container">
-                <div class="tab-header">
-                    <button class="tab-btn active" data-tab="tab1">Overview</button>
-                    <button class="tab-btn" data-tab="tab2">video/photos</button>
-                    <button class="tab-btn" data-tab="tab3">Comments</button>
-                    <button class="tab-btn" data-tab="tab4">Budget</button>
-                    <button class="tab-btn" data-tab="tab5">Timeline</button>
-                </div>
-                
-                <!-- Main Content Tab -->
-                <div class="tab-content active" id="tab1">
-                    <p>The Talanta Stadium is a state-of-the-art sports facility being constructed along Ngong Road in Nairobi. This modern stadium will have a seating capacity of 60,000 and will host various sporting events, including football, rugby, and athletics.</p>
-                
-                    <p>The stadium features a retractable roof, modern training facilities, conference rooms, restaurants, and ample parking space. It is designed to meet international standards and will be eligible to host major continental and global sporting events.</p>
-                    
-                   
-                    <p>This project is part of the government's initiative to improve sports infrastructure in the country and nurture local talent. The stadium will not only serve as a sports venue but also as a cultural and entertainment hub for the city.</p>
-               
-                </div>
-
-                <!-- Media Tab -->
-                <div class="tab-content" id="tab2">
-                    <h2>Photo & Video Gallery of Talanta stadium</h2>
-                    <p>Browse through our collection of images and videos as a representation.</p>
-                    <!--videos tab-->
-                    <div class="media-section">
-                        <!-- Image Example -->
-                        <div class="media-item">
-                            <img src="Photos/talanta 2.jpeg" alt="Sample Image">
-                            <div class="media-caption">
-                                <strong>Beautiful Night view</strong>
-                                <p>Taken on our recent trip to the mountains</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Video  -->
-                        <div class="media-item">
-                            <video controls>
-                                <source src="Photos/ke eye.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <div class="media-caption">
-                                <strong>Our level of progress</strong>
-                                <p>A short view of our diligence towards achieving a successful completion of the stadium</p>
-                            </div>
-                        </div>
-                        
-                        <!--  Image -->
-                        <div class="media-item">
-                            <img src="Photos/talanta progres.jpeg" alt="Sample Image">
-                            <div class="media-caption">
-                                <strong>Overhead View</strong>
-                                <p>We are hosting the Afcon 2027 without a doubt!!</p>
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <img src="Photos/talanta 2.jpeg" alt="Image">
-                            <div class="media-caption">
-                                <strong>interior View</strong>
-                                <p>We are ready to showcase our dream which is taking its cause at the momment!!</p>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <img src="Photos/talanta 3.jpeg" alt="Image">
-                            <div class="media-caption">
-                                <strong>Overhead View</strong>
-                                <p>This is our chance of making another wonderful history</p>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <img src="Photos/talanta.jpeg" alt="Image">
-                            <div class="media-caption">
-                                <strong>External View</strong>
-                                <p>All the talents in the country is getting a chance to grow in a sastainable echo system</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                
-                <!-- Comments Tab -->
-                <div class="tab-content" id="tab3">
-                    <h2>Discussion</h2>
-                    <p>Join the conversation and share your thoughts.</p>
-                    
-                    <div class="comment-form">
-                        <h3>Add Your Comment</h3>
-                        <textarea placeholder="Write your comment here..."></textarea>
-                        <button type="submit">Post Comment</button>
-                    </div>
-                    
-                    <div class="comments-section">
-                        <h3>Recent Comments</h3>
-                        
-                        <div class="comment-list">
-                            <!-- Comment 1 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">John Doe</span>
-                                    <span class="comment-date">June 15, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                    This is a game-changing project for our country!
-                                </div>
-                            </div>
-                            
-                            <!-- Comment 2 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">Jane Smith</span>
-                                    <span class="comment-date">June 12, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                    Are there still some job orpotunities left
-                                </div>
-                            </div>
-                            
-                            <!-- Comment 3 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">Alex Johnson</span>
-                                    <span class="comment-date">June 10, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                    I'm finally proud as a kenyan sports person!
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content"id="tab4">
-                
-    <section class="budget-overview">
-        <div class="budget-card">
-            <div class="budget-label">Total Budget</div>
-            <div class="budget-amount">KSh 54B</div>
-            <div class="budget-change budget-increase">-52% from 2025</div>
-        </div>
-        
-        <div class="budget-card">
-            <div class="budget-label">Expenditure so far</div>
-            <div class="budget-amount">KSh 28.08B</div>
-        </div>
-        
-        <div class="budget-card">
-            <div class="budget-label">Jobs created</div>
-            <div class="budget-amount">70000</div>
-            <div class="budget-change budget-increase">+5.7% from 2025</div>
-        </div>
-        
-        <div class="budget-card">
-            <div class="budget-label">Days to completion</div>
-            <div class="budget-amount">1 year 9 months</div>
-        </div>
-    </section>
-                        </div>
-
-        <div class="tab-content"id="tab5">
-                <div class="project-description">
-                    <h3>Project Timeline</h3>
-                    <p>Below is the timeline for the Talanta Stadium project:</p>
-                    
-                    <div class="simple-timeline">
-                        <div class="timeline-event completed">
-                            <div class="timeline-date">January 2025</div>
-                            <div class="timeline-info">
-                                <h4>Project Kickoff</h4>
-                                <p>Groundbreaking ceremony and site preparation</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event completed">
-                            <div class="timeline-date">March 2025</div>
-                            <div class="timeline-info">
-                                <h4>Foundation Work</h4>
-                                <p>Excavation and foundation laying</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event completed">
-                            <div class="timeline-date">June 2025</div>
-                            <div class="timeline-info">
-                                <h4>Structural Framework</h4>
-                                <p>Steel framework installation</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event current">
-                            <div class="timeline-date">September 2025</div>
-                            <div class="timeline-info">
-                                <h4>Roof Construction</h4>
-                                <p>Installation of retractable roof system</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event">
-                            <div class="timeline-date">December 2025</div>
-                            <div class="timeline-info">
-                                <h4>Interior Work</h4>
-                                <p>Seating installation and interior construction</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event">
-                            <div class="timeline-date">June 2026</div>
-                            <div class="timeline-info">
-                                <h4>Field and Systems</h4>
-                                <p>Playing surface and technology installation</p>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-event">
-                            <div class="timeline-date">December 2026</div>
-                            <div class="timeline-info">
-                                <h4>Project Completion</h4>
-                                <p>Final touches and grand opening</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const tabButtons = document.querySelectorAll('.tab-btn');
-                    
-                    tabButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            document.querySelectorAll('.tab-btn').forEach(btn => {
-                                btn.classList.remove('active');
-                            });
-                            document.querySelectorAll('.tab-content').forEach(content => {
-                                content.classList.remove('active');
-                            });
-                            
-                            this.classList.add('active');
-                            
-                            
-                            const tabId = this.getAttribute('data-tab');
-                            document.getElementById(tabId).classList.add('active');
-                        });
-                    });
-                });
-            </script>
-
-
-<section>
-        
-
-          
-               <!-- Project Reactions Section -->
-<div class="media-caption">
-    <div class="reaction-stats">
-        <div class="budget-amount">
-            <span id="likesCount">124</span> likes
-        </div>
-        <div class="budget-amount">
-            <span id="dislikesCount">18</span> dislikes
-        </div>
-        <div class="budget-amount">
-            <span id="commentsCount">42</span> comments
-        </div>
+<!-- HERO -->
+<section class="proj-hero">
+  <div class="proj-hero-bg" style="background-image:url('Photos/talanta.jpeg')"></div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-stripe"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><i class="fas fa-futbol"></i> Sports Infrastructure</div>
+    <h1>Talanta <em>Sports</em> Stadium</h1>
+    <div class="proj-hero-badges">
+      <span class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Ongoing</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Ngong Road, Nairobi</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-coins"></i> KSh 22B</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Est. Completion: Dec 2026</span>
     </div>
-    
-    <div class="reaction-buttons">
-        <button class="reaction-btn" id="likeButton" onclick="reactToProject('like')">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
-            </svg>
-            <span>Like</span>
-        </button>
-        <button class="reaction-btn" id="dislikeButton" onclick="reactToProject('dislike')">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-            </svg>
-            <span>Dislike</span>
-        </button>
-    
-        </button>
-        <button class="reaction-btn" onclick="shareProject()">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
-            </svg>
-            <span>Share</span>
-        </button>
-    </div>
-</div>
-
-    
-    
- 
-                
-                
+  </div>
 </section>
-               
 
+<div class="page-wrap">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Projects</a>
 
-            </body>
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-ring">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
+          <circle class="ring-fill" cx="40" cy="40" r="34" stroke-width="7"
+            stroke-dasharray="213.6" stroke-dashoffset="64.1" id="ring1"/>
+        </svg>
+        <span class="ring-label">70%</span>
+      </div>
+      <div class="metric-lbl">Completion</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon"><i class="fas fa-users"></i></div>
+      <div class="metric-val">60,000</div>
+      <div class="metric-lbl">Seat Capacity</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon"><i class="fas fa-hard-hat"></i></div>
+      <div class="metric-val">4,200</div>
+      <div class="metric-lbl">Jobs Created</div>
+      <div class="metric-trend trend-up"><i class="fas fa-arrow-up"></i> Direct & Indirect</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon"><i class="fas fa-clock"></i></div>
+      <div class="metric-val">1.5 yrs</div>
+      <div class="metric-lbl">To Completion</div>
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-strip">
+    <span class="share-lbl">Share</span>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
+    <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+    <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tab-btn" data-tab="media"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tab-btn" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tab-btn" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tab-btn" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-content active" id="overview">
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-eyebrow">About the Project</div>
+          <div class="card-title">Talanta Sports Stadium</div>
+          <div class="card-body">
+            <p>The Talanta Stadium is a flagship government investment in sports infrastructure, located along Ngong Road in Nairobi. Designed to be a world-class, multi-purpose venue, the stadium will host international football matches, athletics events, concerts, and national ceremonies.</p>
+            <br>
+            <p>The facility is designed with a retractable roof, state-of-the-art LED lighting, and premium hospitality suites. Its name — <em>Talanta</em> (Swahili for "talent") — reflects the government's commitment to nurturing Kenya's sporting and artistic talent at the highest level.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Key Features</div>
+          <div class="card-title">What's Being Built</div>
+          <ul class="fact-list">
+            <li><i class="fas fa-check"></i>60,000-seat capacity with VIP hospitality suites</li>
+            <li><i class="fas fa-check"></i>Retractable hybrid roof system</li>
+            <li><i class="fas fa-check"></i>FIFA-certified artificial + natural hybrid turf</li>
+            <li><i class="fas fa-check"></i>4K scoreboards and broadcast infrastructure</li>
+            <li><i class="fas fa-check"></i>Velodrome for cycling events</li>
+            <li><i class="fas fa-check"></i>Indoor arena (5,000 capacity) attached</li>
+            <li><i class="fas fa-check"></i>Underground parking for 3,000 vehicles</li>
+            <li><i class="fas fa-check"></i>Public park and recreational spaces</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-eyebrow">Project Details</div>
+          <div class="card-title">Key Information</div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div><div class="det-lbl">Location</div><div class="det-val">Ngong Road, Nairobi County</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-building"></i></div>
+            <div><div class="det-lbl">Ministry</div><div class="det-val">Sports, Culture & Arts</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-hammer"></i></div>
+            <div><div class="det-lbl">Contractor</div><div class="det-val">China Gezhouba Group Corporation</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-calendar-alt"></i></div>
+            <div><div class="det-lbl">Start Date</div><div class="det-val">January 2023</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-flag-checkered"></i></div>
+            <div><div class="det-lbl">Expected Completion</div><div class="det-val">December 2026</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-coins"></i></div>
+            <div><div class="det-lbl">Total Budget</div><div class="det-val">KSh 22 Billion</div></div>
+          </div>
+          <div class="detail-row">
+            <div class="det-icon"><i class="fas fa-star"></i></div>
+            <div><div class="det-lbl">Status</div><div class="det-val">Ongoing — 70% Complete</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Impact</div>
+          <div class="card-title">Expected Benefits</div>
+          <div class="chip-grid">
+            <span class="chip"><i class="fas fa-futbol"></i> International Sports</span>
+            <span class="chip"><i class="fas fa-music"></i> Entertainment Hub</span>
+            <span class="chip"><i class="fas fa-briefcase"></i> Job Creation</span>
+            <span class="chip"><i class="fas fa-globe-africa"></i> Tourism Boost</span>
+            <span class="chip"><i class="fas fa-heart"></i> Youth Empowerment</span>
+            <span class="chip"><i class="fas fa-dollar-sign"></i> Revenue Generation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Progress breakdown -->
+    <div class="card">
+      <div class="card-eyebrow">Construction Progress</div>
+      <div class="card-title">Phase Completion</div>
+      <div class="prog-row"><span class="prog-lbl">Foundation & Substructure</span><span class="prog-pct">100%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Superstructure / Steel Framework</span><span class="prog-pct">95%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:95%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Roofing System</span><span class="prog-pct">60%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:60%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Interior Works & Seating</span><span class="prog-pct">30%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:30%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Playing Surface & Systems</span><span class="prog-pct">10%</span></div>
+      <div class="prog-track" style="margin-bottom:0"><div class="prog-fill" style="--w:10%"></div></div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="tab-content" id="media">
+    <div class="card">
+      <div class="card-eyebrow">Gallery</div>
+      <div class="card-title">Project Photos</div>
+      <div class="media-grid">
+        <div class="media-item">
+          <img src="Photos/talanta.jpeg" alt="Talanta Stadium Construction">
+          <div class="media-caption"><strong>Aerial View</strong><p>Construction progress as of early 2025</p></div>
+        </div>
+        <div class="media-item">
+          <img src="Photos/talanta.jpeg" alt="Structural Framework">
+          <div class="media-caption"><strong>Steel Framework</strong><p>Main structural framework nearing completion</p></div>
+        </div>
+        <div class="media-item">
+          <img src="Photos/talanta.jpeg" alt="External View">
+          <div class="media-caption"><strong>External Facade</strong><p>Outer cladding works in progress</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="tab-content" id="budget">
+    <div class="budget-grid">
+      <div class="budget-card">
+        <div class="bcard-lbl">Total Budget</div>
+        <div class="bcard-val">KSh 22B</div>
+        <div class="bcard-sub">Government allocation</div>
+      </div>
+      <div class="budget-card">
+        <div class="bcard-lbl">Spent to Date</div>
+        <div class="bcard-val">KSh 15.4B</div>
+        <div class="bcard-sub">70% of total budget</div>
+      </div>
+      <div class="budget-card">
+        <div class="bcard-lbl">Jobs Created</div>
+        <div class="bcard-val">4,200</div>
+        <div class="bcard-sub">Direct employment</div>
+        <div class="bcard-trend trend-up"><i class="fas fa-arrow-up"></i> +12% this quarter</div>
+      </div>
+      <div class="budget-card">
+        <div class="bcard-lbl">Days Remaining</div>
+        <div class="bcard-val">~540</div>
+        <div class="bcard-sub">To December 2026</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">Budget Breakdown</div>
+      <div class="card-title">Expenditure by Category</div>
+      <div class="prog-row"><span class="prog-lbl">Civil Works & Foundation</span><span class="prog-pct">KSh 6.5B</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Structural Steel</span><span class="prog-pct">KSh 5.2B</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Roofing System</span><span class="prog-pct">KSh 3.8B</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:58%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">M&E, Technology & Systems</span><span class="prog-pct">KSh 3.5B</span></div>
+      <div class="prog-track"><div class="prog-fill" style="--w:53%"></div></div>
+      <div class="prog-row"><span class="prog-lbl">Interior Fit-out & Seating</span><span class="prog-pct">KSh 3.0B</span></div>
+      <div class="prog-track" style="margin-bottom:0"><div class="prog-fill" style="--w:46%"></div></div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="tab-content" id="timeline">
+    <div class="card">
+      <div class="card-eyebrow">Milestones</div>
+      <div class="card-title">Project Timeline</div>
+      <div class="timeline">
+        <div class="tl-item completed">
+          <div class="tl-dot"></div>
+          <div class="tl-date">January 2023</div>
+          <div class="tl-title">Groundbreaking Ceremony</div>
+          <div class="tl-desc">Official project launch and site preparation begins</div>
+        </div>
+        <div class="tl-item completed">
+          <div class="tl-dot"></div>
+          <div class="tl-date">March 2023</div>
+          <div class="tl-title">Foundation Works</div>
+          <div class="tl-desc">Excavation and reinforced concrete foundation completed</div>
+        </div>
+        <div class="tl-item completed">
+          <div class="tl-dot"></div>
+          <div class="tl-date">September 2023</div>
+          <div class="tl-title">Superstructure Begins</div>
+          <div class="tl-desc">Steel framework erection commences across the stadium bowl</div>
+        </div>
+        <div class="tl-item completed">
+          <div class="tl-dot"></div>
+          <div class="tl-date">June 2024</div>
+          <div class="tl-title">Main Structure Complete</div>
+          <div class="tl-desc">Steel framework fully erected; concrete terraces poured</div>
+        </div>
+        <div class="tl-item current">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2025 (Current)</div>
+          <div class="tl-title">Roofing & Façade</div>
+          <div class="tl-desc">Retractable roof installation underway; external cladding ongoing</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Early 2026</div>
+          <div class="tl-title">Interior Works</div>
+          <div class="tl-desc">Seating, M&E systems, scoreboards and hospitality suites</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">December 2026</div>
+          <div class="tl-title">Grand Opening</div>
+          <div class="tl-desc">Official commissioning and inaugural event</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCUSSION -->
+  <div class="tab-content" id="discussion">
+    <!-- Reaction bar -->
+    <div class="reaction-bar">
+      <div class="reaction-stat">
+        <div class="reaction-count" id="likeCount">124</div>
+        <div class="reaction-lbl">Likes</div>
+      </div>
+      <div class="reaction-divider"></div>
+      <div class="reaction-stat">
+        <div class="reaction-count" id="dislikeCount">18</div>
+        <div class="reaction-lbl">Dislikes</div>
+      </div>
+      <div class="reaction-divider"></div>
+      <div class="reaction-stat">
+        <div class="reaction-count">42</div>
+        <div class="reaction-lbl">Comments</div>
+      </div>
+      <div class="reaction-btns">
+        <button class="rxn-btn" id="likeBtn" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+        <button class="rxn-btn" id="dislikeBtn" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+        <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
+      </div>
+    </div>
+    <!-- Comment form -->
+    <div class="comment-form-wrap">
+      <div class="card-eyebrow" style="margin-bottom:.75rem">Leave a Comment</div>
+      <textarea id="commentInput" placeholder="Share your thoughts on this project…"></textarea>
+      <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+        <input type="text" id="commentName" placeholder="Your name" style="padding:.55rem .9rem;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;">
+        <button class="btn-comment" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+      </div>
+    </div>
+    <!-- Comments -->
+    <div id="commentsList">
+      <div class="comment">
+        <div class="comment-hdr">
+          <div class="comment-avatar">J</div>
+          <div class="comment-meta">
+            <div class="comment-author">John Kamau</div>
+            <div class="comment-date">June 15, 2023</div>
+          </div>
+        </div>
+        <div class="comment-body">This is a game-changing project for our country! Kenya deserves world-class sports infrastructure.</div>
+        <div class="comment-actions"><button class="btn-like" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 12</button></div>
+      </div>
+      <div class="comment">
+        <div class="comment-hdr">
+          <div class="comment-avatar">S</div>
+          <div class="comment-meta">
+            <div class="comment-author">Sarah Wanjiku</div>
+            <div class="comment-date">June 12, 2023</div>
+          </div>
+        </div>
+        <div class="comment-body">Are there job opportunities still available for locals in the construction phase? Would love to apply.</div>
+        <div class="comment-actions"><button class="btn-like" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 8</button></div>
+      </div>
+      <div class="comment">
+        <div class="comment-hdr">
+          <div class="comment-avatar">A</div>
+          <div class="comment-meta">
+            <div class="comment-author">Alex Otieno</div>
+            <div class="comment-date">June 10, 2023</div>
+          </div>
+        </div>
+        <div class="comment-body">I'm finally proud as a Kenyan sportsperson. This is the facility we have been waiting for!</div>
+        <div class="comment-actions"><button class="btn-like" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 23</button></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+
+<footer>
+  <p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p>
+</footer>
+
+<script>
+/* ── THEME ── */
+(function(){const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+/* ── TABS ── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    animateProgressBars();
+  });
+});
+
+/* ── PROGRESS BARS ── */
+function animateProgressBars(){
+  document.querySelectorAll('.prog-fill').forEach(bar=>{
+    const w=bar.style.getPropertyValue('--w')||bar.style.width;
+    if(w)bar.style.width=w;
+  });
+}
+window.addEventListener('load',()=>setTimeout(animateProgressBars,100));
+
+/* ── REACTIONS ── */
+let liked=false,disliked=false;
+function react(type){
+  const lc=document.getElementById('likeCount'),dc=document.getElementById('dislikeCount');
+  const lb=document.getElementById('likeBtn'),db=document.getElementById('dislikeBtn');
+  if(type==='like'){
+    if(!liked){lc.textContent=+lc.textContent+1;lb.classList.add('active-like');if(disliked){dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');disliked=false;}liked=true;}
+    else{lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');liked=false;}
+  } else {
+    if(!disliked){dc.textContent=+dc.textContent+1;db.classList.add('active-dislike');if(liked){lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');liked=false;}disliked=true;}
+    else{dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');disliked=false;}
+  }
+}
+
+/* ── COMMENT ── */
+function postComment(){
+  const txt=document.getElementById('commentInput').value.trim();
+  const name=document.getElementById('commentName').value.trim()||'Anonymous';
+  if(!txt){showToast('Please write a comment first','error');return;}
+  const el=document.createElement('div');el.className='comment';
+  el.innerHTML=`<div class="comment-hdr"><div class="comment-avatar">${name[0].toUpperCase()}</div><div class="comment-meta"><div class="comment-author">${name}</div><div class="comment-date">Just now</div></div></div><div class="comment-body">${txt}</div><div class="comment-actions"><button class="btn-like" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 0</button></div>`;
+  document.getElementById('commentsList').prepend(el);
+  document.getElementById('commentInput').value='';
+  showToast('Comment posted!','success');
+}
+function likeComment(btn){
+  const parts=btn.innerHTML.split('</i> ');
+  const c=parseInt(parts[1]||'0');
+  const liked=btn.classList.toggle('liked');
+  btn.innerHTML=`<i class="fas fa-thumbs-up"></i> ${liked?c+1:c-1}`;
+}
+
+/* ── SHARE ── */
+function share(platform){
+  const url=window.location.href;
+  const u={twitter:`https://twitter.com/intent/tweet?url=${url}&text=Check out the Talanta Stadium project`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,whatsapp:`https://wa.me/?text=Talanta Stadium Project ${url}`};
+  window.open(u[platform],'_blank');
+}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!','success'));}
+
+/* ── TOAST ── */
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),3500);}
+
+/* ── BACK TO TOP ── */
+const bt=document.getElementById('backTop');window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
 </html>
