@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Affordable Housing Programme — Kenya Transparency Portal</title>
 <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="project-shared.css">
 </head>
 <body>
@@ -73,7 +73,7 @@
   </div>
   <div class="share-strip">
     <span class="share-lbl">Share</span>
-    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fa-brands fa-x-twitter"></i></a>
     <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
     <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
     <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
@@ -170,7 +170,7 @@
 </div>
 <div class="toast" id="toast"></div>
 <button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
-<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved · <a href="#" style="color:inherit;text-decoration:none;"><i class="fa-brands fa-x-twitter"></i></a></p></footer>
 <script>
 (function(){const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
 document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');animateProgressBars();});});
