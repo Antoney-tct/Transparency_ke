@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riruta–Ngong Commuter Rail — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="project-shared.css">
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem"><a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a></nav>
+    <div class="hdr-right"><button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button><a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a></div>
+  </div>
+</header>
+<section class="proj-hero">
+  <div class="proj-hero-bg" style="background-image:url('Photos/road3.jpeg');background-color:#1d3a8a;background-blend-mode:multiply;"></div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-stripe"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><i class="fas fa-train"></i> Urban Rail Transport</div>
+    <h1>Riruta–Ngong <em>Commuter Rail</em></h1>
+    <div class="proj-hero-badges">
+      <span id="badgeStatus" class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Under Construction</span>
+      <span id="badgeLocation" class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Riruta to Ngong, Nairobi Metro (12.5km)</span>
+      <span id="badgeBudget" class="proj-badge badge-sector"><i class="fas fa-coins"></i> KSh 8.2B</span>
+      <span id="badgeDate" class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Est. Completion: 2026</span>
+    </div>
+  </div>
+</section>
+<div class="page-wrap">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-ring">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
+          <circle id="ringFill" class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="96.1"/>
+        </svg>
+        <span id="ringLabel" class="ring-label">55%</span>
+      </div>
+      <div class="metric-lbl">Completion</div>
+    </div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-users"></i></div><div class="metric-val">10,000</div><div class="metric-lbl">Passengers/Day Capacity</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-clock"></i></div><div class="metric-val">30 min</div><div class="metric-lbl">Riruta to Ngong Travel Time</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-percentage"></i></div><div class="metric-val">50%</div><div class="metric-lbl">Transport Cost Saving</div></div>
+  </div>
+  <div class="share-strip">
+    <span class="share-lbl">Share</span>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
+    <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+    <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tab-btn" data-tab="media"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tab-btn" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tab-btn" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tab-btn" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
+  </div>
+  <div class="tab-content active" id="overview">
+  <div class="two-col">
+    <div>
+      <div class="card"><div class="card-eyebrow">About</div><div class="card-title">Project Overview</div><div class="card-body"><p>The Riruta–Ngong Metre Gauge Railway (MGR) is a new 12.5km commuter rail line branching from the existing Nairobi commuter network at Riruta and running through Karen and Bulbul to Ngong town in Kajiado County. Officially launched by President Ruto on 15 December 2023, it is the first new commuter rail line added to Nairobi's network in decades and is being constructed by China Road and Bridge Corporation (CRBC).</p><br><p>The project directly addresses chronic congestion on Ngong Road — one of Nairobi's most gridlocked corridors. On completion, the line will carry 10,000 passengers daily, reducing peak-hour commutes from nearly 2 hours to just 30 minutes and cutting transport costs by 50%. A signature engineering feature is a 3km bridge from the Southern Bypass to Karen Shopping Centre. Phase 2 will extend the line to Kiserian, and Phase 3 to Ongata Rongai, forming a full metropolitan southwest loop.</p></div></div>
+      <div class="card"><div class="card-eyebrow">Key Features</div><div class="card-title">What's Included</div><ul class="fact-list"><li><i class="fas fa-check"></i>12.5km metre-gauge railway — new branch off existing Nairobi commuter MGR</li><li><i class="fas fa-check"></i>4 stations: Riruta, Karen, Bulbul, and Ngong terminus</li><li><i class="fas fa-check"></i>3km elevated bridge from Southern Bypass to Karen Shopping Centre</li><li><i class="fas fa-check"></i>10,000 passengers per day capacity when fully operational</li><li><i class="fas fa-check"></i>Reduces Riruta–Ngong commute from 2 hours to just 30 minutes</li><li><i class="fas fa-check"></i>50% reduction in daily transport costs for thousands of households</li><li><i class="fas fa-check"></i>Phase 2: Extension to Kiserian | Phase 3: Extension to Ongata Rongai</li><li><i class="fas fa-check"></i>Aligns with Nairobi Transport Masterplan and Vision 2030</li></ul></div>
+    </div>
+    <div class="card"><div class="card-eyebrow">Project Details</div><div class="card-title">Key Information</div><div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Route</div><div id="detRoute" class="det-val">Riruta → Lenana → Karen → Bulbul → Ngong (12.5km, 4 stations)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-building"></i></div><div><div class="det-lbl">Developer</div><div class="det-val">Kenya Railways Corporation (KRC)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-hammer"></i></div><div><div class="det-lbl">Contractor</div><div class="det-val">China Road and Bridge Corporation (CRBC)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="det-lbl">Construction Launched</div><div class="det-val">15 December 2023, by President Ruto</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-flag-checkered"></i></div><div><div class="det-lbl">Target Completion</div><div class="det-val">2026 (18-month target from launch)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Project Cost</div><div id="detCost" class="det-val">KSh 8.2B (approx. USD 63M)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-chart-line"></i></div><div><div class="det-lbl">Current Progress</div><div id="detStatus" class="det-val">~55% — civil works and Karen bridge advancing</div></div></div></div>
+  </div>
+  <div class="card"><div class="card-eyebrow">Construction Progress</div><div class="card-title">Phase Breakdown</div><div class="prog-row"><span class="prog-lbl">Track Foundation & Civil Works</span><span class="prog-pct">78%</span></div><div class="prog-track"><div class="prog-fill" style="--w:78%"></div></div><div class="prog-row"><span class="prog-lbl">3km Karen Elevated Bridge</span><span class="prog-pct">62%</span></div><div class="prog-track"><div class="prog-fill" style="--w:62%"></div></div><div class="prog-row"><span class="prog-lbl">Station Structures (4 Stations)</span><span class="prog-pct">48%</span></div><div class="prog-track"><div class="prog-fill" style="--w:48%"></div></div><div class="prog-row"><span class="prog-lbl">Track Laying</span><span class="prog-pct">42%</span></div><div class="prog-track"><div class="prog-fill" style="--w:42%"></div></div><div class="prog-row"><span class="prog-lbl">Signalling & Electrification Systems</span><span class="prog-pct">18%</span></div><div class="prog-track"><div class="prog-fill" style="--w:18%"></div></div></div>
+</div>
+  <div class="tab-content" id="media"><div class="card"><div class="card-eyebrow">Gallery</div><div class="card-title">Project Photos</div><div class="media-grid"><div class="media-item"><img src="Photos/road3.jpeg" alt="Riruta Junction Construction" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Riruta Junction Construction</strong><p>Civil works at the Riruta branching point from the existing Nairobi MGR line</p></div></div><div class="media-item"><img src="Photos/road3.jpeg" alt="Karen Bridge Works" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Karen Bridge Works</strong><p>The 3km elevated bridge structure from Southern Bypass to Karen taking shape</p></div></div><div class="media-item"><img src="Photos/road3.jpeg" alt="Ngong Station Prep" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Ngong Station Prep</strong><p>Groundworks at the Ngong terminus station — end of the 12.5km line</p></div></div></div></div></div>
+  <div class="tab-content" id="budget"><div class="budget-grid"><div class="budget-card"><div class="bcard-lbl">Phase 1 — Riruta to Ngong</div><div class="bcard-val">KSh 8.2B</div><div class="bcard-sub">12.5km, 4 stations, 3km bridge</div></div><div class="budget-card"><div class="bcard-lbl">Phase 2 — Kiserian Extension</div><div class="bcard-val">TBD</div><div class="bcard-sub">Budgeted after Phase 1 completion</div></div><div class="budget-card"><div class="bcard-lbl">Phase 3 — Ongata Rongai</div><div class="bcard-val">TBD</div><div class="bcard-sub">Full metropolitan southwest loop</div></div><div class="budget-card"><div class="bcard-lbl">Nairobi Lost to Jams (annual)</div><div class="bcard-val">KSh 100B+</div><div class="bcard-sub">Economic cost the railway helps address</div></div></div><div class="card"><div class="card-eyebrow">Budget Breakdown</div><div class="card-title">Expenditure by Category</div><div class="prog-row"><span class="prog-lbl">Civil Works & Track Foundation</span><span class="prog-pct">78%</span></div><div class="prog-track"><div class="prog-fill" style="--w:78%"></div></div><div class="prog-row"><span class="prog-lbl">Karen 3km Bridge</span><span class="prog-pct">62%</span></div><div class="prog-track"><div class="prog-fill" style="--w:62%"></div></div><div class="prog-row"><span class="prog-lbl">Station Structures</span><span class="prog-pct">48%</span></div><div class="prog-track"><div class="prog-fill" style="--w:48%"></div></div><div class="prog-row"><span class="prog-lbl">Track Laying</span><span class="prog-pct">42%</span></div><div class="prog-track"><div class="prog-fill" style="--w:42%"></div></div></div></div>
+  <div class="tab-content" id="timeline"><div class="card"><div class="card-eyebrow">Milestones</div><div class="card-title">Project Timeline</div><div class="timeline"><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">December 2023</div><div class="tl-title">Construction Launched</div><div class="tl-desc">President Ruto and CS Murkomen officially launch construction at Ngong</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">Early 2024</div><div class="tl-title">CRBC Mobilises</div><div class="tl-desc">China Road and Bridge Corporation establishes site offices and mobilises heavy equipment</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">Mid-2024</div><div class="tl-title">Foundation Works</div><div class="tl-desc">Track substructure and subgrades underway; Karen bridge approach piers commence</div></div><div class="tl-item current"><div class="tl-dot"></div><div class="tl-date">2025 (Current)</div><div class="tl-title">55% Progress</div><div class="tl-desc">Karen bridge at 62%; track laying underway; station shells taking shape</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">2026</div><div class="tl-title">Line Opens</div><div class="tl-desc">Riruta–Ngong operational; 10,000 passengers per day from Day 1</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">TBD</div><div class="tl-title">Phase 2 — Kiserian</div><div class="tl-desc">Extension from Ngong south to Kiserian town to expand network reach</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">TBD</div><div class="tl-title">Phase 3 — Ongata Rongai</div><div class="tl-desc">Full southwest metropolitan loop via Ongata Rongai to Nairobi CBD</div></div></div></div></div>
+  <div class="tab-content" id="discussion">
+  <div class="reaction-bar">
+    <div class="reaction-stat"><div class="reaction-count" id="lkC">178</div><div class="reaction-lbl">Likes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count" id="dkC">22</div><div class="reaction-lbl">Dislikes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count">46</div><div class="reaction-lbl">Comments</div></div>
+    <div class="reaction-btns">
+      <button class="rxn-btn" id="lkB" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+      <button class="rxn-btn" id="dkB" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+      <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
+    </div>
+  </div>
+  <div class="comment-form-wrap">
+    <div class="card-eyebrow" style="margin-bottom:.75rem">Leave a Comment</div>
+    <textarea id="cTxt" class="msg-area" placeholder="Share your thoughts on this project..." style="width:100%;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;resize:vertical;min-height:90px;outline:none;font-size:.875rem;"></textarea>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+      <input type="text" id="cName" placeholder="Your name" style="padding:.55rem .9rem;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;">
+      <button class="btn-comment" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+    </div>
+  </div>
+  <div id="cList"><div class="comment"><div class="comment-hdr"><div class="comment-avatar">A</div><div class="comment-meta"><div class="comment-author">Ann Waithera</div><div class="comment-date">May 2025</div></div></div><div class="comment-body">Living in Karen, this railway will completely transform my mornings. Ngong Road is a nightmare every single day. Cannot wait for it to open.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 67</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">P</div><div class="comment-meta"><div class="comment-author">Paul Langat</div><div class="comment-date">Apr 2025</div></div></div><div class="comment-body">A 50% saving on transport costs is massive for households in Bulbul and Ngong. This is social infrastructure that directly reduces the cost of living.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 34</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">J</div><div class="comment-meta"><div class="comment-author">James Gitau</div><div class="comment-date">Mar 2025</div></div></div><div class="comment-body">The 3km bridge through Karen is a major engineering challenge but CRBC has done it before. Excited to see Kenya deliver this project.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 21</button></div></div></div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;});}));
+window.addEventListener('load', () => {
+    initDynamicProject();
+    setTimeout(() => document.querySelectorAll('.prog-fill').forEach(x => { const w = x.style.getPropertyValue('--w'); if (w) x.style.width = w; }), 150);
+});
+
+function initDynamicProject() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    if (!projectId) return;
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    const project = projects.find(p => p.id == projectId);
+    if (!project) return;
+    const formatKES = (amt) => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', minimumFractionDigits: 0 }).format(amt);
+    document.title = `${project.name} — Kenya Transparency Portal`;
+    const titleEl = document.getElementById('projTitle');
+    if (titleEl) titleEl.textContent = project.name;
+    const heroBg = document.querySelector('.proj-hero-bg');
+    if (heroBg && project.image) heroBg.style.backgroundImage = `url('${project.image}')`;
+    const bStatus = document.getElementById('badgeStatus');
+    if (bStatus) {
+        const statusMap = { ongoing: 'Ongoing', completed: 'Completed', planned: 'Planning' };
+        const classMap = { ongoing: 'badge-ongoing', completed: 'badge-complete', planned: 'badge-planning' };
+        bStatus.innerHTML = `<i class="fas fa-circle" style="font-size:.45rem"></i> ${statusMap[project.status] || project.status}`;
+        bStatus.className = `proj-badge ${classMap[project.status] || 'badge-sector'}`;
+    }
+    const bLoc = document.getElementById('badgeLocation');
+    if (bLoc) bLoc.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${project.county}`;
+    const bBudget = document.getElementById('badgeBudget');
+    if (bBudget) bBudget.innerHTML = `<i class="fas fa-coins"></i> ${formatKES(project.budget)}`;
+    if (project.endDate) {
+        const bDate = document.getElementById('badgeDate');
+        if (bDate) bDate.innerHTML = `<i class="fas fa-calendar"></i> Target: ${new Date(project.endDate).getFullYear()}`;
+    }
+    const ringLabel = document.getElementById('ringLabel');
+    if (ringLabel) ringLabel.textContent = `${project.progress}%`;
+    const ringFill = document.getElementById('ringFill');
+    if (ringFill) { const dash = 213.6; ringFill.style.strokeDashoffset = dash - (dash * project.progress / 100); }
+    const overviewBody = document.getElementById('overviewBody');
+    if (overviewBody) overviewBody.innerHTML = `<p>${project.description}</p>`;
+    document.getElementById('detRoute').textContent = project.county;
+    document.getElementById('detCost').textContent = formatKES(project.budget);
+    document.getElementById('detStatus').textContent = `${project.progress}% Complete`;
+}
+let lk=false,dk=false;
+function react(t){const lc=document.getElementById('lkC'),dc=document.getElementById('dkC'),lb=document.getElementById('lkB'),db=document.getElementById('dkB');if(t==='like'){if(!lk){lc.textContent=+lc.textContent+1;lb.classList.add('active-like');if(dk){dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}lk=true;}else{lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}}else{if(!dk){dc.textContent=+dc.textContent+1;db.classList.add('active-dislike');if(lk){lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}dk=true;}else{dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}}}
+function postComment(){const txt=document.getElementById('cTxt').value.trim(),name=document.getElementById('cName').value.trim()||'Anonymous';if(!txt)return;const el=document.createElement('div');el.className='comment';el.innerHTML=`<div class="comment-hdr"><div class="comment-avatar">${name[0].toUpperCase()}</div><div class="comment-meta"><div class="comment-author">${name}</div><div class="comment-date">Just now</div></div></div><div class="comment-body">${txt}</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 0</button></div>`;document.getElementById('cList').prepend(el);document.getElementById('cTxt').value='';showToast('Comment posted!');}
+function likeC(b){const p=b.innerHTML.split('</i> ');const c=parseInt(p[1]||'0');const l=b.classList.toggle('liked');b.innerHTML=`<i class="fas fa-thumbs-up"></i> ${l?c+1:c-1}`;}
+function share(p){const u=window.location.href;const m={twitter:`https://twitter.com/intent/tweet?url=${u}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,whatsapp:`https://wa.me/?text=${u}`};window.open(m[p],'_blank');}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-check-circle"></i> ${m}`;el.className=`toast ${t} show`;setTimeout(()=>el.classList.remove('show'),3500);}
+const bt=document.getElementById('backTop');window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body></html>

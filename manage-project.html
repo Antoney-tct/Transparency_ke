@@ -397,6 +397,10 @@
                         <label>Project Image Path (Photos/...)</label>
                         <input type="text" id="fImage" placeholder="Photos/talanta.jpeg">
                     </div>
+                    <div class="form-group">
+                        <label>Custom Detail Page (Optional)</label>
+                        <input type="text" id="fTargetPage" placeholder="e.g. Dongo-kundu.html">
+                    </div>
                 </div>
             </form>
         </div>
@@ -426,15 +430,24 @@
    These load the first time — after that, localStorage takes over
 ════════════════════════════════════════════ */
 const DEFAULT_PROJECTS = [
-    {id:1,name:'Talanta Sports Stadium',category:'sports',status:'ongoing',description:'Construction of a modern 60,000-seater stadium...',progress:70,budget:22000000000,county:'Nairobi',startDate:'2025-01-01',endDate:'2026-12-31',image:'Photos/talanta.jpeg'},
-    {id:2,name:'GTC Towers',category:'infrastructure',status:'ongoing',description:'A world-class Global Trade Centre...',progress:99,budget:45000000000,county:'Nairobi',startDate:'2021-01-01',endDate:'2024-12-31',image:'Photos/gtc1.jpeg'},
-    {id:3,name:'Thika Superhighway',category:'infrastructure',status:'completed',description:'A modern 50km multi-lane transportation network...',progress:100,budget:31000000000,county:'Kiambu / Nairobi',startDate:'2009-01-01',endDate:'2012-12-31',image:'Photos/Thika 3.jpg'},
-    {id:4,name:'Konza Technopolis',category:'tech',status:'ongoing',description:'Africa\'s Silicon Savannah...',progress:55,budget:150000000000,county:'Machakos',startDate:'2013-01-01',endDate:'2030-12-31',image:'Photos/back.jpeg'},
-    {id:5,name:'Nairobi–Mombasa Highway',category:'infrastructure',status:'planned',description:'Modernising Kenya\'s busiest trade corridor...',progress:10,budget:200000000000,county:'Multiple',startDate:'2024-01-01',endDate:'2029-12-31',image:'Photos/Thika 2.jpeg'},
-    {id:6,name:'Vision 2030 Programme',category:'tech',status:'ongoing',description:'Kenya\'s long-term development blueprint...',progress:72,budget:3300000000000,county:'National',startDate:'2008-01-01',endDate:'2030-12-31',image:'Photos/OIP__3_-removebg-preview.png'},
-    {id:7,name:'Affordable Housing Programme',category:'housing',status:'ongoing',description:'Government\'s flagship social initiative...',progress:21,budget:100000000000,county:'15 Counties',startDate:'2023-01-01',endDate:'2027-12-31',image:'Photos/Konza2.jpeg'},
-    {id:8,name:'NHIF Universal Healthcare Reforms',category:'health',status:'ongoing',description:'Comprehensive transformation of Kenya\'s NHIF...',progress:86,budget:30000000000,county:'National',startDate:'2022-01-01',endDate:'2025-12-31',image:'Photos/Nhif-removebg-preview.png'},
-    {id:9,name:'Madaraka Express — SGR',category:'infrastructure',status:'completed',description:'The 472km Standard Gauge Railway...',progress:100,budget:327000000000,county:'National',startDate:'2014-01-01',endDate:'2017-12-31',image:'Photos/sgr1.jpeg'},
+    {id:1,name:'Talanta Sports Stadium',category:'sports',status:'ongoing',description:'Construction of a modern 60,000-seater stadium...',progress:70,budget:22000000000,county:'Nairobi',startDate:'2025-01-01',endDate:'2026-12-31',image:'Photos/talanta.jpeg',targetPage:'project-details.html'},
+    {id:2,name:'GTC Towers',category:'infrastructure',status:'ongoing',description:'A world-class Global Trade Centre...',progress:99,budget:45000000000,county:'Nairobi',startDate:'2021-01-01',endDate:'2024-12-31',image:'Photos/gtc1.jpeg',targetPage:'Gtc-details.html'},
+    {id:3,name:'Thika Superhighway',category:'infrastructure',status:'completed',description:'A modern 50km multi-lane transportation network...',progress:100,budget:31000000000,county:'Kiambu / Nairobi',startDate:'2009-01-01',endDate:'2012-12-31',image:'Photos/Thika 3.jpg',targetPage:'Thika-detailes.htm'},
+    {id:4,name:'Konza Technopolis',category:'tech',status:'ongoing',description:'Africa\'s Silicon Savannah...',progress:55,budget:150000000000,county:'Machakos',startDate:'2013-01-01',endDate:'2030-12-31',image:'Photos/back.jpeg',targetPage:'Konza-city-details.html'},
+    {id:5,name:'Nairobi–Mombasa Highway',category:'infrastructure',status:'planned',description:'Modernising Kenya\'s busiest trade corridor...',progress:10,budget:200000000000,county:'Multiple',startDate:'2024-01-01',endDate:'2029-12-31',image:'Photos/Thika 2.jpeg',targetPage:'Usahihi-road.html'},
+    {id:6,name:'Vision 2030 Programme',category:'tech',status:'ongoing',description:'Kenya\'s long-term development blueprint...',progress:72,budget:3300000000000,county:'National',startDate:'2008-01-01',endDate:'2030-12-31',image:'Photos/OIP__3_-removebg-preview.png',targetPage:'Vision2030-details.html'},
+    {id:7,name:'Affordable Housing Programme',category:'housing',status:'ongoing',description:'Government\'s flagship social initiative...',progress:21,budget:100000000000,county:'15 Counties',startDate:'2023-01-01',endDate:'2027-12-31',image:'Photos/Konza2.jpeg',targetPage:'Affordable-housing.html'},
+    {id:8,name:'NHIF Universal Healthcare Reforms',category:'health',status:'ongoing',description:'Comprehensive transformation of Kenya\'s NHIF...',progress:86,budget:30000000000,county:'National',startDate:'2022-01-01',endDate:'2025-12-31',image:'Photos/Nhif-removebg-preview.png',targetPage:'NHIF.html'},
+    {id:9,name:'Madaraka Express — SGR',category:'infrastructure',status:'completed',description:'The 472km Standard Gauge Railway...',progress:100,budget:327000000000,county:'National',startDate:'2014-01-01',endDate:'2017-12-31',image:'Photos/sgr1.jpeg',targetPage:'Rail-details.html'},
+    {id:10,name:'Usahihi Road — Machakos',category:'infrastructure',status:'planning',description:'Upgrading rural and semi-urban access roads in Machakos County to all-weather tarmac...',progress:30,budget:2800000000,county:'Machakos',startDate:'2023-01-01',endDate:'2026-12-31',image:'Photos/usahihi.jpg',targetPage:'Usahihi-road.html'},
+    {id:11,name:'LAPSSET Corridor - Lamu Port',category:'infrastructure',status:'ongoing',description:'Construction of the first three berths of the Lamu Port, part of the LAPSSET Corridor...',progress:95,budget:40000000000,county:'Lamu',startDate:'2012-03-02',endDate:'2024-12-31',image:'Photos/new port.jpeg',targetPage:'LAPSSET.html'},
+    {id:12,name:'Galana Kulalu Food Security Project',category:'infrastructure',status:'ongoing',description:'A massive irrigation project aimed at making Kenya food secure...',progress:45,budget:7000000000,county:'Kilifi / Tana River',startDate:'2014-01-01',endDate:'2027-12-31',image:'Photos/agric.jpeg',targetPage:'Galana-Kulalu.html'},
+    {id:13,name:'Kenol-Sagana-Marua Highway',category:'infrastructure',status:'ongoing',description:'Upgrading the 84km road to a four-lane dual carriageway...',progress:80,budget:14000000000,county:'Murang\'a / Nyeri',startDate:'2019-01-01',endDate:'2024-12-31',image:'Photos/road3.jpeg',targetPage:'Kenol-Sagana.html'},
+    {id:14,name:'Dongo Kundu Bypass',category:'infrastructure',status:'ongoing',description:'Construction of bridges and roads to link Mombasa mainland west to the south coast...',progress:90,budget:28000000000,county:'Mombasa',startDate:'2018-01-01',endDate:'2024-08-31',image:'Photos/eyeke.jpg',targetPage:'Dongo-kundu.html'},
+    {id:15,name:'Last Mile Connectivity Project',category:'infrastructure',status:'ongoing',description:'Scaling up national electricity access by connecting millions of households to the grid...',progress:85,budget:50000000000,county:'National',startDate:'2015-01-01',endDate:'2025-12-31',image:'Photos/Usa2.jpg',targetPage:'Last-Mile.html'},
+    {id:16,name:'Mwache Multi-purpose Dam',category:'infrastructure',status:'ongoing',description:'Solving the coastal water crisis by supplying 186 million liters of water daily to Mombasa and Kwale...',progress:15,budget:20000000000,county:'Kwale',startDate:'2021-01-01',endDate:'2027-12-31',image:'Photos/agric.jpeg',targetPage:'Mwache-Dam.html'},
+    {id:17,name:'Kisumu Port Revitalization',category:'infrastructure',status:'ongoing',description:'Restoring Kisumu as a premier regional trade hub by modernizing port infrastructure...',progress:90,budget:3000000000,county:'Kisumu',startDate:'2019-01-01',endDate:'2024-12-31',image:'Photos/new port.jpeg',targetPage:'Kisumu-Port.html'},
+    {id:18,name:'Riruta-Ngong Commuter Rail',category:'infrastructure',status:'planning',description:'Expansion of the Nairobi Commuter Rail network to include a new 12.5km line from Riruta to Ngong...',progress:5,budget:1200000000,county:'Nairobi / Kajiado',startDate:'2024-01-01',endDate:'2025-12-31',image:'Photos/road3.jpeg',targetPage:'Riruta-Ngong.html'},
 ];
 
 const STORE_KEY = 'projects';
@@ -571,6 +584,7 @@ function openEdit(id){
     document.getElementById('fEndDate').value = p.endDate || '';
     document.getElementById('fProgress').value = p.progress;
     document.getElementById('fImage').value = p.image||'';
+    document.getElementById('fTargetPage').value = p.targetPage || '';
     document.getElementById('progLabel').textContent = p.progress;
     document.getElementById('progLabelPct').textContent = p.progress+'%';
     document.getElementById('fProgFill').style.width = p.progress+'%';
@@ -607,15 +621,16 @@ document.getElementById('formSaveBtn').addEventListener('click', ()=>{
     const endDate = document.getElementById('fEndDate').value;
     const progress = +document.getElementById('fProgress').value;
     const image = document.getElementById('fImage').value.trim() || 'Photos/back.jpeg';
+    const targetPage = document.getElementById('fTargetPage').value.trim();
 
     if(!name||!description||!category||!county||!budget||!startDate||!endDate){ showToast('Please fill all required fields','error'); return; }
 
     const projects = getProjects();
     if(editTarget){
         const idx = projects.findIndex(p=>p.id===editTarget);
-        if(idx>-1){ projects[idx]={...projects[idx],name,category,description,status,county,budget,startDate,endDate,progress,image}; }
+        if(idx>-1){ projects[idx]={...projects[idx],name,category,description,status,county,budget,startDate,endDate,progress,image,targetPage}; }
     } else {
-        projects.push({id:genId(),name,category,description,status,county,budget,startDate,endDate,progress,image});
+        projects.push({id:genId(),name,category,description,status,county,budget,startDate,endDate,progress,image,targetPage});
     }
     saveProjects(projects);
     closeForm();

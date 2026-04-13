@@ -149,6 +149,12 @@ function viewProjectDetails(projectId) {
                     <h3>Description</h3>
                     <p>${project.description}</p>
                 </div>
+
+                <div class="info-group" style="margin-top: 20px; border-top: 1px solid #eee; pt-20">
+                    <a href="${project.targetPage ? project.targetPage + '?id=' + project.id : `timeline.html?id=${project.id}`}" class="btn btn-primary" style="display: inline-block; text-decoration: none; text-align: center;">
+                        View Full Project Page <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+                    </a>
+                </div>
             </div>
         </div>
     `;

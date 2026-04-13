@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPSSET Corridor — Lamu Port — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="project-shared.css">
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem"><a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a></nav>
+    <div class="hdr-right"><button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button><a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a></div>
+  </div>
+</header>
+<section class="proj-hero">
+  <div class="proj-hero-bg" style="background-image:url('Photos/new port.jpeg');background-color:#0f1e4a;background-blend-mode:multiply;"></div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-stripe"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><i class="fas fa-ship"></i> Port & Regional Corridor</div>
+    <h1 id="projTitle">LAPSSET <em>Corridor</em></h1>
+    <div class="proj-hero-badges">
+      <span id="badgeStatus" class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Phase 1 Operational</span>
+      <span id="badgeLocation" class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Lamu Port to Ethiopia & South Sudan</span>
+      <span id="badgeBudget" class="proj-badge badge-sector"><i class="fas fa-coins"></i> USD 24.5B (Full Corridor)</span>
+      <span id="badgeDate" class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Lamu Port: Operational</span>
+    </div>
+  </div>
+</section>
+<div class="page-wrap">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-ring">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
+          <circle id="ringFill" class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="138.8"/>
+        </svg>
+        <span id="ringLabel" class="ring-label">35%</span>
+      </div>
+      <div class="metric-lbl">Completion</div>
+    </div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-anchor"></i></div><div class="metric-val">4</div><div class="metric-lbl">Berths Operational (2024)</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-boxes"></i></div><div class="metric-val">799,161</div><div class="metric-lbl">Tonnes Cargo (2025)</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-route"></i></div><div class="metric-val">88km</div><div class="metric-lbl">Road Built (Oct 2025)</div></div>
+  </div>
+  <div class="share-strip">
+    <span class="share-lbl">Share</span>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
+    <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+    <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tab-btn" data-tab="media"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tab-btn" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tab-btn" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tab-btn" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
+  </div>
+  <div class="tab-content active" id="overview">
+  <div class="two-col">
+    <div>
+      <div class="card"><div class="card-eyebrow">About</div><div class="card-title">Project Overview</div><div id="overviewBody" class="card-body"><p>The Lamu Port-South Sudan-Ethiopia Transport (LAPSSET) Corridor is Kenya's largest infrastructure project under Vision 2030, officially launched on 2 March 2012 by Presidents Kibaki, Kiir, and PM Zenawi. Designed to create Kenya's second transport corridor, LAPSSET will link Lamu Port on the Indian Ocean to landlocked South Sudan (Juba) and Ethiopia (Addis Ababa) through 32 deep-water port berths, 1,500km of highways, 1,700km of standard gauge railway, and oil pipelines.</p><br><p>The anchor project — Lamu Port at Manda Bay — has delivered four operational berths by 2024. Cargo volumes have surged from just 25,000 metric tonnes in 2018 to 799,161 tonnes in 2025, a 3,097% increase. The first 88km of the 410km LAPSSET road (Lamu to Isiolo) was completed by October 2025 with KSh 28B budgeted. The port is transitioning to a Public Limited Liability Company, signalling a new commercial phase of operations.</p></div></div>
+      <div class="card"><div class="card-eyebrow">Key Features</div><div class="card-title">What's Included</div><ul class="fact-list"><li><i class="fas fa-check"></i>32-berth deep-sea port at Manda Bay — Post-Suezmax capable</li><li><i class="fas fa-check"></i>4 berths fully operational (2024); cargo volumes growing 14× since 2018</li><li><i class="fas fa-check"></i>1,500km LAPSSET highway to Juba and Addis Ababa</li><li><i class="fas fa-check"></i>1,700km standard gauge railway — Lamu to Ethiopia and South Sudan</li><li><i class="fas fa-check"></i>Crude oil pipeline from Lokichar, Turkana to Lamu Port</li><li><i class="fas fa-check"></i>Three international airports: Lamu, Isiolo, and Lodwar (Turkana)</li><li><i class="fas fa-check"></i>Three resort cities: Lamu Island, Isiolo, and Lake Turkana</li><li><i class="fas fa-check"></i>Shorter route to Ethiopia (saves 1,000km vs via Djibouti)</li></ul></div>
+    </div>
+    <div class="card"><div class="card-eyebrow">Project Details</div><div class="card-title">Key Information</div><div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Location</div><div id="detRoute" class="det-val">Lamu County (Port) through Isiolo to Ethiopia & S. Sudan</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-building"></i></div><div><div class="det-lbl">Authority</div><div class="det-val">LAPSSET Corridor Development Authority (LCDA)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-hammer"></i></div><div><div class="det-lbl">Port Contractor</div><div class="det-val">China Communications Construction Company (CCCC)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="det-lbl">Launched</div><div class="det-val">2 March 2012 — Groundbreaking at Lamu</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-anchor"></i></div><div><div class="det-lbl">Berths Operational</div><div class="det-val">4 berths (2024); 32 deep-water berths planned total</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Port Phase 1 Cost</div><div id="detCost" class="det-val">KSh 41B (USD 484M)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-chart-line"></i></div><div><div class="det-lbl">2025 Cargo</div><div id="detStatus" class="det-val">799,161 metric tonnes — up from 25,000 in 2018</div></div></div></div>
+  </div>
+  <div class="card"><div class="card-eyebrow">Construction Progress</div><div class="card-title">Phase Breakdown</div><div class="prog-row"><span class="prog-lbl">Lamu Port — Berths 1–4 Operational</span><span class="prog-pct">100%</span></div><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div><div class="prog-row"><span class="prog-lbl">LAPSSET Road Lamu–Isiolo (410km)</span><span class="prog-pct">21%</span></div><div class="prog-track"><div class="prog-fill" style="--w:21%"></div></div><div class="prog-row"><span class="prog-lbl">Railway (Design & Planning)</span><span class="prog-pct">8%</span></div><div class="prog-track"><div class="prog-fill" style="--w:8%"></div></div><div class="prog-row"><span class="prog-lbl">Resort Cities</span><span class="prog-pct">3%</span></div><div class="prog-track"><div class="prog-fill" style="--w:3%"></div></div></div>
+</div>
+  <div class="tab-content" id="media"><div class="card"><div class="card-eyebrow">Gallery</div><div class="card-title">Project Photos</div><div class="media-grid"><div class="media-item"><img src="Photos/new port.jpeg" alt="Lamu Port Berths" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Lamu Port Berths</strong><p>Four operational deep-water berths at Manda Bay, Lamu</p></div></div><div class="media-item"><img src="Photos/new port.jpeg" alt="Cargo Operations" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Cargo Operations</strong><p>Freight handling — cargo surged to 799,161 tonnes in 2025</p></div></div><div class="media-item"><img src="Photos/new port.jpeg" alt="Port Management Building" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Port Management Building</strong><p>New port management building, 95% complete at Manda Bay</p></div></div></div></div></div>
+  <div class="tab-content" id="budget"><div class="budget-grid"><div class="budget-card"><div class="bcard-lbl">Full LAPSSET Estimate</div><div class="bcard-val">USD 24.5B</div><div class="bcard-sub">All 7 components — port, rail, road, pipeline, airports, cities</div></div><div class="budget-card"><div class="bcard-lbl">Lamu Port Phase 1</div><div class="bcard-val">KSh 41B</div><div class="bcard-sub">USD 484M — 4 berths constructed</div></div><div class="budget-card"><div class="bcard-lbl">LAPSSET Road (Lamu–Isiolo)</div><div class="bcard-val">KSh 28B</div><div class="bcard-sub">410km — 88km built by Oct 2025</div></div><div class="budget-card"><div class="bcard-lbl">Railway Cost Estimate</div><div class="bcard-val">USD 7.1B</div><div class="bcard-sub">1,700km — Lamu to Juba and Addis Ababa</div></div></div><div class="card"><div class="card-eyebrow">Budget Breakdown</div><div class="card-title">Expenditure by Category</div><div class="prog-row"><span class="prog-lbl">Port Berths 1–4</span><span class="prog-pct">100%</span></div><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div><div class="prog-row"><span class="prog-lbl">Road Lamu–Isiolo (410km)</span><span class="prog-pct">21%</span></div><div class="prog-track"><div class="prog-fill" style="--w:21%"></div></div><div class="prog-row"><span class="prog-lbl">Airport Infrastructure at Lamu</span><span class="prog-pct">70%</span></div><div class="prog-track"><div class="prog-fill" style="--w:70%"></div></div><div class="prog-row"><span class="prog-lbl">Railway Planning</span><span class="prog-pct">8%</span></div><div class="prog-track"><div class="prog-fill" style="--w:8%"></div></div></div></div>
+  <div class="tab-content" id="timeline"><div class="card"><div class="card-eyebrow">Milestones</div><div class="card-title">Project Timeline</div><div class="timeline"><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2 March 2012</div><div class="tl-title">LAPSSET Launched</div><div class="tl-desc">Presidents Kibaki, Kiir and PM Zenawi break ground at Lamu</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2014</div><div class="tl-title">Port Construction</div><div class="tl-desc">CCCC begins construction of first three berths at Manda Bay</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">October 2019</div><div class="tl-title">Berth 1 Complete</div><div class="tl-desc">First deep-sea berth completed and commissioned for cargo</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2021</div><div class="tl-title">Berths 1–3 Active</div><div class="tl-desc">First three berths operational; commercial shipping begins</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2024</div><div class="tl-title">Berth 4 Opens</div><div class="tl-desc">Fourth berth commissioned; port enters full operational phase</div></div><div class="tl-item current"><div class="tl-dot"></div><div class="tl-date">October 2025</div><div class="tl-title">Road 88km Built</div><div class="tl-desc">First 88km of 410km Lamu–Isiolo LAPSSET road completed</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">2026+</div><div class="tl-title">Road Momentum</div><div class="tl-desc">Target 150km+ of road completed; port cargo projected at 1.2M TEUs by 2027</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">2030+</div><div class="tl-title">Full Corridor Vision</div><div class="tl-desc">Railway, oil pipeline, airports, resort cities per master plan</div></div></div></div></div>
+  <div class="tab-content" id="discussion">
+  <div class="reaction-bar">
+    <div class="reaction-stat"><div class="reaction-count" id="lkC">223</div><div class="reaction-lbl">Likes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count" id="dkC">29</div><div class="reaction-lbl">Dislikes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count">61</div><div class="reaction-lbl">Comments</div></div>
+    <div class="reaction-btns">
+      <button class="rxn-btn" id="lkB" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+      <button class="rxn-btn" id="dkB" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+      <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
+    </div>
+  </div>
+  <div class="comment-form-wrap">
+    <div class="card-eyebrow" style="margin-bottom:.75rem">Leave a Comment</div>
+    <textarea id="cTxt" class="msg-area" placeholder="Share your thoughts on this project..." style="width:100%;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;resize:vertical;min-height:90px;outline:none;font-size:.875rem;"></textarea>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+      <input type="text" id="cName" placeholder="Your name" style="padding:.55rem .9rem;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;">
+      <button class="btn-comment" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+    </div>
+  </div>
+  <div id="cList"><div class="comment"><div class="comment-hdr"><div class="comment-avatar">H</div><div class="comment-meta"><div class="comment-author">Hassan Omar</div><div class="comment-date">Feb 2026</div></div></div><div class="comment-body">799,161 tonnes in 2025 vs 25,000 in 2018 — that's 3,000% growth! Lamu Port is becoming a real anchor for Northern Kenya's economy.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 54</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">A</div><div class="comment-meta"><div class="comment-author">Amina Abdi</div><div class="comment-date">Jan 2026</div></div></div><div class="comment-body">If Ethiopia redirects even 20% of Djibouti traffic through Lamu, the cargo volumes would explode. Kenya must fast-track the Isiolo road.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 31</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">P</div><div class="comment-meta"><div class="comment-author">Philip Mwenda</div><div class="comment-date">Dec 2025</div></div></div><div class="comment-body">The LAPSSET vision is exactly right. A second corridor diversifies risk and opens the arid North. Needs sustained political will.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 19</button></div></div></div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;});}));
+window.addEventListener('load', () => {
+    initDynamicProject();
+    setTimeout(() => document.querySelectorAll('.prog-fill').forEach(x => { const w = x.style.getPropertyValue('--w'); if (w) x.style.width = w; }), 150);
+});
+
+function initDynamicProject() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    if (!projectId) return;
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    const project = projects.find(p => p.id == projectId);
+    if (!project) return;
+    const formatKES = (amt) => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', minimumFractionDigits: 0 }).format(amt);
+    document.title = `${project.name} — Kenya Transparency Portal`;
+    const titleEl = document.getElementById('projTitle');
+    if (titleEl) titleEl.textContent = project.name;
+    const heroBg = document.querySelector('.proj-hero-bg');
+    if (heroBg && project.image) heroBg.style.backgroundImage = `url('${project.image}')`;
+    const bStatus = document.getElementById('badgeStatus');
+    if (bStatus) {
+        const statusMap = { ongoing: 'Ongoing', completed: 'Completed', planned: 'Planning' };
+        const classMap = { ongoing: 'badge-ongoing', completed: 'badge-complete', planned: 'badge-planning' };
+        bStatus.innerHTML = `<i class="fas fa-circle" style="font-size:.45rem"></i> ${statusMap[project.status] || project.status}`;
+        bStatus.className = `proj-badge ${classMap[project.status] || 'badge-sector'}`;
+    }
+    const bLoc = document.getElementById('badgeLocation');
+    if (bLoc) bLoc.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${project.county}`;
+    const bBudget = document.getElementById('badgeBudget');
+    if (bBudget) bBudget.innerHTML = `<i class="fas fa-coins"></i> ${formatKES(project.budget)}`;
+    if (project.endDate) {
+        const bDate = document.getElementById('badgeDate');
+        if (bDate) bDate.innerHTML = `<i class="fas fa-calendar"></i> Target: ${new Date(project.endDate).getFullYear()}`;
+    }
+    const ringLabel = document.getElementById('ringLabel');
+    if (ringLabel) ringLabel.textContent = `${project.progress}%`;
+    const ringFill = document.getElementById('ringFill');
+    if (ringFill) { const dash = 213.6; ringFill.style.strokeDashoffset = dash - (dash * project.progress / 100); }
+    const overviewBody = document.getElementById('overviewBody');
+    if (overviewBody) overviewBody.innerHTML = `<p>${project.description}</p>`;
+    document.getElementById('detRoute').textContent = project.county;
+    document.getElementById('detCost').textContent = formatKES(project.budget);
+    document.getElementById('detStatus').textContent = `${project.progress}% Complete`;
+}
+let lk=false,dk=false;
+function react(t){const lc=document.getElementById('lkC'),dc=document.getElementById('dkC'),lb=document.getElementById('lkB'),db=document.getElementById('dkB');if(t==='like'){if(!lk){lc.textContent=+lc.textContent+1;lb.classList.add('active-like');if(dk){dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}lk=true;}else{lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}}else{if(!dk){dc.textContent=+dc.textContent+1;db.classList.add('active-dislike');if(lk){lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}dk=true;}else{dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}}}
+function postComment(){const txt=document.getElementById('cTxt').value.trim(),name=document.getElementById('cName').value.trim()||'Anonymous';if(!txt)return;const el=document.createElement('div');el.className='comment';el.innerHTML=`<div class="comment-hdr"><div class="comment-avatar">${name[0].toUpperCase()}</div><div class="comment-meta"><div class="comment-author">${name}</div><div class="comment-date">Just now</div></div></div><div class="comment-body">${txt}</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 0</button></div>`;document.getElementById('cList').prepend(el);document.getElementById('cTxt').value='';showToast('Comment posted!');}
+function likeC(b){const p=b.innerHTML.split('</i> ');const c=parseInt(p[1]||'0');const l=b.classList.toggle('liked');b.innerHTML=`<i class="fas fa-thumbs-up"></i> ${l?c+1:c-1}`;}
+function share(p){const u=window.location.href;const m={twitter:`https://twitter.com/intent/tweet?url=${u}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,whatsapp:`https://wa.me/?text=${u}`};window.open(m[p],'_blank');}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-check-circle"></i> ${m}`;el.className=`toast ${t} show`;setTimeout(()=>el.classList.remove('show'),3500);}
+const bt=document.getElementById('backTop');window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body></html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenol–Sagana–Marua Highway — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="project-shared.css">
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem"><a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a></nav>
+    <div class="hdr-right"><button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button><a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a></div>
+  </div>
+</header>
+<section class="proj-hero">
+  <div class="proj-hero-bg" style="background-image:url('Photos/road3.jpeg');background-color:#073d1a;background-blend-mode:multiply;"></div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-stripe"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><i class="fas fa-road"></i> Road Infrastructure</div>
+    <h1 id="projTitle">Kenol–Sagana–Marua <em>Highway</em></h1>
+    <div class="proj-hero-badges">
+      <span id="badgeStatus" class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Ongoing</span>
+      <span id="badgeLocation" class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Murang'a & Nyeri</span>
+      <span id="badgeBudget" class="proj-badge badge-sector"><i class="fas fa-coins"></i> KSh 14B</span>
+      <span id="badgeDate" class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Target: 2024</span>
+    </div>
+  </div>
+</section>
+<div class="page-wrap">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-ring">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
+          <circle id="ringFill" class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="42.7"/>
+        </svg>
+        <span id="ringLabel" class="ring-label">80%</span>
+      </div>
+      <div class="metric-lbl">Completion</div>
+    </div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-road"></i></div><div class="metric-val">84km</div><div class="metric-lbl">Total Length</div></div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-hard-hat"></i></div><div class="metric-val">2,000+</div><div class="metric-lbl">Jobs Created</div></div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-clock"></i></div><div class="metric-val">1.5 hrs</div><div class="metric-lbl">Time Saved</div></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="media">Gallery</button>
+    <button class="tab-btn" data-tab="discussion">Discussion</button>
+  </div>
+  <div class="tab-content active" id="overview">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-eyebrow">About</div>
+        <div class="card-title">Project Overview</div>
+        <div id="overviewBody" class="card-body">
+          <p>Upgrading the existing 84km road to a four-lane dual carriageway. Part of the Great North Road linking Kenya to Ethiopia via Moyale.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow">Details</div>
+        <div class="card-title">Key Information</div>
+        <div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Location</div><div id="detRoute" class="det-val">Murang'a / Nyeri</div></div></div>
+        <div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Budget</div><div id="detCost" class="det-val">KSh 14B</div></div></div>
+        <div class="detail-row"><div class="det-icon"><i class="fas fa-chart-line"></i></div><div><div class="det-lbl">Progress</div><div id="detStatus" class="det-val">80% Complete</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<footer><p>© 2025 Government of Kenya Transparency Portal</p></footer>
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');}));
+window.addEventListener('load', () => initDynamicProject());
+
+function initDynamicProject() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+    if (!projectId) return;
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    const project = projects.find(p => p.id == projectId);
+    if (!project) return;
+    const formatKES = (amt) => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', minimumFractionDigits: 0 }).format(amt);
+    document.title = `${project.name} — Kenya Transparency Portal`;
+    document.getElementById('projTitle').textContent = project.name;
+    const heroBg = document.querySelector('.proj-hero-bg');
+    if (heroBg && project.image) heroBg.style.backgroundImage = `url('${project.image}')`;
+    const bStatus = document.getElementById('badgeStatus');
+    if (bStatus) {
+        const statusMap = { ongoing: 'Ongoing', completed: 'Completed', planned: 'Planning' };
+        bStatus.innerHTML = `<i class="fas fa-circle" style="font-size:.45rem"></i> ${statusMap[project.status] || project.status}`;
+    }
+    document.getElementById('badgeLocation').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${project.county}`;
+    document.getElementById('badgeBudget').innerHTML = `<i class="fas fa-coins"></i> ${formatKES(project.budget)}`;
+    const ringLabel = document.getElementById('ringLabel');
+    if (ringLabel) ringLabel.textContent = `${project.progress}%`;
+    const ringFill = document.getElementById('ringFill');
+    if (ringFill) { const dash = 213.6; ringFill.style.strokeDashoffset = dash - (dash * project.progress / 100); }
+    const overviewBody = document.getElementById('overviewBody');
+    if (overviewBody) overviewBody.innerHTML = `<p>${project.description}</p>`;
+    document.getElementById('detRoute').textContent = project.county;
+    document.getElementById('detCost').textContent = formatKES(project.budget);
+    document.getElementById('detStatus').textContent = `${project.progress}% Complete`;
+}
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-check-circle"></i> ${m}`;el.className=`toast ${t} show`;setTimeout(()=>el.classList.remove('show'),3500);}
+</script>
+</body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galana Kulalu Food Security Project — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="project-shared.css">
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem"><a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a></nav>
+    <div class="hdr-right"><button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button><a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a></div>
+  </div>
+</header>
+<section class="proj-hero">
+  <div class="proj-hero-bg" style="background-image:url('Photos/agric.jpeg');"></div>
+  <div class="proj-hero-overlay"></div>
+  <div class="proj-hero-stripe"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><i class="fas fa-seedling"></i> Agriculture & Food Security</div>
+    <h1>Galana Kulalu <em>Food Security</em></h1>
+    <div class="proj-hero-badges">
+      <span class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Ongoing</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Kilifi & Tana River Counties (1.75M acres)</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-coins"></i> USD 52.7M Phase 1</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Dam: 2030 | Farming: Ongoing</span>
+    </div>
+  </div>
+</section>
+<div class="page-wrap">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-ring">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
+          <circle class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="117.5"/>
+        </svg>
+        <span class="ring-label">45%</span>
+      </div>
+      <div class="metric-lbl">Completion</div>
+    </div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-tractor"></i></div><div class="metric-val">250,000</div><div class="metric-lbl">Target Irrigated Acres</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-wheat-awn"></i></div><div class="metric-val">14M bags</div><div class="metric-lbl">Annual Maize Potential</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="metric-val">USD 800M</div><div class="metric-lbl">Al Dahra UAE Investment Pledge</div></div>
+  </div>
+  <div class="share-strip">
+    <span class="share-lbl">Share</span>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
+    <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+    <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tab-btn" data-tab="media"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tab-btn" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tab-btn" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tab-btn" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
+  </div>
+  <div class="tab-content active" id="overview">
+  <div class="two-col">
+    <div>
+      <div class="card"><div class="card-eyebrow">About</div><div class="card-title">Project Overview</div><div class="card-body"><p>The Galana Kulalu Food Security Project is Kenya's most ambitious irrigation initiative — a Vision 2030 flagship spanning 1.75 million acres of the Galana and Kulalu ranches in Kilifi and Tana River Counties. Its target is to bring 250,000 acres under commercial irrigation, producing up to 14 million bags of maize annually and ending Kenya's perennial 10-million-bag annual maize deficit.</p><br><p>Implemented by the National Irrigation Authority (NIA) through a PPP framework, the project saw a major breakthrough in 2025 with completion of the irrigation canal and reservoir infrastructure (KSh 519.4M). Private investors Selu Limited (20,000 acres) and Al Dahra Group of UAE (180,000 acres, USD 800M pledge) are engaged. The Athi Dam contract was signed 30 December 2025 with China Communications Construction Company — the critical water storage infrastructure that will unlock the full 250,000-acre irrigation potential.</p></div></div>
+      <div class="card"><div class="card-eyebrow">Key Features</div><div class="card-title">What's Included</div><ul class="fact-list"><li><i class="fas fa-check"></i>1.75 million acres of Galana and Kulalu ranches — largest in E&S Africa</li><li><i class="fas fa-check"></i>250,000 acres target under commercial irrigation via Athi Dam</li><li><i class="fas fa-check"></i>753m inlet canal, 450M-litre reservoir, 1,210m outlet canal — completed 2025</li><li><i class="fas fa-check"></i>Athi Dam (300MCM) contracted to CCCC — December 30, 2025</li><li><i class="fas fa-check"></i>KSh 2.9B electrification by REREC to replace costly diesel pumping</li><li><i class="fas fa-check"></i>Al Dahra UAE: USD 800M commitment for 200,000 acres of farming</li><li><i class="fas fa-check"></i>Selu Ltd: 20,000 acres — maize and soybean pilot trials completed</li><li><i class="fas fa-check"></i>14 million bags of maize annually at full capacity (vs 10M bag deficit)</li></ul></div>
+    </div>
+    <div class="card"><div class="card-eyebrow">Project Details</div><div class="card-title">Key Information</div><div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Location</div><div class="det-val">105km NW of Malindi, Kilifi & Tana River Counties</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-building"></i></div><div><div class="det-lbl">Implementing Agency</div><div class="det-val">National Irrigation Authority (NIA)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-hammer"></i></div><div><div class="det-lbl">Dam Contractor</div><div class="det-val">China Communications Construction Co. (CCCC) — signed Dec 2025</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-handshake"></i></div><div><div class="det-lbl">UAE Partner</div><div class="det-val">Al Dahra Group — USD 800M MOU for 180,000 acres</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="det-lbl">MOU Signed</div><div class="det-val">2024 — Al Dahra UAE agribusiness partnership</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Phase 1 Budget</div><div class="det-val">USD 52.7M (NIA-funded infrastructure)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-seedling"></i></div><div><div class="det-lbl">Current Production</div><div class="det-val">10,000-acre model farm operational; maize trials successful</div></div></div></div>
+  </div>
+  <div class="card"><div class="card-eyebrow">Construction Progress</div><div class="card-title">Phase Breakdown</div><div class="prog-row"><span class="prog-lbl">Infrastructure — Canals, Reservoir, Sump</span><span class="prog-pct">100%</span></div><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div><div class="prog-row"><span class="prog-lbl">10,000-Acre Model Farm Operations</span><span class="prog-pct">80%</span></div><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div><div class="prog-row"><span class="prog-lbl">Electrification (REREC)</span><span class="prog-pct">40%</span></div><div class="prog-track"><div class="prog-fill" style="--w:40%"></div></div><div class="prog-row"><span class="prog-lbl">Athi Dam Construction</span><span class="prog-pct">5%</span></div><div class="prog-track"><div class="prog-fill" style="--w:5%"></div></div><div class="prog-row"><span class="prog-lbl">Al Dahra 180,000-Acre Farming</span><span class="prog-pct">2%</span></div><div class="prog-track"><div class="prog-fill" style="--w:2%"></div></div></div>
+</div>
+  <div class="tab-content" id="media"><div class="card"><div class="card-eyebrow">Gallery</div><div class="card-title">Project Photos</div><div class="media-grid"><div class="media-item"><img src="Photos/agric.jpeg" alt="Model Farm" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Model Farm</strong><p>The 10,000-acre model farm at Galana Kulalu with maize and soybean crops</p></div></div><div class="media-item"><img src="Photos/agric.jpeg" alt="Irrigation Canal" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Irrigation Canal</strong><p>The 753m inlet canal completed in 2025 at the Galana site</p></div></div><div class="media-item"><img src="Photos/agric.jpeg" alt="River Galana" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>River Galana</strong><p>The Athi/Galana River which will be dammed to power the full irrigation scheme</p></div></div></div></div></div>
+  <div class="tab-content" id="budget"><div class="budget-grid"><div class="budget-card"><div class="bcard-lbl">Phase 1 NIA Infrastructure</div><div class="bcard-val">USD 52.7M</div><div class="bcard-sub">Canals, reservoir, model farm</div></div><div class="budget-card"><div class="bcard-lbl">Al Dahra UAE Pledge</div><div class="bcard-val">USD 800M</div><div class="bcard-sub">180,000-acre commercial farming</div></div><div class="budget-card"><div class="bcard-lbl">Electrification (REREC)</div><div class="bcard-val">KSh 2.9B</div><div class="bcard-sub">Grid connection to cut pumping costs</div></div><div class="budget-card"><div class="bcard-lbl">Athi Dam (CCCC)</div><div class="bcard-val">TBC</div><div class="bcard-sub">300MCM dam contracted Dec 2025</div></div></div><div class="card"><div class="card-eyebrow">Budget Breakdown</div><div class="card-title">Expenditure by Category</div><div class="prog-row"><span class="prog-lbl">Canal & Reservoir Infrastructure</span><span class="prog-pct">100%</span></div><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div><div class="prog-row"><span class="prog-lbl">Model Farm (10,000 acres)</span><span class="prog-pct">80%</span></div><div class="prog-track"><div class="prog-fill" style="--w:80%"></div></div><div class="prog-row"><span class="prog-lbl">Electrification</span><span class="prog-pct">40%</span></div><div class="prog-track"><div class="prog-fill" style="--w:40%"></div></div><div class="prog-row"><span class="prog-lbl">Athi Dam</span><span class="prog-pct">5%</span></div><div class="prog-track"><div class="prog-fill" style="--w:5%"></div></div></div></div>
+  <div class="tab-content" id="timeline"><div class="card"><div class="card-eyebrow">Milestones</div><div class="card-title">Project Timeline</div><div class="timeline"><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2013</div><div class="tl-title">Project Conceived</div><div class="tl-desc">Galana-Kulalu identified as Kenya's mega irrigation site under Vision 2030</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2019</div><div class="tl-title">Contract Terminated</div><div class="tl-desc">Israeli firm Green Arava's contract terminated; NIA takes over directly</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2022</div><div class="tl-title">PPP Framework</div><div class="tl-desc">Private sector engaged: Selu Ltd signs for 20,000 acres; model farm trials begin</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">April 2023</div><div class="tl-title">Ground Broken</div><div class="tl-desc">President Ruto officiates groundbreaking; Athi Dam feasibility completed</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">May 2025</div><div class="tl-title">Infrastructure Complete</div><div class="tl-desc">Canal, 450M-litre reservoir and sump fully built and undergoing final testing</div></div><div class="tl-item current"><div class="tl-dot"></div><div class="tl-date">December 2025</div><div class="tl-title">Athi Dam Contracted</div><div class="tl-desc">China Communications Construction Company signs Athi Dam contract</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">2026</div><div class="tl-title">Grid Power</div><div class="tl-desc">REREC completes electrification — removes costly diesel dependency</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">2030</div><div class="tl-title">Full Production</div><div class="tl-desc">200,000+ acres irrigated; 14M bags maize per year</div></div></div></div></div>
+  <div class="tab-content" id="discussion">
+  <div class="reaction-bar">
+    <div class="reaction-stat"><div class="reaction-count" id="lkC">167</div><div class="reaction-lbl">Likes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count" id="dkC">38</div><div class="reaction-lbl">Dislikes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count">44</div><div class="reaction-lbl">Comments</div></div>
+    <div class="reaction-btns">
+      <button class="rxn-btn" id="lkB" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+      <button class="rxn-btn" id="dkB" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+      <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
+    </div>
+  </div>
+  <div class="comment-form-wrap">
+    <div class="card-eyebrow" style="margin-bottom:.75rem">Leave a Comment</div>
+    <textarea id="cTxt" class="msg-area" placeholder="Share your thoughts on this project..." style="width:100%;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;resize:vertical;min-height:90px;outline:none;font-size:.875rem;"></textarea>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+      <input type="text" id="cName" placeholder="Your name" style="padding:.55rem .9rem;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;">
+      <button class="btn-comment" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+    </div>
+  </div>
+  <div id="cList"><div class="comment"><div class="comment-hdr"><div class="comment-avatar">J</div><div class="comment-meta"><div class="comment-author">John Mwenda</div><div class="comment-date">Jun 2025</div></div></div><div class="comment-body">The 2025 infrastructure completion is a real milestone. The Athi Dam contract is the missing link. Once that dam is built, Kenya becomes food-secure.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 31</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">A</div><div class="comment-meta"><div class="comment-author">Amina Waweru</div><div class="comment-date">Apr 2025</div></div></div><div class="comment-body">Kenya importing 10 million bags of maize a year while sitting on 1.75M acres of irrigable land is crazy. Galana Kulalu must succeed.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 19</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">D</div><div class="comment-meta"><div class="comment-author">David Rotich</div><div class="comment-date">Mar 2025</div></div></div><div class="comment-body">Al Dahra's experience transforming Egyptian and UAE desert farmland with irrigation is exactly what Galana Kulalu needs. Great partnership.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 24</button></div></div></div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;});}));
+window.addEventListener('load',()=>setTimeout(()=>document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;}),150));
+let lk=false,dk=false;
+function react(t){const lc=document.getElementById('lkC'),dc=document.getElementById('dkC'),lb=document.getElementById('lkB'),db=document.getElementById('dkB');if(t==='like'){if(!lk){lc.textContent=+lc.textContent+1;lb.classList.add('active-like');if(dk){dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}lk=true;}else{lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}}else{if(!dk){dc.textContent=+dc.textContent+1;db.classList.add('active-dislike');if(lk){lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}dk=true;}else{dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}}}
+function postComment(){const txt=document.getElementById('cTxt').value.trim(),name=document.getElementById('cName').value.trim()||'Anonymous';if(!txt)return;const el=document.createElement('div');el.className='comment';el.innerHTML=`<div class="comment-hdr"><div class="comment-avatar">${name[0].toUpperCase()}</div><div class="comment-meta"><div class="comment-author">${name}</div><div class="comment-date">Just now</div></div></div><div class="comment-body">${txt}</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 0</button></div>`;document.getElementById('cList').prepend(el);document.getElementById('cTxt').value='';showToast('Comment posted!');}
+function likeC(b){const p=b.innerHTML.split('</i> ');const c=parseInt(p[1]||'0');const l=b.classList.toggle('liked');b.innerHTML=`<i class="fas fa-thumbs-up"></i> ${l?c+1:c-1}`;}
+function share(p){const u=window.location.href;const m={twitter:`https://twitter.com/intent/tweet?url=${u}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,whatsapp:`https://wa.me/?text=${u}`};window.open(m[p],'_blank');}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-check-circle"></i> ${m}`;el.className=`toast ${t} show`;setTimeout(()=>el.classList.remove('show'),3500);}
+const bt=document.getElementById('backTop');window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body></html>
