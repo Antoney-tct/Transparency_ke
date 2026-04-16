@@ -194,6 +194,22 @@ try {
         throw new Exception('Database execution error.');
     }
 
+    // --- Sync with management dashboard table ---
+    $joined = date('M Y');
+    $colors = ['#0b6e31','#0f1e4a','#d97706','#b91c1c','#0ea5e9','#8b5cf6','#ec4899','#f59e0b','#14b8a6','#6366f1'];
+    $userColor = $colors[array_rand($colors)];
+    $nameParts = explode(' ', $name, 2);
+    $fName = $nameParts[0];
+    $lName = $nameParts[1] ?? '';
+    $mgmtRole = ($userType === 'citizen') ? 'Citizen' : 'Government';
+    $mgmtCounty = (isset($region)) ? $region : '';
+
+    $stmtUsers = $conn->prepare("INSERT INTO users (first_name, last_name, email, role, county, joined, status, color) VALUES (?, ?, ?, ?, ?, ?, 'Active', ?)");
+    $stmtUsers->bind_param("sssssss", $fName, $lName, $email, $mgmtRole, $mgmtCounty, $joined, $userColor);
+    $stmtUsers->execute();
+    $stmtUsers->close();
+    // --------------------------------------------
+
     $stmt->close();
 
     // Success

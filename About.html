@@ -1,419 +1,555 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Kenya - Government Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --national-red: #BB0A1E;
-            --national-green: #009A44;
-            --national-black: #000000;
-            --national-white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Kenya — Government Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--g:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--gg:rgba(11,149,68,.2);--nv:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--am:#d97706;--al:rgba(217,119,6,.1);--re:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.13);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+a{text-decoration:none;}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] .site-header{background:rgba(12,20,16,.95);}
+.hdr-inner{max-width:1280px;margin:0 auto;padding:0 1.5rem;height:68px;display:flex;align-items:center;gap:1rem;}
+.logo-link{display:flex;align-items:center;gap:10px;}
+.logo-link img{height:40px;}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+.logo-name span{color:var(--gm);}
+.desk-nav{display:flex;align-items:center;gap:.15rem;margin-left:1.25rem;}
+.desk-nav a{font-size:.82rem;font-weight:500;color:var(--mt);padding:.4rem .8rem;border-radius:8px;transition:all .2s;}
+.desk-nav a:hover,.desk-nav a.active{color:var(--gm);background:var(--gl);}
+.hdr-actions{margin-left:auto;display:flex;align-items:center;gap:.5rem;}
+.ib{width:38px;height:38px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.hamburger{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:all .2s;}
+.hamburger:hover{border-color:var(--gm);background:var(--gl);}
+.hb-line{width:20px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.hamburger.open .hb-line:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open .hb-line:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open .hb-line:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-nav{position:fixed;top:68px;left:0;right:0;bottom:0;background:var(--sf);z-index:999;overflow-y:auto;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);padding:1.5rem;}
+.mobile-nav.open{transform:translateX(0);}
+.mob-nav-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt);margin-bottom:.6rem;display:block;margin-top:.5rem;}
+.mob-nav-link{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border-radius:12px;color:var(--im);font-size:.9rem;font-weight:500;transition:all .2s;margin-bottom:.2rem;}
+.mob-nav-link i{width:18px;text-align:center;color:var(--mt);font-size:.85rem;}
+.mob-nav-link:hover,.mob-nav-link.active{background:var(--gl);color:var(--gm);}
+.mob-nav-link:hover i,.mob-nav-link.active i{color:var(--gm);}
+.mob-divider{height:1px;background:var(--bd);margin:.75rem 0;}
 
-        body {
-            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background-color: var(--light-gray);
-        }
+/* ── HERO ── */
+.hero{min-height:70vh;background:linear-gradient(170deg,#031809 0%,#0a2014 30%,#0f1e4a 100%);position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero-particles{position:absolute;inset:0;}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;}
+@keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}10%{opacity:.6;}90%{opacity:.4;}100%{transform:translateY(-10vh) rotate(720deg);opacity:0;}}
+.hero-flag{position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);z-index:2;}
+.hero-inner{max-width:1280px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero-left{opacity:0;animation:slideR .9s .2s ease forwards;}
+@keyframes slideR{from{opacity:0;transform:translateX(-30px);}to{opacity:1;transform:none;}}
+.hero-right{opacity:0;animation:slideL .9s .4s ease forwards;}
+@keyframes slideL{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:none;}}
+.hero-ey{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.85rem;display:flex;align-items:center;gap:8px;}
+.hero-ey i{color:#7effa8;}
+.hero-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,4.5rem);font-weight:700;color:#fff;line-height:1.06;margin-bottom:1rem;}
+.hero-left h1 em{font-style:normal;color:#7effa8;}
+.hero-left p{color:rgba(255,255,255,.65);font-size:.95rem;line-height:1.8;margin-bottom:2rem;}
+.hero-ctas{display:flex;gap:.85rem;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--gm);color:#fff;font-weight:700;font-size:.88rem;padding:.8rem 1.8rem;border-radius:12px;transition:all .25s;}
+.btn-primary:hover{background:var(--g);transform:translateY(-2px);box-shadow:0 8px 24px rgba(11,149,68,.4);}
+.btn-outline{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);color:#fff;font-weight:600;font-size:.88rem;padding:.8rem 1.8rem;border-radius:12px;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);transition:all .25s;}
+.btn-outline:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);}
+/* Coat of Arms display */
+.hero-coa{display:flex;flex-direction:column;align-items:center;gap:1.5rem;}
+.coa-wrap{width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);animation:rotateSlow 30s linear infinite;}
+@keyframes rotateSlow{0%{box-shadow:0 0 0 0 rgba(126,255,168,.3);}50%{box-shadow:0 0 40px 10px rgba(126,255,168,.15);}100%{box-shadow:0 0 0 0 rgba(126,255,168,.3);}}
+.coa-wrap img{width:180px;height:auto;}
+.coa-motto{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#7effa8;text-align:center;}
+.coa-motto-sub{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);text-align:center;}
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border-radius:14px;overflow:hidden;margin-top:2rem;}
+.ss-cell{background:rgba(255,255,255,.04);padding:1.1rem .8rem;text-align:center;}
+.ss-num{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#7effa8;}
+.ss-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.2rem;}
 
-        .about-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('Photos/f2.jpg') no-repeat center center/cover;
-            color: var(--national-white);
-            text-align: center;
-            padding: 8rem 20px;
-            position: relative;
-        }
+/* ── PAGE WRAP ── */
+.pw{max-width:1280px;margin:0 auto;padding:3rem 1.5rem 5rem;}
 
-        .about-hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+/* ── SECTION HEAD ── */
+.sh{margin-bottom:2rem;}
+.sh-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.sh-ey::before{content:'';display:block;width:14px;height:2px;background:var(--gm);}
+.sh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--ink);}
+.sh-sub{font-size:.88rem;color:var(--mt);margin-top:.35rem;max-width:620px;line-height:1.7;}
 
-        .about-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
+/* ── CARD ── */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
+.card-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.card-ey::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.card-h{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:1rem;}
+.card-body{font-size:.9rem;color:var(--im);line-height:1.82;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
 
-        .about-hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
+/* ── MISSION/VISION ── */
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;}
+.mv-card{border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:all .3s;}
+.mv-card:hover{transform:translateY(-4px);box-shadow:var(--shl);}
+.mv-card.mission{background:linear-gradient(135deg,#0b6e31,#0f9544);color:#fff;}
+.mv-card.vision{background:linear-gradient(135deg,#0f1e4a,#1d3a8a);color:#fff;}
+.mv-card::before{content:'';position:absolute;right:-30px;bottom:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);}
+.mv-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:1.2rem;color:#fff;margin-bottom:1.25rem;}
+.mv-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:.75rem;}
+.mv-body{font-size:.875rem;line-height:1.8;opacity:.9;}
 
-        .about-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* ── VALUES ── */
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.val{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;text-align:center;transition:all .3s;position:relative;overflow:hidden;}
+.val::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.val:nth-child(1)::after{background:var(--gm);}
+.val:nth-child(2)::after{background:var(--nm);}
+.val:nth-child(3)::after{background:var(--am);}
+.val:nth-child(4)::after{background:var(--re);}
+.val:nth-child(5)::after{background:#8b5cf6;}
+.val:nth-child(6)::after{background:#0ea5e9;}
+.val:hover{transform:translateY(-4px);box-shadow:var(--shl);}
+.val-icon{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.3rem;margin:0 auto 1rem;}
+.val-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+.val-desc{font-size:.78rem;color:var(--mt);line-height:1.6;}
 
-        .about-section {
-            background-color: var(--national-white);
-            border-radius: 10px;
-            padding: 4rem;
-            margin: -5rem auto 3rem;
-            position: relative;
-            box-shadow: var(--shadow);
-            max-width: 1000px;
-        }
+/* ── LEADERS ── */
+.leaders-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2rem;}
+.lcard{background:var(--sf);border:1px solid var(--bd);border-radius:20px;overflow:hidden;transition:all .3s;}
+.lcard:hover{transform:translateY(-5px);box-shadow:var(--shl);}
+.lcard-img{height:260px;overflow:hidden;background:linear-gradient(135deg,var(--g),var(--nm));display:flex;align-items:center;justify-content:center;position:relative;}
+.lcard-img img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s;}
+.lcard:hover .lcard-img img{transform:scale(1.06);}
+.lcard-img .placeholder-av{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:rgba(255,255,255,.6);}
+.lcard-info{padding:1.25rem;}
+.lcard-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.lcard-pos{font-family:'JetBrains Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--gm);margin-bottom:.35rem;}
+.lcard-desc{font-size:.78rem;color:var(--mt);line-height:1.55;}
 
-        .about-section h2 {
-            font-size: 2.5rem;
-            color: var(--national-red);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
+/* ── FACTS STRIP ── */
+.facts-strip{background:linear-gradient(135deg,var(--nv) 0%,#0b2a0e 100%);border-radius:20px;padding:2.5rem;margin-bottom:2rem;color:#fff;}
+.facts-strip-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:1.75rem;}
+.facts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.fact-item{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.25rem;backdrop-filter:blur(6px);}
+.fact-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.35rem;}
+.fact-value{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:#7effa8;}
+.fact-sub{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.2rem;}
 
-        .about-section h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: var(--national-green);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+/* ── HISTORY TIMELINE ── */
+.htimeline{position:relative;padding-left:2rem;}
+.htimeline::before{content:'';position:absolute;left:.5rem;top:0;bottom:0;width:2px;background:var(--bd);}
+.ht-item{position:relative;margin-bottom:2rem;}
+.ht-dot{position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gg);}
+.ht-year{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gm);margin-bottom:.25rem;}
+.ht-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.25rem;}
+.ht-desc{font-size:.8rem;color:var(--mt);line-height:1.6;}
 
-        .about-section p {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-            text-align: center;
-        }
+/* ── COUNTIES MAP CTA ── */
+.cta-section{background:linear-gradient(135deg,var(--g) 0%,var(--nm) 100%);border-radius:22px;padding:3.5rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden;}
+.cta-section::before{content:'47';position:absolute;right:-30px;top:-30px;font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:700;color:rgba(255,255,255,.04);line-height:1;}
+.cta-section h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:.75rem;position:relative;}
+.cta-section p{color:rgba(255,255,255,.7);font-size:.9rem;max-width:540px;margin:0 auto 2rem;line-height:1.75;position:relative;}
+.cta-btns{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-white{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--g);font-weight:700;font-size:.88rem;padding:.8rem 1.8rem;border-radius:12px;transition:all .25s;}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);color:#fff;font-weight:600;font-size:.88rem;padding:.8rem 1.8rem;border-radius:12px;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(6px);transition:all .25s;}
+.btn-ghost:hover{background:rgba(255,255,255,.25);}
 
-        .mission-vision {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin: 4rem 0;
-        }
+/* ── ACHIEVEMENTS ── */
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem;}
+.ach{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;display:flex;gap:1rem;transition:all .3s;}
+.ach:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.ach-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:.95rem;flex-shrink:0;}
+.ach-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ach-desc{font-size:.78rem;color:var(--mt);line-height:1.6;}
 
-        .mission-card, .vision-card {
-            background-color: var(--light-gray);
-            padding: 2rem;
-            border-radius: 8px;
-            border-top: 4px solid var(--national-red);
-            transition: var(--transition);
-        }
+/* ── FACTS LIST ── */
+.facts{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.facts li{display:flex;gap:.7rem;font-size:.875rem;color:var(--im);}
+.facts li i{color:var(--gm);font-size:.78rem;margin-top:3px;flex-shrink:0;}
 
-        .mission-card:hover, .vision-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
+/* ── TOAST / BACK-TOP ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--g);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s;box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;width:46px;height:46px;border-radius:13px;background:var(--g);color:#fff;border:none;cursor:pointer;display:grid;place-items:center;font-size:.9rem;box-shadow:0 8px 20px rgba(11,110,49,.4);transform:translateY(80px);opacity:0;transition:all .3s;}
+.back-top.show{transform:translateY(0);opacity:1;}
+.back-top:hover{transform:translateY(-3px);}
 
-        .mission-card h3, .vision-card h3 {
-            font-size: 1.8rem;
-            color: var(--national-red);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* ── FOOTER ── */
+.site-footer{background:#080f0a;padding:3rem 1.5rem 2rem;}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-top:.75rem;margin-bottom:.5rem;}
+.footer-brand-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65;margin-top:.4rem;}
+.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7effa8;margin-bottom:.85rem;}
+.footer-col a{display:block;font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:.4rem;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);}
+.flag-stripe{height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);margin-bottom:3rem;}
 
-        .mission-card h3 i, .vision-card h3 i {
-            font-size: 2rem;
-        }
-
-        .values-section {
-            margin: 5rem 0;
-        }
-
-        .values-section h3 {
-            font-size: 2rem;
-            color: var(--national-red);
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .value-card {
-            background-color: var(--national-white);
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .value-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .value-card img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            object-fit: contain;
-        }
-
-        .value-card h4 {
-            font-size: 1.3rem;
-            color: var(--national-red);
-            margin-bottom: 1rem;
-        }
-
-        .value-card p {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        .leadership-section {
-            margin: 5rem 0;
-        }
-
-        .leadership-section h2 {
-            font-size: 2.5rem;
-            color: var(--national-red);
-            margin-bottom: 3rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .leadership-section h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: var(--national-green);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .leaders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-        }
-
-        .leader-card {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .leader-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .leader-image {
-            height: 300px;
-            overflow: hidden;
-        }
-
-        .leader-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .leader-card:hover .leader-image img {
-            transform: scale(1.05);
-        }
-
-        .leader-info {
-            padding: 2rem;
-        }
-
-        .leader-info h3 {
-            font-size: 1.5rem;
-            color: var(--national-red);
-            margin-bottom: 0.5rem;
-        }
-
-        .leader-info p {
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .leader-position {
-            font-weight: 600;
-            color: var(--national-green);
-            margin-top: 0.5rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .about-hero {
-                padding: 6rem 20px;
-            }
-            
-            .about-section {
-                padding: 3rem;
-                margin: -3rem auto 3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .about-hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .about-hero p {
-                font-size: 1.1rem;
-            }
-            
-            .about-section {
-                padding: 2rem;
-            }
-            
-            .about-section h2, .leadership-section h2 {
-                font-size: 2rem;
-            }
-            
-            .mission-card h3, .vision-card h3 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .about-hero {
-                padding: 4rem 20px;
-            }
-            
-            .about-hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .leaders-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:1024px){.hero-inner{grid-template-columns:1fr;gap:2rem;}.hero-right{display:none;}}
+@media(max-width:900px){.desk-nav{display:none;}.hamburger{display:flex;}.mv-grid{grid-template-columns:1fr;}.values-grid{grid-template-columns:repeat(2,1fr);}.leaders-grid{grid-template-columns:repeat(2,1fr);}.facts-grid{grid-template-columns:repeat(2,1fr);}.ach-grid{grid-template-columns:1fr;}.three-col{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.stats-strip{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.values-grid{grid-template-columns:1fr 1fr;}.leaders-grid{grid-template-columns:1fr;}.facts-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.pw{padding:1.5rem 1rem 4rem;}.cta-btns{flex-direction:column;align-items:center;}.hero-ctas{flex-direction:column;}}
+</style>
 </head>
 <body>
-    <section class="about-hero">
-        <div class="about-hero-content">
-            <h1>About Kenya</h1>
-            <p>Discover our nation's vision, leadership, and the values that guide our government</p>
-        </div>
-    </section>
 
-    <div class="about-container">
-        <section class="about-section">
-            <h2>Our Government</h2>
-            <p>
-                The Government of Kenya is committed to fostering sustainable development, inclusive growth, and transparent governance. 
-                We work hand in hand with communities, partners, and stakeholders to deliver impactful projects that improve the quality 
-                of life for all citizens.
-            </p>
-
-            <div class="mission-vision">
-                <div class="mission-card">
-                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
-                    <p>To serve with integrity, empower citizens, and drive progress through innovative solutions and accountable leadership that transforms Kenya into a prosperous nation for all.</p>
-                </div>
-                <div class="vision-card">
-                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
-                    <p>A democratic, united, and prosperous Kenya where all citizens enjoy high quality of life in a clean, secure, and sustainable environment.</p>
-                </div>
-            </div>
-
-            <div class="values-section">
-                <h3>Our Core Values</h3>
-                <div class="values-grid">
-                    <div class="value-card">
-                        <img src="Photos/transpire-removebg-preview.png" alt="Transparency">
-                        <h4>Transparency</h4>
-                        <p>Open and accountable governance in all our operations and decision-making processes.</p>
-                    </div>
-                    <div class="value-card">
-                        <img src="Photos/innovate-removebg-preview.png" alt="Innovation">
-                        <h4>Innovation</h4>
-                        <p>Embracing creative solutions to address Kenya's development challenges.</p>
-                    </div>
-                    <div class="value-card">
-                        <img src="Photos/community-removebg-preview.png" alt="Community">
-                        <h4>Inclusivity</h4>
-                        <p>Ensuring all Kenyans participate in and benefit from national development.</p>
-                    </div>
-                    <div class="value-card">
-                        <img src="Photos/sustainability-removebg-preview.png" alt="Sustainability">
-                        <h4>Sustainability</h4>
-                        <p>Development that meets present needs without compromising future generations.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="leadership-section">
-            <h2>Our Leadership</h2>
-            <div class="leaders-grid">
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="photos/ruto-removebg-preview.png" alt="President William Ruto">
-                    </div>
-                    <div class="leader-info">
-                        <h3>H.E. William Ruto</h3>
-                        <p class="leader-position">President of Kenya</p>
-                        <p>Fifth President of the Republic of Kenya</p>
-                    </div>
-                </div>
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="photos/Kindiki.jpg" alt="Kithure Kindiki">
-                    </div>
-                    <div class="leader-info">
-                        <h3>Prof. Kithure Kindiki</h3>
-                        <p class="leader-position">Deputy president of kenya</p>
-                        <p>The sixth deputy president and former cabinate secretary for Interior and National Administration</p>
-                    </div>
-                </div>
-              
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="photos/Picture-Njuguna.jpg" alt="Kithure Kindiki">
-                    </div>
-                    <div class="leader-info">
-                        <h3>Prof. Njuguna Ndung'u</h3>
-                        <p class="leader-position">Cabinet Secretary</p>
-                        <p>National treasury</p>
-                    </div>
-                </div>
-                <div class="leader-card">
-                    <div class="leader-image">
-                        <img src="photos/Mudavadi.jpeg" alt="Musalia Mudavadi">
-                    </div>
-                    <div class="leader-info">
-                        <h3>Hon. Musalia Mudavadi</h3>
-                        <p class="leader-position">Prime Cabinet Secretary</p>
-                        <p>Office of the Prime Cabinet Secretary</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya">
+      <div class="logo-name">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="desk-nav">
+      <a href="index.html">Home</a>
+      <a href="Projects.html">Projects</a>
+      <a href="National-Government.html">Government</a>
+      <a href="About-Kenya.html" class="active">About Kenya</a>
+      <a href="Counties.html">Counties</a>
+      <a href="Kenya-Vision.html">Vision 2030</a>
+      <a href="Devolution.html">Devolution</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
+      <button class="hamburger" id="hamburger"><span class="hb-line"></span><span class="hb-line"></span><span class="hb-line"></span></button>
     </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <span class="mob-nav-label">Main Navigation</span>
+  <a href="index.html" class="mob-nav-link"><i class="fas fa-home"></i> Home</a>
+  <a href="Projects.html" class="mob-nav-link"><i class="fas fa-project-diagram"></i> Projects</a>
+  <a href="Budget.html" class="mob-nav-link"><i class="fas fa-coins"></i> Budget</a>
+  <a href="Counties.html" class="mob-nav-link"><i class="fas fa-map"></i> 47 Counties</a>
+  <div class="mob-divider"></div>
+  <span class="mob-nav-label">Governance</span>
+  <a href="About-Kenya.html" class="mob-nav-link active"><i class="fas fa-flag"></i> About Kenya</a>
+  <a href="National-Government.html" class="mob-nav-link"><i class="fas fa-landmark"></i> National Government</a>
+  <a href="Devolution.html" class="mob-nav-link"><i class="fas fa-sitemap"></i> Devolution</a>
+  <a href="Kenya-Vision.html" class="mob-nav-link"><i class="fas fa-eye"></i> Vision 2030</a>
+  <a href="Service-Delivery.html" class="mob-nav-link"><i class="fas fa-hands-helping"></i> Services</a>
+  <div class="mob-divider"></div>
+  <span class="mob-nav-label">Citizens</span>
+  <a href="User_inquirery.html" class="mob-nav-link"><i class="fas fa-envelope"></i> Inquiries</a>
+  <a href="Tenders.html" class="mob-nav-link"><i class="fas fa-gavel"></i> Tenders</a>
+  <a href="updates.html" class="mob-nav-link"><i class="fas fa-bell"></i> Notifications</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-flag"></div>
+  <div class="hero-inner" style="padding:4rem 1.5rem;">
+    <div class="hero-left">
+      <div class="hero-ey"><i class="fas fa-flag"></i> Republic of Kenya &nbsp;·&nbsp; Uhuru wa Kenya &nbsp;·&nbsp; Est. 12 Dec 1963</div>
+      <h1>Discover <em>Kenya</em></h1>
+      <p>A nation of extraordinary diversity — 55 million people, 44 ethnic communities, the world's most iconic wildlife, East Africa's largest economy, and a bold democracy forged from the struggle for independence.</p>
+      <div class="hero-ctas">
+        <a href="National-Government.html" class="btn-primary"><i class="fas fa-landmark"></i> Our Government</a>
+        <a href="Projects.html" class="btn-outline"><i class="fas fa-project-diagram"></i> View Projects</a>
+      </div>
+      <div class="stats-strip">
+        <div class="ss-cell"><div class="ss-num">55M+</div><div class="ss-lbl">Population</div></div>
+        <div class="ss-cell"><div class="ss-num">$136B</div><div class="ss-lbl">GDP 2025</div></div>
+        <div class="ss-cell"><div class="ss-num">47</div><div class="ss-lbl">Counties</div></div>
+        <div class="ss-cell"><div class="ss-num">6th</div><div class="ss-lbl">Africa GDP Rank</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-coa">
+        <div class="coa-wrap">
+          <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+        </div>
+        <div class="coa-motto">Harambee</div>
+        <div class="coa-motto-sub">Let's Pull Together — Kenya's National Motto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pw">
+
+  <!-- MISSION & VISION -->
+  <div class="sh"><div class="sh-ey">Our Purpose</div><div class="sh-title">Mission & Vision of Kenya</div></div>
+  <div class="mv-grid">
+    <div class="mv-card mission">
+      <div class="mv-icon"><i class="fas fa-bullseye"></i></div>
+      <div class="mv-title">Our Mission</div>
+      <div class="mv-body">To serve all Kenyans with integrity, empower citizens through devolved governance, and drive inclusive prosperity through innovative, accountable, and transparent leadership that leaves no county behind — from Mandera to Mombasa, from Marsabit to Narok.</div>
+    </div>
+    <div class="mv-card vision">
+      <div class="mv-icon"><i class="fas fa-eye"></i></div>
+      <div class="mv-title">Our Vision — 2030</div>
+      <div class="mv-body">A globally competitive and prosperous Kenya with a high quality of life for all citizens by 2030. We aim to be a middle-income country with a clean, secure, and sustainable environment — building on the momentum of devolution, digital transformation, and landmark infrastructure investments.</div>
+    </div>
+  </div>
+
+  <!-- ABOUT KENYA FACTS -->
+  <div class="facts-strip">
+    <div class="facts-strip-title">Kenya at a Glance — Key Facts 2025</div>
+    <div class="facts-grid">
+      <div class="fact-item"><div class="fact-label">Official Name</div><div class="fact-value">Republic of Kenya</div><div class="fact-sub">Jamhuri ya Kenya (Swahili)</div></div>
+      <div class="fact-item"><div class="fact-label">Capital City</div><div class="fact-value">Nairobi</div><div class="fact-sub">Population: 4.4M · Africa's 4th largest city economy</div></div>
+      <div class="fact-item"><div class="fact-label">Independence</div><div class="fact-value">12 December 1963</div><div class="fact-sub">From British colonial rule · Republic since 1964</div></div>
+      <div class="fact-item"><div class="fact-label">Population</div><div class="fact-value">55 Million+</div><div class="fact-sub">2024 estimate · 3.4% annual growth rate</div></div>
+      <div class="fact-item"><div class="fact-label">GDP (IMF 2025)</div><div class="fact-value">USD $136 Billion</div><div class="fact-sub">6th largest economy in Africa</div></div>
+      <div class="fact-item"><div class="fact-label">Official Languages</div><div class="fact-value">Swahili & English</div><div class="fact-sub">44+ ethnic communities · 68 dialects</div></div>
+      <div class="fact-item"><div class="fact-label">Area</div><div class="fact-value">580,367 km²</div><div class="fact-sub">Borders: Tanzania, Uganda, S.Sudan, Ethiopia, Somalia</div></div>
+      <div class="fact-item"><div class="fact-label">Currency</div><div class="fact-value">Kenya Shilling (KES)</div><div class="fact-sub">KSh 129 = USD 1 (stabilised since June 2024)</div></div>
+      <div class="fact-item"><div class="fact-label">Government System</div><div class="fact-value">Presidential Republic</div><div class="fact-sub">2010 Constitution · Devolved to 47 Counties</div></div>
+      <div class="fact-item"><div class="fact-label">Current President</div><div class="fact-value">Dr. William S. Ruto</div><div class="fact-sub">5th President since September 2022 · UDA Party</div></div>
+      <div class="fact-item"><div class="fact-label">National Airline</div><div class="fact-value">Kenya Airways (KQ)</div><div class="fact-sub">JKIA hub · Serves 50+ African destinations</div></div>
+      <div class="fact-item"><div class="fact-label">Internet Users</div><div class="fact-value">22 Million+</div><div class="fact-sub">eCitizen: 14M registered · Silicon Savannah hub</div></div>
+    </div>
+  </div>
+
+  <!-- CORE VALUES -->
+  <div class="sh"><div class="sh-ey">Our Values</div><div class="sh-title">The Principles That Guide Kenya</div><div class="sh-sub">Enshrined in Article 10 of the 2010 Constitution — national values and principles of governance that bind all state organs, public officers, and citizens.</div></div>
+  <div class="values-grid">
+    <div class="val">
+      <div class="val-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-eye"></i></div>
+      <div class="val-title">Transparency</div>
+      <div class="val-desc">Open, accountable governance in all government operations, procurement, and decision-making. Citizens have the right to information.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-balance-scale"></i></div>
+      <div class="val-title">Rule of Law</div>
+      <div class="val-desc">The 2010 Constitution is supreme. No person is above the law — from the President to every citizen. Judicial independence is guaranteed.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-users"></i></div>
+      <div class="val-title">Inclusivity</div>
+      <div class="val-desc">Every Kenyan participates in and benefits from national development regardless of ethnicity, gender, region, or economic status.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fas fa-lightbulb"></i></div>
+      <div class="val-title">Innovation</div>
+      <div class="val-desc">Embracing technology, research, and creative solutions — from eCitizen to the Silicon Savannah — to solve Kenya's development challenges.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon" style="background:rgba(14,165,233,.1);color:#0ea5e9"><i class="fas fa-leaf"></i></div>
+      <div class="val-title">Sustainability</div>
+      <div class="val-desc">Development that meets the needs of today without compromising tomorrow. Kenya leads Africa in renewable energy and conservation.</div>
+    </div>
+    <div class="val">
+      <div class="val-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-handshake"></i></div>
+      <div class="val-title">Harambee</div>
+      <div class="val-desc">"Let's Pull Together" — Kenya's founding principle of collective effort, community self-help, and national unity across all 44 communities.</div>
+    </div>
+  </div>
+
+  <!-- LEADERSHIP -->
+  <div class="sh"><div class="sh-ey">National Leadership</div><div class="sh-title">Kenya's Senior Government Officials</div><div class="sh-sub">Kenya's leadership team guiding the nation's development agenda under the Bottom-Up Economic Transformation Agenda (BETA) 2022–2027.</div></div>
+  <div class="leaders-grid">
+    <div class="lcard">
+      <div class="lcard-img">
+        <img src="Photos/ruto-removebg-preview.png" alt="President Ruto" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="placeholder-av" style="display:none">WR</div>
+      </div>
+      <div class="lcard-info">
+        <div class="lcard-name">H.E. Dr. William S. Ruto, PhD</div>
+        <div class="lcard-pos">President of the Republic of Kenya</div>
+        <div class="lcard-desc">5th President since Sept 2022. Former Deputy President (2013–2022). Nairobi University economics graduate. Champion of the Bottom-Up Economic agenda.</div>
+      </div>
+    </div>
+    <div class="lcard">
+      <div class="lcard-img">
+        <img src="Photos/Kindiki.jpg" alt="Kithure Kindiki" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="placeholder-av" style="display:none">KK</div>
+      </div>
+      <div class="lcard-info">
+        <div class="lcard-name">Prof. Kithure Kindiki, PhD</div>
+        <div class="lcard-pos">Deputy President — 3rd in Office</div>
+        <div class="lcard-desc">Sworn in November 2024 following the impeachment of Rigathi Gachagua. Former CS Interior. International law professor and senior advocate.</div>
+      </div>
+    </div>
+    <div class="lcard">
+      <div class="lcard-img">
+        <img src="Photos/Mudavadi.jpeg" alt="Musalia Mudavadi" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="placeholder-av" style="display:none">MM</div>
+      </div>
+      <div class="lcard-info">
+        <div class="lcard-name">Hon. Musalia Mudavadi</div>
+        <div class="lcard-pos">Prime Cabinet Secretary</div>
+        <div class="lcard-desc">Kenya's first Prime Cabinet Secretary. ANC party leader. Coordinates government business at Cabinet level. Former Finance Minister and Deputy President.</div>
+      </div>
+    </div>
+    <div class="lcard">
+      <div class="lcard-img" style="background:linear-gradient(135deg,#d97706,#0f1e4a);">
+        <div class="placeholder-av">MW</div>
+      </div>
+      <div class="lcard-info">
+        <div class="lcard-name">Hon. Moses Wetang'ula</div>
+        <div class="lcard-pos">Speaker, National Assembly</div>
+        <div class="lcard-desc">Ford-Kenya party leader. Former Foreign Affairs Minister and Senator for Bungoma. Elected Speaker in September 2022 after the Kenya Kwanza coalition victory.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="sh"><div class="sh-ey">National Achievements</div><div class="sh-title">What Makes Kenya Remarkable</div></div>
+  <div class="ach-grid">
+    <div class="ach"><div class="ach-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-bolt"></i></div><div><div class="ach-title">Renewable Energy Leader</div><div class="ach-desc">93% of electricity from renewables (geothermal, hydro, wind, solar). Lake Turkana Wind Power is Africa's largest wind farm at 310MW. Olkaria geothermal is world's largest (792MW).</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-mobile-alt"></i></div><div><div class="ach-title">Mobile Money Pioneer</div><div class="ach-desc">M-Pesa, invented in Kenya 2007, is the world's most successful mobile money platform with 50M+ users across Africa. Kenya processes more money via mobile than any country on Earth.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-running"></i></div><div><div class="ach-title">World's Running Capital</div><div class="ach-desc">Kenya has won more Olympic medals in distance running than any nation. Eliud Kipchoge holds the marathon world record. Iten town hosts the world's greatest distance runners.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fas fa-laptop-code"></i></div><div><div class="ach-title">Silicon Savannah</div><div class="ach-desc">Nairobi is Africa's leading tech hub — home to Google, Microsoft, IBM, Safaricom, Andela and 300+ startups. Konza Technopolis (80% complete) will be Africa's smart city model.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:rgba(14,165,233,.1);color:#0ea5e9"><i class="fas fa-ship"></i></div><div><div class="ach-title">Regional Gateway</div><div class="ach-desc">Mombasa Port handles 30M+ tonnes/year for East and Central Africa. JKIA is East Africa's busiest airport. LAPSSET will connect Kenya to Ethiopia, Uganda, and South Sudan.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-paw"></i></div><div><div class="ach-title">Wildlife Conservation</div><div class="ach-desc">Home to the Great Wildebeest Migration — the greatest wildlife spectacle on Earth. Tsavo is the world's largest national park complex. Kenya earns $2B+ annually from tourism and conservation.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-file-contract"></i></div><div><div class="ach-title">2010 Constitution</div><div class="ach-desc">Voted 67% in favour. Considered one of Africa's most progressive constitutions — guarantees socio-economic rights (food, water, health, education), devolution, and an independent judiciary.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-globe-africa"></i></div><div><div class="ach-title">UN & Diplomatic Hub</div><div class="ach-desc">Nairobi hosts the UN Environment Programme (UNEP) and UN-Habitat — the only African city hosting two UN headquarters. Kenya is founding member of the African Union.</div></div></div>
+    <div class="ach"><div class="ach-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-train"></i></div><div><div class="ach-title">Infrastructure Legacy</div><div class="ach-desc">SGR (KSh 327B, 2017), Thika Superhighway (2012), Nairobi Expressway (2022), Dongo Kundu Bypass (2024) — Kenya has the most ambitious infrastructure programme in sub-Saharan Africa.</div></div></div>
+  </div>
+
+  <!-- HISTORY TIMELINE -->
+  <div class="card">
+    <div class="card-ey">Our History</div>
+    <div class="card-h">Kenya — A Timeline of a Nation</div>
+    <div class="htimeline">
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1895</div><div class="ht-title">British East Africa Protectorate</div><div class="ht-desc">Britain establishes the East Africa Protectorate. Uganda Railway (Mombasa-Kisumu) constructed using Indian labour — "the Lunatic Express."</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1920</div><div class="ht-title">Kenya Colony Established</div><div class="ht-desc">British Crown Colony formally created. Land alienation intensifies, displacing Kikuyu farmers from the White Highlands and fuelling future resistance.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1944</div><div class="ht-title">Kenya African Union (KAU) Founded</div><div class="ht-desc">The first major nationalist movement, led by Jomo Kenyatta from 1947. The movement demands land reform, better wages, and civil rights for Africans.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1952–1960</div><div class="ht-title">Mau Mau Uprising</div><div class="ht-desc">The Land and Freedom Army (Mau Mau) fights British colonialism. Kenyatta imprisoned. The uprising — though suppressed — accelerates the path to independence.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">12 December 1963</div><div class="ht-title">INDEPENDENCE — Uhuru!</div><div class="ht-desc">Kenya gains independence from Britain. Jomo Kenyatta becomes the first Prime Minister. The Kenyan flag is raised at midnight to jubilant crowds across the nation.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1964</div><div class="ht-title">Republic of Kenya</div><div class="ht-desc">Kenya becomes a Republic on 12 December 1964. Jomo Kenyatta becomes first President. Harambee — "Let's Pull Together" — adopted as the national motto.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">1978–2002</div><div class="ht-title">Moi Era & Multi-Party Return</div><div class="ht-desc">Daniel arap Moi leads Kenya until 2002. Multi-party democracy restored in 1991 under international pressure. Opposition movements grow throughout the 1990s.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">2002</div><div class="ht-title">Democratic Transition</div><div class="ht-desc">Mwai Kibaki wins historic election ending 24 years of KANU rule. Peaceful democratic transition celebrated across the country as a milestone for Africa.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">2010</div><div class="ht-title">New Constitution Adopted</div><div class="ht-desc">Kenyans vote 67% in favour of a new progressive Constitution — establishing 47 county governments, a bicameral parliament, and comprehensive bill of rights.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">2013</div><div class="ht-title">Devolution Begins</div><div class="ht-desc">First governors and county assemblies elected. Power, resources, and governance devolved to 47 counties for the first time. KSh 190B allocated in Year 1.</div></div>
+      <div class="ht-item"><div class="ht-dot"></div><div class="ht-year">2022 — Present</div><div class="ht-title">Kenya Kwanza Era & Bottom-Up Agenda</div><div class="ht-desc">William Ruto wins the presidency with the Bottom-Up Economic Transformation Agenda (BETA). Focus: affordable housing, agriculture, healthcare, education, and the digital economy.</div></div>
+    </div>
+  </div>
+
+  <!-- 47 COUNTIES CTA -->
+  <div class="cta-section">
+    <h2>Explore Kenya's 47 Counties</h2>
+    <p>From the coral coast of Mombasa to the dry savannahs of Turkana — discover all 47 county governments, their populations, leaders, key projects, and development status.</p>
+    <div class="cta-btns">
+      <a href="Counties.html" class="btn-white"><i class="fas fa-map"></i> Explore All 47 Counties</a>
+      <a href="Devolution.html" class="btn-ghost"><i class="fas fa-sitemap"></i> How Devolution Works</a>
+    </div>
+  </div>
+
+  <!-- TWO COL: Geography + Quick Links -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-ey">Geography & Nature</div>
+      <div class="card-h">Kenya's Physical Landscape</div>
+      <ul class="facts">
+        <li><i class="fas fa-mountain"></i>Mt Kenya (5,199m) — Africa's second highest peak and a UNESCO World Heritage Site</li>
+        <li><i class="fas fa-water"></i>Lake Victoria — Africa's largest lake shared with Uganda and Tanzania</li>
+        <li><i class="fas fa-globe-africa"></i>Great Rift Valley — runs north-south through Kenya, dotted with lakes and volcanoes</li>
+        <li><i class="fas fa-wind"></i>Lake Turkana — world's largest permanent desert lake (Jade Sea)</li>
+        <li><i class="fas fa-tree"></i>Maasai Mara — hosts the world's greatest wildlife migration every year</li>
+        <li><i class="fas fa-umbrella-beach"></i>500km Indian Ocean coastline from Vanga (Tanzania border) to Kiunga (Somalia border)</li>
+        <li><i class="fas fa-thermometer-half"></i>Climate: Alpine (Mt Kenya), semi-arid (North), tropical coast, savannah (interior)</li>
+        <li><i class="fas fa-leaf"></i>Forests cover 7% — Mau, Mt Kenya, Aberdares are key water towers for East Africa</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-ey">Economy & Trade</div>
+      <div class="card-h">Key Economic Sectors</div>
+      <ul class="facts">
+        <li><i class="fas fa-leaf"></i><strong>Agriculture:</strong> Tea, coffee, horticulture — 26% of GDP. Kenya is world's largest black tea exporter.</li>
+        <li><i class="fas fa-plane"></i><strong>Tourism:</strong> $2B+ annually. Maasai Mara, Amboseli, Diani Beach, Mount Kenya.</li>
+        <li><i class="fas fa-money-bill-wave"></i><strong>Remittances:</strong> $4.95B in 2024 — fastest growing forex earner after tourism.</li>
+        <li><i class="fas fa-mobile-alt"></i><strong>ICT & Fintech:</strong> M-Pesa, Safaricom, 300+ tech startups. KSh 14B eCitizen revenues (2024).</li>
+        <li><i class="fas fa-factory"></i><strong>Manufacturing:</strong> EPZA zones, textiles, food processing, cement, and pharmaceuticals.</li>
+        <li><i class="fas fa-ship"></i><strong>Logistics:</strong> Mombasa Port — handles 30M+ tonnes. JKIA — East Africa's busiest airport.</li>
+        <li><i class="fas fa-bolt"></i><strong>Energy:</strong> 93% renewables. Geothermal (792MW), Wind (310MW), Solar, Hydro.</li>
+        <li><i class="fas fa-building"></i><strong>Real Estate:</strong> Fastest growing market in East Africa — Nairobi ranked top investment hub.</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /pw -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="flag-stripe"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" style="height:40px">
+        <div class="footer-brand-name">Kenya Transparency Portal</div>
+        <div class="footer-brand-desc">Promoting accountability, transparency and citizen engagement in Kenya's governance and infrastructure development.</div>
+      </div>
+      <div><div class="footer-col-title">About Kenya</div><div class="footer-col">
+        <a href="About-Kenya.html">About Kenya</a>
+        <a href="National-Government.html">National Government</a>
+        <a href="Devolution.html">Devolution</a>
+        <a href="Kenya-Vision.html">Vision 2030</a>
+        <a href="Counties.html">47 Counties</a>
+      </div></div>
+      <div><div class="footer-col-title">Projects</div><div class="footer-col">
+        <a href="Projects.html">All Projects</a>
+        <a href="Budget.html">National Budget</a>
+        <a href="Tenders.html">Tenders</a>
+        <a href="Reports.html">Reports</a>
+      </div></div>
+      <div><div class="footer-col-title">Citizens</div><div class="footer-col">
+        <a href="Service-Delivery.html">Service Delivery</a>
+        <a href="User_inquirery.html">Submit Inquiry</a>
+        <a href="updates.html">Notifications</a>
+        <a href="pprofile.html">My Profile</a>
+      </div></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Government of Kenya Transparency Portal · Harambee — Let's Pull Together · All rights reserved</div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+/* THEME */
+(function(){
+  const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+  const t=localStorage.getItem('ktp-theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('ktp-theme',th);}
+  apply(t);
+  btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
+
+/* HAMBURGER */
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileNav');
+ham.addEventListener('click',e=>{e.stopPropagation();ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
+document.addEventListener('click',e=>{if(!mob.contains(e.target)&&!ham.contains(e.target)){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';}});
+
+/* FLOATING PARTICLES */
+(function(){
+  const container=document.getElementById('particles');
+  const colors=['rgba(126,255,168,.4)','rgba(255,255,255,.15)','rgba(11,149,68,.3)','rgba(29,58,138,.25)'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*6+3;
+    p.style.cssText=`width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*-15}s;`;
+    container.appendChild(p);
+  }
+})();
+
+/* BACK TOP */
+const bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>

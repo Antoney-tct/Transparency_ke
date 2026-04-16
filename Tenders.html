@@ -1,720 +1,269 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tender Opportunities | Government Transparency Portal</title>
-    <style>
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #003366;
-            --accent-color: #e63946;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --success-color: #28a745;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-color);
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .logo span {
-            color: var(--accent-color);
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 20px;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        nav ul li a:hover {
-            color: var(--accent-color);
-        }
-        
-        .page-title {
-            margin: 30px 0;
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-        }
-        
-        .search-filter {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-        }
-        
-        .filter-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .filter-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: var(--secondary-color);
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-        
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .tender-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-        }
-        
-        .tender-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .tender-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tender-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px;
-        }
-        
-        .tender-id {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .tender-title {
-            margin: 10px 0;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .tender-body {
-            padding: 15px;
-        }
-        
-        .tender-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        
-        .tender-department {
-            background-color: #e9ecef;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            display: inline-block;
-        }
-        
-        .tender-value {
-            font-weight: bold;
-            color: var(--success-color);
-        }
-        
-        .tender-deadline {
-            color: var(--accent-color);
-            font-weight: 500;
-        }
-        
-        .tender-description {
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .tender-actions {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        
-        .pagination button {
-            margin: 0 5px;
-            background-color: white;
-            color: var(--primary-color);
-            border: 1px solid #ddd;
-        }
-        
-        .pagination button.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 50px;
-        }
-        
-        /* Modal/Popup Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 8px;
-            width: 70%;
-            max-width: 700px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: modalopen 0.3s;
-        }
-        
-        @keyframes modalopen {
-            from {opacity: 0; transform: translateY(-50px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            color: #aaa;
-            cursor: pointer;
-        }
-        
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-        
-        .modal-header {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .modal-title {
-            color: var(--primary-color);
-            margin: 0;
-        }
-        
-        .modal-body {
-            margin-bottom: 20px;
-        }
-        
-        .modal-section {
-            margin-bottom: 15px;
-        }
-        
-        .modal-section h4 {
-            color: var(--secondary-color);
-            margin-bottom: 8px;
-        }
-        
-        .modal-footer {
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-            text-align: right;
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 15px;
-                justify-content: center;
-            }
-            
-            .tender-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                width: 90%;
-                margin: 10% auto;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Tenders — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--green:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--navy:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--amber:#d97706;--al:rgba(217,119,6,.1);--red:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.12);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] header{background:rgba(14,22,17,.94);}
+.hdr{max-width:1200px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;gap:1rem;}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-wrap img{height:38px;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.logo-text span{color:var(--gm);}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+.hdr-nav a{font-size:.82rem;font-weight:500;color:var(--mt);text-decoration:none;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+.hdr-nav a:hover,.hdr-nav a.active{color:var(--gm);background:var(--gl);}
+.ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);}
+/* HERO */
+.hero{background:linear-gradient(135deg,#0f1e4a 0%,#0b1a3d 100%);padding:3.5rem 2rem;position:relative;overflow:hidden;}
+.hero::before{content:'TENDER';position:absolute;right:-60px;top:-40px;font-family:'Cormorant Garamond',serif;font-size:15rem;font-weight:700;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;}
+.hs{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);}
+.hi{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.ey{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.75rem;display:flex;align-items:center;gap:6px;}
+.ey i{color:#7effa8;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:white;margin-bottom:.5rem;}
+.hero h1 em{font-style:normal;color:#7effa8;}
+.hero p{color:rgba(255,255,255,.6);font-size:.9rem;}
+.hero-stats{display:flex;gap:2rem;margin-top:2rem;}
+.hstat{text-align:center;}
+.hstat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#7effa8;line-height:1;}
+.hstat-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.25rem;}
+/* PAGE */
+.pw{max-width:1200px;margin:0 auto;padding:2.5rem 2rem 4rem;}
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.25rem;}
+.ki{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;font-size:.85rem;margin-bottom:.85rem;}
+.ki.g{background:var(--gl);color:var(--gm);}.ki.n{background:var(--nl);color:var(--nm);}.ki.a{background:var(--al);color:var(--amber);}.ki.r{background:var(--rl);color:var(--red);}
+.kv{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.2rem;}
+.kl{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+/* FILTER */
+.filter-row{display:flex;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+.sb{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--bds);border-radius:11px;padding:.5rem .9rem;flex:1;min-width:220px;}
+.sb:focus-within{border-color:var(--nm);}
+.sb i{color:var(--mt);font-size:.8rem;}
+.sb input{background:none;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--ink);width:100%;}
+.sb input::placeholder{color:var(--mt);}
+.fsel{padding:.55rem .9rem;border-radius:10px;border:1px solid var(--bds);background:var(--sf);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;cursor:pointer;}
+.ftabs{display:flex;gap:.35rem;background:var(--sf2);border-radius:12px;padding:.35rem;width:fit-content;margin-bottom:1.5rem;}
+.ftab{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;padding:.45rem 1rem;border-radius:9px;border:none;background:none;color:var(--mt);cursor:pointer;transition:all .2s;}
+.ftab.active{background:var(--ink);color:var(--bg);}
+[data-theme=dark] .ftab.active{background:white;color:#0c1410;}
+/* TENDER CARDS */
+.tender-list{display:flex;flex-direction:column;gap:1.25rem;}
+.tc{background:var(--sf);border:1px solid var(--bd);border-radius:20px;overflow:hidden;transition:all .3s;box-shadow:var(--sh);}
+.tc:hover{box-shadow:var(--shl);transform:translateY(-2px);}
+.tc-hdr{padding:1.5rem 1.75rem;border-bottom:1px solid var(--bd);display:flex;gap:1rem;align-items:flex-start;}
+.tc-icon{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:1rem;flex-shrink:0;}
+.tc-ref{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);margin-bottom:.3rem;}
+.tc-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1.3;}
+.tc-ministry{font-size:.8rem;color:var(--mt);margin-top:.25rem;}
+.tc-badges{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;flex-shrink:0;}
+.s-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;border-radius:50px;font-weight:600;}
+.s-open{background:var(--gl);color:var(--gm);}
+.s-closing{background:var(--al);color:var(--amber);}
+.s-closed{background:rgba(100,116,139,.1);color:#64748b;}
+.s-awarded{background:var(--nl);color:var(--nm);}
+.tc-body{padding:1.25rem 1.75rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;}
+.td-item{display:flex;flex-direction:column;gap:.25rem;}
+.td-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);}
+.td-val{font-size:.875rem;font-weight:600;color:var(--ink);}
+.tc-footer{padding:1rem 1.75rem;border-top:1px solid var(--bd);background:var(--sf2);display:flex;align-items:center;justify-content:space-between;}
+.tc-deadline{font-size:.82rem;color:var(--mt);}
+.tc-deadline strong{color:var(--red);}
+.tc-deadline.safe strong{color:var(--gm);}
+.tc-acts{display:flex;gap:.5rem;}
+.btn-dl{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;padding:.45rem .9rem;border-radius:9px;border:1px solid var(--bd);background:none;cursor:pointer;color:var(--mt);transition:all .2s;}
+.btn-dl:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.btn-apply{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;padding:.45rem 1.1rem;border-radius:9px;border:none;background:var(--nm);color:white;cursor:pointer;transition:all .2s;}
+.btn-apply:hover{background:var(--navy);}
+.btn-apply:disabled{background:var(--mt);cursor:not-allowed;}
+/* MODAL */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-back.open{opacity:1;pointer-events:all;}
+.modal{background:var(--sf);border-radius:20px;padding:2rem;max-width:560px;width:90%;border:1px solid var(--bds);box-shadow:var(--shl);transform:scale(.95);transition:transform .3s;max-height:85vh;overflow-y:auto;}
+.modal-back.open .modal{transform:scale(1);}
+.mhdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;}
+.mtit{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.mclose{background:none;border:none;cursor:pointer;color:var(--mt);font-size:1.2rem;flex-shrink:0;}
+.form-group{margin-bottom:1.1rem;}
+.form-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);display:block;margin-bottom:.4rem;}
+.form-input{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--bds);background:var(--sf2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--nm);}
+.macts{display:flex;gap:.65rem;margin-top:1.5rem;justify-content:flex-end;}
+.btn-cancel{background:none;color:var(--mt);border:1px solid var(--bds);font-weight:500;font-size:.82rem;padding:.6rem 1.2rem;border-radius:10px;cursor:pointer;}
+.btn-submit{background:var(--nm);color:white;font-weight:600;font-size:.82rem;padding:.6rem 1.4rem;border-radius:10px;border:none;cursor:pointer;transition:all .2s;}
+.btn-submit:hover{background:var(--navy);}
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--gm);color:white;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s;box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+footer{background:#080f0a;padding:2rem;text-align:center;margin-top:4rem;}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:rgba(255,255,255,.3);}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr);}.tc-body{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.pw{padding:1.5rem 1rem;}.tc-body{grid-template-columns:1fr;}.hero-stats{flex-wrap:wrap;gap:1rem;}}
+</style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">Gov<span>Transparency</span></div>
-            <nav>
-                <ul>
-                    <li><a href="user_dashboard.html">Dashboard</a></li>
-                    <li><a href="Budget.html">Budget</a></li>
-                    <li><a href="Projects.html">Projects</a></li>
-                    <li><a href="About.html">About</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <main class="container">
-        <h1 class="page-title">Tender Opportunities</h1>
-        
-        <div class="search-filter">
-            <div class="filter-row">
-                <div class="filter-group">
-                    <label for="search">Search</label>
-                    <input type="text" id="search" placeholder="Search tenders...">
-                </div>
-                <div class="filter-group">
-                    <label for="department">Department</label>
-                    <select id="department">
-                        <option value="">All Departments</option>
-                        <option value="transport">Transport</option>
-                        <option value="health">Health</option>
-                        <option value="education">Education</option>
-                        <option value="infrastructure">Infrastructure</option>
-                    </select>
-                </div>
-            </div>
-            <div class="filter-row">
-                <div class="filter-group">
-                    <label for="status">Status</label>
-                    <select id="status">
-                        <option value="">All Statuses</option>
-                        <option value="open">Open</option>
-                        <option value="closed">Closed</option>
-                        <option value="awarded">Awarded</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="date">Posted After</label>
-                    <input type="date" id="date">
-                </div>
-                <div class="filter-group" style="align-self: flex-end;">
-                    <button>Apply Filters</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="tender-list">
-            <!-- Tender Card 1 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0451</div>
-                    <h3 class="tender-title">Construction of Regional Hospital</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Health</span>
-                        <span class="tender-value">Ksh12.5M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: June 15, 2023</div>
-                    <p class="tender-description">
-                        Construction of a 200-bed regional hospital including all medical facilities, 
-                        parking, and landscaping in the Northern District.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender1">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tender Card 2 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0382</div>
-                    <h3 class="tender-title">School Textbook Procurement</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Education</span>
-                        <span class="tender-value">Ksh2.1M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: May 30, 2023</div>
-                    <p class="tender-description">
-                        Procurement and distribution of textbooks for primary and secondary schools 
-                        across the state for the 2023-2024 academic year.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender2">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tender Card 3 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0427</div>
-                    <h3 class="tender-title">Highway Maintenance Services</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Transport</span>
-                        <span class="tender-value">Ksh8.75M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: July 5, 2023</div>
-                    <p class="tender-description">
-                        Three-year contract for routine maintenance of 150km of state highways 
-                        including pothole repairs, signage, and drainage maintenance.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender3">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tender Card 4 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0396</div>
-                    <h3 class="tender-title">IT Infrastructure Upgrade</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Technology</span>
-                        <span class="tender-value">Ksh5.3M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: June 22, 2023</div>
-                    <p class="tender-description">
-                        Upgrade of government data centers including server hardware, network 
-                        infrastructure, and security systems for all state departments.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender4">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tender Card 5 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0415</div>
-                    <h3 class="tender-title">Waste Management Services</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Environment</span>
-                        <span class="tender-value">Ksh3.8M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: June 8, 2023</div>
-                    <p class="tender-description">
-                        Five-year contract for municipal waste collection, recycling, and disposal 
-                        services for the capital city and surrounding areas.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender5">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tender Card 6 -->
-            <div class="tender-card">
-                <div class="tender-header">
-                    <div class="tender-id">TENDER #GOV-2023-0438</div>
-                    <h3 class="tender-title">Public Park Renovation</h3>
-                </div>
-                <div class="tender-body">
-                    <div class="tender-meta">
-                        <span class="tender-department">Urban Development</span>
-                        <span class="tender-value">Ksh1.2M</span>
-                    </div>
-                    <div class="tender-deadline">Deadline: May 25, 2023</div>
-                    <p class="tender-description">
-                        Complete renovation of Central City Park including new playground equipment, 
-                        walking paths, landscaping, and public facilities.
-                    </p>
-                    <div class="tender-actions">
-                        <button class="btn-outline view-details" data-tender="tender6">View Details</button>
-                        <button>Apply Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="pagination">
-            <button onclick="navigatePage('prev')">&laquo;</button>
-            <button onclick="navigatePage(1)">1</button>
-            <button onclick="navigatePage(2)">2</button>
-            <button onclick="navigatePage(3)">3</button>
-            <button onclick="navigatePage('next')">&raquo;</button>
-        </div>
-    </main>
-    
-    <!-- Modal Popups for each tender -->
-    <!-- Tender 1 Modal -->
-    <div id="tender1-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('tender1-modal')">&times;</span>
-            <div class="modal-header">
-                <h2 class="modal-title">Construction of Regional Hospital</h2>
-                <p>TENDER #GOV-2023-0451 | Department: Health | Budget: $12.5M</p>
-            </div>
-            <div class="modal-body">
-                <div class="modal-section">
-                    <h4>Project Description</h4>
-                    <p>Construction of a 200-bed regional hospital in the Northern District, including:</p>
-                    <ul>
-                        <li>Main hospital building with emergency, surgical, and inpatient facilities</li>
-                        <li>Outpatient clinic and diagnostic center</li>
-                        <li>Staff housing and administrative offices</li>
-                        <li>Parking for 300 vehicles</li>
-                        <li>Landscaping and external works</li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h4>Key Dates</h4>
-                    <p><strong>Published:</strong> April 15, 2023</p>
-                    <p><strong>Deadline for Questions:</strong> May 30, 2023</p>
-                    <p><strong>Submission Deadline:</strong> June 15, 2023</p>
-                    <p><strong>Evaluation Period:</strong> June 16 - July 15, 2023</p>
-                    <p><strong>Expected Award Date:</strong> July 30, 2023</p>
-                </div>
-                <div class="modal-section">
-                    <h4>Eligibility Requirements</h4>
-                    <ul>
-                        <li>Minimum 5 years experience in healthcare facility construction</li>
-                        <li>Valid construction license</li>
-                        <li>Proof of financial capability</li>
-                        <li>Compliance with all safety and environmental regulations</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-outline" onclick="closeModal('tender1-modal')">Close</button>
-                <button>Download Full Tender Documents</button>
-            </div>
-        </div>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem">
+      <a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a><a href="Budget.html">Budget</a><a href="Tenders.html" class="active">Tenders</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
     </div>
-    
-    <!-- Tender 2 Modal -->
-    <div id="tender2-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('tender2-modal')">&times;</span>
-            <div class="modal-header">
-                <h2 class="modal-title">School Textbook Procurement</h2>
-                <p>TENDER #GOV-2023-0382 | Department: Education | Budget: $2.1M</p>
-            </div>
-            <div class="modal-body">
-                <div class="modal-section">
-                    <h4>Project Description</h4>
-                    <p>Procurement and distribution of textbooks for primary and secondary schools across the state for the 2023-2024 academic year:</p>
-                    <ul>
-                        <li>Mathematics (Grades 1-12)</li>
-                        <li>Science (Grades 1-12)</li>
-                        <li>Language Arts (Grades 1-12)</li>
-                        <li>Social Studies (Grades 4-12)</li>
-                        <li>Special Education materials</li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h4>Key Dates</h4>
-                    <p><strong>Published:</strong> March 28, 2023</p>
-                    <p><strong>Deadline for Questions:</strong> May 15, 2023</p>
-                    <p><strong>Submission Deadline:</strong> May 30, 2023</p>
-                    <p><strong>Expected Delivery Date:</strong> August 1, 2023</p>
-                </div>
-                <div class="modal-section">
-                    <h4>Technical Specifications</h4>
-                    <ul>
-                        <li>Books must meet national curriculum standards</li>
-                        <li>Durable binding and high-quality paper</li>
-                        <li>Delivery to 250 schools statewide</li>
-                        <li>Digital versions required for all titles</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-outline" onclick="closeModal('tender2-modal')">Close</button>
-                <button>Download Full Tender Documents</button>
-            </div>
-        </div>
+  </div>
+</header>
+<section class="hero">
+  <div class="hs"></div>
+  <div class="hi">
+    <div class="ey"><i class="fas fa-gavel"></i> Public Procurement & Disposal</div>
+    <h1>Government <em>Tenders</em></h1>
+    <p>Official procurement notices from the Public Procurement Regulatory Authority (PPRA) of Kenya</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">47</div><div class="hstat-lbl">Open Tenders</div></div>
+      <div class="hstat"><div class="hstat-num">KSh 892B</div><div class="hstat-lbl">Total Value</div></div>
+      <div class="hstat"><div class="hstat-num">12</div><div class="hstat-lbl">Closing This Month</div></div>
+      <div class="hstat"><div class="hstat-num">189</div><div class="hstat-lbl">Awarded (2025)</div></div>
     </div>
-    
-    <!-- Tender 3 Modal -->
-    <div id="tender3-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('tender3-modal')">&times;</span>
-            <div class="modal-header">
-                <h2 class="modal-title">Highway Maintenance Services</h2>
-                <p>TENDER #GOV-2023-0427 | Department: Transport | Budget: $8.75M</p>
-            </div>
-            <div class="modal-body">
-                <div class="modal-section">
-                    <h4>Service Requirements</h4>
-                    <p>Three-year contract for routine maintenance of 150km of state highways including:</p>
-                    <ul>
-                        <li>Pothole repairs and pavement maintenance</li>
-                        <li>Road signage and markings</li>
-                        <li>Drainage system maintenance</li>
-                        <li>Shoulder maintenance</li>
-                        <li>Winter snow and ice control</li>
-                        <li>Emergency response within 2 hours</li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h4>Key Dates</h4>
-                    <p><strong>Published:</strong> May 5, 2023</p>
-                    <p><strong>Site Visits:</strong> May 20-25, 2023</p>
-                    <p><strong>Submission Deadline:</strong> July 5, 2023</p>
-                    <p><strong>Contract Start Date:</strong> September 1, 2023</p>
-                </div>
-                <div class="modal-section">
-                    <h4>Evaluation Criteria</h4>
-                    <ul>
-                        <li>Price (40%)</li>
-                        <li>Experience with similar projects (30%)</li>
-                        <li>Equipment and personnel capacity (20%)</li>
-                        <li>Local employment commitment (10%)</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-outline" onclick="closeModal('tender3-modal')">Close</button>
-                <button>Download Full Tender Documents</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Add similar modals for tender4, tender5, and tender6 -->
-    
-    <footer>
-        <div class="container">
-            <p>© 2023 Government Transparency Portal. All rights reserved.</p>
-            <p>Promoting accountability and open governance.</p>
-        </div>
-    </footer>
+  </div>
+</section>
+<div class="pw">
+  <div class="kpi-row">
+    <div class="kpi"><div class="ki g"><i class="fas fa-folder-open"></i></div><div class="kv">47</div><div class="kl">Open Tenders</div></div>
+    <div class="kpi"><div class="ki a"><i class="fas fa-clock"></i></div><div class="kv">12</div><div class="kl">Closing This Month</div></div>
+    <div class="kpi"><div class="ki n"><i class="fas fa-trophy"></i></div><div class="kv">189</div><div class="kl">Awarded (2025)</div></div>
+    <div class="kpi"><div class="ki r"><i class="fas fa-ban"></i></div><div class="kv">8</div><div class="kl">Cancelled/Suspended</div></div>
+  </div>
+  <div class="ftabs">
+    <button class="ftab active" onclick="switchCat(this,'all')">All Tenders</button>
+    <button class="ftab" onclick="switchCat(this,'Roads')">Roads</button>
+    <button class="ftab" onclick="switchCat(this,'Energy')">Energy</button>
+    <button class="ftab" onclick="switchCat(this,'Health')">Health</button>
+    <button class="ftab" onclick="switchCat(this,'ICT')">ICT</button>
+    <button class="ftab" onclick="switchCat(this,'Water')">Water</button>
+    <button class="ftab" onclick="switchCat(this,'Awarded')">Awarded</button>
+  </div>
+  <div class="filter-row">
+    <div class="sb"><i class="fas fa-search"></i><input type="text" id="ts" placeholder="Search tenders by title, ref, or ministry..." oninput="renderTenders()"></div>
+    <select class="fsel" id="tf" onchange="renderTenders()"><option value="">All Status</option><option value="Open">Open</option><option value="Closing Soon">Closing Soon</option><option value="Closed">Closed</option><option value="Awarded">Awarded</option></select>
+  </div>
+  <div id="tenderList" class="tender-list"></div>
+</div>
 
-    <script>
-        // Modal functionality
-        document.querySelectorAll('.view-details').forEach(button => {
-            button.addEventListener('click', function() {
-                const tenderId = this.getAttribute('data-tender');
-                document.getElementById(`${tenderId}-modal`).style.display = 'block';
-            });
-        });
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        // Close modal when clicking outside the content
-        window.addEventListener('click', function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        });
-        
-        // Pagination functionality
-        function navigatePage(page) {
-            if (page === 'prev') {
-                alert('Loading previous page of tenders...');
-            } else if (page === 'next') {
-                alert('Loading next page of tenders...');
-            } else {
-                alert(`Loading page ${page} of tenders...`);
-            }
-         
-        }
-    </script>
+<!-- APPLICATION MODAL -->
+<div class="modal-back" id="appModal">
+  <div class="modal">
+    <div class="mhdr"><div class="mtit" id="appTitle">Apply for Tender</div><button class="mclose" onclick="closeApp()"><i class="fas fa-times"></i></button></div>
+    <div style="background:var(--gl);border-radius:12px;padding:1rem;margin-bottom:1.25rem;font-size:.82rem;color:var(--gm)"><i class="fas fa-info-circle" style="margin-right:5px"></i>Please complete all sections. Submit tender documents via the PPRA portal or in person at the procuring entity.</div>
+    <div class="form-group"><label class="form-label">Company/Firm Name *</label><input class="form-input" id="aCompany" placeholder="e.g. Nairobi Construction Ltd"></div>
+    <div class="form-group"><label class="form-label">Registration Number *</label><input class="form-input" id="aReg" placeholder="e.g. BN/2019/123456"></div>
+    <div class="form-group"><label class="form-label">Contact Person *</label><input class="form-input" id="aContact" placeholder="Full name of authorised signatory"></div>
+    <div class="form-group"><label class="form-label">Email Address *</label><input class="form-input" id="aEmail" type="email" placeholder="procurement@company.co.ke"></div>
+    <div class="form-group"><label class="form-label">Phone Number *</label><input class="form-input" id="aPhone" placeholder="+254 700 000 000"></div>
+    <div class="form-group"><label class="form-label">Bid Price Estimate (KSh)</label><input class="form-input" id="aBid" type="number" placeholder="e.g. 450000000"></div>
+    <div class="form-group"><label class="form-label">Supporting Statement</label><textarea class="form-input" id="aStatement" rows="3" style="resize:vertical" placeholder="Briefly describe your company's relevant experience and capacity for this tender..."></textarea></div>
+    <div class="macts"><button class="btn-cancel" onclick="closeApp()">Cancel</button><button class="btn-submit" onclick="submitApp()"><i class="fas fa-paper-plane"></i> Submit Expression of Interest</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<footer><p>© 2025 Government of Kenya · Public Procurement Regulatory Authority · All rights reserved</p></footer>
+
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+const TENDERS=[
+  {ref:'KeNHA/RDS/001/2025',icon:'fas fa-road',iconBg:'rgba(11,149,68,.1)',iconColor:'#0b6e31',title:'Naivasha–Kisumu SGR Extension — Pre-Qualification',ministry:'Kenya Railways Corporation (KRC)',cat:'Roads',value:'KSh 263B',type:'Works',method:'International Competitive Tendering',deadline:'30 May 2025',status:'Open',daysLeft:47},
+  {ref:'KeNHA/RDS/002/2025',icon:'fas fa-road',iconBg:'rgba(11,149,68,.1)',iconColor:'#0b6e31',title:'Isiolo–Moyale Dual Carriageway Expansion (LAPSSET Road)',ministry:'Kenya National Highways Authority (KeNHA)',cat:'Roads',value:'KSh 45.2B',type:'Works',method:'International Competitive Tendering',deadline:'15 May 2025',status:'Closing Soon',daysLeft:12},
+  {ref:'REREC/LMCP/012/2025',icon:'fas fa-bolt',iconBg:'rgba(217,119,6,.1)',iconColor:'#d97706',title:'Phase 4 Last Mile Connectivity — 32 Counties (Package 1)',ministry:'Rural Electrification & Renewable Energy Corporation',cat:'Energy',value:'KSh 13.5B',type:'Works',method:'National Competitive Tendering',deadline:'20 June 2025',status:'Open',daysLeft:78},
+  {ref:'KPA/KSM/003/2025',icon:'fas fa-ship',iconBg:'rgba(14,165,233,.1)',iconColor:'#0ea5e9',title:'Kisumu Port Basin Dredging & Deepening Works',ministry:'Kenya Ports Authority (KPA)',cat:'Water',value:'KSh 350M',type:'Works',method:'National Competitive Tendering',deadline:'10 May 2025',status:'Closing Soon',daysLeft:7},
+  {ref:'NIA/GK/DAM/001/2025',icon:'fas fa-tint',iconBg:'rgba(14,165,233,.1)',iconColor:'#0ea5e9',title:'Athi (Galana) Dam — Construction & Irrigation Works',ministry:'National Irrigation Authority (NIA)',cat:'Water',value:'TBC (CCCC Contracted)',type:'Works',method:'Direct Procurement (Dec 2025)',deadline:'Awarded',status:'Awarded',daysLeft:0},
+  {ref:'MoH/SHA/IT/007/2025',icon:'fas fa-heartbeat',iconBg:'rgba(236,72,153,.1)',iconColor:'#ec4899',title:'SHA Digital Health Information Management System',ministry:'Ministry of Health / Social Health Authority',cat:'ICT',value:'KSh 4.2B',type:'Supply & Services',method:'Restricted International Tendering',deadline:'25 May 2025',status:'Open',daysLeft:22},
+  {ref:'ICT/BBOARD/022/2025',icon:'fas fa-network-wired',iconBg:'rgba(139,92,246,.1)',iconColor:'#8b5cf6',title:'National Optic Fibre Network Expansion — Phase 3',ministry:'ICT Authority / Ministry of ICT',cat:'ICT',value:'KSh 18.7B',type:'Works',method:'International Competitive Tendering',deadline:'5 June 2025',status:'Open',daysLeft:62},
+  {ref:'KENHA/TAL/STD/004/2024',icon:'fas fa-futbol',iconBg:'rgba(11,149,68,.1)',iconColor:'#0b6e31',title:'Talanta Stadium — Roof System & Interior Fit-Out',ministry:'Ministry of Sports, Culture & Arts',cat:'Health',value:'KSh 6.8B',type:'Works',method:'International Competitive Tendering',deadline:'Awarded 2024',status:'Awarded',daysLeft:0},
+  {ref:'MOH/CCC/011/2025',icon:'fas fa-hospital',iconBg:'rgba(236,72,153,.1)',iconColor:'#ec4899',title:'Construction of 100 Level-5 Hospitals Across 47 Counties',ministry:'Ministry of Health',cat:'Health',value:'KSh 38.5B',type:'Works',method:'National Competitive Tendering',deadline:'30 June 2025',status:'Open',daysLeft:87},
+  {ref:'NLC/MWACHE/COM/008/2025',icon:'fas fa-balance-scale',iconBg:'rgba(29,58,138,.1)',iconColor:'#1d3a8a',title:'Mwache Dam — Land Compensation Valuation Consultancy',ministry:'National Land Commission (NLC)',cat:'Water',value:'KSh 45M',type:'Consultancy',method:'Request for Proposals',deadline:'Closed',status:'Closed',daysLeft:0},
+];
+
+let currentCat='all';
+function filtered(){
+  const q=document.getElementById('ts').value.toLowerCase();
+  const s=document.getElementById('tf').value;
+  return TENDERS.filter(t=>{
+    const mc=currentCat==='all'||t.cat===currentCat||(currentCat==='Awarded'&&t.status==='Awarded');
+    const mq=!q||t.title.toLowerCase().includes(q)||t.ref.toLowerCase().includes(q)||t.ministry.toLowerCase().includes(q);
+    const ms=!s||t.status===s;
+    return mc&&mq&&ms;
+  });
+}
+
+function renderTenders(){
+  const data=filtered();
+  const list=document.getElementById('tenderList');
+  if(!data.length){list.innerHTML=`<div style="text-align:center;padding:4rem;color:var(--mt)"><i class="fas fa-gavel" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:.25"></i><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--ink);margin-bottom:.4rem">No tenders found</h3><p>Try adjusting your search or filter.</p></div>`;return;}
+  list.innerHTML=data.map(t=>`<div class="tc">
+    <div class="tc-hdr">
+      <div class="tc-icon" style="background:${t.iconBg};color:${t.iconColor}"><i class="${t.icon}"></i></div>
+      <div style="flex:1">
+        <div class="tc-ref">${t.ref}</div>
+        <div class="tc-title">${t.title}</div>
+        <div class="tc-ministry"><i class="fas fa-building" style="margin-right:4px;color:var(--mt)"></i>${t.ministry}</div>
+      </div>
+      <div class="tc-badges">
+        <span class="s-badge ${t.status==='Open'?'s-open':t.status==='Closing Soon'?'s-closing':t.status==='Awarded'?'s-awarded':''}"><i class="fas fa-circle" style="font-size:.4rem"></i> ${t.status}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--mt)">${t.cat}</span>
+      </div>
+    </div>
+    <div class="tc-body">
+      <div class="td-item"><div class="td-lbl">Tender Value</div><div class="td-val">${t.value}</div></div>
+      <div class="td-item"><div class="td-lbl">Type</div><div class="td-val">${t.type}</div></div>
+      <div class="td-item"><div class="td-lbl">Procurement Method</div><div class="td-val" style="font-size:.8rem">${t.method}</div></div>
+    </div>
+    <div class="tc-footer">
+      <div class="tc-deadline ${t.daysLeft>30?'safe':''}">
+        <i class="fas fa-${t.status==='Awarded'||t.status==='Closed'?'check-circle':'calendar-alt'}" style="margin-right:5px"></i>
+        ${t.status==='Awarded'?`<strong>Awarded</strong>`:(t.status==='Closed'?`<strong>Closed</strong>`:`Deadline: <strong>${t.deadline}</strong>${t.daysLeft?` (${t.daysLeft} days remaining)`:''}`)}
+      </div>
+      <div class="tc-acts">
+        <button class="btn-dl" onclick="showToast('Downloading tender documents...')"><i class="fas fa-file-pdf"></i> Documents</button>
+        <button class="btn-apply" onclick="openApp('${t.title.replace(/'/g,"\\'")}','${t.ref}')" ${t.status==='Closed'||t.status==='Awarded'?'disabled':''}>
+          <i class="fas fa-paper-plane"></i> ${t.status==='Closed'||t.status==='Awarded'?'Closed':'Apply'}
+        </button>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function switchCat(btn,cat){document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentCat=cat;renderTenders();}
+
+let activeTender='';
+function openApp(title,ref){activeTender=ref;document.getElementById('appTitle').textContent=`Apply — ${ref}`;document.getElementById('appModal').classList.add('open');}
+function closeApp(){document.getElementById('appModal').classList.remove('open');}
+document.getElementById('appModal').addEventListener('click',e=>{if(e.target===document.getElementById('appModal'))closeApp();});
+
+function submitApp(){
+  const co=document.getElementById('aCompany').value.trim();
+  const em=document.getElementById('aEmail').value.trim();
+  if(!co||!em){showToast('Please fill in required fields','error');return;}
+  closeApp();
+  showToast(`Expression of interest submitted for ${activeTender}`);
+}
+
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-${t==='success'?'check-circle':'exclamation-circle'}"></i> ${m}`;el.style.background=t==='success'?'var(--gm)':'var(--red)';el.className='toast show';setTimeout(()=>el.classList.remove('show'),4000);}
+
+renderTenders();
+</script>
 </body>
 </html>

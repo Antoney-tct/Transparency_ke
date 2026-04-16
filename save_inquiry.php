@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "message";
+$dbname = "government_portal";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

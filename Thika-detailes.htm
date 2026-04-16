@@ -1,987 +1,761 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details - Government Portal</title>
-    <link rel="stylesheet" href="land.css">
-    <script src="tabs.js"></script>
-    <script src="project_details.js"></script>
-    <script src="notification.js"></script>
-    <script src="timeline.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        
-        .project-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-        }
-        
-        .project-title {
-            flex: 1;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thika Superhighway — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="shared-nav.css">
+<style>
+/* ── PAGE HERO override ── */
+.thika-hero{position:relative;min-height:62vh;display:flex;align-items:flex-end;overflow:hidden;}
+.thika-hero-bg{position:absolute;inset:0;background:linear-gradient(170deg,#031809 0%,#0a2a0f 40%,#0f1e4a 100%);}
+.thika-hero-bg::after{content:'A2';position:absolute;right:-60px;top:-40px;font-family:'Cormorant Garamond',serif;font-size:32rem;font-weight:700;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;}
+.thika-road-line{position:absolute;bottom:80px;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(126,255,168,.4),transparent);}
+.thika-dots{position:absolute;bottom:72px;left:0;right:0;display:flex;justify-content:space-around;align-items:center;padding:0 5%;}
+.thika-dot{width:12px;height:12px;border-radius:50%;background:#7effa8;box-shadow:0 0 12px #7effa8;animation:dotPulse 2s infinite;}
+@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.7;}}
+.thika-dot:nth-child(2){animation-delay:.3s;}
+.thika-dot:nth-child(3){animation-delay:.6s;}
+.thika-dot:nth-child(4){animation-delay:.9s;}
+.thika-dot:nth-child(5){animation-delay:1.2s;}
+.thika-dot:nth-child(6){animation-delay:1.5s;}
+.hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);z-index:3;}
+.hero-cnt{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 1.5rem 3.5rem;width:100%;opacity:0;animation:slideUp .9s .15s ease forwards;}
+@keyframes slideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:none;}}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.9rem;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow i{color:#7effa8;}
+.hero-cnt h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:1rem;}
+.hero-cnt h1 em{font-style:normal;color:#7effa8;}
+.hero-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.htag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:.3rem .95rem;border-radius:50px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);color:#fff;}
+.htag.done{background:rgba(11,149,68,.75);}
+.htag.info{background:rgba(255,255,255,.1);}
+.htag.live{background:rgba(217,119,6,.75);}
+/* live badge pulse */
+.htag.live i{animation:livePulse 1.4s infinite;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-        .project-title h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .project-meta {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        .project-meta span {
-            margin-right: 20px;
-        }
-        
-        .project-status {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            min-width: 200px;
-        }
-        
-        .status-label {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .progress-circle {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-        }
-        
-        .progress-circle canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .progress-percentage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #0b9d3f;
-        }
-        
-        
+/* ── ALERT BANNER ── */
+.alert-banner{background:linear-gradient(90deg,rgba(217,119,6,.15),rgba(217,119,6,.05));border:1px solid rgba(217,119,6,.35);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.75rem;display:flex;align-items:flex-start;gap:.85rem;}
+.ab-icon{width:36px;height:36px;border-radius:9px;background:rgba(217,119,6,.2);color:#d97706;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+.ab-title{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.ab-desc{font-size:.78rem;color:var(--mt);line-height:1.55;}
+.ab-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--mt);margin-top:.3rem;}
 
+/* ── RIBBON ── */
+.ribbon{display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink);border-radius:18px;overflow:hidden;margin-bottom:2rem;}
+[data-theme=dark] .ribbon{background:#0a1a10;}
+.rbc{padding:1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.rbc:last-child{border-right:none;}
+.rbc-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#7effa8;line-height:1;}
+.rbc-sub{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.3rem;}
 
+/* ── METRICS ── */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.metric{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;}
+.metric::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g),#22c55e);transform:scaleX(0);transform-origin:left;transition:transform .35s;}
+.metric:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.metric:hover::after{transform:scaleX(1);}
+.metric-icon{width:40px;height:40px;border-radius:11px;background:var(--gl);color:var(--gm);display:grid;place-items:center;font-size:.9rem;margin-bottom:1rem;}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.2rem;}
+.metric-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+.metric-sub{font-size:.72rem;color:var(--gm);margin-top:.25rem;}
 
+/* ── SHARE ── */
+.share-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.shl{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);}
+.sbtn{width:34px;height:34px;border-radius:50%;border:1px solid var(--bd);background:var(--sf);color:var(--mt);font-size:.8rem;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.sbtn:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
 
+/* ── TABS ── */
+.tab-nav{display:flex;gap:.3rem;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:.4rem;margin-bottom:2rem;overflow-x:auto;}
+.tnb{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:.55rem 1.1rem;border-radius:10px;border:none;background:none;color:var(--mt);cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.tnb:hover{color:var(--ink);}
+.tnb.active{background:var(--ink);color:var(--bg);}
+[data-theme=dark] .tnb.active{background:#fff;color:#0c1410;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 
-/*  Search */
-.search-container {
-    display: flex;
-    align-items: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 25px;
-    overflow: hidden;
-    width: 300px;
-    margin: 20px auto;
-    background-color: #fff;
-    transition: box-shadow 0.3s ease;
-}
+/* ── CARD ── */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 2px 20px rgba(0,0,0,.06);}
+.card-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.card-ey::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.card-h{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;}
+.card-body{font-size:.9rem;color:var(--im);line-height:1.82;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
 
-.search-container:focus-within {
-    box-shadow: 0 0 8px rgba(11, 157, 63, 0.3);
-    border-color: #0b9d3f;
-}
+/* ── DETAIL ROWS ── */
+.dr{display:flex;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--bd);}
+.dr:last-child{border-bottom:none;}
+.di{width:34px;height:34px;border-radius:9px;background:var(--gl);color:var(--gm);display:grid;place-items:center;font-size:.78rem;flex-shrink:0;}
+.dlbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt);margin-bottom:.15rem;}
+.dval{font-size:.875rem;font-weight:500;color:var(--ink);}
 
-.search-container input[type="text"] {
-    border: none;
-    padding: 12px 15px;
-    flex: 1;
-    font-size: 16px;
-    outline: none;
-    background: transparent;
-}
+/* ── CONTRACTOR GRID ── */
+.con-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+.ccard{background:var(--sf2);border:1px solid var(--bd);border-radius:14px;padding:1.25rem;text-align:center;transition:all .25s;}
+.ccard:hover{border-color:var(--gm);transform:translateY(-2px);}
+.clot{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gm);margin-bottom:.4rem;}
+.cn{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.cs{font-size:.78rem;color:var(--mt);margin-bottom:.4rem;}
+.cc{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gm);font-weight:600;}
 
-.search-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* ── IMPACT GRID ── */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.ig{display:flex;gap:.75rem;padding:1rem;background:var(--sf2);border-radius:12px;border:1px solid var(--bd);}
+.ig-icon{width:38px;height:38px;border-radius:10px;background:var(--gl);color:var(--gm);display:grid;place-items:center;font-size:.85rem;flex-shrink:0;}
+.ig-t{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.ig-d{font-size:.78rem;color:var(--mt);line-height:1.5;}
 
-.search-icon {
-    width: 20px;
-    height: 20px;
-    fill: #666;
-    transition: fill 0.3s ease;
-}
+/* ── PROG BARS ── */
+.pr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;}
+.plbl{font-size:.83rem;color:var(--im);}
+.ppct{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;color:var(--gm);}
+.ptrack{height:7px;background:var(--sf2);border-radius:10px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--bd);}
+.pfill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--g),#22c55e);width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);}
 
-.search-button:hover .search-icon {
-    fill: #0b9d3f;
-}
+/* ── FUND BAR ── */
+.fund-bar{display:flex;border-radius:12px;overflow:hidden;height:32px;margin:1rem 0;}
+.fs{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#fff;font-weight:700;}
 
+/* ── BUDGET KPIS ── */
+.bkpi{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.5rem;}
+.bk{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.5rem;}
+.bkl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);margin-bottom:.4rem;}
+.bkv{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.2rem;}
+.bks{font-size:.75rem;color:var(--mt);}
 
+/* ── UPDATES TIMELINE ── */
+.update-list{display:flex;flex-direction:column;gap:1rem;}
+.upd{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;}
+.upd-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.upd-date{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--mt);margin-bottom:.3rem;}
+.upd-title{font-size:.875rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.upd-desc{font-size:.8rem;color:var(--mt);line-height:1.55;}
+.upd-src{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--gm);margin-top:.35rem;display:flex;align-items:center;gap:4px;}
 
+/* ── MAP ── */
+.map-wrap{border-radius:14px;overflow:hidden;border:1px solid var(--bd);height:380px;}
+.map-wrap iframe{width:100%;height:100%;border:none;display:block;}
+.stop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.25rem;}
+.stop{background:var(--sf2);border-radius:12px;padding:1rem;text-align:center;border:1px solid var(--bd);}
+.slbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);margin-bottom:.3rem;}
+.sval{font-weight:700;color:var(--ink);font-size:.9rem;}
+.lm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-top:1.25rem;}
+.lm{background:var(--sf2);border-radius:10px;padding:.75rem;text-align:center;font-size:.78rem;font-weight:600;color:var(--ink);border:1px solid var(--bd);}
 
+/* ── GALLERY ── */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.gitem{border-radius:14px;overflow:hidden;border:1px solid var(--bd);transition:all .3s;background:var(--sf);}
+.gitem:hover{transform:translateY(-4px);box-shadow:var(--shl);}
+.gitem img{width:100%;height:200px;object-fit:cover;display:block;}
+.gimg-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,.25);}
+.gcap{padding:1rem;}
+.gcap strong{font-size:.875rem;font-weight:600;color:var(--ink);display:block;margin-bottom:.3rem;}
+.gcap p{font-size:.78rem;color:var(--mt);line-height:1.55;}
 
-/*  Notification  */
-.notification-container {
-    position: relative;
-    display: inline-block;
-    margin-right: 15px;
-}
+/* ── DISCUSSION ── */
+.rxn-bar{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;}
+.rxn-stat-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--ink);line-height:1;}
+.rxn-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+.rxn-div{width:1px;height:40px;background:var(--bd);}
+.rxn-btns{display:flex;gap:.6rem;margin-left:auto;flex-wrap:wrap;}
+.rxn-btn{display:inline-flex;align-items:center;gap:6px;padding:.6rem 1.2rem;border-radius:11px;border:1px solid var(--bds);background:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;color:var(--mt);transition:all .2s;}
+.rxn-btn:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.rxn-btn.al{background:var(--gl);border-color:var(--gm);color:var(--gm);}
+.rxn-btn.adl{background:var(--rl);border-color:var(--re);color:var(--re);}
+.cform{background:var(--sf2);border:1px solid var(--bd);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;}
+.cform textarea{width:100%;padding:.75rem 1rem;border-radius:10px;border:1px solid var(--bds);background:var(--sf);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;resize:vertical;min-height:90px;outline:none;transition:border-color .2s;line-height:1.65;}
+.cform textarea:focus{border-color:var(--gm);}
+.cninput{padding:.55rem .9rem;border-radius:9px;border:1px solid var(--bds);background:var(--sf);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;}
+.cbtn{display:inline-flex;align-items:center;gap:6px;background:var(--gm);color:#fff;font-weight:600;font-size:.82rem;padding:.65rem 1.35rem;border-radius:11px;border:none;cursor:pointer;transition:all .2s;margin-top:.75rem;}
+.cbtn:hover{background:var(--g);}
+.comment{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:1.25rem;margin-bottom:1rem;}
+.chdr{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+.cav{width:36px;height:36px;border-radius:50%;background:var(--gl);color:var(--gm);display:grid;place-items:center;font-weight:700;font-size:.85rem;flex-shrink:0;font-family:'Cormorant Garamond',serif;}
+.cname{font-size:.875rem;font-weight:600;color:var(--ink);}
+.cdate{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--mt);}
+.cbody{font-size:.875rem;color:var(--im);line-height:1.7;}
+.clk{background:none;border:1px solid var(--bd);border-radius:8px;padding:.3rem .75rem;font-size:.72rem;color:var(--mt);cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px;font-family:'Outfit',sans-serif;margin-top:.6rem;}
+.clk:hover,.clk.liked{border-color:var(--gm);color:var(--gm);background:var(--gl);}
 
-.notification-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
+/* ── FACTS LIST ── */
+.facts{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+.facts li{display:flex;gap:.7rem;font-size:.875rem;color:var(--im);}
+.facts li i{color:var(--gm);font-size:.78rem;margin-top:3px;flex-shrink:0;}
 
-.bell-icon {
-    width: 24px;
-    height: 24px;
-    fill: #333;
-    transition: fill 0.3s ease;
-}
+/* ── TOAST / BACK-TOP ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--g);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 16px 50px rgba(0,0,0,.2);}
+.toast.show{transform:translateY(0);opacity:1;}
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;width:46px;height:46px;border-radius:13px;background:var(--g);color:#fff;border:none;cursor:pointer;display:grid;place-items:center;font-size:.9rem;box-shadow:0 8px 20px rgba(11,110,49,.4);transform:translateY(80px);opacity:0;transition:all .3s;}
+.back-top.show{transform:translateY(0);opacity:1;}
+.back-top:hover{background:var(--gm);transform:translateY(-3px);}
 
-.notification-btn:hover .bell-icon {
-    fill: #0b9d3f;
-}
+/* ── FOOTER (shared) ── */
+.site-footer{background:#080f0a;padding:3rem 1.5rem 2rem;}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-top:.75rem;margin-bottom:.5rem;}
+.footer-brand-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65;}
+.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7effa8;margin-bottom:.85rem;}
+.footer-col a{display:block;font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:.4rem;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);}
+.flag-stripe{height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);margin-bottom:3rem;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--mt);padding:.45rem .9rem;border-radius:9px;border:1px solid var(--bd);background:var(--sf);transition:all .2s;margin-bottom:1.75rem;}
+.back-btn:hover{border-color:var(--gm);color:var(--gm);}
 
-.notification-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #e74c3c;
-    color: white;
-    font-size: 12px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.notification-dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    width: 320px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    z-index: 100;
-    margin-top: 10px;
-    overflow: hidden;
-}
-
-.notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.notification-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
-}
-
-.mark-all-read {
-    background: none;
-    border: none;
-    color: #0b9d3f;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 0;
-}
-
-.notification-list {
-    max-height: 350px;
-    overflow-y: auto;
-}
-
-.notification-item {
-    display: flex;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.3s;
-}
-
-.notification-item:hover {
-    background-color: #f9f9f9;
-}
-
-.notification-item.unread {
-    background-color: #f0f7ff;
-}
-
-.notification-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 15px;
-    background-color: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.admin-icon {
-    background-color: #3498db;
-}
-
-.system-icon {
-    background-color: #9b59b6;
-}
-
-.event-icon {
-    background-color: #f39c12;
-}
-
-.report-icon {
-    background-color: #2ecc71;
-}
-
-.notification-content {
-    flex: 1;
-}
-
-.notification-title {
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.notification-time {
-    font-size: 12px;
-    color: #999;
-}
-
-.notification-footer {
-    padding: 12px;
-    text-align: center;
-    border-top: 1px solid #f0f0f0;
-}
-
-.notification-footer a {
-    color: #0b9d3f;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.notification-footer a:hover {
-    text-decoration: underline;
-}
-
-
-
-/*timeline*/
-
-    .simple-timeline {
-        margin: 30px 0;
-        border-left: 4px solid #ddd;
-        padding-left: 20px;
-    }
-
-    .timeline-event {
-        margin-bottom: 30px;
-        position: relative;
-        padding-left: 15px;
-    }
-
-    .timeline-event:before {
-        content: '';
-        width: 15px;
-        height: 15px;
-        background-color: #ddd;
-        border-radius: 50%;
-        position: absolute;
-        left: -29px;
-        top: 5px;
-    }
-
-    .timeline-event.completed:before {
-        background-color: #0b9d3f;
-    }
-
-    .timeline-event.current:before {
-        background-color: #f39c12;
-    }
-
-    .timeline-date {
-        font-weight: bold;
-        color: #0b9d3f;
-        margin-bottom: 5px;
-    }
-
-    .timeline-info h4 {
-        margin: 0 0 5px 0;
-    }
-
-    .timeline-info p {
-        margin: 0;
-        color: #666;
-    }
-
-
-    /*budget cards*/
-
-    .budget-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .budget-card {
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .budget-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .budget-amount {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #0b9d3f;
-            margin: 10px 0;
-        }
-        
-        .budget-label {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        .budget-change {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .budget-increase {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
-        }
-        
-        .budget-decrease {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #c0392b;
-        }
-        
-        .chart-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}.con-grid{grid-template-columns:1fr;}.impact-grid{grid-template-columns:1fr;}.bkpi{grid-template-columns:1fr 1fr;}.metrics{grid-template-columns:1fr 1fr;}.ribbon{grid-template-columns:1fr 1fr;}.gallery{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.stop-grid{grid-template-columns:1fr;}.lm-grid{grid-template-columns:repeat(2,1fr);}.rxn-btns{margin-left:0;width:100%;}}
+@media(max-width:580px){.bkpi{grid-template-columns:1fr 1fr;}.metrics{grid-template-columns:1fr 1fr;}.gallery{grid-template-columns:1fr;}.lm-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr;}.page-wrap{padding:1.5rem 1rem 4rem;}}
 </style>
-
-
-
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo">
-        </div>
-        
-       
-        <!--  Search Bar -->
-<div class="search-container">
-    <input type="text" placeholder="Search...">
-    <button type="submit" class="search-button">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-        </svg>
-    </button>
-</div>
 
-<!--  Notification Button -->
-<div class="notification-container">
-    <button class="notification-btn" id="notificationButton">
-        <svg class="bell-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
-        </svg>
-        <span class="notification-badge" id="notificationBadge">4</span>
-    </button>
-    <div class="notification-dropdown" id="notificationDropdown">
-        <div class="notification-header">
-            <h3>Notifications</h3>
-            <button class="mark-all-read">Mark all as read</button>
-        </div>
-        <div class="notification-list">
-            <a href="page1.html" class="notification-item unread">
-                <div class="notification-icon admin-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">New message from Admin</div>
-                    <div class="notification-time">2 hours ago</div>
-                </div>
-            </a>
-            <a href="page2.html" class="notification-item unread">
-                <div class="notification-icon system-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">System Update Available</div>
-                    <div class="notification-time">Yesterday</div>
-                </div>
-            </a>
-            <a href="page3.html" class="notification-item">
-                <div class="notification-icon event-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">Reminder: Upcoming Event</div>
-                    <div class="notification-time">3 days ago</div>
-                </div>
-            </a>
-            <a href="page4.html" class="notification-item">
-                <div class="notification-icon report-icon"></div>
-                <div class="notification-content">
-                    <div class="notification-title">Weekly Report Ready</div>
-                    <div class="notification-time">1 week ago</div>
-                </div>
-            </a>
-        </div>
-        <div class="notification-footer">
-            <a href="all_notifications.html">View all notifications</a>
-        </div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya">
+      <div class="logo-name">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="desk-nav">
+      <a href="user_dashboard.html">Dashboard</a>
+      <a href="Projects.html" class="active">Projects</a>
+      <a href="Budget.html">Budget</a>
+      <a href="Counties.html">Counties</a>
+      <a href="Devolution.html">Devolution</a>
+      <a href="National-Government.html">National Govt</a>
+      <a href="Kenya-Vision.html">Vision 2030</a>
+      <a href="Service-Delivery.html">Services</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="icon-btn"><i class="fas fa-user"></i></a>
+      <button class="hamburger" id="hamburger"><span class="hb-line"></span><span class="hb-line"></span><span class="hb-line"></span></button>
     </div>
-</div>
+  </div>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mob-nav-section">
+    <span class="mob-nav-label">Navigation</span>
+    <a href="user_dashboard.html" class="mob-nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="Projects.html" class="mob-nav-link active"><i class="fas fa-project-diagram"></i> Projects</a>
+    <a href="Budget.html" class="mob-nav-link"><i class="fas fa-coins"></i> Budget</a>
+    <a href="Counties.html" class="mob-nav-link"><i class="fas fa-map"></i> 47 Counties</a>
+    <a href="Devolution.html" class="mob-nav-link"><i class="fas fa-sitemap"></i> Devolution</a>
+    <a href="National-Government.html" class="mob-nav-link"><i class="fas fa-landmark"></i> National Government</a>
+    <a href="Kenya-Vision.html" class="mob-nav-link"><i class="fas fa-eye"></i> Vision 2030</a>
+    <a href="Service-Delivery.html" class="mob-nav-link"><i class="fas fa-hands-helping"></i> Services</a>
+    <a href="Tenders.html" class="mob-nav-link"><i class="fas fa-gavel"></i> Tenders</a>
+    <a href="updates.html" class="mob-nav-link"><i class="fas fa-bell"></i> Notifications</a>
+  </div>
+</nav>
 
-        <div class="profile-section">
-            
-            </div>
-            <a href="pprofile.html">
-                <div class="profile-button"></div>
-            </a>
-        </div>
-    </header>
-
-    <div class="project-container">
-        <div class="project-header">
-            <div class="project-title">
-                <h1>Thika Super-highway</h1>
-                <div class="project-meta">
-                    <span><strong>Location:</strong> Nairobi to Thika, Kenya</span>
-                    <span><strong>Started:</strong> 2009</span>
-                    <span><strong>Completed:</strong> November 2012</span>
-                </div>
-                
-            </div>
-            <div class="project-status">
-                <div class="status-label">Project Progress</div>
-                <div class="progress-circle">
-                    <canvas id="progressCircle" width="120" height="120"></canvas>
-                    <div class="progress-percentage">100%</div>
-                </div>
-                <div>On going</div>
-            </div>
-        </div>
-        
-
-
-            <style>
-                /* Base Styles */
-                body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #f9f9f9;
-                }
-                
-                /* Tab Container */
-                .tab-container {
-                    background: white;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                    overflow: hidden;
-                }
-                
-                /* Tab Header */
-                .tab-header {
-                    display: flex;
-                    background: #f5f5f5;
-                    border-bottom: 1px solid #ddd;
-                }
-                
-                .tab-btn {
-                    padding: 12px 24px;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 16px;
-                    transition: all 0.3s;
-                    position: relative;
-                    margin-right: 1px;
-                    color: #555;
-                }
-                
-                .tab-btn:hover {
-                    background-color: #e9e9e9;
-                }
-                
-                .tab-btn.active {
-                    background: white;
-                    color: #0066cc;
-                    font-weight: 600;
-                }
-                
-                .tab-btn.active::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -1px;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background-color: #0066cc;
-                }
-                
-                /* Tab Content */
-                .tab-content {
-                    display: none;
-                    padding: 25px;
-                    animation: fadeIn 0.5s;
-                }
-                
-                .tab-content.active {
-                    display: block;
-                }
-                
-                /* Media Section */
-                .media-section {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                    gap: 20px;
-                    margin-top: 20px;
-                }
-                
-                .media-item {
-                    border-radius: 6px;
-                    overflow: hidden;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                    transition: transform 0.3s;
-                }
-                
-                .media-item:hover {
-                    transform: translateY(-5px);
-                }
-                
-                .media-item img, .media-item video {
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                }
-                
-                .media-caption {
-                    padding: 12px;
-                    background: white;
-                    font-size: 14px;
-                }
-                
-                /* Comments Section */
-                .comments-section {
-                    margin-top: 20px;
-                }
-                
-                .comment-form {
-                    margin-bottom: 30px;
-                    padding: 20px;
-                    background: #f8f8f8;
-                    border-radius: 6px;
-                }
-                
-                .comment-form textarea {
-                    width: 100%;
-                    padding: 12px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    resize: vertical;
-                    min-height: 100px;
-                    margin-bottom: 10px;
-                    font-family: inherit;
-                }
-                
-                .comment-form button {
-                    background: #0066cc;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    transition: background 0.3s;
-                }
-                
-                .comment-form button:hover {
-                    background: #0055aa;
-                }
-                
-                .comment-list {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                }
-                
-                .comment {
-                    padding: 15px;
-                    background: white;
-                    border-radius: 6px;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                }
-                
-                .comment-header {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 10px;
-                    font-size: 14px;
-                    color: #666;
-                }
-                
-                .comment-author {
-                    font-weight: bold;
-                    color: #333;
-                }
-                
-                .comment-date {
-                    color: #999;
-                }
-                
-                .comment-body {
-                    line-height: 1.5;
-                }
-                
-                /* Animations */
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="tab-container">
-                <div class="tab-header">
-                    <button class="tab-btn active" data-tab="tab1">Overview</button>
-                    <button class="tab-btn" data-tab="tab2">video/photos</button>
-                    <button class="tab-btn" data-tab="tab3">Comments</button>
-                    <button class="tab-btn" data-tab="tab4">Budget</button>
-                    <button class="tab-btn" data-tab="tab5">Timeline</button>
-                </div>
-                
-                <!-- overview Tab -->
-                <div class="tab-content active" id="tab1">
-                    <p>The Thika Superhighway is a major road infrastructure project that connects Nairobi to Thika, significantly improving transportation and economic activity in the region. Spanning 50.4 km, it is one of Kenya’s most ambitious road projects.</p>
-                
-                    <p>The highway features multiple lanes, interchanges, pedestrian footbridges, and service lanes to enhance mobility and safety. It was designed to reduce congestion, facilitate faster travel, and boost trade between Nairobi and Central Kenya.</p>
-                
-                    <p>Completed in 2012 at a cost of KSh 32 billion, the project was funded by the Government of Kenya, the African Development Bank, and the Exim Bank of China. It continues to play a crucial role in Kenya’s transport network, supporting urban expansion and economic growth.</p>
-                </div>
-                
-
-                <!-- Media Tab -->
-                <div class="tab-content" id="tab2">
-                    <h2>Photo & Video Gallery of Talanta stadium</h2>
-                    <p>Browse through our collection of images and videos as a representation.</p>
-                    <!--videos tab-->
-                    <div class="media-section">
-                        <!-- Image Example -->
-                        <div class="media-item">
-                            <img src="Photos/road4.jpg" alt="Sample Image">
-                            <div class="media-caption">
-                                <strong>Beautiful Night view</strong>
-                                <p>Taken on our recent trip to the mountains</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Video  -->
-                        <div class="media-item">
-                            <video controls>
-                                <source src="Photos/Thika .mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <div class="media-caption">
-                                <strong>Our level of progress</strong>
-                                <p>A short view of our diligence towards achieving a successful completion of the stadium</p>
-                            </div>
-                        </div>
-                        
-                        <!--  Image -->
-                        <div class="media-item">
-                            <img src="Photos/road3.jpeg" alt="Sample Image">
-                            <div class="media-caption">
-                                <strong>Overhead View</strong>
-                                
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <img src="Photos/Thika1.jpeg" alt="Image">
-                            <div class="media-caption">
-                                <strong>interior View</strong>
-                                
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <img src="Photos/Thika 3.jpg" alt="Image">
-                            <div class="media-caption">
-                                <strong>Overhead View</strong>
-
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <img src="Photos/Thika 2.jpeg" alt="Image">
-                            <div class="media-caption">
-                                <strong>External View</strong>
-                                <p>We are proud to have such gigantic contruction linking our capital to other regions</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                
-                <!-- Comments Tab -->
-                <div class="tab-content" id="tab3">
-                    <h2>Discussion</h2>
-                    <p>Join the conversation and share your thoughts.</p>
-                    
-                    <div class="comment-form">
-                        <h3>Add Your Comment</h3>
-                        <textarea placeholder="Write your comment here..."></textarea>
-                        <button type="submit">Post Comment</button>
-                    </div>
-                    
-                    <div class="comments-section">
-                        <h3>Recent Comments</h3>
-                        
-                        <div class="comment-list">
-                            <!-- Comment 1 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">John Doe</span>
-                                    <span class="comment-date">June 15, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                    This is a game-changing project for our country!
-                                </div>
-                            </div>
-                            
-                            <!-- Comment 2 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">Jane Smith</span>
-                                    <span class="comment-date">June 12, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                   <p>We are proud to be connected to other countries and regionally through this project</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Comment 3 -->
-                            <div class="comment">
-                                <div class="comment-header">
-                                    <span class="comment-author">Alex Johnson</span>
-                                    <span class="comment-date">June 10, 2023</span>
-                                </div>
-                                <div class="comment-body">
-                                   <p></p> I can't wait to drive in this super-highway</p>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!-- budget tab-->
-        <div class="tab-content" id="tab4">
-            <section class="budget-overview">
-                <div class="budget-card">
-                    <div class="budget-label">Total Budget</div>
-                    <div class="budget-amount">KSh 5B</div>
-                    <div class="budget-change budget-increase">+15.3% from 2024</div>
-                </div>
-                
-                <div class="budget-card">
-                    <div class="budget-label">Expenditure so far</div>
-                    <div class="budget-amount">KSh 2.5B</div>
-                </div>
-                
-                <div class="budget-card">
-                    <div class="budget-label">Jobs created</div>
-                    <div class="budget-amount">15,000</div>
-                    <div class="budget-change budget-increase">+20% from 2024</div>
-                </div>
-                
-                <div class="budget-card">
-                    <div class="budget-label">Years since completion</div>
-                    <div class="budget-amount">13 years</div>
-                </div>
-            </section>
-        </div>
-                        
-<!--Timeline-->
-<div class="tab-content" id="tab5">
-    <div class="project-description">
-        <h3>Project Timeline</h3>
-        <p>Below is the timeline for the Thika Superhighway Construction Project:</p>
-        
-        <div class="simple-timeline">
-            <div class="timeline-event completed">
-                <div class="timeline-date">2006</div>
-                <div class="timeline-info">
-                    <h4>Project Planning & Feasibility Studies</h4>
-                    <p>Initial feasibility studies and project conceptualization by the government.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-event completed">
-                <div class="timeline-date">2009</div>
-                <div class="timeline-info">
-                    <h4>Construction Begins</h4>
-                    <p>Groundbreaking and commencement of roadworks.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-event completed">
-                <div class="timeline-date">2011</div>
-                <div class="timeline-info">
-                    <h4>Major Infrastructure Completed</h4>
-                    <p>Completion of key interchanges and expansion of major road sections.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-event completed">
-                <div class="timeline-date">November 2012</div>
-                <div class="timeline-info">
-                    <h4>Project Completion & Commissioning</h4>
-                    <p>The Thika Superhighway is officially opened by the government.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="project-notes">
-            <h4>Project Notes:</h4>
-            <ul>
-                <li>Total cost: KSh 32 billion</li>
-                <li>Constructed by three major contractors: China Wu Yi, Sinohydro, and Shengli Engineering</li>
-                <li>Reduced Nairobi-Thika travel time from 2 hours to 30 minutes</li>
-            </ul>
-        </div>
+<!-- HERO -->
+<section class="thika-hero">
+  <div class="thika-hero-bg"></div>
+  <div class="thika-road-line"></div>
+  <div class="thika-dots">
+    <div class="thika-dot"></div><div class="thika-dot"></div><div class="thika-dot"></div>
+    <div class="thika-dot"></div><div class="thika-dot"></div><div class="thika-dot"></div>
+  </div>
+  <div class="hero-stripe"></div>
+  <div class="hero-cnt">
+    <div class="hero-eyebrow"><i class="fas fa-road"></i> A2 Highway &nbsp;·&nbsp; KeNHA &nbsp;·&nbsp; Transport Infrastructure &nbsp;·&nbsp; Vision 2030 Flagship</div>
+    <h1>Thika <em>Superhighway</em></h1>
+    <div class="hero-tags">
+      <span class="htag done"><i class="fas fa-check-circle"></i> Inaugurated Nov 2012</span>
+      <span class="htag info"><i class="fas fa-map-marker-alt"></i> Nairobi → Thika · 50km</span>
+      <span class="htag info"><i class="fas fa-coins"></i> USD 360M (KSh 32B)</span>
+      <span class="htag live"><i class="fas fa-circle" style="font-size:.5rem"></i> Active Upgrades 2025–2026</span>
     </div>
-</div>
-
-        
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const tabButtons = document.querySelectorAll('.tab-btn');
-                    
-                    tabButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            document.querySelectorAll('.tab-btn').forEach(btn => {
-                                btn.classList.remove('active');
-                            });
-                            document.querySelectorAll('.tab-content').forEach(content => {
-                                content.classList.remove('active');
-                            });
-                            
-                            this.classList.add('active');
-                            
-                            
-                            const tabId = this.getAttribute('data-tab');
-                            document.getElementById(tabId).classList.add('active');
-                        });
-                    });
-                });
-            </script>
-
-
-<section>
-        
-
-          
-               <!-- Project Reactions Section -->
-<div class="media-caption">
-    <div class="reaction-stats">
-        <div class="budget-amount">
-            <span id="likesCount">124</span> likes
-        </div>
-        <div class="budget-amount">
-            <span id="dislikesCount">18</span> dislikes
-        </div>
-        <div class="budget-amount">
-            <span id="commentsCount">42</span> comments
-        </div>
-    </div>
-    
-    <div class="reaction-buttons">
-        <button class="reaction-btn" id="likeButton" onclick="reactToProject('like')">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
-            </svg>
-            <span>Like</span>
-        </button>
-        <button class="reaction-btn" id="dislikeButton" onclick="reactToProject('dislike')">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-            </svg>
-            <span>Dislike</span>
-        </button>
-    
-        </button>
-        <button class="reaction-btn" onclick="shareProject()">
-            <svg class="reaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
-            </svg>
-            <span>Share</span>
-        </button>
-    </div>
-</div>
-
-    
-    
- 
-                
-                
+  </div>
 </section>
-               
 
+<div class="page-wrap" style="max-width:1280px;margin:0 auto;padding:2.5rem 1.5rem 5rem;">
+  <a href="Projects.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to All Projects</a>
 
-            </body>
+  <!-- LIVE ALERT — real 2025/2026 update -->
+  <div class="alert-banner">
+    <div class="ab-icon"><i class="fas fa-hard-hat"></i></div>
+    <div>
+      <div class="ab-title">🚧 Active Construction: Bus Bays & New Expressway Announced</div>
+      <div class="ab-desc">KeNHA is constructing new bus bays at Roysambu and Githurai (Feb 2026) and a new pedestrian footbridge at Kihunguro (Dec 2025). President Ruto announced a new Thika–Museum Hill Expressway to be built in 2026 to ease congestion on the superhighway.</div>
+      <div class="ab-date"><i class="fas fa-calendar-alt"></i> Source: KeNHA, Feb 2026 · Capital FM · Kenyans.co.ke</div>
+    </div>
+  </div>
+
+  <!-- STAT RIBBON -->
+  <div class="ribbon">
+    <div class="rbc"><div class="rbc-num">50km</div><div class="rbc-sub">Highway Length</div></div>
+    <div class="rbc"><div class="rbc-num">150K+</div><div class="rbc-sub">Daily Vehicles (2025)</div></div>
+    <div class="rbc"><div class="rbc-num">45 min</div><div class="rbc-sub">Nairobi → Thika</div></div>
+    <div class="rbc"><div class="rbc-num">14</div><div class="rbc-sub">Grade Interchanges</div></div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="metric" style="text-align:center">
+      <svg style="transform:rotate(-90deg);margin:0 auto .5rem auto;display:block" width="80" height="80" viewBox="0 0 80 80">
+        <circle fill="none" stroke="var(--sf2)" cx="40" cy="40" r="34" stroke-width="7"/>
+        <circle fill="none" stroke="var(--gm)" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="0" stroke-linecap="round"/>
+      </svg>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--gm);margin-top:-.5rem">100%</div>
+      <div class="metric-lbl" style="margin-top:.25rem">Original Works</div>
+      <div class="metric-sub">Completed July 2012</div>
+    </div>
+    <div class="metric"><div class="metric-icon"><i class="fas fa-car"></i></div><div class="metric-val">150,000+</div><div class="metric-lbl">Daily Vehicles 2025</div><div class="metric-sub">Up from 85K in 2007</div></div>
+    <div class="metric"><div class="metric-icon"><i class="fas fa-dollar-sign"></i></div><div class="metric-val">USD 360M</div><div class="metric-lbl">Construction Cost</div><div class="metric-sub">KSh 32B at the time</div></div>
+    <div class="metric"><div class="metric-icon"><i class="fas fa-calendar-alt"></i></div><div class="metric-val">2026</div><div class="metric-lbl">New Expressway</div><div class="metric-sub">Ruto Dec 2025 announcement</div></div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-row">
+    <span class="shl">Share</span>
+    <button class="sbtn" onclick="doShare('twitter')"><i class="fab fa-twitter"></i></button>
+    <button class="sbtn" onclick="doShare('facebook')"><i class="fab fa-facebook-f"></i></button>
+    <button class="sbtn" onclick="doShare('whatsapp')"><i class="fab fa-whatsapp"></i></button>
+    <button class="sbtn" onclick="doShare('linkedin')"><i class="fab fa-linkedin-in"></i></button>
+    <button class="sbtn" onclick="copyLink()"><i class="fas fa-link"></i></button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-nav">
+    <button class="tnb active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tnb" data-tab="updates2025"><i class="fas fa-broadcast-tower"></i> 2025–26 Updates</button>
+    <button class="tnb" data-tab="map"><i class="fas fa-map-marked-alt"></i> Route Map</button>
+    <button class="tnb" data-tab="gallery"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tnb" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tnb" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tnb" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="tab-pane active" id="overview">
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-ey">About the Project</div>
+          <div class="card-h">East Africa's First Modern Expressway</div>
+          <div class="card-body">
+            <p>The Thika Superhighway (officially the A2 Highway Improvement Project) is a 50km, 8-to-12 lane controlled-access expressway linking Nairobi's Central Business District to the industrial town of Thika. It forms part of the A2 Highway — the Cape to Cairo Road — connecting Namanga on the Tanzania-Kenya border to Moyale at the Ethiopian border.</p>
+            <br>
+            <p>Inaugurated on <strong>9 November 2012</strong> by President Mwai Kibaki, it became the first modern multi-lane divided highway in East Africa. Built at a cost of <strong>USD 360M (KSh 32B)</strong>, it was funded by the African Development Bank, China Exim Bank and the Government of Kenya. Traffic surged from 85,000 vehicles per day in 2007 to 123,000 at completion — a <strong>45% increase</strong> — and journey times fell from 2 hours to just 45 minutes.</p>
+            <br>
+            <p>Now in 2025–2026, the highway is undergoing active upgrades including new bus bays at Roysambu and Githurai, a new footbridge at Kihunguro, milling and resurfacing at Juja Highpoint, and a <strong>new parallel expressway</strong> announced by President Ruto in December 2025.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ey">Three-Lot Construction Model</div>
+          <div class="card-h">Construction Contractors</div>
+          <div class="con-grid">
+            <div class="ccard"><div class="clot">Lot 1</div><div class="cn">China Wu Yi Co.</div><div class="cs">Uhuru Hwy → Muthaiga</div><div class="cc">8.8km · KSh 8.4B</div></div>
+            <div class="ccard"><div class="clot">Lot 2</div><div class="cn">Sinohydro Corp.</div><div class="cs">Muthaiga → Kenyatta Univ.</div><div class="cc">18.2km · KSh 11.1B</div></div>
+            <div class="ccard"><div class="clot">Lot 3</div><div class="cn">Sheng Li Engineering</div><div class="cs">Kenyatta Univ. → Thika</div><div class="cc">23.4km · KSh 9B</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ey">Economic Impact</div>
+          <div class="card-h">Measured Outcomes Since 2012</div>
+          <div class="impact-grid">
+            <div class="ig"><div class="ig-icon"><i class="fas fa-tachometer-alt"></i></div><div><div class="ig-t">8 → 45+ km/h</div><div class="ig-d">Average speed at peak hours after opening</div></div></div>
+            <div class="ig"><div class="ig-icon"><i class="fas fa-clock"></i></div><div><div class="ig-t">2hrs → 45 min</div><div class="ig-d">Nairobi to Thika commute time</div></div></div>
+            <div class="ig"><div class="ig-icon"><i class="fas fa-home"></i></div><div><div class="ig-t">Land values ×10</div><div class="ig-d">Kasarani: $46K → $500K/acre post-opening</div></div></div>
+            <div class="ig"><div class="ig-icon"><i class="fas fa-shopping-bag"></i></div><div><div class="ig-t">Commercial Surge</div><div class="ig-d">Thika Road Mall, Garden City, Ridgeways + 4 more malls</div></div></div>
+            <div class="ig"><div class="ig-icon"><i class="fas fa-industry"></i></div><div><div class="ig-t">Industrial Growth</div><div class="ig-d">Logistics and manufacturing hubs expanded along the A2</div></div></div>
+            <div class="ig"><div class="ig-icon"><i class="fas fa-graduation-cap"></i></div><div><div class="ig-t">12,000+ Students</div><div class="ig-d">KU and JKUAT students with reliable fast daily transport</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-ey">Project Details</div>
+          <div class="card-h">Key Information</div>
+          <div class="dr"><div class="di"><i class="fas fa-map-marker-alt"></i></div><div><div class="dlbl">Route</div><div class="dval">Uhuru Hwy, Nairobi CBD → Thika River Bridge, Thika (A2)</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-ruler-horizontal"></i></div><div><div class="dlbl">Length</div><div class="dval">50.4km — 8 lanes (expanding to 12 lanes in sections)</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-building"></i></div><div><div class="dlbl">Authority</div><div class="dval">Kenya National Highways Authority (KeNHA) — Roads & Transport</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-hammer"></i></div><div><div class="dlbl">Contractors</div><div class="dval">China Wu Yi · Sinohydro Corporation · Sheng Li Engineering</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-calendar-alt"></i></div><div><div class="dlbl">Construction</div><div class="dval">January 2009 — July 2012 (completed ahead of inauguration)</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-flag-checkered"></i></div><div><div class="dlbl">Inaugurated</div><div class="dval">9 November 2012 — President Mwai Kibaki</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-coins"></i></div><div><div class="dlbl">Final Cost</div><div class="dval">USD 360M (KSh 32B at time of construction)</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-money-bill-wave"></i></div><div><div class="dlbl">Funding</div><div class="dval">AfDB USD 180M · China Exim USD 100M · GoK USD 80M</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-exchange-alt"></i></div><div><div class="dlbl">Interchanges</div><div class="dval">14 grade-separated interchanges + 6 underpasses</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-road"></i></div><div><div class="dlbl">Daily Traffic (2025)</div><div class="dval">150,000+ vehicles/day — up from 85,000 in 2007</div></div></div>
+          <div class="dr"><div class="di"><i class="fas fa-tools"></i></div><div><div class="dlbl">Current Works (2026)</div><div class="dval">Bus bays (Roysambu/Githurai) · Footbridge (Kihunguro) · New Expressway planned</div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-ey">Infrastructure Features</div>
+          <div class="card-h">What Was Built</div>
+          <ul class="facts">
+            <li><i class="fas fa-check"></i>50km, 8–12 lane controlled-access expressway — first in East Africa</li>
+            <li><i class="fas fa-check"></i>14 grade-separated interchanges replacing dangerous roundabouts</li>
+            <li><i class="fas fa-check"></i>Flyovers: Kasarani, Githurai, Globe Roundabout, Eastern Bypass</li>
+            <li><i class="fas fa-check"></i>Underpasses: Kahawa, KU, Pangani, Survey of Kenya, Ruiru SC, Mang'u HS</li>
+            <li><i class="fas fa-check"></i>Full-length service roads on both sides (entire 50km)</li>
+            <li><i class="fas fa-check"></i>Dedicated pedestrian footpaths and non-motorised transport lanes</li>
+            <li><i class="fas fa-check"></i>Box culverts and drainage works throughout the corridor</li>
+            <li><i class="fas fa-check"></i>Traffic lights, signage and road markings to international standards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-ey">Construction Progress</div>
+      <div class="card-h">All Original Lots Complete — Active Upgrade Works Ongoing</div>
+      <div class="pr"><span class="plbl">Lot 1 — China Wu Yi: Uhuru Highway to Muthaiga (8.8km)</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Lot 2 — Sinohydro Corp.: Muthaiga to Kenyatta University (18.2km)</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Lot 3 — Sheng Li Engineering: KU to Thika Town (23.4km)</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Kihunguro Pedestrian Footbridge (Dec 2025 – in progress)</span><span class="ppct">55%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="55"></div></div>
+      <div class="pr"><span class="plbl">Roysambu & Githurai Bus Bays (Feb 2026 – commenced)</span><span class="ppct">20%</span></div>
+      <div class="ptrack" style="margin-bottom:0"><div class="pfill" data-w="20"></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 2025-26 UPDATES ══ -->
+  <div class="tab-pane" id="updates2025">
+    <div class="card">
+      <div class="card-ey">Latest Research Updates</div>
+      <div class="card-h">Thika Superhighway — Live 2025 & 2026 Developments</div>
+      <div class="update-list">
+        <div class="upd">
+          <div class="upd-dot" style="background:#d97706"></div>
+          <div>
+            <div class="upd-date">February 2026</div>
+            <div class="upd-title">KeNHA Orders Traders to Vacate for Bus Bay Construction</div>
+            <div class="upd-desc">KeNHA issued a 7-day ultimatum to traders at Roysambu (both directions) and Githurai (Nairobi direction) to vacate road reserves for construction of dedicated bus bays. The bus bays will provide safe and orderly passenger pick-up and drop-off points, reducing illegal stops by matatus and PSVs and significantly easing congestion. Previous clearances in Kihunguro, Allsops, and Delview were conducted in the same programme.</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: KeNHA Public Notice, Feb 9–24, 2026 · Kenyans.co.ke · Radio47</div>
+          </div>
+        </div>
+        <div class="upd">
+          <div class="upd-dot" style="background:#b91c1c"></div>
+          <div>
+            <div class="upd-date">December 2025</div>
+            <div class="upd-title">President Ruto Announces Thika–Museum Hill Expressway</div>
+            <div class="upd-desc">During Jamhuri Day celebrations at Nyayo Stadium on December 12, 2025, President William Ruto announced the construction of a new parallel expressway from Thika to Museum Hill (Nairobi CBD). He acknowledged the Thika Superhighway is now overwhelmed despite being a 6-lane dual carriageway and that the new expressway — similar to the JKIA Expressway — would be built in 2026 to eliminate heavy congestion.</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: The Kenya Times, December 12, 2025 · State House Kenya</div>
+          </div>
+        </div>
+        <div class="upd">
+          <div class="upd-dot" style="background:#d97706"></div>
+          <div>
+            <div class="upd-date">November 2025</div>
+            <div class="upd-title">Juja Highpoint (Centurion) Milling and Resurfacing Works</div>
+            <div class="upd-desc">KeNHA conducted partial closures at the Juja Highpoint area (Centurion) in November 2025 to enable milling and resurfacing works on the superhighway. The works are part of the authority's long-term strategy to modernise transport infrastructure within the Nairobi Metropolitan Area and align with the Bus Rapid Transit (BRT) system and non-motorised transport lanes being developed.</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: Kenyans.co.ke, November 2025</div>
+          </div>
+        </div>
+        <div class="upd">
+          <div class="upd-dot" style="background:#0f9544"></div>
+          <div>
+            <div class="upd-date">October 2025</div>
+            <div class="upd-title">Kihunguro Pedestrian Footbridge Under Construction</div>
+            <div class="upd-desc">KeNHA announced a 2-month partial closure of the Kihunguro section (October 20 – December 20, 2025) to construct a new pedestrian footbridge. The bridge will eliminate a dangerous Zebra Crossing that had been causing major traffic jams by forcing vehicles to stop frequently during rush hours. Diversion routes were provided via the Total Petrol Station (Nairobi-bound) and Shell Petrol Station (Thika-bound).</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: The Star, October 14, 2025 · KeNHA Official Notice</div>
+          </div>
+        </div>
+        <div class="upd">
+          <div class="upd-dot" style="background:#1d3a8a"></div>
+          <div>
+            <div class="upd-date">2024</div>
+            <div class="upd-title">Thika Superhighway Listed for Toll Stations — Study Underway</div>
+            <div class="upd-desc">KeNHA unveiled plans to introduce toll stations on several major highways, with the Thika Superhighway listed alongside the Nairobi Southern Bypass, Nairobi-Nakuru-Mau Summit Highway, Kenol-Sagana-Marua Road, Mombasa Southern Bypass, and Dongo Kundu Bypass. A feasibility study is underway to assess viable toll point locations and revenue collection systems.</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: Eastleigh Voice / KeNHA, August 2024</div>
+          </div>
+        </div>
+        <div class="upd">
+          <div class="upd-dot" style="background:#0f9544"></div>
+          <div>
+            <div class="upd-date">Ongoing</div>
+            <div class="upd-title">KSh 5B Thika Town Industrial Smart City Road Expansion</div>
+            <div class="upd-desc">The National Government, in partnership with Kiambu County and Governor Kimani Wamatangi, is implementing a KSh 5B road expansion project in Thika Town. This includes upgrading Garissa Road into a 25km dual carriageway from the Thika Superhighway overpass to Makutano, two new interchanges at the Gatitu junction, doubling the Thika-Gatanga road, and constructing a new bridge near Blue Posts Hotel. Environmental impact assessments are complete and design is underway.</div>
+            <div class="upd-src"><i class="fas fa-link"></i> Source: BuildMart Africa · Kiambu County Government</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MAP ══ -->
+  <div class="tab-pane" id="map">
+    <div class="card">
+      <div class="card-ey">Route Map</div>
+      <div class="card-h">The A2 Highway — Nairobi CBD to Thika Town (50km)</div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127637.0!2d36.95!3d-1.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f4c8e5b8c5c15%3A0x40e1cd748c0fe5cc!2sThika%20Road%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="stop-grid">
+        <div class="stop"><div class="slbl">Start Point</div><div class="sval">Uhuru Highway, Nairobi CBD</div></div>
+        <div class="stop"><div class="slbl">Midpoint (KM 27)</div><div class="sval">Kenyatta University, Kahawa</div></div>
+        <div class="stop"><div class="slbl">End Point (KM 50)</div><div class="sval">Thika River Bridge, Thika</div></div>
+      </div>
+      <div class="card-ey" style="margin-top:1.25rem;margin-bottom:.75rem">Key Landmarks Along the Corridor</div>
+      <div class="lm-grid">
+        <div class="lm">Globe Cinema Rbt</div><div class="lm">Muthaiga Interchange</div><div class="lm">Kasarani Flyover</div><div class="lm">Githurai Interchange</div>
+        <div class="lm">Kenyatta University</div><div class="lm">Kahawa Underpass</div><div class="lm">Ruiru Interchange</div><div class="lm">Juja (JKUAT)</div>
+        <div class="lm">Mang'u H.S. Underpass</div><div class="lm">Eastern Bypass Flyover</div><div class="lm">Thika Road Mall</div><div class="lm">Thika River Bridge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ GALLERY ══ -->
+  <div class="tab-pane" id="gallery">
+    <div class="card">
+      <div class="card-ey">Photo Gallery</div>
+      <div class="card-h">Thika Superhighway — Before, During & After</div>
+      <div class="gallery">
+        <div class="gitem">
+          <img src="Photos/Thika3.jpg" alt="Thika Aerial" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#0b6e31,#0f1e4a);display:none"><i class="fas fa-road"></i></div>
+          <div class="gcap"><strong>Aerial View — 8-Lane Expressway</strong><p>Aerial view of the full 50km corridor showing flyovers, service roads, and the 8-to-12 lane carriageway</p></div>
+        </div>
+        <div class="gitem">
+          <img src="Photos/Thika1.jpeg" alt="Kasarani Flyover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#1d3a8a,#0b6e31);display:none"><i class="fas fa-exchange-alt"></i></div>
+          <div class="gcap"><strong>Kasarani Flyover</strong><p>One of 14 grade-separated interchanges — the Kasarani flyover eliminated one of Nairobi's worst bottlenecks</p></div>
+        </div>
+        <div class="gitem">
+          <img src="Photos/Thika2.jpeg" alt="Evening Traffic" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#073d1a,#0f1e4a);display:none"><i class="fas fa-cars"></i></div>
+          <div class="gcap"><strong>Evening Peak Traffic 2025</strong><p>Over 150,000 vehicles use the highway daily — traffic still flows freely despite volumes rising 76% since 2012</p></div>
+        </div>
+        <div class="gitem">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#0b6e31,#073d1a)"><i class="fas fa-flag-checkered"></i></div>
+          <div class="gcap"><strong>Inauguration — 9 November 2012</strong><p>President Mwai Kibaki officially opens East Africa's first superhighway to massive national celebration</p></div>
+        </div>
+        <div class="gitem">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#d97706,#0f1e4a)"><i class="fas fa-hard-hat"></i></div>
+          <div class="gcap"><strong>2026: Kihunguro Footbridge (Active)</strong><p>New pedestrian footbridge under construction at Kihunguro — eliminates dangerous Zebra Crossing causing rush-hour jams</p></div>
+        </div>
+        <div class="gitem">
+          <div class="gimg-placeholder" style="background:linear-gradient(135deg,#0f1e4a,#0b6e31)"><i class="fas fa-city"></i></div>
+          <div class="gcap"><strong>Commercial Boom — Thika Road Mall</strong><p>Over 6 major shopping malls and countless commercial developments have opened along the corridor since 2012</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BUDGET ══ -->
+  <div class="tab-pane" id="budget">
+    <div class="bkpi">
+      <div class="bk"><div class="bkl">Total Cost</div><div class="bkv">KSh 32B</div><div class="bks">USD 360M (2012 value)</div></div>
+      <div class="bk"><div class="bkl">AfDB Contribution</div><div class="bkv">KSh 16.2B</div><div class="bks">USD 180M — 50% share</div></div>
+      <div class="bk"><div class="bkl">China Exim Bank</div><div class="bkv">KSh 9B</div><div class="bks">USD 100M — funded Lot 3</div></div>
+      <div class="bk"><div class="bkl">GoK Contribution</div><div class="bkv">KSh 6.8B</div><div class="bks">USD 80M — land & supervision</div></div>
+    </div>
+    <div class="card">
+      <div class="card-ey">Funding Breakdown</div>
+      <div class="card-h">Source Distribution — KSh 32 Billion</div>
+      <div class="fund-bar">
+        <div class="fs" style="width:50%;background:#0b6e31">AfDB 50% — USD 180M</div>
+        <div class="fs" style="width:28%;background:#0f1e4a">Exim Bank 28% — USD 100M</div>
+        <div class="fs" style="width:22%;background:#d97706">GoK 22% — USD 80M</div>
+      </div>
+      <div class="pr"><span class="plbl">Lot 1 — China Wu Yi (Uhuru Hwy to Muthaiga 8.8km)</span><span class="ppct">KSh 8.4B</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Lot 2 — Sinohydro (Muthaiga to Kenyatta University 18.2km)</span><span class="ppct">KSh 11.1B</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Lot 3 — Sheng Li Engineering (KU to Thika Town 23.4km)</span><span class="ppct">KSh 9B</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Supervision, Land Compensation & Utility Relocation</span><span class="ppct">KSh 3.5B</span></div>
+      <div class="ptrack" style="margin-bottom:0"><div class="pfill" data-w="100"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-ey">Value for Money</div>
+      <div class="card-h">What KSh 32B Delivered</div>
+      <ul class="facts">
+        <li><i class="fas fa-check"></i><strong>50km</strong> of world-class 8-12 lane expressway at KSh 640M per km</li>
+        <li><i class="fas fa-check"></i><strong>14 interchanges</strong> eliminating Kenya's most dangerous road junctions</li>
+        <li><i class="fas fa-check"></i>Journey time cut from <strong>2 hours to 45 minutes</strong>; speed up from 8 to 45+ km/h</li>
+        <li><i class="fas fa-check"></i>Land values rose up to <strong>10×</strong> along the A2 corridor within 3 years</li>
+        <li><i class="fas fa-check"></i>Catalysed an estimated <strong>KSh 100B+</strong> in private commercial and industrial investment</li>
+        <li><i class="fas fa-check"></i><strong>Template project</strong> for SGR, Nairobi Expressway, and subsequent major Kenya infrastructure</li>
+        <li><i class="fas fa-check"></i>Thika Superhighway now <strong>under consideration for tolling</strong> to generate ongoing maintenance revenue (KeNHA 2024)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ TIMELINE ══ -->
+  <div class="tab-pane" id="timeline">
+    <div class="card">
+      <div class="card-ey">Project Timeline</div>
+      <div class="card-h">From Groundbreaking 2009 to Active Upgrades 2026</div>
+      <div style="position:relative;padding-left:2rem">
+        <div style="position:absolute;left:.5rem;top:0;bottom:0;width:2px;background:var(--bd)"></div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gl)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">January 2009</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Construction Begins</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">All three contractors mobilise simultaneously. Globe Roundabout flyover excavation marks the visible start. This was Kenya's most ambitious road project at the time.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gl)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">2010 – 2011</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Flyovers Rise Above Nairobi</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">Kasarani, Githurai, and Globe Roundabout flyovers completed. Nairobi's skyline changes — national excitement builds rapidly as Kenyans see the transformation from just 8-lane expansions.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gl)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">July 2012</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Substantial Completion</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">All three lots achieve practical completion — on schedule. The road opens to traffic in rolling phases. Commuters immediately feel the transformation: 2 hours becomes 45 minutes.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gl)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">9 November 2012</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Grand Presidential Inauguration</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">President Mwai Kibaki officially inaugurates East Africa's first superhighway in a national celebration. Kenya sets a new benchmark for African infrastructure. Total cost: USD 360M.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gl)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">2013 – 2020</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Economic Corridor Boom</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">Thika Road Mall, Garden City, Ridgeways Mall, TRM, Kasarani Mall open. Property values rise up to 10×. Industrial and logistics hubs expand rapidly. 150,000+ daily vehicles by 2020.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:#d97706;border:2px solid #d97706;box-shadow:0 0 0 4px rgba(217,119,6,.2)"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">October – December 2025</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Kihunguro Footbridge Works</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">KeNHA partially closes Kihunguro section to construct new pedestrian footbridge. Diversion routes established at Total and Shell petrol stations. Expected to eliminate dangerous Zebra Crossing jams.</div>
+        </div>
+        <div style="position:relative;margin-bottom:1.75rem">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:#d97706;border:2px solid #d97706;box-shadow:0 0 0 4px rgba(217,119,6,.2);animation:pulse 2s infinite"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">December 2025</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">🎙️ Ruto Announces New Thika Expressway</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">On Jamhuri Day, President Ruto announces a new expressway from Thika to Museum Hill (Nairobi CBD) to ease overwhelming congestion on the Superhighway, similar to the JKIA Expressway model. Launch planned for 2026.</div>
+        </div>
+        <div style="position:relative">
+          <div style="position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:#b91c1c;border:2px solid #b91c1c;box-shadow:0 0 0 4px rgba(185,28,28,.2);animation:pulse 1.5s infinite"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt)">February 2026 — Active Now</div>
+          <div style="font-size:.9rem;font-weight:700;color:var(--ink);margin:.25rem 0">Bus Bay Construction Begins (Roysambu & Githurai)</div>
+          <div style="font-size:.8rem;color:var(--mt);line-height:1.55">KeNHA construction of new designated bus bays at Roysambu and Githurai begins after trader evictions. Part of the broader BRT and urban mobility strategy for Nairobi Metropolitan Area.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DISCUSSION ══ -->
+  <div class="tab-pane" id="discussion">
+    <div class="rxn-bar">
+      <div><div class="rxn-stat-num" id="likeCount">384</div><div class="rxn-stat-lbl">Likes</div></div>
+      <div class="rxn-div"></div>
+      <div><div class="rxn-stat-num" id="dislikeCount">19</div><div class="rxn-stat-lbl">Dislikes</div></div>
+      <div class="rxn-div"></div>
+      <div><div class="rxn-stat-num">127</div><div class="rxn-stat-lbl">Comments</div></div>
+      <div class="rxn-btns">
+        <button class="rxn-btn" id="likeBtn" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+        <button class="rxn-btn" id="dislikeBtn" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+        <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
+      </div>
+    </div>
+    <div class="cform">
+      <div class="card-ey" style="margin-bottom:.75rem">Leave a Comment</div>
+      <textarea id="cTxt" placeholder="Share your experience — did this highway change your commute? What do you think of the new expressway announcement?"></textarea>
+      <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem;flex-wrap:wrap">
+        <input type="text" id="cName" class="cninput" placeholder="Your name">
+        <button class="cbtn" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+      </div>
+    </div>
+    <div id="commentList">
+      <div class="comment"><div class="chdr"><div class="cav">J</div><div><div class="cname">James Mwangi</div><div class="cdate">February 2026</div></div></div><div class="cbody">Excited about the new Thika expressway announcement! I drive this road daily and the congestion near Roysambu and Githurai is brutal every morning. These bus bays will help too — matatus stopping randomly are a huge problem.</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 78</button></div>
+      <div class="comment"><div class="chdr"><div class="cav">G</div><div><div class="cname">Grace Wanjiku</div><div class="cdate">January 2026</div></div></div><div class="cbody">I used to take 2+ hours to get to Thika in the 2000s. Now it's 45 minutes. This road genuinely changed my life and my business. But the new pedestrian bridge at Kihunguro is overdue — the Zebra Crossing there was genuinely dangerous.</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 92</button></div>
+      <div class="comment"><div class="chdr"><div class="cav">D</div><div><div class="cname">David Ochieng</div><div class="cdate">December 2025</div></div></div><div class="cbody">The Kihunguro footbridge is something we've been demanding for years. That zebra crossing caused accidents almost daily and delayed thousands of commuters. Glad KeNHA finally acted.</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 54</button></div>
+      <div class="comment"><div class="chdr"><div class="cav">A</div><div><div class="cname">Ann Waithera</div><div class="cdate">November 2025</div></div></div><div class="cbody">My Ruiru business has tripled since this road opened. But I'm skeptical about a new expressway — Kenya needs to maintain what we have first. The resurfacing at Centurion was long overdue.</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 41</button></div>
+      <div class="comment"><div class="chdr"><div class="cav">P</div><div><div class="cname">Peter Kamau</div><div class="cdate">October 2025</div></div></div><div class="cbody">The question of toll stations on the Thika Road is interesting. If it generates funds for maintenance and further upgrades, I'd support it. The road has remained in good condition for 12+ years which is impressive by Kenyan standards.</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 37</button></div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="flag-stripe"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" style="height:40px">
+        <div class="footer-brand-name">Kenya Transparency Portal</div>
+        <div class="footer-brand-desc">Promoting accountability, transparency and citizen engagement in Kenya's public infrastructure and governance.</div>
+      </div>
+      <div><div class="footer-col-title">Projects</div><div class="footer-col"><a href="Projects.html">All Projects</a><a href="Thika-detailes.htm">Thika Superhighway</a><a href="Rail-details.html">SGR Railway</a><a href="Dongo-kundu.html">Dongo Kundu Bypass</a></div></div>
+      <div><div class="footer-col-title">Governance</div><div class="footer-col"><a href="Devolution.html">Devolution</a><a href="National-Government.html">National Government</a><a href="Kenya-Vision.html">Vision 2030</a><a href="Service-Delivery.html">Service Delivery</a></div></div>
+      <div><div class="footer-col-title">Citizens</div><div class="footer-col"><a href="User_inquirery.html">Submit Inquiry</a><a href="Tenders.html">Tenders</a><a href="Budget.html">National Budget</a><a href="updates.html">Notifications</a></div></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Government of Kenya Transparency Portal · All rights reserved · Harambee — Let's Pull Together</div></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+/* THEME */
+(function(){
+  const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+  const t=localStorage.getItem('ktp-theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('ktp-theme',th);}
+  apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
+
+/* HAMBURGER */
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileNav');
+ham.addEventListener('click',e=>{e.stopPropagation();ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
+document.addEventListener('click',e=>{if(!mob.contains(e.target)&&!ham.contains(e.target)){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';}});
+
+/* TABS */
+document.querySelectorAll('.tnb').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tnb').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    const pane=document.getElementById(btn.dataset.tab);
+    if(pane){pane.classList.add('active');animateBars();}
+  });
+});
+
+/* PROGRESS BARS */
+function animateBars(){document.querySelectorAll('.pfill[data-w]').forEach(b=>{b.style.width=b.getAttribute('data-w')+'%';});}
+window.addEventListener('load',()=>setTimeout(animateBars,200));
+
+/* REACTIONS */
+let liked=false,disliked=false;
+function react(type){
+  const lc=document.getElementById('likeCount'),dc=document.getElementById('dislikeCount');
+  const lb=document.getElementById('likeBtn'),db=document.getElementById('dislikeBtn');
+  if(type==='like'){if(!liked){lc.textContent=+lc.textContent+1;lb.classList.add('al');if(disliked){dc.textContent=+dc.textContent-1;db.classList.remove('adl');disliked=false;}liked=true;}else{lc.textContent=+lc.textContent-1;lb.classList.remove('al');liked=false;}}
+  else{if(!disliked){dc.textContent=+dc.textContent+1;db.classList.add('adl');if(liked){lc.textContent=+lc.textContent-1;lb.classList.remove('al');liked=false;}disliked=true;}else{dc.textContent=+dc.textContent-1;db.classList.remove('adl');disliked=false;}}
+}
+
+/* COMMENT */
+function postComment(){
+  const txt=document.getElementById('cTxt').value.trim(),name=document.getElementById('cName').value.trim()||'Anonymous';
+  if(!txt){showToast('Please write a comment first','error');return;}
+  const el=document.createElement('div');el.className='comment';
+  el.innerHTML=`<div class="chdr"><div class="cav">${name[0].toUpperCase()}</div><div><div class="cname">${name}</div><div class="cdate">Just now</div></div></div><div class="cbody">${txt}</div><button class="clk" onclick="likeComment(this)"><i class="fas fa-thumbs-up"></i> 0</button>`;
+  document.getElementById('commentList').prepend(el);
+  document.getElementById('cTxt').value='';showToast('Comment posted!');
+}
+function likeComment(btn){const c=parseInt(btn.innerHTML.split('</i> ')[1]||'0');const l=btn.classList.toggle('liked');btn.innerHTML=`<i class="fas fa-thumbs-up"></i> ${l?c+1:c-1}`;}
+
+/* SHARE */
+function doShare(p){const u=encodeURIComponent(location.href),t=encodeURIComponent(document.title);const m={twitter:`https://twitter.com/intent/tweet?url=${u}&text=${t}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,whatsapp:`https://wa.me/?text=${t}%20${u}`,linkedin:`https://www.linkedin.com/sharing/share-offsite/?url=${u}`};window.open(m[p],'_blank','width=600,height=400');}
+function copyLink(){navigator.clipboard.writeText(location.href).then(()=>showToast('Link copied!'));}
+
+/* TOAST */
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;t.style.background=type==='success'?'#0b6e31':'#b91c1c';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);}
+
+/* BACK TOP */
+const bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
 </html>

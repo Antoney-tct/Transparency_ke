@@ -14,9 +14,9 @@ if (!isset($_SESSION['user_email'])) {
 
 // Database connection
 $servername = "localhost";
-$username = "government_portal";
+$username = "root";
 $password = "";
-$dbname = "root";
+$dbname = "government_portal";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

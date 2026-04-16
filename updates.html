@@ -1,728 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Updates - Kenya</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --national-red: #BB0A1E;
-            --national-green: #009A44;
-            --national-black: #000000;
-            --national-white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background-color: var(--light-gray);
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 0.8rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .national-logo {
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .header-title h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.2rem;
-            font-weight: 700;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 30px;
-            position: relative;
-        }
-
-        nav ul li a {
-            color: var(--national-white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 0;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: var(--national-white);
-            bottom: 0;
-            left: 0;
-            transition: var(--transition);
-        }
-
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%;
-        }
-
-        .hero-banner {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('Photos/kenya-statehouse.jpg') no-repeat center center/cover;
-            color: var(--national-white);
-            text-align: center;
-            padding: 7rem 20px;
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--national-white);
-            color: var(--national-red);
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            background-color: transparent;
-            color: var(--national-white);
-            border-color: var(--national-white);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--national-red);
-            display: inline-block;
-            padding-bottom: 12px;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--national-red), var(--national-green));
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .updates-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            position: relative;
-        }
-
-        .tab-btn.active {
-            color: var(--national-red);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--national-red);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .update-card {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .update-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .update-image {
-            flex: 0 0 200px;
-            height: 150px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .update-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .update-card:hover .update-image img {
-            transform: scale(1.05);
-        }
-
-        .update-content {
-            flex: 1;
-        }
-
-        .update-content h3 {
-            color: var(--national-red);
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
-        }
-
-        .update-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.8rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .update-meta i {
-            margin-right: 5px;
-        }
-
-        .update-content p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .read-more {
-            color: var(--national-green);
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: var(--transition);
-        }
-
-        .read-more:hover {
-            color: var(--national-red);
-        }
-
-        .read-more i {
-            margin-left: 5px;
-            transition: var(--transition);
-        }
-
-        .read-more:hover i {
-            transform: translateX(5px);
-        }
-
-        .event-date {
-            background-color: var(--national-red);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 0.8rem;
-        }
-
-        .event-location {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #666;
-            margin-bottom: 0.8rem;
-        }
-
-        .subscription-section {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 4rem 20px;
-            margin-top: 3rem;
-            text-align: center;
-            border-radius: 8px;
-        }
-
-        .subscription-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .subscription-container h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .subscription-container p {
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .subscription-form {
-            display: flex;
-            gap: 10px;
-        }
-
-        .subscription-form input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .subscription-form button {
-            background-color: var(--national-green);
-            color: var(--national-white);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .subscription-form button:hover {
-            background-color: #008a3d;
-        }
-
-        footer {
-            background-color: var(--national-black);
-            color: var(--national-white);
-            padding: 3rem 20px;
-            text-align: center;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--national-white);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--national-green);
-        }
-
-        .copyright {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-banner {
-                padding: 5rem 20px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .update-card {
-                flex-direction: column;
-            }
-            
-            .update-image {
-                flex: 1;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            nav ul {
-                margin: 1rem 0;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 15px 10px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-            
-            .tab-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            
-            .subscription-form {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-banner {
-                padding: 4rem 20px;
-            }
-            
-            .hero-content h1 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .update-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--green:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--navy:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--amber:#d97706;--al:rgba(217,119,6,.1);--red:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] header{background:rgba(14,22,17,.94);}
+.hdr{max-width:1100px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;gap:1rem;}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-wrap img{height:38px;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.logo-text span{color:var(--gm);}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+.hdr-nav a{font-size:.82rem;font-weight:500;color:var(--mt);text-decoration:none;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+.hdr-nav a:hover{color:var(--gm);background:var(--gl);}
+.ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);}
+.pw{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;}
+.page-hero{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;box-shadow:var(--sh);}
+.ph-icon{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--gm));color:white;display:grid;place-items:center;font-size:1.4rem;flex-shrink:0;}
+.ph-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--ink);}
+.ph-sub{font-size:.85rem;color:var(--mt);margin-top:.25rem;}
+.ph-actions{margin-left:auto;display:flex;gap:.65rem;}
+.btn-sm{display:inline-flex;align-items:center;gap:6px;padding:.55rem 1.1rem;border-radius:10px;border:1px solid var(--bds);background:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;color:var(--mt);transition:all .2s;}
+.btn-sm:hover{border-color:var(--gm);color:var(--gm);}
+.btn-sm.primary{background:var(--green);color:white;border-color:var(--green);}
+.btn-sm.primary:hover{background:var(--gm);}
+/* FILTER */
+.filter-bar{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+.ftab{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.45rem 1rem;border-radius:9px;border:1px solid var(--bd);background:var(--sf);color:var(--mt);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.ftab:hover{border-color:var(--gm);color:var(--gm);}
+.ftab.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+[data-theme=dark] .ftab.active{background:white;color:#0c1410;border-color:white;}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:.6rem;font-weight:700;margin-left:4px;}
+/* NOTIF ITEMS */
+.notif-list{display:flex;flex-direction:column;gap:.75rem;}
+.ni{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:all .2s;cursor:pointer;position:relative;}
+.ni:hover{border-color:var(--gm);box-shadow:0 4px 20px rgba(11,149,68,.1);transform:translateX(3px);}
+.ni.unread{border-left:3px solid var(--gm);}
+.ni.unread-red{border-left:3px solid var(--red);}
+.ni.unread-amber{border-left:3px solid var(--amber);}
+.ni.unread-navy{border-left:3px solid var(--nm);}
+.ni-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+.ni-icon.g{background:var(--gl);color:var(--gm);}
+.ni-icon.r{background:var(--rl);color:var(--red);}
+.ni-icon.a{background:var(--al);color:var(--amber);}
+.ni-icon.n{background:var(--nl);color:var(--nm);}
+.ni-icon.gr{background:rgba(100,116,139,.1);color:#64748b;}
+.ni-body{flex:1;}
+.ni-title{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.25rem;}
+.ni.read .ni-title{font-weight:500;color:var(--im);}
+.ni-desc{font-size:.8rem;color:var(--mt);line-height:1.55;margin-bottom:.5rem;}
+.ni-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.ni-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .55rem;border-radius:50px;font-weight:600;}
+.tag-project{background:var(--gl);color:var(--gm);}
+.tag-budget{background:var(--nl);color:var(--nm);}
+.tag-inquiry{background:var(--al);color:var(--amber);}
+.tag-system{background:rgba(100,116,139,.1);color:#64748b;}
+.tag-alert{background:var(--rl);color:var(--red);}
+.ni-time{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--mt);margin-left:auto;}
+.unread-dot{width:8px;height:8px;border-radius:50%;background:var(--red);position:absolute;top:1.1rem;right:1.1rem;flex-shrink:0;}
+/* GROUP LABEL */
+.group-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mt);padding:.5rem 0;margin-top:.5rem;display:flex;align-items:center;gap:8px;}
+.group-label::after{content:'';flex:1;height:1px;background:var(--bd);}
+/* EMPTY */
+.empty{text-align:center;padding:4rem 2rem;color:var(--mt);}
+.empty i{font-size:3rem;margin-bottom:1rem;opacity:.25;}
+.empty h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+footer{background:#080f0a;padding:2rem;text-align:center;margin-top:4rem;}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:rgba(255,255,255,.3);}
+@media(max-width:600px){.pw{padding:1.5rem 1rem;}.ph-actions{display:none;}}
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
-                <div class="header-title">
-                    <h1>Government of Kenya</h1>
-                </div>
-            </div>
-            <nav>
-                <ul>
-                   
-                    <li><a href="Reports.html">Analysis</a></li>
-                    
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero-banner">
-        <div class="hero-content">
-            <h1>Government Updates & Announcements</h1>
-            <p>Stay informed with the latest news, announcements, and events from the Government of Kenya</p>
-            <a href="#updates" class="btn">View Latest Updates</a>
-        </div>
-    </section>
-
-    <div class="container">
-        <div class="updates-tabs">
-            <button class="tab-btn active" onclick="showTab('updates')">Latest Updates</button>
-            <button class="tab-btn" onclick="showTab('announcements')">Announcements</button>
-            <button class="tab-btn" onclick="showTab('events')">Upcoming Events</button>
-        </div>
-
-        <section id="updates" class="tab-content active">
-            <div class="section-title">
-                <h2>Recent Government Updates</h2>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/konza techno.jpg" alt="Konza Technopolis">
-                </div>
-                <div class="update-content">
-                    <h3>Konza Technopolis Phase 2 Launch</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> June 15, 2025</span>
-                        <span><i class="fas fa-tag"></i> Infrastructure</span>
-                    </div>
-                    <p>The government has launched Phase 2 of Konza Technopolis, marking a significant milestone in Kenya's digital transformation agenda. The new phase includes state-of-the-art tech hubs and innovation centers.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/mall.jpeg" alt="Healthcare Facility">
-                </div>
-                <div class="update-content">
-                    <h3>Universal Healthcare Coverage Expansion</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> June 10, 2025</span>
-                        <span><i class="fas fa-tag"></i> Healthcare</span>
-                    </div>
-                    <p>Five additional counties have been included in the Universal Healthcare Coverage program, bringing the total to 32 counties. The expansion will benefit over 2 million more Kenyans.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/pexels-droosmo-2982449.jpg" alt="Education">
-                </div>
-                <div class="update-content">
-                    <h3>New Competency-Based Curriculum Rollout</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> June 5, 2025</span>
-                        <span><i class="fas fa-tag"></i> Education</span>
-                    </div>
-                    <p>The Ministry of Education has announced the complete rollout of the CBC curriculum to all primary schools, along with teacher training programs to ensure smooth implementation.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <section id="announcements" class="tab-content">
-            <div class="section-title">
-                <h2>Public Announcements</h2>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/community-removebg-preview.png" alt="Public Holiday">
-                </div>
-                <div class="update-content">
-                    <h3>Public Holiday: Environment Day</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> May 27, 2025</span>
-                        <span><i class="fas fa-tag"></i> Official Notice</span>
-                    </div>
-                    <p>The government has declared May 27, 2025 as a public holiday to celebrate National Environment Day. All non-essential government offices will be closed.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/beach cnt.jpg" alt="Agriculture">
-                </div>
-                <div class="update-content">
-                    <h3>New Agricultural Subsidy Program</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> May 20, 2025</span>
-                        <span><i class="fas fa-tag"></i> Agriculture</span>
-                    </div>
-                    <p>The Ministry of Agriculture has announced a new subsidy program for small-scale farmers, providing discounted fertilizers and seeds for the upcoming planting season.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/sustainability-removebg-preview.png" alt="Public Participation">
-                </div>
-                <div class="update-content">
-                    <h3>Public Participation: Environmental Policy</h3>
-                    <div class="update-meta">
-                        <span><i class="far fa-calendar-alt"></i> May 15, 2025</span>
-                        <span><i class="fas fa-tag"></i> Public Notice</span>
-                    </div>
-                    <p>The government is seeking public input on proposed changes to the National Environmental Policy. Town hall meetings will be held in all counties from June 1-15.</p>
-                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <section id="events" class="tab-content">
-            <div class="section-title">
-                <h2>Upcoming Events</h2>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/jane smith.jpeg" alt="Youth Conference">
-                </div>
-                <div class="update-content">
-                    <div class="event-date">August 12, 2025</div>
-                    <h3>National Youth Conference</h3>
-                    <div class="event-location">
-                        <i class="fas fa-map-marker-alt"></i> KICC, Nairobi
-                    </div>
-                    <p>Annual gathering of youth leaders to discuss pressing issues and innovative solutions. Theme: "Empowering Youth for Digital Transformation".</p>
-                    <a href="#" class="read-more">Register now <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/sustainability-removebg-preview.png" alt="Agricultural Expo">
-                </div>
-                <div class="update-content">
-                    <div class="event-date">July 15-18, 2025</div>
-                    <h3>National Agricultural Expo</h3>
-                    <div class="event-location">
-                        <i class="fas fa-map-marker-alt"></i> Nairobi Showground
-                    </div>
-                    <p>Four-day exhibition showcasing the latest agricultural technologies, innovations, and best practices from across Kenya and the region.</p>
-                    <a href="#" class="read-more">Register now <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <div class="update-card">
-                <div class="update-image">
-                    <img src="Photos/community-removebg-preview.png" alt="Health Campaign">
-                </div>
-                <div class="update-content">
-                    <div class="event-date">June 13, 2025</div>
-                    <h3>National Health Awareness Day</h3>
-                    <div class="event-location">
-                        <i class="fas fa-map-marker-alt"></i> Afya House & Nationwide
-                    </div>
-                    <p>Annual health awareness campaign focusing on preventive healthcare, with free screenings and consultations available at all county hospitals.</p>
-                    <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <section class="subscription-section">
-            <div class="subscription-container">
-                <h3>Stay Updated</h3>
-                <p>Subscribe to receive the latest government updates directly to your inbox</p>
-                <form class="subscription-form">
-                    <input type="email" placeholder="Enter your email address" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        </section>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem">
+      <a href="user_dashboard.html">Dashboard</a><a href="Projects.html">Projects</a><a href="Budget.html">Budget</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
     </div>
+  </div>
+</header>
 
-    <footer>
-        <div class="footer-links">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy Policy</a>
-        </div>
-        <p class="copyright">&copy; 2025 Government of Kenya. All rights reserved.</p>
-    </footer>
+<div class="pw">
+  <div class="page-hero">
+    <div class="ph-icon"><i class="fas fa-bell"></i></div>
+    <div>
+      <div class="ph-title">Notifications</div>
+      <div class="ph-sub">You have <span id="unreadCount" style="color:var(--red);font-weight:700">7</span> unread notifications</div>
+    </div>
+    <div class="ph-actions">
+      <button class="btn-sm" onclick="markAllRead()"><i class="fas fa-check-double"></i> Mark All Read</button>
+      <button class="btn-sm" onclick="clearAll()"><i class="fas fa-trash-alt"></i> Clear All</button>
+      <button class="btn-sm primary" onclick="location.href='User_inquirery.html'"><i class="fas fa-paper-plane"></i> New Inquiry</button>
+    </div>
+  </div>
 
-    <script>
-        function showTab(tabId) {
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-    
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+  <div class="filter-bar">
+    <button class="ftab active" onclick="filter(this,'all')">All <span class="badge" style="background:var(--red);color:white">7</span></button>
+    <button class="ftab" onclick="filter(this,'project')">Projects</button>
+    <button class="ftab" onclick="filter(this,'budget')">Budget</button>
+    <button class="ftab" onclick="filter(this,'inquiry')">Inquiries</button>
+    <button class="ftab" onclick="filter(this,'system')">System</button>
+    <button class="ftab" onclick="filter(this,'alert')">Alerts</button>
+    <button class="ftab" onclick="filter(this,'read')" style="margin-left:auto">Show Read Only</button>
+  </div>
 
-        // Form submission
-        document.querySelector('.subscription-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for subscribing to government updates!');
-            this.reset();
-        });
+  <div id="notifList" class="notif-list"></div>
+</div>
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
+
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+let NOTIFS=[
+  {id:1,icon:'fas fa-project-diagram',iconClass:'g',title:'Riruta–Ngong Railway: Construction Milestone Reached',desc:'Civil foundation works and Karen Bridge piers are now 62% complete. Phase 1 on track for 2026 delivery. View the full project update.',tag:'project',tagClass:'tag-project',time:'2 minutes ago',read:false,link:'Riruta-Ngong.html',border:'unread'},
+  {id:2,icon:'fas fa-exclamation-circle',iconClass:'r',title:'Budget Alert: KSh 3.66B Kenol–Sagana Pending Bills',desc:'The Auditor-General flagged KSh 3.66B in pending bills for the Kenol-Sagana-Marua road project including land compensation arrears of KSh 2.46B.',tag:'alert',tagClass:'tag-alert',time:'1 hour ago',read:false,link:'Kenol-Sagana-Marua.html',border:'unread-red'},
+  {id:3,icon:'fas fa-reply',iconClass:'a',title:'Your Inquiry Has Been Replied To',desc:'The Ministry of Roads & Transport has responded to your inquiry reference #INQ-2025-0412 regarding the Ngong Road expansion project.',tag:'inquiry',tagClass:'tag-inquiry',time:'3 hours ago',read:false,link:'User_inquirery.html',border:'unread-amber'},
+  {id:4,icon:'fas fa-ship',iconClass:'n',title:'LAPSSET: Lamu Port Cargo Hits Record 799,161 Tonnes',desc:'Lamu Port recorded 799,161 metric tonnes in 2025 — a 14-fold increase since 2018. The port is now fully operational with 4 berths.',tag:'project',tagClass:'tag-project',time:'Yesterday, 9:15 AM',read:false,link:'LAPSSET.html',border:'unread-navy'},
+  {id:5,icon:'fas fa-tint',iconClass:'g',title:'Mwache Dam: 24-Hour Concreting Begins',desc:'Round-the-clock concreting of the 87.5m main dam wall commenced in March 2025. The lower check dam is 68% complete.',tag:'project',tagClass:'tag-project',time:'Yesterday, 2:30 PM',read:false,link:'Mwache-dam.html',border:'unread'},
+  {id:6,icon:'fas fa-coins',iconClass:'n',title:'FY 2024/25 Budget: KSh 3.99 Trillion Approved',desc:'The National Assembly approved the FY 2024/25 budget totalling KSh 3.99 trillion, with development expenditure at KSh 1.08 trillion.',tag:'budget',tagClass:'tag-budget',time:'2 days ago',read:false,link:'Budget.html',border:'unread-navy'},
+  {id:7,icon:'fas fa-check-circle',iconClass:'g',title:'Dongo Kundu Bypass Fully Opened to Public',desc:'The 17.5km Dongo Kundu Bypass — including the 1,440m Mteza Bridge, longest in East Africa — is now fully open to all vehicles.',tag:'project',tagClass:'tag-project',time:'3 days ago',read:false,link:'Dongo-kundu.html',border:'unread'},
+  {id:8,icon:'fas fa-bolt',iconClass:'a',title:'Last Mile Phase 4: 280,000 More Households to Be Connected',desc:'President Ruto signed the KSh 27B Phase 4 contract connecting 280,000 households across 32 counties. Completion by 2026.',tag:'project',tagClass:'tag-project',time:'4 days ago',read:true,link:'Last-mile.html',border:''},
+  {id:9,icon:'fas fa-seedling',iconClass:'g',title:'Galana Kulalu: Athi Dam Contract Signed',desc:'China Communications Construction Company signed the Athi Dam contract on 30 December 2025, unlocking full irrigation potential for 250,000 acres.',tag:'project',tagClass:'tag-project',time:'5 days ago',read:true,link:'Galana-kulalu.html',border:''},
+  {id:10,icon:'fas fa-shield-alt',iconClass:'gr',title:'System Update: Two-Factor Authentication Now Available',desc:'Your account security has been upgraded. Enable 2FA in your profile settings for enhanced protection of your portal account.',tag:'system',tagClass:'tag-system',time:'1 week ago',read:true,link:'pprofile.html',border:''},
+  {id:11,icon:'fas fa-file-alt',iconClass:'n',title:'New Government Report: Q1 2025 Infrastructure Report Published',desc:'The Q1 2025 Quarterly Infrastructure Development Report is now available. Download and review project progress across all 47 counties.',tag:'system',tagClass:'tag-system',time:'1 week ago',read:true,link:'Reports.html',border:''},
+  {id:12,icon:'fas fa-gavel',iconClass:'a',title:'New Tender: SGR Naivasha–Kisumu Extension (KSh 263B)',desc:'KeNHA has published a pre-qualification notice for the Naivasha–Kisumu SGR extension. Deadline: 30 May 2025. Download the tender documents.',tag:'system',tagClass:'tag-system',time:'10 days ago',read:true,link:'Tenders.html',border:''},
+];
+
+let currentFilter='all';
+
+function renderNotifs(){
+  const list=document.getElementById('notifList');
+  let data=NOTIFS;
+  if(currentFilter==='read') data=NOTIFS.filter(n=>n.read);
+  else if(currentFilter!=='all') data=NOTIFS.filter(n=>n.tag===currentFilter);
+  
+  if(data.length===0){list.innerHTML=`<div class="empty"><i class="fas fa-bell-slash"></i><h3>No notifications</h3><p>Nothing to show for this filter.</p></div>`;return;}
+  
+  const today=data.filter(n=>!n.read),older=data.filter(n=>n.read);
+  let html='';
+  if(today.length){html+=`<div class="group-label">Unread</div>`;html+=today.map(n=>niHtml(n)).join('');}
+  if(older.length){html+=`<div class="group-label">Read</div>`;html+=older.map(n=>niHtml(n)).join('');}
+  list.innerHTML=html;
+  document.getElementById('unreadCount').textContent=NOTIFS.filter(n=>!n.read).length;
+}
+
+function niHtml(n){
+  return `<div class="ni ${n.border} ${n.read?'read':''}" onclick="markRead(${n.id},'${n.link}')">
+    <div class="ni-icon ${n.iconClass}"><i class="${n.icon}"></i></div>
+    <div class="ni-body">
+      <div class="ni-title">${n.title}</div>
+      <div class="ni-desc">${n.desc}</div>
+      <div class="ni-meta">
+        <span class="ni-tag ${n.tagClass}">${n.tag}</span>
+        <span class="ni-time"><i class="fas fa-clock" style="margin-right:3px"></i>${n.time}</span>
+      </div>
+    </div>
+    ${!n.read?'<div class="unread-dot"></div>':''}
+  </div>`;
+}
+
+function markRead(id,link){
+  const n=NOTIFS.find(x=>x.id===id);
+  if(n){n.read=true;n.border='';}
+  renderNotifs();
+  if(link&&link!=='#') setTimeout(()=>location.href=link,200);
+}
+
+function filter(btn,type){
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');currentFilter=type;renderNotifs();
+}
+
+function markAllRead(){NOTIFS.forEach(n=>{n.read=true;n.border='';});renderNotifs();}
+function clearAll(){NOTIFS=[];renderNotifs();}
+
+renderNotifs();
+</script>
 </body>
 </html>

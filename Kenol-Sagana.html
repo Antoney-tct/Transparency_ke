@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kenol–Sagana–Marua Highway — Kenya Transparency Portal</title>
 <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="project-shared.css">
 </head>
 <body>
@@ -17,17 +17,17 @@
   </div>
 </header>
 <section class="proj-hero">
-  <div class="proj-hero-bg" style="background-image:url('Photos/road3.jpeg');background-color:#073d1a;background-blend-mode:multiply;"></div>
+  <div class="proj-hero-bg" style="background-image:url('Photos/road3.jpeg');"></div>
   <div class="proj-hero-overlay"></div>
   <div class="proj-hero-stripe"></div>
   <div class="proj-hero-content">
     <div class="proj-eyebrow"><i class="fas fa-road"></i> Road Infrastructure</div>
-    <h1 id="projTitle">Kenol–Sagana–Marua <em>Highway</em></h1>
+    <h1>Kenol–Sagana– <em>Marua Highway</em></h1>
     <div class="proj-hero-badges">
-      <span id="badgeStatus" class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Ongoing</span>
-      <span id="badgeLocation" class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Murang'a & Nyeri</span>
-      <span id="badgeBudget" class="proj-badge badge-sector"><i class="fas fa-coins"></i> KSh 14B</span>
-      <span id="badgeDate" class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Target: 2024</span>
+      <span class="proj-badge badge-ongoing"><i class="fas fa-circle" style="font-size:.45rem"></i> Ongoing — 90%</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-map-marker-alt"></i> Murang'a, Kirinyaga & Nyeri Counties (84km)</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-coins"></i> KSh 16.7B</span>
+      <span class="proj-badge badge-sector"><i class="fas fa-calendar"></i> Est. Completion: Jan 2026</span>
     </div>
   </div>
 </section>
@@ -38,76 +38,79 @@
       <div class="metric-ring">
         <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
           <circle class="ring-bg" cx="40" cy="40" r="34" stroke-width="7"/>
-          <circle id="ringFill" class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="42.7"/>
+          <circle class="ring-fill" cx="40" cy="40" r="34" stroke-width="7" stroke-dasharray="213.6" stroke-dashoffset="21.4"/>
         </svg>
-        <span id="ringLabel" class="ring-label">80%</span>
+        <span class="ring-label">90%</span>
       </div>
       <div class="metric-lbl">Completion</div>
     </div>
-    <div class="metric-card"><div class="metric-icon"><i class="fas fa-road"></i></div><div class="metric-val">84km</div><div class="metric-lbl">Total Length</div></div>
-    <div class="metric-card"><div class="metric-icon"><i class="fas fa-hard-hat"></i></div><div class="metric-val">2,000+</div><div class="metric-lbl">Jobs Created</div></div>
-    <div class="metric-card"><div class="metric-icon"><i class="fas fa-clock"></i></div><div class="metric-val">1.5 hrs</div><div class="metric-lbl">Time Saved</div></div>
+    <div class="metric-card"><div class="metric-icon"><i class="fas fa-ruler-horizontal"></i></div><div class="metric-val">84km</div><div class="metric-lbl">Dual Carriageway</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-truck"></i></div><div class="metric-val">50%</div><div class="metric-lbl">Journey Time Saved</div></div><div class="metric-card"><div class="metric-icon"><i class="fas fa-hard-hat"></i></div><div class="metric-val">2,365</div><div class="metric-lbl">Landowner PAPs</div></div>
+  </div>
+  <div class="share-strip">
+    <span class="share-lbl">Share</span>
+    <a class="share-btn" href="#" onclick="share('twitter')"><i class="fab fa-twitter"></i></a>
+    <a class="share-btn" href="#" onclick="share('facebook')"><i class="fab fa-facebook-f"></i></a>
+    <a class="share-btn" href="#" onclick="share('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+    <a class="share-btn" href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
   </div>
   <div class="tab-bar">
-    <button class="tab-btn active" data-tab="overview">Overview</button>
-    <button class="tab-btn" data-tab="media">Gallery</button>
-    <button class="tab-btn" data-tab="discussion">Discussion</button>
+    <button class="tab-btn active" data-tab="overview"><i class="fas fa-info-circle"></i> Overview</button>
+    <button class="tab-btn" data-tab="media"><i class="fas fa-images"></i> Gallery</button>
+    <button class="tab-btn" data-tab="budget"><i class="fas fa-coins"></i> Budget</button>
+    <button class="tab-btn" data-tab="timeline"><i class="fas fa-stream"></i> Timeline</button>
+    <button class="tab-btn" data-tab="discussion"><i class="fas fa-comments"></i> Discussion</button>
   </div>
   <div class="tab-content active" id="overview">
-    <div class="two-col">
-      <div class="card">
-        <div class="card-eyebrow">About</div>
-        <div class="card-title">Project Overview</div>
-        <div id="overviewBody" class="card-body">
-          <p>Upgrading the existing 84km road to a four-lane dual carriageway. Part of the Great North Road linking Kenya to Ethiopia via Moyale.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-eyebrow">Details</div>
-        <div class="card-title">Key Information</div>
-        <div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Location</div><div id="detRoute" class="det-val">Murang'a / Nyeri</div></div></div>
-        <div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Budget</div><div id="detCost" class="det-val">KSh 14B</div></div></div>
-        <div class="detail-row"><div class="det-icon"><i class="fas fa-chart-line"></i></div><div><div class="det-lbl">Progress</div><div id="detStatus" class="det-val">80% Complete</div></div></div>
-      </div>
+  <div class="two-col">
+    <div>
+      <div class="card"><div class="card-eyebrow">About</div><div class="card-title">Project Overview</div><div class="card-body"><p>The Kenol–Sagana–Marua Highway is an 84km dual carriageway expansion of the A2 road through Murang'a, Kirinyaga, and Nyeri counties — a critical segment of the Great North Road/Trans-African Highway No. 4, linking Cape Town to Cairo. Jointly funded by the African Development Bank (AfDB) and the Government of Kenya at KSh 16.7B (USD 155M), the project transforms a dangerous single carriageway into a modern 4-lane divided highway.</p><br><p>Contracted to China's Jiangxi Engineering Group and overseen by KeNHA, works began October 2020 in two lots: Lot 1 (48km Kenol–Sagana, KSh 8.49B) and Lot 2 (36km Sagana–Marua, KSh 6.1B). Lot 1 is 100% complete and open; Lot 2 is at 90% overall, with the Marua interchange section delayed by compensation disputes affecting 2,365 project-affected persons in Kirinyaga and Nyeri. Full completion is now targeted for January 2026.</p></div></div>
+      <div class="card"><div class="card-eyebrow">Key Features</div><div class="card-title">What's Included</div><ul class="fact-list"><li><i class="fas fa-check"></i>84km single carriageway upgraded to 4-lane divided dual carriageway</li><li><i class="fas fa-check"></i>Part of the Great North Road — Cape Town to Cairo Trans-African Hwy</li><li><i class="fas fa-check"></i>Major interchanges at Kenol, Makutano, Sagana, Karatina, and Marua</li><li><i class="fas fa-check"></i>Emergency trauma centre to be built along the corridor</li><li><i class="fas fa-check"></i>Non-motorised transport (NMT) lanes for cyclists and pedestrians</li><li><i class="fas fa-check"></i>Reduces Nairobi–Nyeri travel time from 3 hours to under 90 minutes</li><li><i class="fas fa-check"></i>Connects Northern Corridor (Mombasa) to LAPSSET (via Isiolo)</li><li><i class="fas fa-check"></i>Boosts agriculture, manufacturing, and tourism in the Central Region</li></ul></div>
+    </div>
+    <div class="card"><div class="card-eyebrow">Project Details</div><div class="card-title">Key Information</div><div class="detail-row"><div class="det-icon"><i class="fas fa-map-marker-alt"></i></div><div><div class="det-lbl">Route</div><div class="det-val">Kenol (Murang'a) → Sagana → Karatina → Marua (Nyeri)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-building"></i></div><div><div class="det-lbl">Authority</div><div class="det-val">KeNHA — Kenya National Highways Authority</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-hammer"></i></div><div><div class="det-lbl">Contractor</div><div class="det-val">Jiangxi Engineering Group (China)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="det-lbl">Works Started</div><div class="det-val">October 2020</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-flag-checkered"></i></div><div><div class="det-lbl">Target Completion</div><div class="det-val">January 2026 (revised from Dec 2024)</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-coins"></i></div><div><div class="det-lbl">Total Budget</div><div class="det-val">KSh 16.7B — AfDB funded majority</div></div></div><div class="detail-row"><div class="det-icon"><i class="fas fa-chart-line"></i></div><div><div class="det-lbl">Progress</div><div class="det-val">Lot 1: 100% | Lot 2: 90% | Overall: ~90%</div></div></div></div>
+  </div>
+  <div class="card"><div class="card-eyebrow">Construction Progress</div><div class="card-title">Phase Breakdown</div><div class="prog-row"><span class="prog-lbl">Lot 1 — Kenol to Sagana (48km)</span><span class="prog-pct">100%</span></div><div class="prog-track"><div class="prog-fill" style="--w:100%"></div></div><div class="prog-row"><span class="prog-lbl">Lot 2 — Sagana to Marua (36km)</span><span class="prog-pct">82%</span></div><div class="prog-track"><div class="prog-fill" style="--w:82%"></div></div><div class="prog-row"><span class="prog-lbl">Marua Interchange</span><span class="prog-pct">62%</span></div><div class="prog-track"><div class="prog-fill" style="--w:62%"></div></div><div class="prog-row"><span class="prog-lbl">Land Compensation (Nyeri County)</span><span class="prog-pct">43%</span></div><div class="prog-track"><div class="prog-fill" style="--w:43%"></div></div><div class="prog-row"><span class="prog-lbl">Tree Planting & Environmental</span><span class="prog-pct">95%</span></div><div class="prog-track"><div class="prog-fill" style="--w:95%"></div></div></div>
+</div>
+  <div class="tab-content" id="media"><div class="card"><div class="card-eyebrow">Gallery</div><div class="card-title">Project Photos</div><div class="media-grid"><div class="media-item"><img src="Photos/road3.jpeg" alt="Completed Kenol–Sagana" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Completed Kenol–Sagana</strong><p>The 48km Lot 1 dual carriageway fully complete and carrying traffic</p></div></div><div class="media-item"><img src="Photos/Thika 3.jpg" alt="4-Lane Section" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>4-Lane Section</strong><p>Modern dual carriageway through Kirinyaga County farmlands</p></div></div><div class="media-item"><img src="Photos/Thika 2.jpeg" alt="Marua Interchange" style="height:200px;object-fit:cover;width:100%"><div class="media-caption"><strong>Marua Interchange</strong><p>Ongoing construction of the Marua terminal interchange in Nyeri</p></div></div></div></div></div>
+  <div class="tab-content" id="budget"><div class="budget-grid"><div class="budget-card"><div class="bcard-lbl">Total Budget</div><div class="bcard-val">KSh 16.7B</div><div class="bcard-sub">USD 155M combined</div></div><div class="budget-card"><div class="bcard-lbl">AfDB Contribution</div><div class="bcard-val">KSh 11.5B</div><div class="bcard-sub">Primary funder via AGTF facility</div></div><div class="budget-card"><div class="bcard-lbl">GoK Counterpart</div><div class="bcard-val">KSh 5.2B</div><div class="bcard-sub">Land compensation & utilities</div></div><div class="budget-card"><div class="bcard-lbl">Pending Bills (2024 audit)</div><div class="bcard-val">KSh 3.7B</div><div class="bcard-sub">Compensation backlog — being cleared</div></div></div><div class="card"><div class="card-eyebrow">Budget Breakdown</div><div class="card-title">Expenditure by Category</div><div class="prog-row"><span class="prog-lbl">Civil Works Completed</span><span class="prog-pct">87%</span></div><div class="prog-track"><div class="prog-fill" style="--w:87%"></div></div><div class="prog-row"><span class="prog-lbl">Land Compensation (Kirinyaga)</span><span class="prog-pct">92%</span></div><div class="prog-track"><div class="prog-fill" style="--w:92%"></div></div><div class="prog-row"><span class="prog-lbl">Land Compensation (Nyeri)</span><span class="prog-pct">43%</span></div><div class="prog-track"><div class="prog-fill" style="--w:43%"></div></div><div class="prog-row"><span class="prog-lbl">Marua Interchange</span><span class="prog-pct">62%</span></div><div class="prog-track"><div class="prog-fill" style="--w:62%"></div></div><div class="prog-row"><span class="prog-lbl">Environmental & Social Works</span><span class="prog-pct">95%</span></div><div class="prog-track"><div class="prog-fill" style="--w:95%"></div></div></div></div>
+  <div class="tab-content" id="timeline"><div class="card"><div class="card-eyebrow">Milestones</div><div class="card-title">Project Timeline</div><div class="timeline"><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">October 2020</div><div class="tl-title">Works Begin</div><div class="tl-desc">Both lots mobilise; clearing and earthworks commence simultaneously</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">May 2022</div><div class="tl-title">AfDB President Inspects</div><div class="tl-desc">AfDB President Adesina and CS Macharia tour progress; 72%/63% on track</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">November 2023</div><div class="tl-title">Brief Stoppage</div><div class="tl-desc">Jiangxi halts Lot 2 over KSh 900M unpaid bill; issue resolved within weeks</div></div><div class="tl-item completed"><div class="tl-dot"></div><div class="tl-date">2024</div><div class="tl-title">Lot 1 Opened</div><div class="tl-desc">Kenol–Sagana 48km section 100% complete and handed over</div></div><div class="tl-item current"><div class="tl-dot"></div><div class="tl-date">Sep 2025</div><div class="tl-title">90% Overall</div><div class="tl-desc">Lot 2 at 90%; Karatina and Marua PAP issues being resolved</div></div><div class="tl-item "><div class="tl-dot"></div><div class="tl-date">January 2026</div><div class="tl-title">Target Handover</div><div class="tl-desc">Full 84km dual carriageway completion and formal handover to KeNHA</div></div></div></div></div>
+  <div class="tab-content" id="discussion">
+  <div class="reaction-bar">
+    <div class="reaction-stat"><div class="reaction-count" id="lkC">142</div><div class="reaction-lbl">Likes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count" id="dkC">21</div><div class="reaction-lbl">Dislikes</div></div>
+    <div class="reaction-divider"></div>
+    <div class="reaction-stat"><div class="reaction-count">39</div><div class="reaction-lbl">Comments</div></div>
+    <div class="reaction-btns">
+      <button class="rxn-btn" id="lkB" onclick="react('like')"><i class="fas fa-thumbs-up"></i> Like</button>
+      <button class="rxn-btn" id="dkB" onclick="react('dislike')"><i class="fas fa-thumbs-down"></i> Dislike</button>
+      <button class="rxn-btn" onclick="copyLink()"><i class="fas fa-share-alt"></i> Share</button>
     </div>
   </div>
+  <div class="comment-form-wrap">
+    <div class="card-eyebrow" style="margin-bottom:.75rem">Leave a Comment</div>
+    <textarea id="cTxt" class="msg-area" placeholder="Share your thoughts on this project..." style="width:100%;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;resize:vertical;min-height:90px;outline:none;font-size:.875rem;"></textarea>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+      <input type="text" id="cName" placeholder="Your name" style="padding:.55rem .9rem;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:200px;">
+      <button class="btn-comment" onclick="postComment()"><i class="fas fa-paper-plane"></i> Post Comment</button>
+    </div>
+  </div>
+  <div id="cList"><div class="comment"><div class="comment-hdr"><div class="comment-avatar">J</div><div class="comment-meta"><div class="comment-author">James Kariuki</div><div class="comment-date">Oct 2024</div></div></div><div class="comment-body">Lot 1 is excellent — Kenol to Sagana is smooth and fast. Can't wait for the full 84km to open. This is what we need.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 28</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">A</div><div class="comment-meta"><div class="comment-author">Agnes Njeri</div><div class="comment-date">Sep 2024</div></div></div><div class="comment-body">The compensation delays for Karatina landowners have been painful. The government must pay them promptly and complete this road.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 15</button></div></div><div class="comment"><div class="comment-hdr"><div class="comment-avatar">P</div><div class="comment-meta"><div class="comment-author">Peter Mwangi</div><div class="comment-date">Aug 2024</div></div></div><div class="comment-body">This road will transform agriculture in the Central Region. Produce from Nyeri gets to Nairobi fresh and cheaply. Big win.</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 19</button></div></div></div>
+</div>
 </div>
 <div class="toast" id="toast"></div>
-<footer><p>© 2025 Government of Kenya Transparency Portal</p></footer>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+<footer><p>© 2025 Government of Kenya Transparency Portal · All rights reserved</p></footer>
 <script>
 (function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
-document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');}));
-window.addEventListener('load', () => initDynamicProject());
-
-function initDynamicProject() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
-    if (!projectId) return;
-    const projects = JSON.parse(localStorage.getItem('projects')) || [];
-    const project = projects.find(p => p.id == projectId);
-    if (!project) return;
-    const formatKES = (amt) => new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', minimumFractionDigits: 0 }).format(amt);
-    document.title = `${project.name} — Kenya Transparency Portal`;
-    document.getElementById('projTitle').textContent = project.name;
-    const heroBg = document.querySelector('.proj-hero-bg');
-    if (heroBg && project.image) heroBg.style.backgroundImage = `url('${project.image}')`;
-    const bStatus = document.getElementById('badgeStatus');
-    if (bStatus) {
-        const statusMap = { ongoing: 'Ongoing', completed: 'Completed', planned: 'Planning' };
-        bStatus.innerHTML = `<i class="fas fa-circle" style="font-size:.45rem"></i> ${statusMap[project.status] || project.status}`;
-    }
-    document.getElementById('badgeLocation').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${project.county}`;
-    document.getElementById('badgeBudget').innerHTML = `<i class="fas fa-coins"></i> ${formatKES(project.budget)}`;
-    const ringLabel = document.getElementById('ringLabel');
-    if (ringLabel) ringLabel.textContent = `${project.progress}%`;
-    const ringFill = document.getElementById('ringFill');
-    if (ringFill) { const dash = 213.6; ringFill.style.strokeDashoffset = dash - (dash * project.progress / 100); }
-    const overviewBody = document.getElementById('overviewBody');
-    if (overviewBody) overviewBody.innerHTML = `<p>${project.description}</p>`;
-    document.getElementById('detRoute').textContent = project.county;
-    document.getElementById('detCost').textContent = formatKES(project.budget);
-    document.getElementById('detStatus').textContent = `${project.progress}% Complete`;
-}
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;});}));
+window.addEventListener('load',()=>setTimeout(()=>document.querySelectorAll('.prog-fill').forEach(x=>{const w=x.style.getPropertyValue('--w');if(w)x.style.width=w;}),150));
+let lk=false,dk=false;
+function react(t){const lc=document.getElementById('lkC'),dc=document.getElementById('dkC'),lb=document.getElementById('lkB'),db=document.getElementById('dkB');if(t==='like'){if(!lk){lc.textContent=+lc.textContent+1;lb.classList.add('active-like');if(dk){dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}lk=true;}else{lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}}else{if(!dk){dc.textContent=+dc.textContent+1;db.classList.add('active-dislike');if(lk){lc.textContent=+lc.textContent-1;lb.classList.remove('active-like');lk=false;}dk=true;}else{dc.textContent=+dc.textContent-1;db.classList.remove('active-dislike');dk=false;}}}
+function postComment(){const txt=document.getElementById('cTxt').value.trim(),name=document.getElementById('cName').value.trim()||'Anonymous';if(!txt)return;const el=document.createElement('div');el.className='comment';el.innerHTML=`<div class="comment-hdr"><div class="comment-avatar">${name[0].toUpperCase()}</div><div class="comment-meta"><div class="comment-author">${name}</div><div class="comment-date">Just now</div></div></div><div class="comment-body">${txt}</div><div class="comment-actions"><button class="btn-like" onclick="likeC(this)"><i class="fas fa-thumbs-up"></i> 0</button></div>`;document.getElementById('cList').prepend(el);document.getElementById('cTxt').value='';showToast('Comment posted!');}
+function likeC(b){const p=b.innerHTML.split('</i> ');const c=parseInt(p[1]||'0');const l=b.classList.toggle('liked');b.innerHTML=`<i class="fas fa-thumbs-up"></i> ${l?c+1:c-1}`;}
+function share(p){const u=window.location.href;const m={twitter:`https://twitter.com/intent/tweet?url=${u}`,facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,whatsapp:`https://wa.me/?text=${u}`};window.open(m[p],'_blank');}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'));}
 function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-check-circle"></i> ${m}`;el.className=`toast ${t} show`;setTimeout(()=>el.classList.remove('show'),3500);}
+const bt=document.getElementById('backTop');window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 </body></html>

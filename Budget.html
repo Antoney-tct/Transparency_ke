@@ -1,1053 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Budget - Government of Kenya</title>
-    <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --national-red: #BB0A1E;
-            --national-green: #009A44;
-            --national-black: #000000;
-            --national-white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background-color: var(--light-gray);
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 0.8rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .national-logo {
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .header-title h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.2rem;
-            font-weight: 700;
-        }
-
-        .header-title p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-            position: relative;
-        }
-
-        nav ul li a {
-            color: var(--national-white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 0;
-            font-size: 0.95rem;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: var(--national-white);
-            bottom: 0;
-            left: 0;
-            transition: var(--transition);
-        }
-
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%;
-        }
-
-        .hero-banner {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('Photos/Treasury bult.jpg') no-repeat center center/cover;
-            color: var(--national-white);
-            text-align: center;
-            padding: 7rem 20px;
-            position: relative;
-            margin-bottom: 3rem;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--national-white);
-            color: var(--national-red);
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            background-color: transparent;
-            color: var(--national-white);
-            border-color: var(--national-white);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--national-white);
-            border-color: var(--national-white);
-            margin-left: 15px;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--national-white);
-            color: var(--national-red);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--national-red);
-            display: inline-block;
-            padding-bottom: 12px;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--national-red), var(--national-green));
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .budget-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .budget-card {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border-top: 4px solid var(--national-red);
-        }
-
-        .budget-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .budget-amount {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--national-green);
-            margin: 1rem 0;
-        }
-
-        .budget-label {
-            font-size: 1.1rem;
-            color: var(--dark-gray);
-            font-weight: 500;
-        }
-
-        .budget-change {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 1rem;
-        }
-
-        .increase {
-            background-color: rgba(0, 154, 68, 0.1);
-            color: var(--national-green);
-        }
-
-        .decrease {
-            background-color: rgba(187, 10, 30, 0.1);
-            color: var(--national-red);
-        }
-
-        .chart-container {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 4rem;
-            box-shadow: var(--shadow);
-        }
-
-        .chart-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--national-red);
-            font-size: 1.5rem;
-        }
-
-        .budget-tabs {
-            margin-bottom: 4rem;
-        }
-
-        .tab-buttons {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 2rem;
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            position: relative;
-        }
-
-        .tab-btn.active {
-            color: var(--national-red);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--national-red);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .sector-allocation {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .sector-allocation th {
-            background-color: var(--national-red);
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .sector-allocation td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .sector-allocation tr:hover {
-            background-color: rgba(187, 10, 30, 0.05);
-        }
-
-        .allocation-bar {
-            height: 8px;
-            background-color: #eee;
-            border-radius: 4px;
-            margin-top: 6px;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            background-color: var(--national-red);
-        }
-
-        .document-card {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
-
-        .document-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .document-info h3 {
-            color: var(--national-red);
-            margin-bottom: 0.5rem;
-        }
-
-        .document-info p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .download-btn {
-            background-color: var(--national-green);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .download-btn:hover {
-            background-color: #008a3d;
-        }
-
-        .budget-timeline {
-            margin-bottom: 4rem;
-        }
-
-        .timeline-item {
-            display: flex;
-            margin-bottom: 2rem;
-        }
-
-        .timeline-date {
-            flex: 0 0 120px;
-            text-align: right;
-            padding-right: 2rem;
-            position: relative;
-        }
-
-        .timeline-date::after {
-            content: '';
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--national-red);
-            z-index: 1;
-        }
-
-        .timeline-content {
-            flex: 1;
-            padding-left: 2rem;
-            border-left: 2px solid var(--national-red);
-            position: relative;
-        }
-
-        .timeline-content h3 {
-            color: var(--national-red);
-            margin-bottom: 0.5rem;
-        }
-
-        footer {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 3rem 0 2rem;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 3px;
-            background-color: var(--national-white);
-            bottom: 0;
-            left: 0;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            display: block;
-        }
-
-        .footer-links a:hover {
-            color: var(--national-white);
-            transform: translateX(5px);
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-banner {
-                padding: 5rem 20px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.2rem;
-            }
-            
-            nav ul {
-                margin-top: 1.2rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 10px 10px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                margin-bottom: 10px;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .tab-buttons {
-                flex-wrap: wrap;
-            }
-            
-            .tab-btn {
-                flex: 1;
-                text-align: center;
-            }
-            
-            .timeline-item {
-                flex-direction: column;
-            }
-            
-            .timeline-date {
-                text-align: left;
-                padding-right: 0;
-                margin-bottom: 0.5rem;
-            }
-            
-            .timeline-date::after {
-                display: none;
-            }
-            
-            .timeline-content {
-                border-left: none;
-                padding-left: 0;
-                border-top: 2px solid var(--national-red);
-                padding-top: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-banner {
-                padding: 4rem 20px;
-            }
-            
-            .hero-content h1 {
-                font-size: 1.8rem;
-            }
-            
-            .budget-highlights {
-                grid-template-columns: 1fr;
-            }
-            
-            .document-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .download-btn {
-                margin-top: 1rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>National Budget — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--green:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--navy:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--amber:#d97706;--al:rgba(217,119,6,.1);--red:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.12);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] header{background:rgba(14,22,17,.94);}
+.hdr{max-width:1280px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;gap:1rem;}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-wrap img{height:38px;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.logo-text span{color:var(--gm);}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+.hdr-nav a{font-size:.82rem;font-weight:500;color:var(--mt);text-decoration:none;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+.hdr-nav a:hover,.hdr-nav a.active{color:var(--gm);background:var(--gl);}
+.ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0b1a3d 60%,#073d1a 100%);padding:3.5rem 2rem;position:relative;overflow:hidden;}
+.hero::before{content:'3.99T';position:absolute;right:-60px;top:-60px;font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:700;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;}
+.hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);}
+.hi{max-width:1280px;margin:0 auto;position:relative;z-index:1;opacity:0;animation:fu .8s .1s ease forwards;}
+@keyframes fu{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.ey{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.75rem;display:flex;align-items:center;gap:6px;}
+.ey i{color:#7effa8;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:white;margin-bottom:.5rem;}
+.hero h1 em{font-style:normal;color:#7effa8;}
+.hero p{color:rgba(255,255,255,.6);font-size:.9rem;}
+/* LAYOUT */
+.pw{max-width:1280px;margin:0 auto;padding:2.5rem 2rem 4rem;}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2.5rem;}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;}
+.kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.kpi.g::after{background:var(--gm);}
+.kpi.n::after{background:var(--nm);}
+.kpi.a::after{background:var(--amber);}
+.kpi.r::after{background:var(--red);}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.ki{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:.9rem;margin-bottom:1rem;}
+.ki.g{background:var(--gl);color:var(--gm);}
+.ki.n{background:var(--nl);color:var(--nm);}
+.ki.a{background:var(--al);color:var(--amber);}
+.ki.r{background:var(--rl);color:var(--red);}
+.kv{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.25rem;}
+.kl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+.kc{margin-top:.4rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;display:flex;align-items:center;gap:3px;}
+.up{color:var(--gm);}.dn{color:var(--red);}
+/* FY tabs */
+.fy-tabs{display:flex;gap:.35rem;background:var(--sf2);border-radius:12px;padding:.35rem;width:fit-content;margin-bottom:1.5rem;}
+.fyt{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;padding:.45rem 1rem;border-radius:9px;border:none;background:none;color:var(--mt);cursor:pointer;transition:all .2s;}
+.fyt.active{background:var(--ink);color:var(--bg);}
+[data-theme=dark] .fyt.active{background:white;color:#0c1410;}
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
+.sey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.sey::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.stit{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;}
+/* CHARTS */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.cc{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:1.75rem;box-shadow:var(--sh);}
+.ct{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:.25rem;}
+.cs{font-size:.78rem;color:var(--mt);margin-bottom:1.25rem;}
+.cw{position:relative;height:220px;}
+/* TABLE */
+.at{width:100%;border-collapse:collapse;}
+.at th{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);padding:.65rem 1rem;text-align:left;border-bottom:1px solid var(--bd);}
+.at td{padding:.9rem 1rem;font-size:.875rem;color:var(--im);border-bottom:1px solid var(--bd);}
+.at tr:last-child td{border-bottom:none;}
+.at tr:hover td{background:var(--sf2);}
+.mn{font-weight:600;color:var(--ink);}
+.pm{height:6px;background:var(--sf2);border-radius:10px;overflow:hidden;width:120px;}
+.pmf{height:100%;border-radius:10px;}
+.ac{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;}
+.pb{font-family:'JetBrains Mono',monospace;font-size:.62rem;background:var(--gl);color:var(--gm);padding:.2rem .55rem;border-radius:50px;}
+/* REVENUE */
+.ri{display:flex;align-items:center;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--bd);}
+.ri:last-child{border-bottom:none;}
+.rd{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.rn{flex:1;font-size:.875rem;font-weight:500;color:var(--ink);}
+.ra{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;color:var(--im);}
+.rp{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--mt);min-width:40px;text-align:right;}
+/* DEBT */
+.drow{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;border-radius:11px;border:1px solid var(--bd);margin-bottom:.65rem;}
+.drow:last-child{margin-bottom:0;}
+.dv{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:700;}
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--green);color:white;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+footer{background:#080f0a;padding:2rem;text-align:center;margin-top:4rem;}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:rgba(255,255,255,.3);}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.cg{grid-template-columns:1fr;}}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr;}.pw{padding:1.5rem 1rem;}}
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
-                <div class="header-title">
-                    <h1>Government of Kenya</h1>
-                    <p>National Budget Portal</p>
-                </div>
-            </div>
-            <nav>
-                <ul>
-                    
-                    <li><a href="Reports.html">Expenditure</a></li>
-                    <li><a href="Reports.html">Reports</a></li>
-                   
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero-banner">
-        <div class="hero-content">
-            <h1>Kenya National Budget 2024/2025</h1>
-            <p>Transparent, accountable, and participatory budgeting for national development</p>
-            <div>
-                <a href="#" class="btn">Download Full Budget</a>
-                <a href="#" class="btn btn-outline">Budget Highlights</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <div class="section-title">
-            <h2>Budget At A Glance</h2>
-        </div>
-
-        <section class="budget-highlights">
-            <div class="budget-card">
-                <div class="budget-label">Total Budget</div>
-                <div class="budget-amount">KSh 3.3T</div>
-                <div class="budget-change increase">+8.2% from 2023</div>
-            </div>
-            <div class="budget-card">
-                <div class="budget-label">Development Expenditure</div>
-                <div class="budget-amount">KSh 715.4B</div>
-                <div class="budget-change increase">+12.5% from 2023</div>
-            </div>
-            <div class="budget-card">
-                <div class="budget-label">Recurrent Expenditure</div>
-                <div class="budget-amount">KSh 2.2T</div>
-                <div class="budget-change increase">+5.7% from 2023</div>
-            </div>
-            <div class="budget-card">
-                <div class="budget-label">County Allocation</div>
-                <div class="budget-amount">KSh 385B</div>
-                <div class="budget-change increase">+7.3% from 2023</div>
-            </div>
-        </section>
-
-        <section class="chart-container">
-            <div class="chart-title">Sectoral Allocation (2024/2025)</div>
-            <canvas id="budgetChart"></canvas>
-        </section>
-
-        <section class="budget-tabs">
-            <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="sectoral">Sectoral Allocation</button>
-                <button class="tab-btn" data-tab="revenue">Revenue Sources</button>
-                <button class="tab-btn" data-tab="county">County Allocations</button>
-            </div>
-
-            <div class="tab-content active" id="sectoral">
-                <table class="sector-allocation">
-                    <thead>
-                        <tr>
-                            <th>Sector</th>
-                            <th>Allocation (KSh B)</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Education</td>
-                            <td>544.4</td>
-                            <td>
-                                16.5%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 16.5%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Infrastructure</td>
-                            <td>429.5</td>
-                            <td>
-                                13.0%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 13%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Health</td>
-                            <td>141.2</td>
-                            <td>
-                                4.3%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 4.3%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Security</td>
-                            <td>182.6</td>
-                            <td>
-                                5.5%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 5.5%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Agriculture</td>
-                            <td>89.7</td>
-                            <td>
-                                2.7%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 2.7%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Debt Servicing</td>
-                            <td>904.1</td>
-                            <td>
-                                27.4%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 27.4%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="tab-content" id="revenue">
-                <table class="sector-allocation">
-                    <thead>
-                        <tr>
-                            <th>Revenue Source</th>
-                            <th>Amount (KSh B)</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tax Revenue</td>
-                            <td>2,143.0</td>
-                            <td>
-                                65.0%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 65%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Borrowing</td>
-                            <td>718.9</td>
-                            <td>
-                                21.8%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 21.8%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Grants</td>
-                            <td>112.4</td>
-                            <td>
-                                3.4%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 3.4%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Other Revenue</td>
-                            <td>321.7</td>
-                            <td>
-                                9.8%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 9.8%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="tab-content" id="county">
-                <table class="sector-allocation">
-                    <thead>
-                        <tr>
-                            <th>County</th>
-                            <th>Allocation (KSh B)</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Nairobi</td>
-                            <td>22.7</td>
-                            <td>
-                                5.9%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 5.9%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Nakuru</td>
-                            <td>13.2</td>
-                            <td>
-                                3.4%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 3.4%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Kakamega</td>
-                            <td>11.8</td>
-                            <td>
-                                3.1%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 3.1%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Kiambu</td>
-                            <td>11.5</td>
-                            <td>
-                                3.0%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 3%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Meru</td>
-                            <td>10.9</td>
-                            <td>
-                                2.8%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 2.8%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Other Counties</td>
-                            <td>314.9</td>
-                            <td>
-                                81.8%
-                                <div class="allocation-bar">
-                                    <div class="bar-fill" style="width: 81.8%"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="budget-timeline">
-            <div class="section-title">
-                <h2>Budget Process Timeline</h2>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">
-                    <strong>August - October</strong>
-                </div>
-                <div class="timeline-content">
-                    <h3>Budget Preparation</h3>
-                    <p>National Treasury issues budget circulars to ministries and departments to submit their budget proposals.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">
-                    <strong>November - December</strong>
-                </div>
-                <div class="timeline-content">
-                    <h3>Budget Review</h3>
-                    <p>National Treasury reviews submissions and consolidates them into a draft budget.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">
-                    <strong>February</strong>
-                </div>
-                <div class="timeline-content">
-                    <h3>Budget Policy Statement</h3>
-                    <p>Presentation of the Budget Policy Statement to Parliament outlining the budget framework.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">
-                    <strong>April</strong>
-                </div>
-                <div class="timeline-content">
-                    <h3>Budget Estimates</h3>
-                    <p>Publication of Budget Estimates for Parliamentary approval.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">
-                    <strong>June</strong>
-                </div>
-                <div class="timeline-content">
-                    <h3>Budget Reading</h3>
-                    <p>Cabinet Secretary presents the budget to the National Assembly.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-title">
-            <h2>Budget Documents</h2>
-        </section>
-
-        <div class="document-card">
-            <div class="document-info">
-                <h3>Budget Statement 2024/2025</h3>
-                <p>Official budget speech delivered by the Cabinet Secretary</p>
-            </div>
-            <button class="download-btn">Download PDF (2.4MB)</button>
-        </div>
-        
-        <div class="document-card">
-            <div class="document-info">
-                <h3>Estimates of Revenue and Expenditure 2024/2025</h3>
-                <p>Detailed breakdown of revenue and expenditure estimates</p>
-            </div>
-            <button class="download-btn">Download PDF (5.1MB)</button>
-        </div>
-        
-        <div class="document-card">
-            <div class="document-info">
-                <h3>Budget Policy Statement 2024</h3>
-                <p>Policy framework for the 2024/2025 budget</p>
-            </div>
-            <button class="download-btn">Download PDF (1.8MB)</button>
-        </div>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo-wrap"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="logo-text">Kenya <span>Transparency</span></div></a>
+    <nav class="hdr-nav" style="margin-left:1.5rem;display:flex;gap:.2rem">
+      <a href="user_dashboard.html">Dashboard</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Budget.html" class="active">Budget</a>
+      <a href="Reports.html">Reports</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
     </div>
+  </div>
+</header>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Budget Resources</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Budget Reports</a></li>
-                    <li><a href="#">Previous Budgets</a></li>
-                    <li><a href="#">Budget Guidelines</a></li>
-                    <li><a href="#">Citizen's Guide</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#">National Treasury</a></li>
-                    <li><a href="#">County Budgets</a></li>
-                    <li><a href="#">Public Finance</a></li>
-                    <li><a href="#">Economic Survey</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>About</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Budget Process</a></li>
-                    <li><a href="#">Our Mandate</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQs</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Connect</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class="fa-brands fa-x-twitter"></i> X (Twitter)</a></li>
-                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> Email</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 National Treasury - Government of Kenya. All Rights Reserved. | <a href="#" style="color: rgba(255,255,255,0.8);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.8);">Terms of Use</a>
-        </div>
-    </footer>
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hi">
+    <div class="ey"><i class="fas fa-coins"></i> National Treasury & Economic Planning</div>
+    <h1>Kenya National <em>Budget</em></h1>
+    <p>FY 2024/2025 · Transparency & Accountability in Public Finance · Last Updated: April 2025</p>
+  </div>
+</section>
 
-    <script>
-        // Budget Chart
-        const ctx = document.getElementById('budgetChart').getContext('2d');
-        const budgetChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Education', 'Infrastructure', 'Health', 'Security', 'Agriculture', 'Debt Servicing', 'Others'],
-                datasets: [{
-                    data: [16.5, 13.0, 4.3, 5.5, 2.7, 27.4, 30.6],
-                    backgroundColor: [
-                        '#BB0A1E',
-                        '#009A44',
-                        '#FFC107',
-                        '#2196F3',
-                        '#9C27B0',
-                        '#607D8B',
-                        '#795548'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.label}: ${context.raw}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+<div class="pw">
+  <div class="kpi-grid">
+    <div class="kpi g"><div class="ki g"><i class="fas fa-coins"></i></div><div class="kv">KSh 3.99T</div><div class="kl">Total Budget FY 2024/25</div><div class="kc up"><i class="fas fa-arrow-up"></i> +9.1% from FY 2023/24</div></div>
+    <div class="kpi n"><div class="ki n"><i class="fas fa-chart-pie"></i></div><div class="kv">KSh 2.91T</div><div class="kl">Total Revenue Target</div><div class="kc up"><i class="fas fa-arrow-up"></i> +13.2% target increase</div></div>
+    <div class="kpi a"><div class="ki a"><i class="fas fa-building"></i></div><div class="kv">KSh 1.08T</div><div class="kl">Development Expenditure</div><div class="kc up"><i class="fas fa-arrow-up"></i> Infrastructure priority</div></div>
+    <div class="kpi r"><div class="ki r"><i class="fas fa-exclamation-triangle"></i></div><div class="kv">KSh 1.08T</div><div class="kl">Fiscal Deficit</div><div class="kc dn"><i class="fas fa-info-circle"></i> 4.3% of GDP (consolidating)</div></div>
+  </div>
 
-        // Tab functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
+  <div class="fy-tabs">
+    <button class="fyt active" onclick="switchFY(this,'2025')">FY 2024/25</button>
+    <button class="fyt" onclick="switchFY(this,'2024')">FY 2023/24</button>
+    <button class="fyt" onclick="switchFY(this,'2023')">FY 2022/23</button>
+    <button class="fyt" onclick="switchFY(this,'2022')">FY 2021/22</button>
+  </div>
 
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class 
-                tabBtns.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                // Add active class 
-                btn.classList.add('active');
-                const tabId = btn.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-    </script>
+  <div class="cg">
+    <div class="cc"><div class="ct">Expenditure by Sector</div><div class="cs">FY 2024/25 — KSh 3.99 Trillion total allocation</div><div class="cw"><canvas id="expChart"></canvas></div></div>
+    <div class="cc"><div class="ct">Revenue Collection Trend</div><div class="cs">5-Year Actual vs Target (KSh Billions)</div><div class="cw"><canvas id="revChart"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+      <div><div class="sey">Allocations</div><div class="stit">Ministry Budget Allocations — FY 2024/25</div></div>
+      <input type="text" id="msearch" placeholder="Search ministry..." oninput="filterM()" style="padding:.5rem .9rem;border-radius:9px;border:1px solid var(--bds);background:var(--sf2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;width:220px;">
+    </div>
+    <div style="overflow-x:auto"><table class="at"><thead><tr><th>#</th><th>Ministry / Sector</th><th>Allocation</th><th>% Budget</th><th>Distribution</th><th>YoY Change</th></tr></thead><tbody id="mb"></tbody></table></div>
+  </div>
+
+  <div class="cg">
+    <div class="card" style="margin-bottom:0">
+      <div class="sey">Revenue</div><div class="stit">FY 2024/25 Revenue Sources</div>
+      <div id="rs"></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="sey">Fiscal Position</div><div class="stit">Debt & Deficit Status</div>
+      <div style="background:var(--rl);border:1px solid rgba(185,28,28,.2);border-radius:14px;padding:1.25rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem;">
+        <div><div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--red);">KSh 1.08T</div><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);opacity:.7;">Budget Deficit</div></div>
+        <div style="font-size:.82rem;color:var(--im);line-height:1.65;">The FY 2024/25 deficit of KSh 1.08T = 4.3% of GDP, down from 5.7% in FY 2022/23, reflecting Kenya's fiscal consolidation path.</div>
+      </div>
+      <div class="drow" style="background:var(--sf2)"><span style="font-size:.85rem;font-weight:500">Total Public Debt</span><span class="dv" style="color:var(--red)">KSh 10.6T</span></div>
+      <div class="drow" style="background:var(--sf2)"><span style="font-size:.85rem;font-weight:500">Debt to GDP Ratio</span><span class="dv" style="color:var(--amber)">70.2%</span></div>
+      <div class="drow" style="background:var(--sf2)"><span style="font-size:.85rem;font-weight:500">Domestic Debt</span><span class="dv" style="color:var(--nm)">KSh 5.2T</span></div>
+      <div class="drow" style="background:var(--sf2)"><span style="font-size:.85rem;font-weight:500">External Debt</span><span class="dv" style="color:var(--nm)">KSh 5.4T</span></div>
+      <div class="drow" style="background:var(--gl);border-color:rgba(11,149,68,.2)"><span style="font-size:.85rem;font-weight:600;color:var(--green)">KRA Revenue (H1 FY25)</span><span class="dv" style="color:var(--gm)">KSh 1.21T</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<footer><p>© 2025 Government of Kenya · National Treasury & Economic Planning · All rights reserved</p></footer>
+
+<script>
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);setTimeout(()=>updC(th),100);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+const MINS=[
+  {n:'Roads, Transport & Infrastructure',v:'KSh 348B',p:8.7,ch:'+12%',c:'#0b6e31'},
+  {n:'Education & Training',v:'KSh 331B',p:8.3,ch:'+5%',c:'#0f1e4a'},
+  {n:'Energy & Petroleum',v:'KSh 289B',p:7.2,ch:'+18%',c:'#d97706'},
+  {n:'Health & Social Protection',v:'KSh 264B',p:6.6,ch:'+8%',c:'#0f9544'},
+  {n:'Agriculture, Livestock & Fisheries',v:'KSh 218B',p:5.5,ch:'+14%',c:'#22c55e'},
+  {n:'Water, Sanitation & Irrigation',v:'KSh 197B',p:4.9,ch:'+21%',c:'#0ea5e9'},
+  {n:'Interior & National Administration',v:'KSh 186B',p:4.7,ch:'+3%',c:'#6366f1'},
+  {n:'Defence & Security',v:'KSh 176B',p:4.4,ch:'+6%',c:'#475569'},
+  {n:'ICT & Digital Economy',v:'KSh 142B',p:3.6,ch:'+25%',c:'#8b5cf6'},
+  {n:'Housing & Urban Development',v:'KSh 138B',p:3.5,ch:'+32%',c:'#ec4899'},
+  {n:'Industrialization & Trade',v:'KSh 112B',p:2.8,ch:'+9%',c:'#f59e0b'},
+  {n:'Tourism, Wildlife & Heritage',v:'KSh 89B',p:2.2,ch:'+15%',c:'#14b8a6'},
+];
+function renderM(data){
+  document.getElementById('mb').innerHTML=data.map((m,i)=>`<tr><td style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--mt)">${String(i+1).padStart(2,'0')}</td><td><div class="mn">${m.n}</div></td><td class="ac">${m.v}</td><td><span class="pb">${m.p}%</span></td><td><div class="pm"><div class="pmf" style="width:${m.p*7}%;background:${m.c}"></div></div></td><td style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gm)">${m.ch}</td></tr>`).join('');
+}
+renderM(MINS);
+function filterM(){const q=document.getElementById('msearch').value.toLowerCase();renderM(q?MINS.filter(m=>m.n.toLowerCase().includes(q)):MINS);}
+
+const REVS=[
+  {n:'KRA Tax Revenue',v:'KSh 2.49T',p:'62.4%',c:'#0b6e31'},
+  {n:'External Loans & Grants',v:'KSh 680B',p:'17.0%',c:'#0f1e4a'},
+  {n:'Domestic Borrowing',v:'KSh 395B',p:'9.9%',c:'#d97706'},
+  {n:'Appropriations-in-Aid',v:'KSh 298B',p:'7.5%',c:'#0ea5e9'},
+  {n:'Equalisation Fund & Other',v:'KSh 120B',p:'3.0%',c:'#8b5cf6'},
+  {n:'County Equitable Share',v:'KSh 385B',p:'(Conditional)',c:'#22c55e'},
+];
+document.getElementById('rs').innerHTML=REVS.map(r=>`<div class="ri"><div class="rd" style="background:${r.c}"></div><div class="rn">${r.n}</div><div class="ra">${r.v}</div><div class="rp">${r.p}</div></div>`).join('');
+
+let eC,rC;
+function gCol(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.55)':'rgba(0,0,0,0.5)';}
+function gGrid(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  eC=new Chart(document.getElementById('expChart'),{type:'doughnut',data:{labels:['Roads & Infra','Education','Energy','Health','Agriculture','Water','Interior','Defence','ICT','Housing','Trade','Tourism'],datasets:[{data:[348,331,289,264,218,197,186,176,142,138,112,89],backgroundColor:['#0b6e31','#0f1e4a','#d97706','#0f9544','#22c55e','#0ea5e9','#6366f1','#475569','#8b5cf6','#ec4899','#f59e0b','#14b8a6'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'JetBrains Mono',size:9},color:gCol(),boxWidth:10,padding:6}}}}});
+  rC=new Chart(document.getElementById('revChart'),{type:'bar',data:{labels:['FY20/21','FY21/22','FY22/23','FY23/24','FY24/25'],datasets:[{label:'Actual Revenue (B)',data:[1373,1656,1952,2225,2490],backgroundColor:'rgba(11,149,68,0.85)',borderRadius:8,borderSkipped:false},{label:'Target (B)',data:[1480,1750,2100,2310,2900],backgroundColor:'rgba(29,58,138,0.25)',borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'JetBrains Mono',size:9},color:gCol(),boxWidth:10}}},scales:{x:{grid:{display:false},ticks:{font:{family:'JetBrains Mono',size:9},color:gCol()}},y:{grid:{color:gGrid()},ticks:{font:{family:'JetBrains Mono',size:9},color:gCol()}}}}});
+});
+function updC(th){
+  if(!eC)return;const c=gCol(),g=gGrid();
+  eC.options.plugins.legend.labels.color=c;eC.update();
+  rC.options.plugins.legend.labels.color=c;['x','y'].forEach(a=>{rC.options.scales[a].ticks.color=c;if(rC.options.scales[a].grid)rC.options.scales[a].grid.color=g;});rC.update();
+}
+const FYD={
+  '2025':[348,331,289,264,218,197,186,176,142,138,112,89],
+  '2024':[310,315,245,242,190,166,178,165,113,104,104,78],
+  '2023':[278,298,207,218,167,148,165,155,95,87,87,65],
+  '2022':[244,276,182,195,148,128,152,144,78,72,72,55],
+};
+function switchFY(btn,fy){
+  document.querySelectorAll('.fyt').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  if(eC){eC.data.datasets[0].data=FYD[fy];eC.update();}
+}
+</script>
 </body>
 </html>

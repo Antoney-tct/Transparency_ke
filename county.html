@@ -1,578 +1,385 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nairobi County Government Portal</title>
-    <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <head>
-        :root {
-            --primary: #00695C;
-            --primary-dark: #004D40;
-            --primary-light: #00897B;
-            --accent: #FFC107;
-            --white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background-color: var(--light-gray);
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            color: var(--white);
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .county-logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-        }
-
-        .header-title h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .header-title p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 5px 0;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav ul li a:hover, 
-        nav ul li a.active {
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('Photos/nairobi.jpeg') no-repeat center center/cover;
-            color: var(--white);
-            text-align: center;
-            padding: 8rem 20px;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--dark-gray);
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            background-color: #FFD54F;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-light);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary-dark);
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 3px;
-            background-color: var(--accent);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .about-section {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            margin-bottom: 4rem;
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .about-content {
-            flex: 2;
-        }
-
-        .about-content h2 {
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .about-content p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .service-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            color: var(--primary-light);
-            margin-bottom: 1.5rem;
-            display: inline-block;
-        }
-
-        .service-card h3 {
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .service-card p {
-            margin-bottom: 1.5rem;
-            color: #666;
-        }
-
-        .service-link {
-            color: var(--primary-light);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            transition: var(--transition);
-        }
-
-        .service-link:hover {
-            color: var(--primary-dark);
-        }
-
-        .service-link i {
-            margin-left: 5px;
-            transition: var(--transition);
-        }
-
-        .service-link:hover i {
-            transform: translateX(5px);
-        }
-
-        .contact-section {
-            background-color: var(--primary-dark);
-            color: var(--white);
-            padding: 4rem 0;
-            margin-bottom: 2rem;
-            border-radius: 10px;
-        }
-
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-container h2 {
-            margin-bottom: 2rem;
-            font-size: 2rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .contact-item i {
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--white);
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background-color: var(--accent);
-            color: var(--dark-gray);
-            transform: translateY(-3px);
-        }
-
-        footer {
-            background-color: var(--primary-dark);
-            color: var(--white);
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links a {
-            color: var(--white);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .copyright {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            nav ul {
-                margin-top: 1rem;
-            }
-
-            nav ul li {
-                margin: 0 10px;
-            }
-
-            .hero {
-                padding: 5rem 20px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .about-section {
-                flex-direction: column;
-            }
-
-            .about-image {
-                margin-bottom: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            margin-bottom: 1.5rem;
-            }
-
-            .btn {
-                padding: 10px 20px;
-            }
-
-            .services {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>47 Counties of Kenya — Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--green:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--gg:rgba(11,149,68,.2);--navy:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--amber:#d97706;--al:rgba(217,119,6,.1);--red:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.13);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+/* HEADER */
+header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] header{background:rgba(14,22,17,.94);}
+.hdr{max-width:1280px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;gap:1rem;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo img{height:38px;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.logo-text span{color:var(--gm);}
+.nav-links{margin-left:1.5rem;display:flex;gap:.2rem;}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--mt);text-decoration:none;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gm);background:var(--gl);}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+.ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#073d1a 100%);padding:3.5rem 2rem 4rem;position:relative;overflow:hidden;}
+.hero::before{content:'47';position:absolute;right:-30px;top:-40px;font-family:'Cormorant Garamond',serif;font-size:22rem;font-weight:700;color:rgba(255,255,255,.04);line-height:1;pointer-events:none;}
+.hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);}
+.hi{max-width:1280px;margin:0 auto;position:relative;z-index:1;}
+.ey{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.75rem;display:flex;align-items:center;gap:6px;}
+.ey i{color:#7effa8;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:700;color:white;margin-bottom:.6rem;}
+.hero h1 em{font-style:normal;color:#7effa8;}
+.hero-desc{color:rgba(255,255,255,.6);font-size:.9rem;max-width:560px;line-height:1.7;margin-bottom:2rem;}
+.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#7effa8;line-height:1;}
+.hs-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.25rem;}
+/* CONTROLS */
+.pw{max-width:1280px;margin:0 auto;padding:2.5rem 2rem 5rem;}
+.controls{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center;}
+.search-wrap{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--bds);border-radius:12px;padding:.6rem 1rem;flex:1;min-width:240px;}
+.search-wrap:focus-within{border-color:var(--gm);}
+.search-wrap i{color:var(--mt);font-size:.8rem;}
+.search-wrap input{background:none;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:.875rem;color:var(--ink);width:100%;}
+.search-wrap input::placeholder{color:var(--mt);}
+.region-tabs{display:flex;gap:.35rem;background:var(--sf2);border-radius:12px;padding:.35rem;flex-wrap:nowrap;overflow-x:auto;}
+.rtab{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.07em;text-transform:uppercase;padding:.45rem 1rem;border-radius:9px;border:none;background:none;color:var(--mt);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.rtab:hover{color:var(--ink);}
+.rtab.active{background:var(--ink);color:var(--bg);}
+[data-theme=dark] .rtab.active{background:white;color:#0c1410;}
+.view-btns{display:flex;gap:.35rem;}
+.vb{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.vb.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+[data-theme=dark] .vb.active{background:white;color:#0c1410;}
+/* RESULTS COUNT */
+.results-info{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt);margin-bottom:1.25rem;}
+.results-info span{color:var(--gm);font-weight:600;}
+/* COUNTY GRID */
+.counties-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;}
+.counties-grid.list-view{grid-template-columns:1fr;}
+/* COUNTY CARD */
+.county-card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative;}
+.county-card:hover{transform:translateY(-4px);box-shadow:var(--shl);border-color:var(--gm);}
+.county-card.selected{border-color:var(--gm);box-shadow:0 0 0 3px var(--gg);}
+/* card accent bar — region colour */
+.county-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.r-nairobi::before{background:#0b6e31;}
+.r-central::before{background:#0f9544;}
+.r-rift::before{background:#d97706;}
+.r-nyanza::before{background:#0ea5e9;}
+.r-western::before{background:#8b5cf6;}
+.r-eastern::before{background:#f59e0b;}
+.r-northeastern::before{background:#b91c1c;}
+.r-coast::before{background:#0f1e4a;}
+.card-top{padding:1.25rem 1.25rem .75rem;}
+.card-num{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--mt);margin-bottom:.35rem;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.2rem;}
+.card-hq{font-size:.78rem;color:var(--mt);display:flex;align-items:center;gap:4px;}
+.card-body{padding:.75rem 1.25rem 1.25rem;border-top:1px solid var(--bd);}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.cs-item{background:var(--sf2);border-radius:9px;padding:.6rem .75rem;}
+.cs-lbl{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt);margin-bottom:.2rem;}
+.cs-val{font-size:.82rem;font-weight:700;color:var(--ink);}
+.region-chip{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .6rem;border-radius:50px;font-weight:600;margin-top:.6rem;}
+/* LIST VIEW */
+.counties-grid.list-view .county-card{border-radius:14px;}
+.counties-grid.list-view .county-card::before{height:100%;width:4px;right:auto;top:0;}
+.counties-grid.list-view .card-top{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-top:none;}
+.counties-grid.list-view .card-body{border-top:none;padding:.5rem 1.25rem 1rem;}
+.counties-grid.list-view .card-stats{grid-template-columns:repeat(4,1fr);}
+.counties-grid.list-view .card-num{margin-bottom:0;}
+.counties-grid.list-view .card-name{font-size:1.05rem;margin-bottom:0;}
+/* DETAIL PANEL */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:9000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.detail-overlay.open{opacity:1;pointer-events:all;}
+.detail-panel{background:var(--sf);border-radius:24px 24px 0 0;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;padding:2rem;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);}
+.detail-overlay.open .detail-panel{transform:translateY(0);}
+.dp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;}
+.dp-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mt);margin-bottom:.35rem;}
+.dp-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--ink);}
+.dp-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);display:grid;place-items:center;cursor:pointer;font-size:.9rem;flex-shrink:0;transition:all .2s;}
+.dp-close:hover{border-color:var(--red);color:var(--red);}
+.dp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.dp-stat{background:var(--sf2);border-radius:14px;padding:1rem;text-align:center;}
+.dp-stat-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1;}
+.dp-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);margin-top:.25rem;}
+.dp-section{margin-bottom:1.25rem;}
+.dp-sec-title{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:6px;margin-bottom:.75rem;}
+.dp-sec-title::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.dp-facts{display:flex;flex-direction:column;gap:.5rem;}
+.dp-fact{display:flex;align-items:center;gap:.75rem;font-size:.875rem;color:var(--im);}
+.dp-fact i{width:20px;text-align:center;color:var(--gm);font-size:.8rem;}
+.dp-projects{display:flex;flex-wrap:wrap;gap:.5rem;}
+.dp-proj{font-size:.78rem;font-weight:500;padding:.35rem .85rem;border-radius:50px;background:var(--gl);color:var(--gm);border:1px solid rgba(11,149,68,.2);}
+.dp-actions{display:flex;gap:.75rem;margin-top:1.5rem;}
+.dp-btn{display:inline-flex;align-items:center;gap:6px;padding:.65rem 1.3rem;border-radius:11px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+.dp-btn.primary{background:var(--green);color:white;border:none;}
+.dp-btn.primary:hover{background:var(--gm);}
+.dp-btn.secondary{background:none;color:var(--mt);border:1px solid var(--bds);}
+.dp-btn.secondary:hover{border-color:var(--gm);color:var(--gm);}
+/* empty */
+.empty{text-align:center;padding:4rem 2rem;color:var(--mt);}
+.empty i{font-size:3rem;display:block;margin-bottom:1rem;opacity:.2;}
+.empty h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--ink);margin-bottom:.4rem;}
+/* FOOTER */
+footer{background:#080f0a;padding:2rem;text-align:center;margin-top:4rem;}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:rgba(255,255,255,.3);}
+@media(max-width:1100px){.counties-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){.counties-grid{grid-template-columns:repeat(2,1fr);}.dp-stats{grid-template-columns:repeat(2,1fr);}.counties-grid.list-view .card-stats{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.counties-grid{grid-template-columns:1fr;}.pw{padding:1.5rem 1rem;}.hero-stats{gap:1.5rem;}}
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="Photos/nairobary_logo-removebg-preview.png" alt="Nairobi County Logo" class="county-logo">
-                <div class="header-title">
-                    <h1>Nairobi County Government</h1>
-                    <p>Serving the people of Nairobi</p>
-                </div>
-            </div>
-            <nav>
-                <ul><li><a href="user_dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="national.html">My Government</a></li>
-                    <li><a href="pregress.html">Progress</a></li>
-                    <li><a href="User - inquirery.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Welcome to Nairobi County</h1>
-            <p>Your gateway to efficient government services and community information</p>
-            <a href="#" class="btn btn-primary">Explore Services</a>
-        </div>
-    </section>
-
-    <div class="container">
-        <section class="about-section">
-            <div class="about-image">
-                <img src="Photos/nairobary_logo-removebg-preview.png" alt="Nairobi City">
-            </div>
-            <div class="about-content">
-                <h2>About Nairobi County</h2>
-                <p>
-                    Nairobi, Kenya's vibrant capital city, is the only city in the world with a national park hosting diverse wildlife. 
-                    As the economic and political hub of East Africa, Nairobi County is committed to delivering efficient services, 
-                    fostering economic growth, and improving the quality of life for all residents.
-                </p>
-                <p>
-                    Our county government works tirelessly to ensure sustainable urban development, quality healthcare, 
-                    education, and infrastructure while preserving our unique natural heritage.
-                </p>
-                <a href="#" class="btn">Learn More</a>
-            </div>
-        </section>
-
-        <div class="section-title">
-            <h2>Our Services</h2>
-        </div>
-
-        <section class="services">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-building"></i>
-                </div>
-                <h3>County Administration</h3>
-                <p>Learn about our government structure, leadership, and various departments serving the community.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-map-marked-alt"></i>
-                </div>
-                <h3>Local Development</h3>
-                <p>Discover ongoing infrastructure projects, urban planning initiatives, and community development programs.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </div>
-                <h3>Community Services</h3>
-                <p>Access information about healthcare facilities, education programs, and social welfare services.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-file-contract"></i>
-                </div>
-                <h3>Permits & Licenses</h3>
-                <p>Apply for business licenses, construction permits, and other regulatory documents online.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
-                <h3>Events & Notices</h3>
-                <p>Stay informed about public meetings, cultural events, and important county announcements.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>County Finances</h3>
-                <p>Access transparent financial reports, budget information, and expenditure tracking.</p>
-                <a href="#" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <div class="contact-container">
-                <h2>Contact Nairobi County Government</h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>City Hall, Nairobi, Kenya</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>+254 768 68648</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Nairobicounty@gmail.com</span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </section>
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya Coat of Arms">
+      <div class="logo-text">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="user_dashboard.html">Dashboard</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Budget.html">Budget</a>
+      <a href="Counties.html" class="active">Counties</a>
+    </nav>
+    <div class="hdr-right">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
     </div>
+  </div>
+</header>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="User_dashboard.html">Home</a>
-                <a href="About.html">About Us</a>
-                <a href="updates.html">News</a>
-                <a href="User-inquirery">Contact</a>
-            </div>
-            <p class="copyright">&copy; 2025 Nairobi County Government. All Rights Reserved.</p>
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hi">
+    <div class="ey"><i class="fas fa-map"></i> Devolution & County Governments</div>
+    <h1>Kenya's <em>47 Counties</em></h1>
+    <p class="hero-desc">Explore all 47 counties of Kenya — their populations, headquarters, regions, governors, and key development projects. Kenya's devolved government since the 2010 Constitution.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">47</div><div class="hs-lbl">Counties</div></div>
+      <div class="hs"><div class="hs-num">55M+</div><div class="hs-lbl">Total Population</div></div>
+      <div class="hs"><div class="hs-num">8</div><div class="hs-lbl">Former Provinces</div></div>
+      <div class="hs"><div class="hs-num">2013</div><div class="hs-lbl">Devolution Year</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="pw">
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" id="countySearch" placeholder="Search county, headquarters, or governor..." oninput="renderCounties()">
+    </div>
+    <div class="region-tabs">
+      <button class="rtab active" onclick="setRegion(this,'All')">All 47</button>
+      <button class="rtab" onclick="setRegion(this,'Nairobi')">Nairobi</button>
+      <button class="rtab" onclick="setRegion(this,'Central')">Central</button>
+      <button class="rtab" onclick="setRegion(this,'Coast')">Coast</button>
+      <button class="rtab" onclick="setRegion(this,'Eastern')">Eastern</button>
+      <button class="rtab" onclick="setRegion(this,'Nyanza')">Nyanza</button>
+      <button class="rtab" onclick="setRegion(this,'Rift Valley')">Rift Valley</button>
+      <button class="rtab" onclick="setRegion(this,'Western')">Western</button>
+      <button class="rtab" onclick="setRegion(this,'North Eastern')">North Eastern</button>
+    </div>
+    <div class="view-btns">
+      <button class="vb active" id="gridBtn" onclick="setView('grid')" title="Grid View"><i class="fas fa-th"></i></button>
+      <button class="vb" id="listBtn" onclick="setView('list')" title="List View"><i class="fas fa-list"></i></button>
+    </div>
+  </div>
+
+  <div class="results-info" id="resultsInfo">Showing <span id="countShown">47</span> of 47 counties</div>
+
+  <div class="counties-grid" id="countiesGrid"></div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-header">
+      <div>
+        <div class="dp-num" id="dp-num"></div>
+        <div class="dp-name" id="dp-name"></div>
+      </div>
+      <button class="dp-close" onclick="closeDetail()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="dp-stats">
+      <div class="dp-stat"><div class="dp-stat-val" id="dp-pop"></div><div class="dp-stat-lbl">Population (2019)</div></div>
+      <div class="dp-stat"><div class="dp-stat-val" id="dp-area"></div><div class="dp-stat-lbl">Area (km²)</div></div>
+      <div class="dp-stat"><div class="dp-stat-val" id="dp-hq"></div><div class="dp-stat-lbl">Headquarters</div></div>
+      <div class="dp-stat"><div class="dp-stat-val" id="dp-region"></div><div class="dp-stat-lbl">Region</div></div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-title">Key Facts</div>
+      <div class="dp-facts" id="dp-facts"></div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-title">Active Projects</div>
+      <div class="dp-projects" id="dp-projects"></div>
+    </div>
+    <div class="dp-actions">
+      <a href="Projects.html" class="dp-btn primary"><i class="fas fa-project-diagram"></i> View Projects</a>
+      <a href="User_inquirery.html" class="dp-btn secondary"><i class="fas fa-envelope"></i> Send Inquiry</a>
+      <button class="dp-btn secondary" onclick="closeDetail()"><i class="fas fa-times"></i> Close</button>
+    </div>
+  </div>
+</div>
+
+<footer><p>© 2025 Government of Kenya Transparency Portal · Commission on Revenue Allocation · All 47 Counties · All rights reserved</p></footer>
+
+<script>
+const COUNTIES=[
+  {id:1,name:'Mombasa',hq:'Mombasa City',region:'Coast',rClass:'r-coast',pop:'1,208,333',area:'212',governor:'Abdulswamad Nassir',mp_seats:6,senator:'Mohamed Faki',projects:['Dongo Kundu Bypass','Mwache Dam','LAPSSET','Port Expansion'],facts:['Kenya\'s second-largest city','Major port hub — Mombasa Port handles 30M+ tonnes/year','Kisiwani Island — the old town is a UNESCO site','Tourism: Diani, Nyali, Bamburi beaches','Gateway to East Africa'],color:'#0f1e4a'},
+  {id:2,name:'Kwale',hq:'Kwale Town',region:'Coast',rClass:'r-coast',pop:'866,820',area:'8,270',governor:'Fatuma Achani',mp_seats:4,senator:'Issa Juma Boy',projects:['Mwache Multi-purpose Dam','Dongo Kundu SEZ','Kwale Titanium Mining'],facts:['Titanium mineral deposits — Kwale Mineral Sands Project','Diani Beach — Africa\'s leading beach destination','Sugar farming and fishing economy','Dongo Kundu SEZ to transform industrial outlook'],color:'#0f1e4a'},
+  {id:3,name:'Kilifi',hq:'Kilifi Town',region:'Coast',rClass:'r-coast',pop:'1,453,787',area:'12,610',governor:'Gideon Mung\'aro',mp_seats:7,senator:'Stewart Madzayo',projects:['Galana-Kulalu Food Security','Malindi Port'],facts:['Watamu Marine National Park','Gede Ruins — 12th century Swahili city remains','Kilifi Creek Bridge connects north and south','Cashew nut, coconuts, and fishing economy'],color:'#0f1e4a'},
+  {id:4,name:'Tana River',hq:'Hola',region:'Coast',rClass:'r-coast',pop:'315,943',area:'35,375',governor:'Dhadho Godhana',mp_seats:3,senator:'Danson Mungatana',projects:['Galana-Kulalu Irrigation','Tana River Basin Development'],facts:['Third largest county by area','Tana River — Kenya\'s longest river runs through it','Pastoral and fishing communities','High food insecurity — irrigation critical'],color:'#0f1e4a'},
+  {id:5,name:'Lamu',hq:'Lamu Town',region:'Coast',rClass:'r-coast',pop:'143,920',area:'6,497',governor:'Issa Timamy',mp_seats:2,senator:'Anwar Loitiptip',projects:['LAPSSET Corridor','Lamu Port Development','LAPSSET Road'],facts:['UNESCO World Heritage Site — Lamu Old Town','Smallest county by population','Kenya\'s second deep-sea port under construction','Gateway to Horn of Africa via LAPSSET'],color:'#0f1e4a'},
+  {id:6,name:'Taita-Taveta',hq:'Wundanyi',region:'Coast',rClass:'r-coast',pop:'340,671',area:'17,084',governor:'Andrew Mwadime',mp_seats:4,senator:'Jones Mwaruma',projects:['Voi-Taveta Road','Sisal & Mining Development'],facts:['Tsavo National Parks — largest in Kenya','Border county with Tanzania','Sisal production, salt mining, gemstone mining','Home to the Taita Hills, endemic bird species'],color:'#0f1e4a'},
+  {id:7,name:'Garissa',hq:'Garissa Town',region:'North Eastern',rClass:'r-northeastern',pop:'841,353',area:'44,175',governor:'Nathif Jama',mp_seats:6,senator:'Ali Roba',projects:['LAPSSET Road','Garissa 50MW Solar Plant'],facts:['Garissa Solar Plant — largest in East Africa (50MW)','Livestock and pastoralism dominant economy','LAPSSET corridor will pass through Garissa','High humanitarian needs in parts of county'],color:'#b91c1c'},
+  {id:8,name:'Wajir',hq:'Wajir Town',region:'North Eastern',rClass:'r-northeastern',pop:'781,263',area:'56,686',governor:'Ahmed Abdullahi',mp_seats:5,senator:'Mohammed Chute',projects:['Wajir Airport Expansion','Pastoralist Livelihood Programme'],facts:['Second largest county by area','Predominantly arid and semi-arid land (ASAL)','Pastoralist communities — camel and cattle herding','Oil and gas exploration underway'],color:'#b91c1c'},
+  {id:9,name:'Mandera',hq:'Mandera Town',region:'North Eastern',rClass:'r-northeastern',pop:'867,457',area:'25,797',governor:'Mohamed Khalif',mp_seats:6,senator:'Ali Roba',projects:['Mandera–Nairobi Road','Mandera Airport'],facts:['Border county: Ethiopia, Somalia, and Kenya meet here','The "three-country triangle" border point','Pastoralist economy, khat farming','Critical road infrastructure links to Nairobi'],color:'#b91c1c'},
+  {id:10,name:'Marsabit',hq:'Marsabit Town',region:'Eastern',rClass:'r-eastern',pop:'459,785',area:'66,923',governor:'Mohamud Ali',mp_seats:4,senator:'Godana Hargura',projects:['Lake Turkana Wind Power','Laisamis–Marsabit Road'],facts:['Largest county by area — 66,923 km²','Lake Turkana — world\'s largest permanent desert lake nearby','Lake Turkana Wind Power: 310MW — Africa\'s largest wind farm','Diverse ethnic groups and wildlife'],color:'#f59e0b'},
+  {id:11,name:'Isiolo',hq:'Isiolo Town',region:'Eastern',rClass:'r-eastern',pop:'268,002',area:'25,336',governor:'Abdi Hassan Guyo',mp_seats:2,senator:'Fatuma Dullo',projects:['LAPSSET Isiolo Resort City','Isiolo Airport','Isiolo–Moyale Dual Carriageway'],facts:['Gateway to Northern Kenya','LAPSSET Resort City to transform Isiolo into tourism hub','Livestock and meat processing economy','Multi-ethnic pastoralist communities'],color:'#f59e0b'},
+  {id:12,name:'Meru',hq:'Meru Town',region:'Eastern',rClass:'r-eastern',pop:'1,545,714',area:'6,936',governor:'Kawira Mwangaza',mp_seats:9,senator:'Kathuri Murungi',projects:['Meru-Nanyuki Road','Tea & Coffee Infrastructure'],facts:['Miraa (khat) — world\'s leading export hub for khat','Mt Kenya — snow-capped peak within Meru borders','Tea, coffee, dairy, and horticulture economy','Meru National Park adjacent to county'],color:'#f59e0b'},
+  {id:13,name:'Tharaka-Nithi',hq:'Chuka',region:'Eastern',rClass:'r-eastern',pop:'393,177',area:'2,661',governor:'Muthomi Njuki',mp_seats:3,senator:'Kithure Kindiki',projects:['Tharaka Irrigation Scheme','Thiba Dam'],facts:['Second smallest county by area','Agriculture-dependent — miraa, maize, beans','Tana River upper catchment — key water source','Mostly rural, growing tourism to Mt Kenya'],color:'#f59e0b'},
+  {id:14,name:'Embu',hq:'Embu Town',region:'Eastern',rClass:'r-eastern',pop:'608,599',area:'2,818',governor:'Cecily Mbarire',mp_seats:4,senator:'Njeru Ndwiga',projects:['Thiba Dam','Embu-Tharaka Road'],facts:['Mt Kenya National Park and UNESCO Biosphere Reserve','Tea, coffee, and horticulture economy','Tana River headwaters — key for hydro and irrigation','Known for cultural hospitality and food traditions'],color:'#f59e0b'},
+  {id:15,name:'Kitui',hq:'Kitui Town',region:'Eastern',rClass:'r-eastern',pop:'1,136,187',area:'30,496',governor:'Julius Malombe',mp_seats:8,senator:'Enoch Wambua',projects:['Coal Mining Development','Thwake Dam (Athi River)'],facts:['Large coal deposits in Mui Basin','Thwake Multi-purpose Dam under construction','Sisal production and cattle ranching','Part of the Ukambani semi-arid region'],color:'#f59e0b'},
+  {id:16,name:'Machakos',hq:'Machakos Town',region:'Eastern',rClass:'r-eastern',pop:'1,421,932',area:'6,208',governor:'Wavinya Ndeti',mp_seats:8,senator:'Agnes Kavindu',projects:['Machakos-Konza Road','Usahihi Road','Mavoko Industrial Zone'],facts:['Home to Konza Technopolis Silicon Savannah','Proximity to Nairobi — fastest growing county economically','Kamba cultural heartland','Athi River industrial and commercial zone'],color:'#f59e0b'},
+  {id:17,name:'Makueni',hq:'Wote',region:'Eastern',rClass:'r-eastern',pop:'987,653',area:'8,008',governor:'Mutula Kilonzo Jr.',mp_seats:6,senator:'Dan Maanzo',projects:['Konza-Makueni Road','Sand Dam Programme'],facts:['Innovative sand dam programme — water resilience model','Mango, citrus, and pawpaw production','Prof. Mutula Kilonzo Jr. — highly rated governor','Pilot county for universal health coverage (2018)'],color:'#f59e0b'},
+  {id:18,name:'Nyandarua',hq:'Ol Kalou',region:'Central',rClass:'r-central',pop:'638,289',area:'3,304',governor:'Kiarie Badilisha',mp_seats:5,senator:'John Methu',projects:['Ol Kalou-Njabini Road','Potato & Horticulture Development'],facts:['Kenya\'s potato capital — major supplier to Nairobi','Aberdare Range — critical water tower and forest','Horticulture: cabbages, carrots, and dairy','Cold highland climate — unique agricultural profile'],color:'#0f9544'},
+  {id:19,name:'Nyeri',hq:'Nyeri Town',region:'Central',rClass:'r-central',pop:'759,164',area:'3,337',governor:'Mutahi Kahiga',mp_seats:7,senator:'Wahome Wamatinga',projects:['Kenol-Sagana-Marua Highway','Nyeri Town Bypass'],facts:['Baden Powell — founder of Scouting buried in Nyeri','Mt Kenya slopes — tea and coffee country','Gateway to Aberdare National Park','One of Kenya\'s highest altitude counties'],color:'#0f9544'},
+  {id:20,name:'Kirinyaga',hq:'Kerugoya',region:'Central',rClass:'r-central',pop:'610,411',area:'1,478',governor:'Anne Waiguru',mp_seats:5,senator:'Njoroge Ndirangu',projects:['Kenol-Sagana-Marua Highway','Mwea Irrigation Scheme Expansion'],facts:['Mwea Irrigation Scheme — Kenya\'s largest rice scheme','Mt Kenya foot slopes — coffee, tea, horticulture','Anne Waiguru — first female governor of the county','Sagana State Lodge — presidential retreat'],color:'#0f9544'},
+  {id:21,name:'Muranga',hq:'Muranga Town',region:'Central',rClass:'r-central',pop:'1,056,640',area:'2,558',governor:'Irungu Kang\'ata',mp_seats:7,senator:'Joe Nyutu',projects:['Kenol-Sagana-Marua Highway','Kamae Water Dam'],facts:['Birthplace of the Mau Mau independence movement','Kenya\'s top tea and coffee producer','Muranga-Nairobi water pipeline supplies Nairobi','Heavy Kikuyu cultural heritage site'],color:'#0f9544'},
+  {id:22,name:'Kiambu',hq:'Kiambu Town',region:'Central',rClass:'r-central',pop:'2,417,735',area:'2,543',governor:'Kimani Wamatangi',mp_seats:12,senator:'Karungo wa Thang\'wa',projects:['Thika Road Extension','Kiambu-Nairobi Metropolitan Link'],facts:['Most populous county outside Nairobi','Highest number of registered companies outside Nairobi','Limuru tea estates — high altitude premium tea','Gateway to Nairobi — highest urban growth rate'],color:'#0f9544'},
+  {id:23,name:'Turkana',hq:'Lodwar',region:'Rift Valley',rClass:'r-rift',pop:'926,976',area:'71,597',governor:'Jeremiah Lomorukai',mp_seats:6,senator:'James Lomenen',projects:['Lake Turkana Wind Power (310MW)','Turkana Oil Project','Turkana-Lodwar Road'],facts:['Largest county by area — 71,597 km²','Lake Turkana — Jade Sea — largest alkaline lake on Earth','Oil deposits at Lokichar basin — Tullow Oil/TotalEnergies','Lake Turkana Wind Power: 310MW — Africa\'s largest wind farm'],color:'#d97706'},
+  {id:24,name:'West Pokot',hq:'Kapenguria',region:'Rift Valley',rClass:'r-rift',pop:'621,241',area:'9,169',governor:'Simon Kachapin',mp_seats:4,senator:'Julius Murgor',projects:['Kapenguria-Lodwar Road','Pokot Irrigation Scheme'],facts:['Border county with Uganda','Pastoralist economy — cattle and goats','Significant historical cattle-rustling challenges','Stone fruit farming potential in highland areas'],color:'#d97706'},
+  {id:25,name:'Samburu',hq:'Maralal',region:'Rift Valley',rClass:'r-rift',pop:'310,327',area:'21,023',governor:'Jonathan Lenasoit',mp_seats:3,senator:'Steve Lelegwe',projects:['Samburu-Maralal Road','Mathews Range Conservation'],facts:['Samburu National Reserve — rare northern wildlife','Famous for unique species: reticulated giraffe, Grevy\'s zebra','Pastoralist Samburu people and their culture','Key tourism destination in Northern Kenya'],color:'#d97706'},
+  {id:26,name:'Trans Nzoia',hq:'Kitale',region:'Rift Valley',rClass:'r-rift',pop:'990,341',area:'2,495',governor:'George Natembeya',mp_seats:6,senator:'Michael Malenya',projects:['Kitale-Eldoret Road','Grain Storage Infrastructure'],facts:['Kenya\'s breadbasket — highest maize production county','Mt Elgon National Park — trans-border with Uganda','Kitale Museum — natural history and culture','George Natembeya — former Rift Valley RC, popular governor'],color:'#d97706'},
+  {id:27,name:'Uasin Gishu',hq:'Eldoret',region:'Rift Valley',rClass:'r-rift',pop:'1,163,186',area:'3,345',governor:'Jonathan Bii',mp_seats:6,senator:'Jackson Mandago',projects:['JKIA Eldoret Expansion','Eldoret Eastern Bypass'],facts:['Home of champions — Kenya\'s Athletics heartland','Eldoret Airport — 2nd busiest cargo airport after JKIA','Moi University — major university in Western Kenya','Flower farming hub — exports to Europe daily'],color:'#d97706'},
+  {id:28,name:'Elgeyo-Marakwet',hq:'Iten',region:'Rift Valley',rClass:'r-rift',pop:'454,480',area:'3,029',governor:'Wisley Rotich',mp_seats:4,senator:'Kipchumba Murkomen',projects:['Kerio Valley Infrastructure','Iten Athletics Training Centre'],facts:['Iten — global capital of long distance running','Kerio Valley — spectacular escarpment views','Arable farming: maize, wheat, sorghum','Land of champions: Eliud Kipchoge\'s home territory'],color:'#d97706'},
+  {id:29,name:'Nandi',hq:'Kapsabet',region:'Rift Valley',rClass:'r-rift',pop:'885,711',area:'2,884',governor:'Stephen Sang',mp_seats:6,senator:'Samson Cherargei',projects:['Kapsabet Hospital Upgrade','Tea Factory Modernisation'],facts:['Tea production — home to James Finlay plantations','Nandi Hills — lush green tea estates','Athletics culture — home of many Kenyan marathon champions','Sugarcane and dairy farming also significant'],color:'#d97706'},
+  {id:30,name:'Baringo',hq:'Kabarnet',region:'Rift Valley',rClass:'r-rift',pop:'666,763',area:'11,075',governor:'Benjamin Cheboi',mp_seats:6,senator:'William Cheptumo',projects:['Baringo-Eldama Ravine Road','Lake Bogoria Geothermal'],facts:['Lake Bogoria — hot springs and flamingo migration','Lake Baringo — fresh water lake, birding paradise','Oil exploration activities ongoing','Semi-arid climate but growing irrigation agriculture'],color:'#d97706'},
+  {id:31,name:'Laikipia',hq:'Nanyuki',region:'Rift Valley',rClass:'r-rift',pop:'518,560',area:'9,462',governor:'Joshua Irungu',mp_seats:3,senator:'John Kinyua',projects:['Nairobi-Nanyuki Railway','Sosian Conservation Economy'],facts:['Mt Kenya Satellite Base — military training area','Major wildlife conservancies — Ol Pejeta, Lewa, Ol Jogi','Tourism-wildlife economy — rhino sanctuary','Nanyuki is gateway to Mt Kenya climbing routes'],color:'#d97706'},
+  {id:32,name:'Nakuru',hq:'Nakuru City',region:'Rift Valley',rClass:'r-rift',pop:'2,162,202',area:'7,496',governor:'Susan Kihika',mp_seats:11,senator:'Tabitha Mutinda',projects:['Nakuru City Development','Lake Nakuru Conservation'],facts:['Kenya\'s 4th largest city — elevated to city status 2021','Lake Nakuru — world-famous flamingo lake (UNESCO site)','Major industrial and agricultural hub','Rift Valley\'s economic capital'],color:'#d97706'},
+  {id:33,name:'Narok',hq:'Narok Town',region:'Rift Valley',rClass:'r-rift',pop:'1,157,873',area:'17,921',governor:'Patrick Ole Ntutu',mp_seats:6,senator:'Ledama Ole Kina',projects:['Narok-Mai Mahiu Road','Maasai Mara Infrastructure'],facts:['Maasai Mara National Reserve — world\'s best wildlife destination','Wildebeest Migration — natural wonder of the world','Maasai cultural heritage and pastoralism','Top foreign exchange earner from tourism'],color:'#d97706'},
+  {id:34,name:'Kajiado',hq:'Kajiado Town',region:'Rift Valley',rClass:'r-rift',pop:'1,117,840',area:'21,901',governor:'Joseph Ole Lenku',mp_seats:5,senator:'Seki Leposo',projects:['Riruta-Ngong-Kiserian Railway','Kajiado-Nairobi Expressway Link','Olkaria Geothermal'],facts:['Home of the Maasai community','Olkaria — world\'s largest geothermal plant (792MW)','Fastest growing county — proximity to Nairobi','Amboseli National Park — Kilimanjaro backdrop'],color:'#d97706'},
+  {id:35,name:'Kericho',hq:'Kericho Town',region:'Rift Valley',rClass:'r-rift',pop:'902,777',area:'2,479',governor:'Erick Mutai',mp_seats:6,senator:'Aaron Cheruiyot',projects:['Kericho Tea Processing Modernisation','Chemosit Dam'],facts:['World\'s highest quality tea production area','Unilever, Finlays, Williamson Tea estates','Unique afternoon rainfall pattern ideal for tea','One of Kenya\'s top foreign exchange earners'],color:'#d97706'},
+  {id:36,name:'Bomet',hq:'Bomet Town',region:'Rift Valley',rClass:'r-rift',pop:'875,689',area:'1,997',governor:'Hillary Barchok',mp_seats:5,senator:'Christopher Langat',projects:['Kaplong-Bomet Road','Tea Sector Development'],facts:['Tea production heartland — Sotik tea estates','Transmara forest — key water catchment area','Shares border with Narok Maasai territory','Mobile health clinic programme model county'],color:'#d97706'},
+  {id:37,name:'Kakamega',hq:'Kakamega Town',region:'Western',rClass:'r-western',pop:'1,867,579',area:'3,033',governor:'Fernandes Barasa',mp_seats:12,senator:'Boni Khalwale',projects:['Kakamega-Webuye Road','Kakamega Rainforest Conservation'],facts:['Most populous county in Western Kenya','Last remnant of equatorial rainforest in Kenya','Gold mining — Rosterman Mines area','Sugar cane farming — Mumias Sugar vicinity'],color:'#8b5cf6'},
+  {id:38,name:'Vihiga',hq:'Vihiga Town',region:'Western',rClass:'r-western',pop:'590,013',area:'563',governor:'Wilber Ottichilo',mp_seats:5,senator:'Godfrey Osotsi',projects:['Vihiga Roads Network','Lake Victoria Access'],facts:['Second smallest county by area — 563 km²','Highest population density in rural Kenya','Tea farming on Nandi escarpment','Proximity to Lake Victoria'],color:'#8b5cf6'},
+  {id:39,name:'Bungoma',hq:'Bungoma Town',region:'Western',rClass:'r-western',pop:'1,670,570',area:'3,032',governor:'Kenneth Lusaka',mp_seats:9,senator:'Wafula Wakoli',projects:['Mt Elgon Conservation','Bungoma-Chwele Road'],facts:['Mt Elgon — trans-boundary park with Uganda','Sugar cane and maize primary crops','Bungoma is a major cross-border trade hub','Innovative water harvesting programmes'],color:'#8b5cf6'},
+  {id:40,name:'Busia',hq:'Busia Town',region:'Western',rClass:'r-western',pop:'893,681',area:'1,628',governor:'Paul Otuoma',mp_seats:7,senator:'Okiya Omtatah',projects:['Busia One-Stop Border Post','Lake Victoria Access Road'],facts:['Kenya\'s busiest land border with Uganda','One-stop border post — EAC model for trade','Fishing on Lake Victoria — main livelihood','Sugar and maize farming'],color:'#8b5cf6'},
+  {id:41,name:'Siaya',hq:'Siaya Town',region:'Nyanza',rClass:'r-nyanza',pop:'993,183',area:'2,530',governor:'James Orengo',mp_seats:6,senator:'Oburu Odinga',projects:['Siaya County Health Programme','Lake Victoria Revitalisation'],facts:['Home county of Raila Odinga and senior politicians','Fishing on Lake Victoria — major livelihood','James Orengo — veteran human rights lawyer','Ceramic and cultural craft industries'],color:'#0ea5e9'},
+  {id:42,name:'Kisumu',hq:'Kisumu City',region:'Nyanza',rClass:'r-nyanza',pop:'1,155,574',area:'2,085',governor:'Anyang\' Nyong\'o',mp_seats:7,senator:'Tom Ojienda',projects:['Kisumu Port Revitalisation','Kisumu Impala City','Kisumu Airport Expansion'],facts:['Kenya\'s 3rd largest city — Kisumu City elevated 2019','Kisumu Port — largest lake port in East Africa','ICPAK, KPA, key government agencies headquartered here','Festival city — Nyanza Hub of arts and culture'],color:'#0ea5e9'},
+  {id:43,name:'Homa Bay',hq:'Homa Bay Town',region:'Nyanza',rClass:'r-nyanza',pop:'1,131,950',area:'3,154',governor:'Gladys Wanga',mp_seats:8,senator:'Moses Kajwang',projects:['Homa Bay Hospital Upgrade','Rusinga Island Bridge'],facts:['Lake Victoria shoreline — rich fishing economy','Rusinga and Mfangano islands — tourism gems','Ruma National Park — rare roan antelope','Gladys Wanga — one of Kenya\'s prominent female governors'],color:'#0ea5e9'},
+  {id:44,name:'Migori',hq:'Migori Town',region:'Nyanza',rClass:'r-nyanza',pop:'1,116,436',area:'2,586',governor:'Ochillo Ayacko',mp_seats:8,senator:'Eddy Oketch',projects:['Migori-Isebania Road','Gold Mining Development'],facts:['Gold mining in Mikei and Osiri','Sugar cane production in Transmara border area','Lake Victoria fishing communities','Significant Tanzanian cross-border trade'],color:'#0ea5e9'},
+  {id:45,name:'Kisii',hq:'Kisii Town',region:'Nyanza',rClass:'r-nyanza',pop:'1,266,860',area:'1,317',governor:'Simba Arati',mp_seats:9,senator:'Richard Onyonka',projects:['Kisii University Expansion','Kisii Hospital Level 6 Upgrade'],facts:['Soapstone carvings — world-famous Kisii artisans','Tea and coffee farming on fertile highlands','Highest population density in rural East Africa','One of the most politically active counties'],color:'#0ea5e9'},
+  {id:46,name:'Nyamira',hq:'Nyamira Town',region:'Nyanza',rClass:'r-nyanza',pop:'605,576',area:'912',governor:'Amos Nyaribo',mp_seats:4,senator:'Okong\'o Omogeni',projects:['Nyamira Tea Roads','Ogembo Health Facilities'],facts:['Tea production — Gusii highlands premium tea','Heavily forested highlands — water catchment','High agricultural productivity per square km','Predominantly Gusii (Kisii) speaking community'],color:'#0ea5e9'},
+  {id:47,name:'Nairobi',hq:'Nairobi City',region:'Nairobi',rClass:'r-nairobi',pop:'4,397,073',area:'695',governor:'Johnson Sakaja',mp_seats:17,senator:'Edwin Sifuna',projects:['Nairobi Expressway','BRT System','Riruta-Ngong Rail','Affordable Housing','GTC Towers'],facts:['Kenya\'s capital and largest city — 4.4M people','Africa\'s 4th largest economy within a city','Nairobi National Park — only urban national park in world','Silicon Savannah — Africa\'s leading tech hub','Host to UN Environment Programme (UNEP) HQ'],color:'#0b6e31'},
+];
+
+const REGION_COLORS={
+  'Nairobi':'#0b6e31','Central':'#0f9544','Coast':'#0f1e4a',
+  'Eastern':'#f59e0b','Nyanza':'#0ea5e9','Rift Valley':'#d97706',
+  'Western':'#8b5cf6','North Eastern':'#b91c1c'
+};
+
+let currentRegion='All';
+let currentView='grid';
+
+function setRegion(btn,region){
+  document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentRegion=region;
+  renderCounties();
+}
+
+function setView(v){
+  currentView=v;
+  document.getElementById('gridBtn').classList.toggle('active',v==='grid');
+  document.getElementById('listBtn').classList.toggle('active',v==='list');
+  document.getElementById('countiesGrid').className='counties-grid'+(v==='list'?' list-view':'');
+}
+
+function renderCounties(){
+  const q=document.getElementById('countySearch').value.toLowerCase().trim();
+  let data=COUNTIES;
+  if(currentRegion!=='All') data=data.filter(c=>c.region===currentRegion);
+  if(q) data=data.filter(c=>c.name.toLowerCase().includes(q)||c.hq.toLowerCase().includes(q)||(c.governor||'').toLowerCase().includes(q));
+
+  document.getElementById('countShown').textContent=data.length;
+  const grid=document.getElementById('countiesGrid');
+
+  if(!data.length){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><i class="fas fa-map"></i><h3>No counties found</h3><p>Try a different search term or region filter.</p></div>`;
+    return;
+  }
+
+  const color=REGION_COLORS[currentRegion]||'';
+  grid.innerHTML=data.map(c=>`
+    <div class="county-card ${c.rClass}" onclick="openDetail(${c.id})" role="button" tabindex="0">
+      <div class="card-top">
+        <div class="card-num">County No. ${String(c.id).padStart(2,'0')}</div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-hq"><i class="fas fa-map-marker-alt"></i> ${c.hq}</div>
+        <span class="region-chip" style="background:${REGION_COLORS[c.region]}22;color:${REGION_COLORS[c.region]}">${c.region}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-stats">
+          <div class="cs-item"><div class="cs-lbl">Population</div><div class="cs-val">${c.pop.split(',')[0]}${c.pop.includes(',')? 'K+':''}</div></div>
+          <div class="cs-item"><div class="cs-lbl">Area (km²)</div><div class="cs-val">${Number(c.area).toLocaleString()}</div></div>
+          <div class="cs-item"><div class="cs-lbl">MP Seats</div><div class="cs-val">${c.mp_seats}</div></div>
+          <div class="cs-item"><div class="cs-lbl">Projects</div><div class="cs-val">${c.projects.length}</div></div>
         </div>
-    </footer>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openDetail(id){
+  const c=COUNTIES.find(x=>x.id===id);
+  if(!c)return;
+  document.getElementById('dp-num').textContent=`County No. ${String(c.id).padStart(2,'0')} · ${c.region} Region`;
+  document.getElementById('dp-name').textContent=c.name;
+  document.getElementById('dp-pop').textContent=c.pop;
+  document.getElementById('dp-area').textContent=Number(c.area).toLocaleString()+' km²';
+  document.getElementById('dp-hq').textContent=c.hq;
+  document.getElementById('dp-region').textContent=c.region;
+  document.getElementById('dp-facts').innerHTML=c.facts.map(f=>`<div class="dp-fact"><i class="fas fa-check-circle"></i>${f}</div>`).join('');
+  document.getElementById('dp-projects').innerHTML=c.projects.map(p=>`<span class="dp-proj"><i class="fas fa-project-diagram" style="margin-right:4px;font-size:.65rem"></i>${p}</span>`).join('');
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeDetail(e){
+  if(e&&e.target!==document.getElementById('detailOverlay')&&e.target!==document.querySelector('.dp-close'))return;
+  if(!e||e.target===document.getElementById('detailOverlay')||e.type==='click'){
+    document.getElementById('detailOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+
+// Keyboard close
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail({target:document.getElementById('detailOverlay')});});
+
+// Theme
+(function(){
+  const btn=document.getElementById('themeToggle'),icon=btn.querySelector('i');
+  const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  function apply(th){document.documentElement.setAttribute('data-theme',th);icon.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}
+  apply(t);btn.addEventListener('click',()=>apply(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+})();
+
+renderCounties();
+</script>
 </body>
 </html>

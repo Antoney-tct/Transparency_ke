@@ -1,751 +1,421 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Government of Kenya - Official Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --national-red: #BB0A1E;
-            --national-green: #009A44;
-            --national-black: #000000;
-            --national-white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --dark-gray: #333333;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>National Government of Kenya — Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--g:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--gg:rgba(11,149,68,.18);--nv:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--am:#d97706;--al:rgba(217,119,6,.1);--re:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.13);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,134,.15);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+a{text-decoration:none;}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] .site-header{background:rgba(12,20,16,.95);}
+.hdr-inner{max-width:1280px;margin:0 auto;padding:0 1.5rem;height:68px;display:flex;align-items:center;gap:1rem;}
+.logo-link{display:flex;align-items:center;gap:10px;}
+.logo-link img{height:40px;}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+.logo-name span{color:var(--gm);}
+.desk-nav{display:flex;align-items:center;gap:.15rem;margin-left:1.25rem;}
+.desk-nav a{font-size:.82rem;font-weight:500;color:var(--mt);padding:.4rem .8rem;border-radius:8px;transition:all .2s;}
+.desk-nav a:hover,.desk-nav a.active{color:var(--gm);background:var(--gl);}
+.hdr-actions{margin-left:auto;display:flex;align-items:center;gap:.5rem;}
+.ib{width:38px;height:38px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.hamburger{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.hamburger:hover{border-color:var(--gm);background:var(--gl);}
+.hb-line{width:20px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.hamburger.open .hb-line:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open .hb-line:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open .hb-line:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-nav{position:fixed;top:68px;left:0;right:0;bottom:0;background:var(--sf);z-index:999;overflow-y:auto;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:1.5rem;}
+.mobile-nav.open{transform:translateX(0);}
+.mob-nav-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt);margin-bottom:.6rem;display:block;margin-top:.5rem;}
+.mob-nav-link{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border-radius:12px;color:var(--im);font-size:.9rem;font-weight:500;transition:all .2s;margin-bottom:.2rem;}
+.mob-nav-link i{width:18px;text-align:center;color:var(--mt);font-size:.85rem;}
+.mob-nav-link:hover,.mob-nav-link.active{background:var(--gl);color:var(--gm);}
+.mob-nav-link:hover i,.mob-nav-link.active i{color:var(--gm);}
+.mob-divider{height:1px;background:var(--bd);margin:.75rem 0;}
 
-        body {
-            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background-color: var(--light-gray);
-        }
+/* HERO */
+.hero{background:linear-gradient(150deg,#080f1f 0%,#0f1e4a 60%,#031809 100%);min-height:62vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;}
+.hero-bg-text{position:absolute;right:-60px;top:-50px;font-family:'Cormorant Garamond',serif;font-size:20rem;font-weight:700;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none;}
+.hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);z-index:2;}
+.hero-cnt{max-width:1280px;margin:0 auto;padding:0 1.5rem 3.5rem;width:100%;position:relative;z-index:1;opacity:0;animation:slideUp .9s .15s ease forwards;}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:none;}}
+.hero-ey{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.85rem;display:flex;align-items:center;gap:8px;}
+.hero-ey i{color:#7effa8;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:700;color:#fff;line-height:1.06;margin-bottom:.85rem;}
+.hero h1 em{font-style:normal;color:#7effa8;}
+.hero-sub{color:rgba(255,255,255,.6);font-size:.9rem;max-width:600px;line-height:1.75;}
 
-        header {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 0.8rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+/* PAGE WRAP */
+.pw{max-width:1280px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
 
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+/* STAT RIBBON */
+.ribbon{display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink);border-radius:18px;overflow:hidden;margin-bottom:2rem;}
+[data-theme=dark] .ribbon{background:#0a1a10;}
+.rbc{padding:1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.07);}
+.rbc:last-child{border-right:none;}
+.rnum{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#7effa8;line-height:1;}
+.rlbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.3rem;}
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
+.card-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.card-ey::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.card-h{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;}
+.section-head{margin-bottom:1.5rem;}
+.section-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);margin-bottom:.4rem;}
+.section-h{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--ink);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem;}
 
-        .national-logo {
-            height: 60px;
-            object-fit: contain;
-        }
+/* ARM CARDS */
+.arm{background:var(--sf);border:1px solid var(--bd);border-radius:22px;padding:2rem;transition:all .3s;overflow:hidden;position:relative;}
+.arm:hover{transform:translateY(-4px);box-shadow:var(--shl);}
+.arm-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:.25rem .75rem;border-radius:50px;margin-bottom:1.1rem;}
+.arm-emoji{font-size:2.8rem;margin-bottom:1rem;display:block;line-height:1;}
+.arm-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.6rem;}
+.arm-desc{font-size:.85rem;color:var(--im);line-height:1.78;margin-bottom:1rem;}
+.arm-facts{display:flex;flex-direction:column;gap:.4rem;}
+.arm-fact{font-size:.8rem;color:var(--mt);display:flex;align-items:center;gap:5px;}
+.arm-fact i{color:var(--gm);font-size:.72rem;flex-shrink:0;}
 
-        .header-title h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.2rem;
-            font-weight: 700;
-        }
+/* LEADERSHIP CARDS */
+.leader-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.leader{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;text-align:center;transition:all .3s;}
+.leader:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.lav{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--nm));display:grid;place-items:center;font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:#fff;margin:0 auto 1rem;}
+.lname{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.lrole{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;color:var(--mt);}
+.lparty{font-size:.75rem;color:var(--gm);margin-top:.25rem;}
 
-        .header-title p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
+/* MINISTRY GRID */
+.ministry-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.min{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.25rem;transition:all .3s;cursor:default;}
+.min:hover{transform:translateY(-2px);box-shadow:var(--shl);border-color:var(--gm);}
+.min-icon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:.9rem;margin-bottom:.85rem;}
+.min-title{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;line-height:1.3;}
+.min-cs{font-size:.74rem;color:var(--mt);margin-bottom:.3rem;}
+.min-budget{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gm);font-weight:600;}
 
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
+/* INSTITUTION */
+.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem;}
+.inst{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;display:flex;gap:1rem;}
+.inst-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:.95rem;flex-shrink:0;}
+.inst-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.35rem;}
+.inst-desc{font-size:.8rem;color:var(--mt);line-height:1.6;}
 
-        nav ul li {
-            margin-left: 20px;
-            position: relative;
-        }
+/* ECONOMY STATS */
+.econ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.econ{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:all .3s;}
+.econ::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.econ.g::after{background:var(--gm);}
+.econ.n::after{background:var(--nm);}
+.econ.a::after{background:var(--am);}
+.econ.r::after{background:var(--re);}
+.econ:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.econ-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:1;}
+.econ-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);margin-top:.3rem;}
+.econ-trend{font-size:.75rem;color:var(--gm);margin-top:.25rem;display:flex;align-items:center;justify-content:center;gap:3px;}
 
-        nav ul li a {
-            color: var(--national-white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 0;
-            font-size: 0.95rem;
-        }
+/* PBAR */
+.pr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;}
+.plbl{font-size:.83rem;color:var(--im);}
+.ppct{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;color:var(--gm);}
+.ptrack{height:7px;background:var(--sf2);border-radius:10px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--bd);}
+.pfill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--g),#22c55e);width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);}
 
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: var(--national-white);
-            bottom: 0;
-            left: 0;
-            transition: var(--transition);
-        }
+/* FACT LIST */
+.facts{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.facts li{display:flex;gap:.7rem;font-size:.875rem;color:var(--im);}
+.facts li i{color:var(--gm);font-size:.78rem;margin-top:3px;flex-shrink:0;}
 
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%;
-        }
+/* DET ROW */
+.dr{display:flex;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--bd);}
+.dr:last-child{border-bottom:none;}
+.di{width:34px;height:34px;border-radius:9px;background:var(--gl);color:var(--gm);display:grid;place-items:center;font-size:.78rem;flex-shrink:0;}
+.dlbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt);margin-bottom:.15rem;}
+.dval{font-size:.875rem;font-weight:500;color:var(--ink);}
 
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Photos/ke\ flag.jpg') no-repeat center center/cover;
-            color: var(--national-white);
-            text-align: center;
-            padding: 7rem 20px;
-            position: relative;
-            margin-bottom: 3rem;
-        }
+/* TOAST + BACK-TOP */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--g);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s;box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;width:46px;height:46px;border-radius:13px;background:var(--g);color:#fff;border:none;cursor:pointer;display:grid;place-items:center;font-size:.9rem;box-shadow:0 8px 20px rgba(11,110,49,.4);transform:translateY(80px);opacity:0;transition:all .3s;}
+.back-top.show{transform:translateY(0);opacity:1;}
+.back-top:hover{transform:translateY(-3px);}
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+/* FOOTER */
+.site-footer{background:#080f0a;padding:3rem 1.5rem 2rem;}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-top:.75rem;margin-bottom:.5rem;}
+.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7effa8;margin-bottom:.85rem;}
+.footer-col a{display:block;font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:.4rem;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.25rem;}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);}
+.flag-stripe{height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);margin-bottom:3rem;}
 
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.2rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--national-white);
-            color: var(--national-red);
-            padding: 14px 32px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            background-color: transparent;
-            color: var(--national-white);
-            border-color: var(--national-white);
-        }
-
-        .btn-primary {
-            background-color: var(--national-red);
-            color: var(--national-white);
-            margin-right: 15px;
-        }
-
-        .btn-primary:hover {
-            background-color: transparent;
-            color: var(--national-white);
-            border-color: var(--national-white);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3.5rem;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--national-red);
-            display: inline-block;
-            padding-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--national-red), var(--national-green));
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .about-section {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            margin-bottom: 5rem;
-            background-color: var(--national-white);
-            border-radius: 8px;
-            padding: 3rem;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--national-red);
-        }
-
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--national-red);
-        }
-
-        .about-content {
-            flex: 2;
-        }
-
-        .about-content h2 {
-            color: var(--national-red);
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-
-        .about-content p {
-            margin-bottom: 1.8rem;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
-        }
-
-        .service-card {
-            background-color: var(--national-white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            padding: 2.5rem 2rem;
-            border-top: 4px solid var(--national-red);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .service-icon {
-            font-size: 3.5rem;
-            color: var(--national-red);
-            margin-bottom: 1.8rem;
-            display: inline-block;
-        }
-
-        .service-card h3 {
-            color: var(--national-red);
-            margin-bottom: 1.2rem;
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .service-card p {
-            margin-bottom: 1.8rem;
-            color: #555;
-            line-height: 1.7;
-        }
-
-        .service-link {
-            color: var(--national-green);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            transition: var(--transition);
-            font-size: 1.05rem;
-        }
-
-        .service-link:hover {
-            color: var(--national-red);
-        }
-
-        .service-link i {
-            margin-left: 8px;
-            transition: var(--transition);
-        }
-
-        .service-link:hover i {
-            transform: translateX(5px);
-        }
-
-        .contact-section {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 5rem 0;
-            margin-bottom: 3rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .contact-container h2 {
-            margin-bottom: 3rem;
-            font-size: 2.2rem;
-            font-weight: 600;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .contact-item i {
-            font-size: 1.8rem;
-            color: var(--national-white);
-            background-color: rgba(255, 255, 255, 0.2);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-item span {
-            text-align: left;
-            line-height: 1.6;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--national-white);
-            transition: var(--transition);
-            font-size: 1.2rem;
-        }
-
-        .social-link:hover {
-            background-color: var(--national-white);
-            color: var(--national-red);
-            transform: translateY(-5px);
-        }
-
-        footer {
-            background: linear-gradient(135deg, var(--national-red), #9E0919);
-            color: var(--national-white);
-            padding: 3rem 0 2rem;
-            margin-top: 5rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 3px;
-            background-color: var(--national-white);
-            bottom: 0;
-            left: 0;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            display: block;
-        }
-
-        .footer-links a:hover {
-            color: var(--national-white);
-            transform: translateX(5px);
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero {
-                padding: 5rem 20px;
-            }
-            
-            .hero h1 {
-                font-size: 2.4rem;
-            }
-            
-            .about-section {
-                flex-direction: column;
-            }
-            
-            .about-image {
-                margin-bottom: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.2rem;
-            }
-            
-            nav ul {
-                margin-top: 1.2rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 10px 10px;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .btn {
-                padding: 12px 25px;
-                margin-bottom: 10px;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .about-section {
-                padding: 2rem;
-            }
-            
-            .contact-info {
-                gap: 2rem;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero {
-                padding: 4rem 20px;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .about-section {
-                padding: 1.5rem;
-            }
-            
-            .service-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-    </style>
+@media(max-width:900px){.desk-nav{display:none;}.hamburger{display:flex;}.three-col{grid-template-columns:1fr;}.leader-grid{grid-template-columns:repeat(2,1fr);}.ministry-grid{grid-template-columns:repeat(2,1fr);}.inst-grid{grid-template-columns:1fr;}.econ-grid{grid-template-columns:repeat(2,1fr);}.footer-grid{grid-template-columns:1fr 1fr;}.ribbon{grid-template-columns:repeat(2,1fr);}.two-col{grid-template-columns:1fr;}}
+@media(max-width:500px){.leader-grid{grid-template-columns:1fr 1fr;}.ministry-grid{grid-template-columns:1fr 1fr;}.econ-grid{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr;}.pw{padding:1.5rem 1rem 4rem;}}
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="National Coat of Arms" class="national-logo">
-                <div class="header-title">
-                    <h1>Government of Kenya</h1>
-                    <p>Official National Portal</p>
-                </div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="user_dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="county.html">My county</a></li>
-                    <li><a href="pregress.html">Progress</a></li>
-                    <li><a href="User - inquirery.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Welcome to the National Government Portal</h1>
-            <p>Your official gateway to government services, information, and resources for all citizens</p>
-            <div>
-                <a href="#" class="btn btn-primary">Explore Services</a>
-                <a href="#" class="btn">Government Directory</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <section class="about-section">
-            <div class="about-image">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenyan Parliament">
-            </div>
-            <div class="about-content">
-                <h2>About the Government of Kenya</h2>
-                <p>
-                    The Government of Kenya is committed to serving all citizens with integrity, transparency, and efficiency. 
-                    Our national institutions work together to implement policies, deliver services, and drive sustainable 
-                    development across all sectors of the economy.
-                </p>
-                <p>
-                    This portal provides centralized access to government services, official information, and resources to 
-                    empower citizens and promote public participation in governance. We strive to be an open, accountable 
-                    government that serves all Kenyans equally.
-                </p>
-                <a href="#" class="btn btn-primary">Learn More About Us</a>
-            </div>
-        </section>
-
-        <div class="section-title">
-            <h2>Government Services</h2>
-        </div>
-
-        <section class="services">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-university"></i>
-                </div>
-                <h3>Ministries & Departments</h3>
-                <p>Explore the structure of government through our ministries, departments, and agencies that serve the nation.</p>
-                <a href="#" class="service-link">View Directory <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-landmark"></i>
-                </div>
-                <h3>National Policies</h3>
-                <p>Access key policy documents, development plans, and government strategies guiding our nation's progress.</p>
-                <a href="#" class="service-link">View Policies <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-users-cog"></i>
-                </div>
-                <h3>Public Services</h3>
-                <p>Convenient access to essential government services for citizens, businesses, and visitors to Kenya.</p>
-                <a href="#" class="service-link">Access Services <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-gavel"></i>
-                </div>
-                <h3>Legislation & Acts</h3>
-                <p>Search and download official legislation, parliamentary acts, and legal frameworks governing the nation.</p>
-                <a href="#" class="service-link">Browse Laws <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
-                <h3>National Events</h3>
-                <p>Stay informed about official state functions, national holidays, and government announcements.</p>
-                <a href="#" class="service-link">View Calendar <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                </div>
-                <a href="Budget.html"><h3>National Budget</h3></a>
-                <p>Access detailed budget documents, expenditure reports, and financial statements of the government.</p>
-                <a href="Budget.html" class="service-link">View Budget <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <a href="Reports.html"><h3>National Statistics</h3></a>
-                <p>Explore official statistics, economic indicators, and demographic data from government sources.</p>
-                <a href="Reports.html" class="service-link">View Data <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-bullhorn"></i>
-                </div>
-                <h3>Public Announcements</h3>
-                <p>Important notices, press releases, and official communications from government offices.</p>
-                <a href="#" class="service-link">Read Announcements <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <div class="contact-container">
-                <h2>Contact the National Government</h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>
-                            <strong>Headquarters</strong><br>
-                            Harambee House, Nairobi
-                        </span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>
-                            <strong>Phone</strong><br>
-                            +254 789 0000078
-                        </span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>
-                            <strong>Email</strong><br>
-                            Gok@gmail.com
-                        </span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </section>
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya">
+      <div class="logo-name">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="desk-nav">
+      <a href="user_dashboard.html">Dashboard</a>
+      <a href="Projects.html">Projects</a>
+      <a href="Budget.html">Budget</a>
+      <a href="Counties.html">Counties</a>
+      <a href="Devolution.html">Devolution</a>
+      <a href="National-Government.html" class="active">National Govt</a>
+      <a href="Kenya-Vision.html">Vision 2030</a>
+      <a href="Service-Delivery.html">Services</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
+      <button class="hamburger" id="hamburger"><span class="hb-line"></span><span class="hb-line"></span><span class="hb-line"></span></button>
     </div>
+  </div>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+  <span class="mob-nav-label">Navigation</span>
+  <a href="user_dashboard.html" class="mob-nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+  <a href="Projects.html" class="mob-nav-link"><i class="fas fa-project-diagram"></i> Projects</a>
+  <a href="Budget.html" class="mob-nav-link"><i class="fas fa-coins"></i> National Budget</a>
+  <a href="Counties.html" class="mob-nav-link"><i class="fas fa-map"></i> 47 Counties</a>
+  <div class="mob-divider"></div>
+  <span class="mob-nav-label">Governance</span>
+  <a href="Devolution.html" class="mob-nav-link"><i class="fas fa-sitemap"></i> Devolution</a>
+  <a href="National-Government.html" class="mob-nav-link active"><i class="fas fa-landmark"></i> National Government</a>
+  <a href="Kenya-Vision.html" class="mob-nav-link"><i class="fas fa-eye"></i> Vision 2030</a>
+  <a href="Service-Delivery.html" class="mob-nav-link"><i class="fas fa-hands-helping"></i> Service Delivery</a>
+  <div class="mob-divider"></div>
+  <span class="mob-nav-label">More</span>
+  <a href="Tenders.html" class="mob-nav-link"><i class="fas fa-gavel"></i> Tenders</a>
+  <a href="Reports.html" class="mob-nav-link"><i class="fas fa-chart-line"></i> Reports</a>
+</nav>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Government</h3>
-                <ul class="footer-links">
-                    <li><a href="#">The Presidency</a></li>
-                    <li><a href="#">Cabinet</a></li>
-                    <li><a href="#">Parliament</a></li>
-                    <li><a href="#">Judiciary</a></li>
-                    <li><a href="#">Counties</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Services</h3>
-                <ul class="footer-links">
-                    <li><a href="#">E-Citizen Portal</a></li>
-                    <li><a href="#">Business Registration</a></li>
-                    <li><a href="#">Passport Services</a></li>
-                    <li><a href="#">Tax Services</a></li>
-                    <li><a href="#">Health Services</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Resources</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Publications</a></li>
-                    <li><a href="#">Forms & Documents</a></li>
-                    <li><a href="#">Open Data</a></li>
-                    <li><a href="#">Tenders</a></li>
-                    <li><a href="#">Careers</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>About</h3>
-                <ul class="footer-links">
-                    <li><a href="#">About Kenya</a></li>
-                    <li><a href="#">National Symbols</a></li>
-                    <li><a href="#">History</a></li>
-                    <li><a href="#">Constitution</a></li>
-                    <li><a href="#">Vision 2030</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 Government of Kenya. All Rights Reserved. | <a href="#" style="color: rgba(255,255,255,0.8);">Privacy Policy</a> | <a href="#" style="color: rgba(255,255,255,0.8);">Terms of Use</a>
-        </div>
-    </footer>
+<section class="hero">
+  <div class="hero-bg-text">KENYA</div>
+  <div class="hero-stripe"></div>
+  <div class="hero-cnt">
+    <div class="hero-ey"><i class="fas fa-landmark"></i> Republic of Kenya · Constitutional Democracy · Independent 12 December 1963</div>
+    <h1>Kenya's <em>National</em> Government</h1>
+    <p class="hero-sub">A constitutional, multi-party democratic republic with three independent arms of government. Kenya is East Africa's largest economy — the 6th largest in Africa (GDP USD $136B, IMF 2025) — governed under the supreme 2010 Constitution.</p>
+  </div>
+</section>
+
+<div class="pw">
+  <!-- RIBBON -->
+  <div class="ribbon">
+    <div class="rbc"><div class="rnum">3</div><div class="rlbl">Arms of Govt</div></div>
+    <div class="rbc"><div class="rnum">350+</div><div class="rlbl">Members of Parliament</div></div>
+    <div class="rbc"><div class="rnum">$136B</div><div class="rlbl">GDP (2025, IMF)</div></div>
+    <div class="rbc"><div class="rnum">55M+</div><div class="rlbl">Population</div></div>
+  </div>
+
+  <!-- THREE ARMS -->
+  <div class="section-head">
+    <div class="section-ey">Constitutional Framework · Chapter 8</div>
+    <div class="section-h">Three Arms of National Government</div>
+  </div>
+  <div class="three-col">
+    <div class="arm">
+      <span class="arm-badge" style="background:var(--gl);color:var(--gm)"><i class="fas fa-user-tie"></i> Article 130</span>
+      <span class="arm-emoji">🏛️</span>
+      <div class="arm-title">The Executive</div>
+      <div class="arm-desc">Executive authority is vested in the President as Head of State, Head of Government, and Commander-in-Chief. The Executive implements laws, manages state affairs, and directs Kenya's development agenda through 22 Cabinet Secretaries and the 26 Principal Secretaries.</div>
+      <div class="arm-facts">
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> President — 5-year term, maximum 2 terms</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Current: H.E. Dr. William Samoei Ruto, PhD (since Sep 2022)</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Deputy President: H.E. Kithure Kindiki (since Nov 2024)</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> 22 Cabinet Secretaries managing 26 ministries</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> National Security Council chaired by the President</div>
+      </div>
+    </div>
+    <div class="arm">
+      <span class="arm-badge" style="background:var(--nl);color:var(--nm)"><i class="fas fa-users"></i> Article 93</span>
+      <span class="arm-emoji">⚖️</span>
+      <div class="arm-title">The Legislature</div>
+      <div class="arm-desc">Bicameral Parliament comprising the National Assembly (350 members) and Senate (67 members). Parliament enacts national legislation, approves the national budget (KSh 3.99T in FY25), and provides constitutional oversight of the Executive and state organs.</div>
+      <div class="arm-facts">
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> National Assembly — 290 constituency + 47 women + 12 nominated + Speaker</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Senate — 47 elected + 16 women + 4 youth/PWD nominated</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Speaker NA: Hon. Moses Wetang'ula</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Speaker Senate: Hon. Amason Kingi</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Approves KSh 3.99T national budget (FY 2024/25)</div>
+      </div>
+    </div>
+    <div class="arm">
+      <span class="arm-badge" style="background:var(--al);color:var(--am)"><i class="fas fa-balance-scale"></i> Article 159</span>
+      <span class="arm-emoji">🔨</span>
+      <div class="arm-title">The Judiciary</div>
+      <div class="arm-desc">Judicial authority is derived from the people and vested in the courts. Completely independent of Executive and Legislature. Safeguards the 2010 Constitution, rule of law, and fundamental rights of every Kenyan — including socio-economic rights under Articles 43–47.</div>
+      <div class="arm-facts">
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Supreme Court — apex court of final jurisdiction</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Court of Appeal · High Court · Environment & Land Court</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Employment & Labour Relations Court</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Magistrate Courts across all 47 counties</div>
+        <div class="arm-fact"><i class="fas fa-check-circle"></i> Judicial Service Commission oversees appointments</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERSHIP -->
+  <div class="section-head"><div class="section-ey">Senior Leadership</div><div class="section-h">Key Constitutional Officeholders — 2024/2025</div></div>
+  <div class="leader-grid">
+    <div class="leader">
+      <div class="lav">WR</div>
+      <div class="lname">H.E. Dr. William S. Ruto, PhD</div>
+      <div class="lrole">President of the Republic</div>
+      <div class="lparty">Kenya Kwanza · Since Sept 2022</div>
+    </div>
+    <div class="leader">
+      <div class="lav" style="background:linear-gradient(135deg,#0f1e4a,#0b6e31)">KK</div>
+      <div class="lname">H.E. Kithure Kindiki, PhD</div>
+      <div class="lrole">Deputy President</div>
+      <div class="lparty">Sworn in 1 Nov 2024 · UDA</div>
+    </div>
+    <div class="leader">
+      <div class="lav" style="background:linear-gradient(135deg,#1d3a8a,#0b6e31)">MW</div>
+      <div class="lname">Hon. Moses Wetang'ula</div>
+      <div class="lrole">Speaker, National Assembly</div>
+      <div class="lparty">Ford Kenya · Re-elected 2022</div>
+    </div>
+    <div class="leader">
+      <div class="lav" style="background:linear-gradient(135deg,#d97706,#0f1e4a)">AK</div>
+      <div class="lname">Hon. Amason Kingi</div>
+      <div class="lrole">Speaker, Senate</div>
+      <div class="lparty">Pamoja African Alliance</div>
+    </div>
+  </div>
+
+  <!-- ECONOMY STATS -->
+  <div class="section-head"><div class="section-ey">Economic Profile · Verified Data 2025</div><div class="section-h">Kenya's Key Economic Indicators</div></div>
+  <div class="econ-grid">
+    <div class="econ g"><div class="econ-val">$136B</div><div class="econ-lbl">GDP (IMF Apr 2025)</div><div class="econ-trend"><i class="fas fa-arrow-up"></i> 6th Largest in Africa</div></div>
+    <div class="econ n"><div class="econ-val">4.5%</div><div class="econ-lbl">GDP Growth 2025</div><div class="econ-trend" style="color:var(--am)"><i class="fas fa-info-circle"></i> World Bank forecast</div></div>
+    <div class="econ a"><div class="econ-val">4.6%</div><div class="econ-lbl">Inflation (Oct 2025)</div><div class="econ-trend"><i class="fas fa-arrow-down"></i> Down from 9.2% (2022)</div></div>
+    <div class="econ r"><div class="econ-val">KSh 129</div><div class="econ-lbl">Shilling / USD</div><div class="econ-trend" style="color:var(--gm)"><i class="fas fa-shield-alt"></i> Stable since Jun 2024</div></div>
+    <div class="econ g"><div class="econ-val">$4.95B</div><div class="econ-lbl">Diaspora Remittances</div><div class="econ-trend"><i class="fas fa-arrow-up"></i> +22.8% vs 2022</div></div>
+    <div class="econ n"><div class="econ-val">KSh 10.6T</div><div class="econ-lbl">Public Debt</div><div class="econ-trend" style="color:var(--am)"><i class="fas fa-info-circle"></i> 70.2% of GDP</div></div>
+    <div class="econ a"><div class="econ-val">KSh 2.49T</div><div class="econ-lbl">KRA Tax Revenue FY25</div><div class="econ-trend"><i class="fas fa-arrow-up"></i> +22.9% YoY</div></div>
+    <div class="econ g"><div class="econ-val">55M+</div><div class="econ-lbl">Population (2024 est.)</div><div class="econ-trend"><i class="fas fa-arrow-up"></i> 3rd largest in EAC</div></div>
+  </div>
+
+  <!-- MINISTRIES -->
+  <div class="section-head"><div class="section-ey">Executive Cabinet — FY 2024/25</div><div class="section-h">National Government Ministries & Budget Allocations</div></div>
+  <div class="ministry-grid">
+    <div class="min"><div class="min-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-road"></i></div><div class="min-title">Roads, Transport & Public Works</div><div class="min-cs">CS: Davis Chirchir</div><div class="min-budget">KSh 348B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-graduation-cap"></i></div><div class="min-title">Education & Training</div><div class="min-cs">CS: Julius Ogamba</div><div class="min-budget">KSh 331B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-bolt"></i></div><div class="min-title">Energy & Petroleum</div><div class="min-cs">CS: Opiyo Wandayi</div><div class="min-budget">KSh 289B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-heartbeat"></i></div><div class="min-title">Health & Social Protection</div><div class="min-cs">CS: Aden Duale</div><div class="min-budget">KSh 264B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-seedling"></i></div><div class="min-title">Agriculture, Livestock & Fisheries</div><div class="min-cs">CS: Mutahi Kagwe</div><div class="min-budget">KSh 218B</div></div>
+    <div class="min"><div class="min-icon" style="background:rgba(14,165,233,.1);color:#0ea5e9"><i class="fas fa-tint"></i></div><div class="min-title">Water, Sanitation & Irrigation</div><div class="min-cs">CS: Eric Muuga</div><div class="min-budget">KSh 197B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-shield-alt"></i></div><div class="min-title">Interior & National Administration</div><div class="min-cs">CS: Kipchumba Murkomen</div><div class="min-budget">KSh 186B</div></div>
+    <div class="min"><div class="min-icon" style="background:rgba(100,116,139,.1);color:#64748b"><i class="fas fa-fist-raised"></i></div><div class="min-title">Defence</div><div class="min-cs">CS: Aden Duale (prev)</div><div class="min-budget">KSh 176B</div></div>
+    <div class="min"><div class="min-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fas fa-laptop-code"></i></div><div class="min-title">ICT & Digital Economy</div><div class="min-cs">CS: William Kabogo</div><div class="min-budget">KSh 142B</div></div>
+    <div class="min"><div class="min-icon" style="background:rgba(236,72,153,.1);color:#ec4899"><i class="fas fa-home"></i></div><div class="min-title">Lands, Housing & Urban Dev.</div><div class="min-cs">CS: Alice Wahome</div><div class="min-budget">KSh 138B</div></div>
+    <div class="min"><div class="min-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-briefcase"></i></div><div class="min-title">Investments, Trade & Industry</div><div class="min-cs">CS: Lee Kinyanjui</div><div class="min-budget">KSh 112B</div></div>
+    <div class="min"><div class="min-icon" style="background:rgba(20,184,166,.1);color:#14b8a6"><i class="fas fa-binoculars"></i></div><div class="min-title">Tourism, Wildlife & Heritage</div><div class="min-cs">CS: Rebecca Miano (prev)</div><div class="min-budget">KSh 89B</div></div>
+  </div>
+
+  <!-- INDEPENDENT BODIES -->
+  <div class="section-head"><div class="section-ey">Article 248 — Chapter Fifteen</div><div class="section-h">Constitutional Commissions & Independent Offices</div></div>
+  <div class="inst-grid">
+    <div class="inst"><div class="inst-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-vote-yea"></i></div><div><div class="inst-title">IEBC — Independent Electoral & Boundaries Commission</div><div class="inst-desc">Organises and manages elections and referenda. Delimits constituency and ward boundaries. Registers all voters and ensures free and fair elections across all 47 counties.</div></div></div>
+    <div class="inst"><div class="inst-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-search-dollar"></i></div><div><div class="inst-title">EACC — Ethics & Anti-Corruption Commission</div><div class="inst-desc">Investigates and recommends prosecution for corruption. Conducts asset declarations for all public officers. Educates Kenyans on integrity. Key institution for governance transparency.</div></div></div>
+    <div class="inst"><div class="inst-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-chart-bar"></i></div><div><div class="inst-title">Kenya Revenue Authority (KRA)</div><div class="inst-desc">Collects taxes and customs duties on behalf of the national government. Collected KSh 2.49T in FY25 (+22.9% YoY). Manages iTax, customs clearance and compliance programmes.</div></div></div>
+    <div class="inst"><div class="inst-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-file-audit"></i></div><div><div class="inst-title">Auditor-General</div><div class="inst-desc">Audits ALL public accounts — national and 47 county governments. Annual reports tabled in Parliament. Ensures public money is used lawfully and for its intended purpose.</div></div></div>
+    <div class="inst"><div class="inst-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-users-cog"></i></div><div><div class="inst-title">National Cohesion & Integration Commission</div><div class="inst-desc">Promotes peaceful coexistence among Kenya's 44+ communities. Monitors hate speech, incitement and discrimination. Ensures political discourse remains within constitutional boundaries.</div></div></div>
+    <div class="inst"><div class="inst-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-map-marked-alt"></i></div><div><div class="inst-title">Commission on Revenue Allocation (CRA)</div><div class="inst-desc">Determines the equitable share of national revenue allocated to the 47 county governments (currently KSh 385B/year). Uses formula based on population, poverty, land area and basic services.</div></div></div>
+  </div>
+
+  <!-- TWO COL -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-ey">Presidential Priorities 2025–2027</div>
+      <div class="card-h">Four National Priority Areas (State of Nation Nov 2025)</div>
+      <ul class="facts">
+        <li><i class="fas fa-graduation-cap"></i><div><strong>Education & Human Capital</strong> — Budget raised from KSh 490B (2021) to KSh 700B+ (2025). 76,000 teachers hired by Dec 2024. CBC curriculum, STEM and innovation focus.</div></li>
+        <li><i class="fas fa-road"></i><div><strong>Transport & Logistics</strong> — 2,500 highways mapped for dualling + 28,000km to be tarmacked in 10 years. New Thika Expressway, LAPSSET, SGR expansion.</div></li>
+        <li><i class="fas fa-bolt"></i><div><strong>Energy & Irrigation</strong> — 100% electricity access target. Last Mile Phase 4 (280,000 households). Galana Kulalu 250,000-acre irrigation scheme.</div></li>
+        <li><i class="fas fa-laptop-code"></i><div><strong>Science, Research & Innovation</strong> — State Dept for Science, Research & Innovation established. R&D budget target: 2% of GDP (currently 0.8%). KSh 1 trillion innovation fund over 10 years.</div></li>
+        <li><i class="fas fa-home"></i><div><strong>Affordable Housing (BETA)</strong> — 240,000 units under construction in 111 constituencies. 480,000+ jobs created. Rent-to-own from KSh 3,900/month.</div></li>
+        <li><i class="fas fa-seedling"></i><div><strong>Food Security & Agriculture</strong> — Maize production: 34M bags (2022) → 47.6M bags (2023) → 70M bags projected (2025). SHA universal healthcare 27M+ registered.</div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-ey">Economic Progress Tracker · Verified 2025</div>
+      <div class="card-h">Key Government Delivery Metrics</div>
+      <div class="pr"><span class="plbl">GDP Growth — Target 5.5% (2025 World Bank: 4.5%)</span><span class="ppct">82%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="82"></div></div>
+      <div class="pr"><span class="plbl">Inflation Control — 9.2% (Sep 2022) → 4.6% (Oct 2025)</span><span class="ppct">Achieved</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Shilling Stability — Target: KSh 125/USD</span><span class="ppct">91%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="91"></div></div>
+      <div class="pr"><span class="plbl">Tax Revenue — KSh 2.49T vs KSh 2.9T target</span><span class="ppct">86%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="86"></div></div>
+      <div class="pr"><span class="plbl">SHA Enrolment — 27M of 55M population</span><span class="ppct">49%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="49"></div></div>
+      <div class="pr"><span class="plbl">Electricity Access — Target 100%</span><span class="ppct">76%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="76"></div></div>
+      <div class="pr"><span class="plbl">Teacher Hiring — 76,000 of 80,000 target</span><span class="ppct">95%</span></div>
+      <div class="ptrack" style="margin-bottom:0"><div class="pfill" data-w="95"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="flag-stripe"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" style="height:40px"><div class="footer-brand-name">Kenya Transparency Portal</div><div style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65;margin-top:.4rem">Accountability, transparency and citizen engagement in Kenya's governance.</div></div>
+      <div><div class="footer-col-title">Governance</div><div class="footer-col"><a href="Devolution.html">Devolution</a><a href="National-Government.html">National Government</a><a href="Kenya-Vision.html">Vision 2030</a><a href="Service-Delivery.html">Service Delivery</a></div></div>
+      <div><div class="footer-col-title">Projects</div><div class="footer-col"><a href="Projects.html">All Projects</a><a href="Budget.html">National Budget</a><a href="Counties.html">47 Counties</a><a href="Tenders.html">Tenders</a></div></div>
+      <div><div class="footer-col-title">Citizens</div><div class="footer-col"><a href="User_inquirery.html">Submit Inquiry</a><a href="updates.html">Notifications</a><a href="Reports.html">Reports</a><a href="pprofile.html">My Profile</a></div></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Government of Kenya Transparency Portal · All rights reserved · Harambee — Let's Pull Together · Data sourced from IMF, World Bank, Africa Check, National Treasury 2025</div></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+/* THEME */
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('ktp-theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('ktp-theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+/* HAMBURGER */
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileNav');
+ham.addEventListener('click',e=>{e.stopPropagation();ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
+document.addEventListener('click',e=>{if(!mob.contains(e.target)&&!ham.contains(e.target)){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';}});
+
+/* PROGRESS BARS */
+window.addEventListener('load',()=>setTimeout(()=>{document.querySelectorAll('.pfill[data-w]').forEach(b=>b.style.width=b.getAttribute('data-w')+'%');},200));
+
+/* BACK TOP */
+const bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>

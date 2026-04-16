@@ -1,941 +1,403 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management | Kenya Transparency Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #0b9d3f; /* Government green */
-            --secondary-color: #1d4ed8; /* Official blue */
-            --accent-color: #ff6b35; /* Vibrant accent */
-            --dark-color: #2c3e50;
-            --light-color: #f8f9fa;
-            --sidebar-width: 250px;
-            --header-height: 70px;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-        }
-
-        /* Admin Layout */
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--dark-color);
-            color: white;
-            position: fixed;
-            height: 100vh;
-            transition: var(--transition);
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-logo {
-            width: 40px;
-        }
-
-        .sidebar-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .menu-item {
-            padding: 0.8rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-left-color: var(--primary-color);
-        }
-
-        .menu-item i {
-            width: 24px;
-            text-align: center;
-        }
-
-        .menu-label {
-            flex: 1;
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            transition: var(--transition);
-        }
-
-        /* Header Styles */
-        .admin-header {
-            height: var(--header-height);
-            background-color: white;
-            box-shadow: var(--box-shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 90;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .toggle-sidebar {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--dark-color);
-            cursor: pointer;
-        }
-
-        .search-bar {
-            position: relative;
-        }
-
-        .search-bar input {
-            padding: 0.6rem 1rem 0.6rem 2.5rem;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            min-width: 300px;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .search-bar input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(11, 157, 63, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .admin-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
-        }
-
-        .profile-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* User Management Content */
-        .content-wrapper {
-            padding: 2rem;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .page-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-            font-weight: 700;
-        }
-
-        .btn {
-            padding: 0.7rem 1.5rem;
-            border-radius: var(--border-radius);
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0a8a36;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background-color: rgba(11, 157, 63, 0.1);
-        }
-
-        /* User Table Styles */
-        .user-table-container {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-        }
-
-        .table-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .table-title {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .table-controls {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .table-filter {
-            padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem 1.5rem;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: var(--dark-color);
-            position: sticky;
-            top: var(--header-height);
-        }
-
-        tr {
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:last-child {
-            border-bottom: none;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .user-email {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .user-role {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .role-admin {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-        }
-
-        .role-editor {
-            background-color: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-        }
-
-        .role-user {
-            background-color: rgba(25, 135, 84, 0.1);
-            color: #198754;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background-color: rgba(25, 135, 84, 0.1);
-            color: #198754;
-        }
-
-        .status-inactive {
-            background-color: rgba(108, 117, 125, 0.1);
-            color: #6c757d;
-        }
-
-        .status-pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            margin-right: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .action-btn:hover {
-            color: var(--primary-color);
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            padding: 1.5rem;
-            border-top: 1px solid #eee;
-        }
-
-        .page-item {
-            margin: 0 0.3rem;
-        }
-
-        .page-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: transparent;
-            border: none;
-            color: var(--dark-color);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .page-link:hover, .page-link.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            width: 100%;
-            max-width: 500px;
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-weight: 600;
-            color: var(--dark-color);
-            font-size: 1.2rem;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(11, 157, 63, 0.2);
-            outline: none;
-        }
-
-        .form-select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
-
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .search-bar input {
-                min-width: 200px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-right {
-                gap: 1rem;
-            }
-            
-            .profile-name {
-                display: none;
-            }
-            
-            .table-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .table-controls {
-                width: 100%;
-            }
-            
-            .table-filter {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .search-bar input {
-                min-width: 150px;
-            }
-            
-            th, td {
-                padding: 0.8rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Management — Gov Rep Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--green:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--navy:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--amber:#d97706;--al:rgba(217,119,6,.1);--red:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f0f2f8;--sf:#fff;--sf2:#f5f7fc;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#0d1526;--im:#2d3d60;--mt:#6b7590;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.12);--sw:256px;}
+[data-theme=dark]{--bg:#090d1a;--sf:#101828;--sf2:#18253a;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8ecf8;--im:#9badd0;--mt:#5a6885;--gl:rgba(11,149,68,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.18);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);display:flex;min-height:100vh;transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:10px;}
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--navy);color:white;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;transition:transform .3s, width .3s;z-index:200;overflow:hidden;}
+.sidebar.collapsed{width:68px;}
+.sidebar.collapsed .sb-brand, 
+.sidebar.collapsed .sn, 
+.sidebar.collapsed .ni span,
+.sidebar.collapsed .ni::after,
+.sidebar.collapsed .ni i { margin: 0 auto; }
+.sidebar.collapsed .ni { padding: 0.7rem 0; justify-content: center; }
+.sidebar.collapsed .sb-foot a span { opacity: 0; pointer-events: none; width: 0; display: none; }
+
+.sb-head{padding:1.5rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;}
+.sb-head img{height:36px;}
+.sb-brand{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:white;}
+.sb-brand em{color:#7effa8;font-style:normal;}
+.sb-nav{flex:1;padding:.75rem 0;overflow-y:auto;}
+.sn{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.5rem 1.25rem .25rem;}
+.ni{display:flex;align-items:center;gap:10px;padding:.7rem 1.25rem;color:rgba(255,255,255,.55);text-decoration:none;font-size:.85rem;font-weight:500;border-left:3px solid transparent;transition:all .2s;}
+.ni:hover,.ni.active{background:rgba(255,255,255,.07);color:white;border-left-color:#7effa8;}
+.ni i{width:18px;text-align:center;flex-shrink:0;font-size:.9rem;}
+.sb-foot{padding:.75rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);}
+.sb-foot a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);text-decoration:none;font-size:.82rem;padding:.5rem 0;transition:color .2s;}
+.sb-foot a:hover{color:white;}
+/* MAIN */
+.main{flex:1;margin-left:var(--sw);display:flex;flex-direction:column;min-width:0;transition:margin-left .3s;}
+.main.expanded{margin-left:68px;}
+/* TOPBAR */
+.topbar{background:var(--sf);border-bottom:1px solid var(--bd);height:64px;display:flex;align-items:center;padding:0 2rem;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:var(--sh);}
+.toggle-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);display:grid;place-items:center;cursor:pointer;font-size:.85rem;transition:all .2s;flex-shrink:0;}
+.toggle-btn:hover{border-color:var(--nm);color:var(--nm);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+.ib{width:36px;height:36px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;text-decoration:none;transition:all .2s;}
+.ib:hover{border-color:var(--nm);color:var(--nm);}
+/* PAGE */
+.page-content{padding:2rem;}
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:1.25rem;}
+.ki{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;font-size:.85rem;margin-bottom:.85rem;}
+.ki.g{background:var(--gl);color:var(--gm);}
+.ki.n{background:var(--nl);color:var(--nm);}
+.ki.a{background:var(--al);color:var(--amber);}
+.ki.r{background:var(--rl);color:var(--red);}
+.kv{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.2rem;}
+.kl{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--bds);border-radius:11px;padding:.5rem .9rem;flex:1;min-width:220px;}
+.search-bar:focus-within{border-color:var(--nm);}
+.search-bar i{color:var(--mt);font-size:.8rem;}
+.search-bar input{background:none;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--ink);width:100%;}
+.search-bar input::placeholder{color:var(--mt);}
+.filter-sel{padding:.55rem .9rem;border-radius:10px;border:1px solid var(--bds);background:var(--sf);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;cursor:pointer;}
+.btn-add{display:inline-flex;align-items:center;gap:6px;background:var(--nm);color:white;font-weight:600;font-size:.82rem;padding:.6rem 1.3rem;border-radius:11px;border:none;cursor:pointer;transition:all .2s;}
+.btn-add:hover{background:var(--navy);}
+/* TABLE */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;overflow:hidden;box-shadow:var(--sh);}
+.card-hdr{padding:1.25rem 1.5rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+.ut{width:100%;border-collapse:collapse;}
+.ut th{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);padding:.75rem 1.5rem;text-align:left;border-bottom:1px solid var(--bd);background:var(--sf2);}
+.ut td{padding:.9rem 1.5rem;font-size:.875rem;color:var(--im);border-bottom:1px solid var(--bd);}
+.ut tr:last-child td{border-bottom:none;}
+.ut tr:hover td{background:var(--sf2);}
+.user-cell{display:flex;align-items:center;gap:.85rem;}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1rem;flex-shrink:0;color:white;}
+.uname{font-weight:600;color:var(--ink);font-size:.875rem;}
+.uemail{font-size:.75rem;color:var(--mt);}
+.role-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;border-radius:50px;font-weight:600;}
+.role-admin{background:var(--nl);color:var(--nm);}
+.role-gov{background:rgba(124,58,237,.12);color:#7c3aed;}
+.role-citizen{background:var(--gl);color:var(--gm);}
+.status-badge{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .55rem;border-radius:50px;font-weight:600;display:inline-flex;align-items:center;gap:3px;}
+.s-active{background:var(--gl);color:var(--gm);}
+.s-inactive{background:var(--rl);color:var(--red);}
+.s-pending{background:var(--al);color:var(--amber);}
+.act-btns{display:flex;gap:.4rem;}
+.act-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:none;cursor:pointer;color:var(--mt);font-size:.75rem;display:grid;place-items:center;transition:all .2s;}
+.act-btn:hover.edit{border-color:var(--nm);color:var(--nm);background:var(--nl);}
+.act-btn:hover.del{border-color:var(--red);color:var(--red);background:var(--rl);}
+.act-btn:hover.view{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.act-btn:hover.reset{border-color:var(--amber);color:var(--amber);background:var(--al);}
+.act-btn:hover.block{border-color:var(--amber);color:var(--amber);background:var(--al);}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-top:1px solid var(--bd);}
+.pag-info{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mt);}
+.pag-btns{display:flex;gap:.35rem;}
+.pag-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:none;cursor:pointer;color:var(--mt);font-size:.78rem;display:grid;place-items:center;transition:all .2s;}
+.pag-btn:hover{border-color:var(--nm);color:var(--nm);}
+.pag-btn.active{background:var(--nm);color:white;border-color:var(--nm);}
+/* MODAL */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-back.open{opacity:1;pointer-events:all;}
+.modal{background:var(--sf);border-radius:20px;padding:2rem;max-width:480px;width:90%;border:1px solid var(--bds);box-shadow:var(--shl);transform:scale(.95);transition:transform .3s;}
+.modal-back.open .modal{transform:scale(1);}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--mt);font-size:1.2rem;}
+.form-group{margin-bottom:1.1rem;}
+.form-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mt);display:block;margin-bottom:.4rem;}
+.form-input{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--bds);background:var(--sf2);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--nm);}
+.modal-acts{display:flex;gap:.65rem;margin-top:1.5rem;justify-content:flex-end;}
+.btn-cancel{background:none;color:var(--mt);border:1px solid var(--bds);font-weight:500;font-size:.82rem;padding:.6rem 1.2rem;border-radius:10px;cursor:pointer;transition:all .2s;}
+.btn-save{background:var(--nm);color:white;font-weight:600;font-size:.82rem;padding:.6rem 1.4rem;border-radius:10px;border:none;cursor:pointer;transition:all .2s;}
+.toast{position:fixed;top:1.5rem;right:1.5rem;z-index:9999;background:var(--gm);color:white;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(-80px);opacity:0;transition:all .35s;box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%); width:var(--sw)!important;}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .main{margin-left:0!important;}
+}
+</style>
 </head>
 <body>
-    <div class="admin-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo" class="sidebar-logo">
-                <span class="sidebar-title">Kenya Transparency</span>
-            </div>
-            
-            <nav class="sidebar-menu">
-                <a href="gov-rep-dashboard.html" class="menu-item">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span class="menu-label">Dashboard</span>
-                </a>
-                
-                <a href="Addmin-projects.html" class="menu-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <span class="menu-label">Projects</span>
-                </a>
-                
-                <a href="Budget.html" class="menu-item">
-                    <i class="fas fa-coins"></i>
-                    <span class="menu-label">Budgets</span>
-                </a>
-                
-                       <a href="Reports.html" class="menu-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span class="menu-label">Reports</span>
-                </a>
-                
-               
-               
-            </nav>
-        </aside>
-        
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Admin Header -->
-            <header class="admin-header">
-                <div class="header-left">
-                    <button class="toggle-sidebar">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    
-                    <div class="search-bar">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="Search users...">
-                    </div>
-                </div>
-                
-                <div class="header-right">
-                    <div class="admin-profile">
-                        <img src="Photos/h1.jpg" alt="Admin" class="profile-img">
-                        <span class="profile-name">Admin User</span>
-                    </div>
-                </div>
-            </header>
-            
-            <!-- User Management Content -->
-            <div class="content-wrapper">
-                <div class="page-header">
-                    <h1 class="page-title">User Management</h1>
-                    <button class="btn btn-primary" id="addUserBtn">
-                        <i class="fas fa-plus"></i> Add User
-                    </button>
-                </div>
-                
-                <!-- Users Table -->
-                <div class="user-table-container">
-                    <div class="table-header">
-                        <h3 class="table-title">All Registered Users</h3>
-                        <div class="table-controls">
-                            <select class="table-filter">
-                                <option>All Roles</option>
-                                <option>Admin</option>
-                                <option>Editor</option>
-                                <option>User</option>
-                            </select>
-                            <select class="table-filter">
-                                <option>All Statuses</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
-                                <option>Pending</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Registration Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <img src="Photos/h3.jpg" alt="User" class="user-avatar">
-                                        <div>
-                                            <div class="user-name">Antoney Citizen</div>
-                                            <div class="user-email">aouko178@gmail.com</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="user-role role-admin">Admin</span>
-                                </td>
-                                <td>
-                                    <span class="status status-active">Active</span>
-                                </td>
-                                <td>15 Jan 2022</td>
-                                <td>
-                                    <button class="action-btn" title="Edit" onclick="openEditModal()">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Delete" onclick="confirmDelete()">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <img src="Photos/jane smith.jpeg" alt="User" class="user-avatar">
-                                        <div>
-                                            <div class="user-name">Jane Muthoni</div>
-                                            <div class="user-email">jane.muthoni@example.com</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="user-role role-editor">Editor</span>
-                                </td>
-                                <td>
-                                    <span class="status status-active">Active</span>
-                                </td>
-                                <td>22 Mar 2022</td>
-                                <td>
-                                    <button class="action-btn" title="Edit" onclick="openEditModal()">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Delete" onclick="confirmDelete()">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <img src="Photos/h3.jpg" alt="User" class="user-avatar">
-                                        <div>
-                                            <div class="user-name">John Kamau</div>
-                                            <div class="user-email">john.kamau@example.com</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="user-role role-user">User</span>
-                                </td>
-                                <td>
-                                    <span class="status status-pending">Pending</span>
-                                </td>
-                                <td>05 May 2023</td>
-                                <td>
-                                    <button class="action-btn" title="Edit" onclick="openEditModal()">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Delete" onclick="confirmDelete()">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <img src="Photos/she2.jpg" alt="User" class="user-avatar">
-                                        <div>
-                                            <div class="user-name">Sarah Wanjiku</div>
-                                            <div class="user-email">sarah.w@example.com</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="user-role role-user">User</span>
-                                </td>
-                                <td>
-                                    <span class="status status-inactive">Inactive</span>
-                                </td>
-                                <td>18 Nov 2021</td>
-                                <td>
-                                    <button class="action-btn" title="Edit" onclick="openEditModal()">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Delete" onclick="confirmDelete()">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <img src="Photos/h1.jpg" alt="User" class="user-avatar">
-                                        <div>
-                                            <div class="user-name">Michael Ochieng</div>
-                                            <div class="user-email">m.ochieng@example.com</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="user-role role-editor">Editor</span>
-                                </td>
-                                <td>
-                                    <span class="status status-active">Active</span>
-                                </td>
-                                <td>30 Aug 2022</td>
-                                <td>
-                                    <button class="action-btn" title="Edit" onclick="openEditModal()">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn" title="Delete" onclick="confirmDelete()">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="pagination">
-                        <button class="page-item">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="page-item active">
-                            <span class="page-link">1</span>
-                        </button>
-                        <button class="page-item">
-                            <span class="page-link">2</span>
-                        </button>
-                        <button class="page-item">
-                            <span class="page-link">3</span>
-                        </button>
-                        <button class="page-item">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </main>
+<!-- SIDEBAR -->
+<aside class="sidebar collapsed" id="sidebar">
+  <div class="sb-head"><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Logo"><div class="sb-brand">Gov<em>Rep</em> Portal</div></div>
+  <nav class="sb-nav">
+    <div class="sn">Overview</div>
+    <a href="gov-rep-dashboard.html" class="ni"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+    <div class="sn">Management</div>
+    <a href="Addmin-projects.html" class="ni"><i class="fas fa-project-diagram"></i> <span>Projects</span></a>
+    <a href="Budget.html" class="ni"><i class="fas fa-coins"></i> <span>Budget</span></a>
+    <a href="user-mangement.html" class="ni active"><i class="fas fa-users"></i> <span>User Management</span></a>
+    <a href="Reports.html" class="ni"><i class="fas fa-chart-line"></i> <span>Reports</span></a>
+    <div class="sn">Communication</div>
+    <a href="Reply-inquiries.html" class="ni"><i class="fas fa-envelope"></i> <span>Inquiries</span></a>
+    <a href="Tenders.html" class="ni"><i class="fas fa-gavel"></i> <span>Tenders</span></a>
+    <a href="updates.html" class="ni"><i class="fas fa-bell"></i> <span>Notifications</span></a>
+  </nav>
+  <div class="sb-foot">
+    <a href="gov_profile.html"><i class="fas fa-user-tie"></i> <span>My Profile</span></a>
+    <a href="index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </div>
+</aside>
+
+<div class="main expanded" id="mainWrap">
+  <nav class="topbar">
+    <button class="toggle-btn" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+    <div class="tb-title">User Management</div>
+    <div class="tb-right">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="gov_profile.html" class="ib"><i class="fas fa-user"></i></a>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- KPI ROW -->
+    <div class="kpi-row">
+      <div class="kpi"><div class="ki g"><i class="fas fa-users"></i></div><div class="kv" id="totalUsers">0</div><div class="kl">Total Users</div></div>
+      <div class="kpi"><div class="ki n"><i class="fas fa-user-shield"></i></div><div class="kv" id="govUsers">0</div><div class="kl">Government Reps</div></div>
+      <div class="kpi"><div class="ki g"><i class="fas fa-user-check"></i></div><div class="kv" id="activeUsers">0</div><div class="kl">Active Accounts</div></div>
+      <div class="kpi"><div class="ki r"><i class="fas fa-user-clock"></i></div><div class="kv" id="pendingUsers">0</div><div class="kl">Pending Approval</div></div>
     </div>
 
-    <!-- Add/Edit User Modal -->
-    <div class="modal" id="userModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Add New User</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="userForm">
-                    <div class="form-group">
-                        <label for="fullName" class="form-label">Full Name</label>
-                        <input type="text" id="fullName" class="form-control" placeholder="Enter full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter email address">
-                    </div>
-                    <div class="form-group">
-                        <label for="role" class="form-label">User Role</label>
-                        <select id="role" class="form-select">
-                            <option value="admin">Admin</option>
-                            <option value="editor">Editor</option>
-                            <option value="user" selected>User</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="status" class="form-label">Account Status</label>
-                        <select id="status" class="form-select">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="pending">Pending</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationDate" class="form-label">Registration Date</label>
-                        <input type="date" id="registrationDate" class="form-control">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveUser()">Save User</button>
-            </div>
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="search-bar"><i class="fas fa-search"></i><input type="text" id="userSearch" placeholder="Search by name, email or county..." oninput="renderUsers()"></div>
+      <select class="filter-sel" id="roleFilter" onchange="renderUsers()"><option value="">All Roles</option><option value="Admin">Admin</option><option value="Government">Government Rep</option><option value="Citizen">Citizen</option></select>
+      <select class="filter-sel" id="statusFilter" onchange="renderUsers()"><option value="">All Status</option><option value="Active">Active</option><option value="Inactive">Inactive</option><option value="Pending">Pending</option></select>
+      <button class="btn-add" onclick="openAddModal()"><i class="fas fa-user-plus"></i> Add User</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Registered Users</div>
+        <div style="display:flex;gap:.5rem">
+          <button class="ib" onclick="exportCSV()" title="Export CSV"><i class="fas fa-download"></i></button>
+          <button class="ib" onclick="renderUsers()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
         </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="ut"><thead><tr><th><input type="checkbox" id="selectAll" onchange="toggleAll(this)"></th><th>User</th><th>Role</th><th>County</th><th>Joined</th><th>Last Active</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="userTableBody"></tbody></table>
+      </div>
+      <div class="pagination"><div class="pag-info" id="pagInfo">Showing 1–10 of 0</div><div class="pag-btns" id="pagBtns"></div></div>
     </div>
+  </div>
+</div>
 
-    <script>
-        // Toggle sidebar on mobile
-        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
+<!-- ADD/EDIT MODAL -->
+<div class="modal-back" id="userModal">
+  <div class="modal">
+    <div class="modal-hdr"><div class="modal-title" id="modalTitle">Add New User</div><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+    <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="fName" placeholder="e.g. Jane Wanjiku"></div>
+    <div class="form-group"><label class="form-label">Email Address *</label><input class="form-input" id="fEmail" type="email" placeholder="user@example.com"></div>
+    <div class="form-group"><label class="form-label">Role *</label><select class="form-input" id="fRole"><option value="Citizen">Citizen</option><option value="Government">Government Rep</option><option value="Admin">Admin</option></select></div>
+    <div class="form-group"><label class="form-label">County</label><select class="form-input" id="fCounty"><option value="">Select County</option></select></div>
+    <div class="form-group"><label class="form-label">Status</label><select class="form-input" id="fStatus"><option value="Active">Active</option><option value="Pending">Pending Approval</option><option value="Inactive">Inactive</option></select></div>
+    <div class="modal-acts"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button class="btn-save" onclick="saveUser()">Save User</button></div>
+  </div>
+</div>
 
-        // Search functionality
-        document.querySelector('.search-bar input').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('tbody tr');
-            
-            rows.forEach(row => {
-                const userName = row.querySelector('.user-name').textContent.toLowerCase();
-                const userEmail = row.querySelector('.user-email').textContent.toLowerCase();
-                
-                if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
+<div class="toast" id="toast"></div>
 
-        // Filter functionality
-        document.querySelectorAll('.table-filter').forEach(filter => {
-            filter.addEventListener('change', function() {
-                const roleFilter = document.querySelectorAll('.table-filter')[0].value;
-                const statusFilter = document.querySelectorAll('.table-filter')[1].value;
-                const rows = document.querySelectorAll('tbody tr');
-                
-                rows.forEach(row => {
-                    const role = row.querySelector('.user-role').textContent;
-                    const status = row.querySelector('.status').textContent;
-                    
-                    const roleMatch = roleFilter === 'All Roles' || role === roleFilter;
-                    const statusMatch = statusFilter === 'All Statuses' || status === statusFilter;
-                    
-                    if (roleMatch && statusMatch) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-        });
+<script>
+// Theme
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('theme',th);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
 
-        // Modal functionality
-        function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'Add New User';
-            document.getElementById('userForm').reset();
-            document.getElementById('userModal').style.display = 'flex';
+// Counties
+const COUNTIES=['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret/Uasin Gishu','Kiambu','Machakos','Nyeri','Meru','Kakamega','Kilifi','Kwale','Garissa','Wajir','Mandera','Turkana','Isiolo','Marsabit','Samburu','Trans-Nzoia','West Pokot','Elgeyo-Marakwet','Nandi','Baringo','Laikipia','Nyahururu/Nyandarua','Muranga','Kirinyaga','Embu','Tharaka-Nithi','Kitui','Makueni','Kajiado','Narok','Bomet','Kericho','Bungoma','Busia','Siaya','Homa Bay','Migori','Kisii','Nyamira','Taita-Taveta','Lamu','Tana River','Vihiga'];
+const sel=document.getElementById('fCounty');COUNTIES.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+
+// User data
+const COLORS=['#0b6e31','#0f1e4a','#d97706','#b91c1c','#0ea5e9','#8b5cf6','#ec4899','#f59e0b','#14b8a6','#6366f1'];
+function genUsers(){
+  const names=[['Grace','Wanjiku'],['James','Kamau'],['Fatuma','Omar'],['Peter','Ochieng'],['Mary','Njeri'],['Hassan','Mwambire'],['Agnes','Muthoni'],['Kevin','Simiyu'],['Amina','Abdi'],['David','Rotich'],['Ann','Waithera'],['Paul','Langat'],['Joseph','Mutua'],['Esther','Njoroge'],['Philip','Mwenda'],['Achieng','Onyango'],['James','Mwangi'],['Fatuma','Achani'],['Ali','Hassan'],['Mary','Achieng'],['Peter','Kiprotich'],['Grace','Adhiambo'],['James','Odhiambo'],['John','Kamau'],['Sarah','Wanjiku']];
+  const roles=['Citizen','Citizen','Citizen','Government','Citizen','Citizen','Citizen','Government','Citizen','Government','Admin','Citizen','Citizen','Citizen','Government','Citizen','Citizen','Government','Citizen','Citizen','Government','Citizen','Citizen','Citizen','Citizen'];
+  const statuses=['Active','Active','Active','Active','Active','Active','Active','Active','Pending','Active','Active','Active','Active','Active','Active','Active','Inactive','Active','Active','Active','Active','Active','Active','Pending','Active'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return names.map((n,i)=>({id:i+1,first:n[0],last:n[1],email:`${n[0].toLowerCase()}.${n[1].toLowerCase()}@gmail.com`,role:roles[i],county:COUNTIES[i%COUNTIES.length],joined:`${months[i%12]} ${2022+Math.floor(i/12)}, ${2022+Math.floor(i/12)}`,lastActive:i<5?'Today':i<10?'Yesterday':'3 days ago',status:statuses[i],color:COLORS[i%COLORS.length]}));
+}
+
+let USERS = [];
+let editId=null,page=1,perPage=10;
+
+function fetchUsers() {
+  fetch('get_all_users.php')
+    .then(res => res.json())
+    .then(data => {
+      if(data.success) {
+        USERS = data.users;
+        renderUsers();
+      }
+    });
+}
+
+function updateKPIs(){
+  document.getElementById('totalUsers').textContent=USERS.length;
+  document.getElementById('govUsers').textContent=USERS.filter(u=>u.role==='Government').length;
+  document.getElementById('activeUsers').textContent=USERS.filter(u=>u.status==='Active').length;
+  document.getElementById('pendingUsers').textContent=USERS.filter(u=>u.status==='Pending').length;
+}
+
+function filtered(){
+  const q=document.getElementById('userSearch').value.toLowerCase();
+  const r=document.getElementById('roleFilter').value;
+  const s=document.getElementById('statusFilter').value;
+  return USERS.filter(u=>{
+    const match=!q||(u.first+' '+u.last).toLowerCase().includes(q)||u.email.toLowerCase().includes(q)||u.county.toLowerCase().includes(q);
+    const matchR=!r||u.role===r;
+    const matchS=!s||u.status===s;
+    return match&&matchR&&matchS;
+  });
+}
+
+function renderUsers(){
+  updateKPIs();
+  const data=filtered();
+  const total=data.length;
+  const pages=Math.ceil(total/perPage);
+  page=Math.min(page,pages||1);
+  const slice=data.slice((page-1)*perPage,page*perPage);
+
+  const tbody=document.getElementById('userTableBody');
+  if(slice.length===0){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:3rem;color:var(--mt)"><i class="fas fa-users" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.3"></i>No users found</td></tr>`;return;}
+
+  tbody.innerHTML=slice.map(u=>`<tr>
+    <td><input type="checkbox" class="row-cb" value="${u.id}"></td>
+    <td><div class="user-cell"><div class="avatar" style="background:${u.color}">${u.first[0]}${u.last[0]}</div><div><div class="uname">${u.first} ${u.last}</div><div class="uemail">${u.email}</div></div></div></td>
+    <td><span class="role-badge ${u.role==='Admin'?'role-admin':u.role==='Government'?'role-gov':'role-citizen'}">${u.role}</span></td>
+    <td style="font-size:.82rem">${u.county}</td>
+    <td style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--mt)">${u.joined}</td>
+    <td style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--mt)">${u.lastActive}</td>
+    <td><span class="status-badge ${u.status==='Active'?'s-active':u.status==='Pending'?'s-pending':'s-inactive'}"><i class="fas fa-circle" style="font-size:.4rem"></i> ${u.status}</span></td>
+    <td><div class="act-btns">
+      <button class="act-btn view" title="View" onclick="viewUser(${u.id})"><i class="fas fa-eye"></i></button>
+      <button class="act-btn edit" title="Edit" onclick="editUser(${u.id})"><i class="fas fa-pen"></i></button>
+      <button class="act-btn reset" title="Reset Password" onclick="resetPassword(${u.id})"><i class="fas fa-key"></i></button>
+      <button class="act-btn block" title="${u.status==='Active'?'Suspend':'Activate'}" onclick="toggleStatus(${u.id})"><i class="fas fa-${u.status==='Active'?'ban':'check'}"></i></button>
+      <button class="act-btn del" title="Delete" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+
+  document.getElementById('pagInfo').textContent=`Showing ${Math.min((page-1)*perPage+1,total)}–${Math.min(page*perPage,total)} of ${total}`;
+  const pb=document.getElementById('pagBtns');
+  pb.innerHTML=`<button class="pag-btn" onclick="changePage(${page-1})" ${page<=1?'disabled':''} style="${page<=1?'opacity:.4;cursor:not-allowed':''}"><i class="fas fa-chevron-left"></i></button>`;
+  for(let p2=1;p2<=pages;p2++)pb.innerHTML+=`<button class="pag-btn ${p2===page?'active':''}" onclick="changePage(${p2})">${p2}</button>`;
+  pb.innerHTML+=`<button class="pag-btn" onclick="changePage(${page+1})" ${page>=pages?'disabled':''} style="${page>=pages?'opacity:.4;cursor:not-allowed':''}"><i class="fas fa-chevron-right"></i></button>`;
+}
+
+function changePage(p2){if(p2<1)return;page=p2;renderUsers();}
+function toggleAll(cb){document.querySelectorAll('.row-cb').forEach(c=>c.checked=cb.checked);}
+
+function viewUser(id){const u=USERS.find(x=>x.id===id);showToast(`${u.first} ${u.last} — ${u.role}, ${u.county}`);}
+function editUser(id){const u=USERS.find(x=>x.id===id);editId=id;document.getElementById('modalTitle').textContent='Edit User';document.getElementById('fName').value=u.first+' '+u.last;document.getElementById('fEmail').value=u.email;document.getElementById('fRole').value=u.role;document.getElementById('fCounty').value=u.county;document.getElementById('fStatus').value=u.status;document.getElementById('userModal').classList.add('open');}
+function toggleStatus(id){
+  const u=USERS.find(x=>x.id===id);
+  const newStatus = u.status==='Active'?'Inactive':'Active';
+  const fd = new FormData();
+  fd.append('action', 'toggleStatus');
+  fd.append('id', id);
+  fd.append('status', newStatus);
+  fetch('manage_user.php', {method:'POST', body:fd}).then(() => fetchUsers());
+  showToast(`${u.first} ${u.last} status updated`);
+}
+function deleteUser(id){
+  const u=USERS.find(x=>x.id===id);
+  if(confirm(`Delete ${u.first} ${u.last}?`)){
+    const fd = new FormData();
+    fd.append('action', 'delete');
+    fd.append('id', id);
+    fetch('manage_user.php', {method:'POST', body:fd}).then(() => fetchUsers());
+    showToast('User deleted');
+  }
+}
+
+function resetPassword(id){
+  const u=USERS.find(x=>x.id===id);
+  if(confirm(`Reset password for ${u.first} ${u.last} to "Transparency@123"?`)){
+    const fd = new FormData();
+    fd.append('action', 'resetPassword');
+    fd.append('id', id);
+    fetch('manage_user.php', {method:'POST', body:fd})
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          showToast('Password reset successful');
+        } else {
+          showToast('Failed to reset password', 'error');
         }
+      });
+  }
+}
 
-        function openEditModal() {
-            document.getElementById('modalTitle').textContent = 'Edit User';
-           
-            document.getElementById('userModal').style.display = 'flex';
-        }
+function openAddModal(){editId=null;document.getElementById('modalTitle').textContent='Add New User';['fName','fEmail'].forEach(id=>document.getElementById(id).value='');document.getElementById('fRole').value='Citizen';document.getElementById('fStatus').value='Active';document.getElementById('userModal').classList.add('open');}
+function closeModal(){document.getElementById('userModal').classList.remove('open');}
+document.getElementById('userModal').addEventListener('click',e=>{if(e.target===document.getElementById('userModal'))closeModal();});
 
-        function closeModal() {
-            document.getElementById('userModal').style.display = 'none';
-        }
+function saveUser(){
+  const name=document.getElementById('fName').value.trim().split(' ');
+  const email=document.getElementById('fEmail').value.trim();
+  if(!name[0]||!email){showToast('Please fill in required fields','error');return;}
+  
+  const fd = new FormData();
+  fd.append('action', 'save');
+  if(editId) fd.append('id', editId);
+  fd.append('first', name[0]);
+  fd.append('last', name.slice(1).join(' ')||'');
+  fd.append('email', email);
+  fd.append('role', document.getElementById('fRole').value);
+  fd.append('county', document.getElementById('fCounty').value);
+  fd.append('status', document.getElementById('fStatus').value);
+  fd.append('color', COLORS[Math.floor(Math.random()*COLORS.length)]);
 
-        function saveUser() {
-             alert('User saved successfully!');
-            closeModal();
-        }
+  fetch('manage_user.php', {method:'POST', body:fd})
+    .then(res => res.json())
+    .then(data => {
+      if(data.success) {
+        showToast(editId ? 'User updated' : 'User added');
+        closeModal();
+        fetchUsers();
+      }
+    });
+}
 
-        function confirmDelete() {
-            if (confirm('Are you sure you want to delete this user?')) {
-                 alert('User deleted successfully!');
-            }
-        }
+function exportCSV(){
+  const h='ID,Name,Email,Role,County,Joined,Status';
+  const rows=USERS.map(u=>`${u.id},"${u.first} ${u.last}",${u.email},${u.role},${u.county},${u.joined},${u.status}`);
+  const blob=new Blob([[h,...rows].join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ktp_users.csv';a.click();
+  showToast('CSV exported');
+}
 
-      
-        document.getElementById('addUserBtn').addEventListener('click', openAddModal);
+function showToast(m,t='success'){const el=document.getElementById('toast');el.innerHTML=`<i class="fas fa-${t==='success'?'check-circle':'exclamation-circle'}"></i> ${m}`;el.className=`toast show`;el.style.background=t==='success'?'var(--gm)':'var(--red)';setTimeout(()=>el.classList.remove('show'),3500);}
 
-        window.addEventListener('click', function(e) {
-            if (e.target === document.getElementById('userModal')) {
-                closeModal();
-            }
-        });
-    </script>
+fetchUsers();
+
+/* ── SIDEBAR TOGGLE ── */
+const sidebar = document.getElementById('sidebar'), mainWrap = document.getElementById('mainWrap');
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+    const isMobile = window.innerWidth <= 900;
+    if (isMobile) {
+        sidebar.classList.toggle('mobile-open');
+    } else {
+        sidebar.classList.toggle('collapsed');
+        mainWrap.classList.toggle('expanded');
+    }
+});
+document.addEventListener('click', e => {
+    if (window.innerWidth <= 900 && !sidebar.contains(e.target) && !document.getElementById('sidebarToggle').contains(e.target)) {
+        sidebar.classList.remove('mobile-open');
+    }
+});
+</script>
 </body>
 </html>
