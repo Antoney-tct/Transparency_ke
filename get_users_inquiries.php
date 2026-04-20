@@ -6,11 +6,6 @@ if (!empty($db_connection_error)) {
     exit;
 }
 
-
-// Database connection
-$conn = new mysqli("localhost", "root", "", "government_portal");
-
-
 // Set headers for JSON response
 header('Content-Type: application/json');
 

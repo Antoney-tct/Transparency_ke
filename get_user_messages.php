@@ -12,18 +12,12 @@ if (!isset($_SESSION['user_email'])) {
     exit;
 }
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "government_portal";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
+// Include centralized DB connection
+require_once 'db_connect.php';
+if (isset($db_connection_error)) {
     echo json_encode([
         'status' => 'error',
-        'message' => 'Database connection failed: ' . $conn->connect_error
+        'message' => 'Database connection failed.'
     ]);
     exit;
 }

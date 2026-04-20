@@ -1,869 +1,498 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Government Progress Timeline</title>
-  <link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
-  <script src="progtimeline.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-
-    :root {
-      --primary: #0c9b35;
-      --primary-light: #e8f5e9;
-      --secondary: #162447;
-      --dark: #2c3e50;
-      --light: #f8f9fa;
-      --accent: #ff6b35;
-      --text: #333;
-      --text-light: #666;
-      --border-radius: 8px;
-      --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: #f8f8f8;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* Header */
-    .header {
-      background-color: white;
-      box-shadow: var(--box-shadow);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo img {
-      height: 50px;
-    }
-
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--dark);
-    }
-
-    .logo-text span {
-      color: var(--primary);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, rgba(12,155,53,0.9), rgba(22,36,71,0.9));
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('Photos/Koza\ 23.jpg') center/cover;
-      opacity: 0.2;
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.8rem 1.8rem;
-      background-color: white;
-      color: var(--primary);
-      border-radius: var(--border-radius);
-      text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.89);
-    }
-
-    /* Main Content */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: var(--dark);
-      position: relative;
-      padding-bottom: 0.5rem;
-      text-align: center;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 2px;
-    }
-
-    /* Funds Allocation Section */
-    .funds-section {
-      background-color: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .charts-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .chart-container {
-      flex: 1;
-      min-width: 300px;
-      max-width: 400px;
-      height: 300px;
-      background: white;
-      padding: 1rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-    }
-
-    /* Stats Section */
-    .stats-section {
-      background-color: var(--secondary);
-      color: white;
-      border-radius: var(--border-radius);
-      padding: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .stat-card {
-      background-color: rgba(255,255,255,0.1);
-      border-radius: var(--border-radius);
-      padding: 1.5rem;
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      background-color: rgba(255,255,255,0.2);
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: white;
-    }
-
-    .stat-label {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.8);
-    }
-
-    /* Timeline Section */
-    .timeline-section {
-      background-color: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .period-tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      box-shadow: var(--box-shadow);
-    }
-
-    .period-tabs button {
-      padding: 0.8rem 1.5rem;
-      background-color: var(--light);
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: var(--transition);
-    }
-
-    .period-tabs button.active {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .timeline-container {
-      position: relative;
-      padding: 2rem 0;
-    }
-
-    .timeline-line {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background-color: var(--primary-light);
-      transform: translateX(-50%);
-    }
-
-    .timeline-items {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .timeline-item {
-      display: flex;
-      width: 100%;
-      position: relative;
-    }
-
-    .timeline-item:nth-child(odd) {
-      justify-content: flex-start;
-    }
-
-    .timeline-item:nth-child(even) {
-      justify-content: flex-end;
-    }
-
-    .timeline-content {
-      width: calc(50% - 2rem);
-      background-color: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 1.5rem;
-      position: relative;
-      border: 1px solid #eee;
-      transition: var(--transition);
-    }
-
-    .timeline-item:nth-child(odd) .timeline-content {
-      margin-right: auto;
-    }
-
-    .timeline-item:nth-child(even) .timeline-content {
-      margin-left: auto;
-    }
-
-    .timeline-content:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-
-    .timeline-year {
-      position: absolute;
-      top: 50%;
-      width: 60px;
-      height: 60px;
-      background-color: var(--primary);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-      transform: translateY(-50%);
-      z-index: 1;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-year {
-      right: -30px;
-    }
-
-    .timeline-item:nth-child(even) .timeline-year {
-      left: -30px;
-    }
-
-    .timeline-content h3 {
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-
-    /* Progress Section */
-    .progress-section {
-      background-color: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 2rem;
-    }
-
-    .progress-tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-
-    .progress-timeline {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      max-width: 800px;
-      margin: 0 auto 3rem;
-    }
-
-    .progress-timeline::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--primary-light);
-      transform: translateY(-50%);
-    }
-
-    .progress-year {
-      position: relative;
-      cursor: pointer;
-      text-align: center;
-      z-index: 1;
-    }
-
-    .progress-year span {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: var(--text);
-    }
-
-    .progress-year::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      border: 3px solid white;
-      transform: translate(-50%, -50%);
-      transition: var(--transition);
-    }
-
-    .progress-year.active::after {
-      background: var(--primary);
-    }
-
-    .progress-year:hover::after {
-      background: var(--primary);
-    }
-
-    .progress-description {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-      background-color: var(--primary-light);
-      border-radius: var(--border-radius);
-      text-align: center;
-    }
-
-    .progress-description h2 {
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    /* Footer */
-    .footer {
-      background-color: var(--secondary);
-      color: white;
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--primary);
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .social-links a {
-      color: white;
-      background-color: rgba(255,255,255,0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-
-    .social-links a:hover {
-      background-color: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    .copyright {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.9rem;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .timeline-content {
-        width: calc(100% - 4rem);
-      }
-      
-      .timeline-item:nth-child(odd) .timeline-year {
-        right: -10px;
-      }
-      
-      .timeline-item:nth-child(even) .timeline-year {
-        left: -10px;
-      }
-      
-      .progress-timeline {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-      }
-      
-      .progress-timeline::before {
-        display: none;
-      }
-      
-      .progress-year {
-        margin: 0.5rem;
-      }
-    }
-
-
-    .vision-progress-tracker {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.progress-period-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 2rem;
-}
-
-.progress-period-buttons button {
-    padding: 8px 16px;
-    background: #f0f0f0;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.progress-period-buttons button.active {
-    background: #2E8B57;
-    color: white;
-}
-
-.progress-track-line {
-    height: 8px;
-    background: #2E8B57;
-    border-radius: 4px;
-    position: relative;
-    margin: 40px 0;
-}
-
-.progress-year-marker {
-    position: absolute;
-    top: -12px;
-    width: 24px;
-    height: 24px;
-    background: white;
-    border: 4px solid #2E8B57;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.progress-year-marker.active {
-    background: #2E8B57;
-}
-
-.progress-year-label {
-    position: absolute;
-    top: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.progress-info-display {
-    padding: 1.5rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-    min-height: 100px;
-    border-left: 4px solid #2E8B57;
-    transition: all 0.3s;
-}
-
-@media (max-width: 600px) {
-    .progress-period-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .progress-period-buttons button {
-        width: 100%;
-        max-width: 200px;
-    }
-}
-  </style>
-  
-
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Progress — Kenya Transparency Portal</title>
+<link rel="icon" href="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--g:#0b6e31;--gm:#0f9544;--gl:rgba(11,149,68,.1);--gg:rgba(11,149,68,.2);--nv:#0f1e4a;--nm:#1d3a8a;--nl:rgba(29,58,138,.1);--am:#d97706;--al:rgba(217,119,6,.1);--re:#b91c1c;--rl:rgba(185,28,28,.1);--bg:#f2f4f3;--sf:#fff;--sf2:#f8faf9;--bd:rgba(0,0,0,.07);--bds:rgba(0,0,0,.13);--ink:#111a14;--im:#374840;--mt:#7a8a80;--sh:0 2px 20px rgba(0,0,0,.06);--shl:0 12px 50px rgba(0,0,0,.13);}
+[data-theme=dark]{--bg:#0c1410;--sf:#141d17;--sf2:#1a2520;--bd:rgba(255,255,255,.06);--bds:rgba(255,255,255,.12);--ink:#e8f0ea;--im:#b4c4ba;--mt:#6b7d71;--gl:rgba(11,149,68,.12);--al:rgba(217,119,6,.12);--rl:rgba(185,28,28,.12);--nl:rgba(29,58,138,.15);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--gm);border-radius:10px;}
+a{text-decoration:none;}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);}
+[data-theme=dark] .site-header{background:rgba(12,20,16,.95);}
+.hdr-inner{max-width:1280px;margin:0 auto;padding:0 1.5rem;height:68px;display:flex;align-items:center;gap:1rem;}
+.logo-link{display:flex;align-items:center;gap:10px;}
+.logo-link img{height:40px;}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+.logo-name span{color:var(--gm);}
+.desk-nav{display:flex;align-items:center;gap:.15rem;margin-left:1.25rem;}
+.desk-nav a{font-size:.82rem;font-weight:500;color:var(--mt);padding:.4rem .8rem;border-radius:8px;transition:all .2s;}
+.desk-nav a:hover,.desk-nav a.active{color:var(--gm);background:var(--gl);}
+.hdr-actions{margin-left:auto;display:flex;align-items:center;gap:.5rem;}
+.ib{width:38px;height:38px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);color:var(--mt);font-size:.82rem;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.ib:hover{border-color:var(--gm);color:var(--gm);background:var(--gl);}
+.hamburger{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.hamburger:hover{border-color:var(--gm);background:var(--gl);}
+.hb-line{width:20px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.hamburger.open .hb-line:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open .hb-line:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open .hb-line:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-nav{position:fixed;top:68px;left:0;right:0;bottom:0;background:var(--sf);z-index:999;overflow-y:auto;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);padding:1.5rem;}
+.mobile-nav.open{transform:translateX(0);}
+.mob-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mt);margin-bottom:.6rem;display:block;margin-top:.5rem;}
+.mob-link{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border-radius:12px;color:var(--im);font-size:.9rem;font-weight:500;transition:all .2s;margin-bottom:.2rem;}
+.mob-link i{width:18px;text-align:center;color:var(--mt);font-size:.85rem;}
+.mob-link:hover,.mob-link.active{background:var(--gl);color:var(--gm);}
+.mob-link:hover i,.mob-link.active i{color:var(--gm);}
+.mob-divider{height:1px;background:var(--bd);margin:.75rem 0;}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#073d1a 0%,#0f1e4a 100%);min-height:56vh;display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero::before{content:'PROGRESS';position:absolute;right:-80px;top:-30px;font-family:'Cormorant Garamond',serif;font-size:14rem;font-weight:700;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;}
+.hero-stripe{position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);z-index:2;}
+.hero-cnt{max-width:1280px;margin:0 auto;padding:3.5rem 1.5rem;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;opacity:0;animation:slideUp .9s .15s ease forwards;}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:none;}}
+.hero-ey{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.85rem;display:flex;align-items:center;gap:8px;}
+.hero-ey i{color:#7effa8;}
+.hero-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:700;color:#fff;line-height:1.06;margin-bottom:.75rem;}
+.hero-left h1 em{font-style:normal;color:#7effa8;}
+.hero-left p{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.75;margin-bottom:1.5rem;}
+.hero-tags{display:flex;gap:.55rem;flex-wrap:wrap;}
+.htag{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.3rem .85rem;border-radius:50px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.18);}
+.htag.g{background:rgba(11,149,68,.6);border-color:rgba(11,149,68,.4);}
+/* Hero KPIs */
+.hero-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+.hkpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1.25rem;backdrop-filter:blur(6px);text-align:center;}
+.hkpi-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#7effa8;line-height:1;}
+.hkpi-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.3rem;}
+.hkpi-sub{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:.2rem;}
+
+/* PAGE WRAP */
+.pw{max-width:1280px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
+.card-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.4rem;}
+.card-ey::before{content:'';display:block;width:12px;height:2px;background:var(--gm);}
+.card-h{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:1.25rem;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+
+/* SECTION HEAD */
+.sh{margin-bottom:1.75rem;}
+.sh-ey{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:5px;margin-bottom:.35rem;}
+.sh-ey::before{content:'';display:block;width:14px;height:2px;background:var(--gm);}
+.sh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--ink);}
+
+/* CHARTS */
+.chart-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem;}
+.chart-card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;padding:1.75rem;box-shadow:var(--sh);}
+.ct{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.cs{font-size:.75rem;color:var(--mt);margin-bottom:1.25rem;}
+.cw{height:220px;position:relative;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem;}
+.kpi{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;}
+.kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.kpi.g::after{background:var(--gm);}
+.kpi.n::after{background:var(--nm);}
+.kpi.a::after{background:var(--am);}
+.kpi.r::after{background:var(--re);}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.ki{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:.88rem;margin-bottom:.85rem;}
+.ki.g{background:var(--gl);color:var(--gm);}.ki.n{background:var(--nl);color:var(--nm);}.ki.a{background:var(--al);color:var(--am);}.ki.r{background:var(--rl);color:var(--re);}
+.kv{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:.2rem;}
+.kl{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mt);}
+.ksub{font-size:.72rem;color:var(--gm);margin-top:.2rem;}
+
+/* PROGRESS BARS */
+.pr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;}
+.plbl{font-size:.83rem;color:var(--im);}
+.ppct{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;color:var(--gm);}
+.ptrack{height:7px;background:var(--sf2);border-radius:10px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--bd);}
+.pfill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--g),#22c55e);width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);}
+.pfill.warn{background:linear-gradient(90deg,var(--am),#fbbf24);}
+.pfill.red{background:linear-gradient(90deg,var(--re),#f87171);}
+
+/* SERVICE CARDS */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem;}
+.svc{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;transition:all .3s;}
+.svc:hover{transform:translateY(-3px);box-shadow:var(--shl);}
+.svc-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:.95rem;margin-bottom:1rem;}
+.svc-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.35rem;}
+.svc-stat{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gm);margin-bottom:.25rem;line-height:1;}
+.svc-desc{font-size:.78rem;color:var(--mt);line-height:1.6;}
+.svc-src{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--mt);margin-top:.5rem;display:flex;align-items:center;gap:3px;}
+
+/* MILESTONE TIMELINE */
+.tl{position:relative;padding-left:2rem;}
+.tl::before{content:'';position:absolute;left:.5rem;top:0;bottom:0;width:2px;background:var(--bd);}
+.tl-item{position:relative;margin-bottom:2rem;}
+.tl-dot{position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.tl-item.done .tl-dot{background:var(--gm);border:2px solid var(--gm);box-shadow:0 0 0 4px var(--gg);}
+.tl-item.current .tl-dot{background:var(--am);border:2px solid var(--am);box-shadow:0 0 0 4px var(--al);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--al);}50%{box-shadow:0 0 0 8px rgba(217,119,6,.05);}}
+.tl-item.future .tl-dot{background:var(--sf2);border:2px solid var(--bds);}
+.tl-year{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mt);margin-bottom:.25rem;}
+.tl-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.25rem;}
+.tl-desc{font-size:.8rem;color:var(--mt);line-height:1.6;}
+.tl-badge{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:.18rem .55rem;border-radius:50px;font-weight:600;margin-left:.5rem;}
+.tb-done{background:var(--gl);color:var(--gm);}
+.tb-curr{background:var(--al);color:var(--am);}
+.tb-future{background:var(--nl);color:var(--nm);}
+
+/* DIGITAL SECTION */
+.digital-strip{background:linear-gradient(135deg,var(--nv) 0%,#073d1a 100%);border-radius:20px;padding:3rem;margin-bottom:2rem;color:#fff;}
+.ds-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.ds-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:.75rem;}
+.ds-title em{color:#7effa8;font-style:normal;}
+.ds-desc{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.75;}
+.ds-apps{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
+.da{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.1rem;display:flex;align-items:center;gap:.75rem;transition:all .2s;}
+.da:hover{background:rgba(255,255,255,.18);}
+.da-icon{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:.9rem;color:#fff;flex-shrink:0;}
+.da-name{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.15rem;}
+.da-desc{font-size:.72rem;color:rgba(255,255,255,.55);}
+
+/* CHALLENGES SECTION */
+.challenges-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+.challenge{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:1.5rem;display:flex;gap:1rem;}
+.ch-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+.ch-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ch-desc{font-size:.78rem;color:var(--mt);line-height:1.6;}
+
+/* FACTS LIST */
+.facts{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.facts li{display:flex;gap:.7rem;font-size:.875rem;color:var(--im);}
+.facts li i{color:var(--gm);font-size:.78rem;margin-top:3px;flex-shrink:0;}
+
+/* TOAST + BACK-TOP */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:var(--g);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .35s;box-shadow:var(--shl);}
+.toast.show{transform:translateY(0);opacity:1;}
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;width:46px;height:46px;border-radius:13px;background:var(--g);color:#fff;border:none;cursor:pointer;display:grid;place-items:center;font-size:.9rem;box-shadow:0 8px 20px rgba(11,110,49,.4);transform:translateY(80px);opacity:0;transition:all .3s;}
+.back-top.show{transform:translateY(0);opacity:1;}
+.back-top:hover{transform:translateY(-3px);}
+
+/* FOOTER */
+.site-footer{background:#080f0a;padding:3rem 1.5rem 2rem;}
+.footer-inner{max-width:1280px;margin:0 auto;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#fff;margin-top:.75rem;margin-bottom:.5rem;}
+.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7effa8;margin-bottom:.85rem;}
+.footer-col a{display:block;font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:.4rem;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:1.25rem;}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);}
+.flag-stripe{height:5px;background:linear-gradient(90deg,#000 33.3%,#b91c1c 33.3% 66.6%,#0b6e31 66.6%);margin-bottom:3rem;}
+
+@media(max-width:900px){.desk-nav{display:none;}.hamburger{display:flex;}.chart-row{grid-template-columns:1fr;}.kpi-grid{grid-template-columns:repeat(2,1fr);}.hero-cnt{grid-template-columns:1fr;}.service-grid{grid-template-columns:1fr 1fr;}.challenges-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.ds-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.kpi-grid{grid-template-columns:1fr 1fr;}.service-grid{grid-template-columns:1fr;}.ds-apps{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.pw{padding:1.5rem 1rem 4rem;}}
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <div class="logo">
-        <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Government Logo">
-        <span class="logo-text">Government <span>Progress</span></span>
-      </div>
-      <nav>
-        <a href="Reports.html" class="btn">Reports</a>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Tracking National Development Progress</h1>
-      <p>Transparent reporting on government projects, budget allocation, and key milestones achieved</p>
-      <a href="#timeline" class="btn">View Progress Timeline</a>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Funds Allocation Section -->
-    <section class="funds-section">
-      <h2 class="section-title">Budget Allocation</h2>
-      <p style="text-align: center; margin-bottom: 1rem;">How government funds are distributed across key sectors</p>
-      
-      <div class="charts-container">
-        <div class="chart-container">
-          <canvas id="sectorChart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="expenditureChart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="completionChart"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-      <h2 class="section-title" style="color: white;">Key Performance Indicators</h2>
-      
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">KSh 3.3T</div>
-          <div class="stat-label">National Budget</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">1,247</div>
-          <div class="stat-label">Projects Completed</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">78%</div>
-          <div class="stat-label">Citizen Satisfaction</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">92%</div>
-          <div class="stat-label">Procurement Transparency</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section class="timeline-section" id="timeline">
-      <h2 class="section-title">Development Milestones</h2>
-      <p style="text-align: center; margin-bottom: 1rem;">Key achievements in our national development journey</p>
-      
-      <div class="timeline-container">
-        <div class="timeline-line"></div>
-        <div class="timeline-items">
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <h3>Smart City Initiative</h3>
-              <p>Launched the first Smart City projects with pilot programs in major urban centers, focusing on digital infrastructure and IoT solutions.</p>
-            </div>
-            <div class="timeline-year">2018</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <h3>E-Government Services</h3>
-              <p>Established comprehensive e-Government services, enabling citizens to access 85% of government services online.</p>
-            </div>
-            <div class="timeline-year">2020</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <h3>Global Partnerships</h3>
-              <p>Formed strategic partnerships with international organizations to advance sustainable development goals and technology transfer.</p>
-            </div>
-            <div class="timeline-year">2022</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-content">
-              <h3>Mega-Project Completion</h3>
-              <p>Achieved 85% completion rate on key infrastructure projects across transportation, housing, and energy sectors.</p>
-            </div>
-            <div class="timeline-year">2024</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Progress Section -->
-    
-    <section class="vision-progress-tracker">
-      <h2>Kenya Vision 2030 Progress</h2>
-      
-      <div class="progress-period-buttons">
-          <button class="active" data-period="2010-2015">2010-2015</button>
-          <button data-period="2016-2020">2016-2020</button>
-          <button data-period="2021-2025">2021-2025</button>
-      </div>
-      
-      <div class="progress-track-line">
-          <!-- Years will appear here automatically -->
-      </div>
-      
-      <div class="progress-info-display">
-          <p>Click on any year to see progress details</p>
-      </div>
-  </section>
-  <script src="progtimeline.js"></script>
-    
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-links">
+<header class="site-header">
+  <div class="hdr-inner">
+    <a href="index.html" class="logo-link">
+      <img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" alt="Kenya">
+      <div class="logo-name">Kenya <span>Transparency</span></div>
+    </a>
+    <nav class="desk-nav">
+      <a href="index.html">Home</a>
+      <a href="Projects.html">Projects</a>
       <a href="Budget.html">Budget</a>
       <a href="Reports.html">Reports</a>
+      <a href="Gov-Progress.html" class="active">Gov Progress</a>
+      <a href="Service-Delivery.html">Services</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="ib" id="themeToggle"><i class="fas fa-moon"></i></button>
+      <a href="pprofile.html" class="ib"><i class="fas fa-user"></i></a>
+      <button class="hamburger" id="hamburger"><span class="hb-line"></span><span class="hb-line"></span><span class="hb-line"></span></button>
     </div>
-    
-    <div class="social-links">
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-youtube"></i></a>
+  </div>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+  <span class="mob-label">Navigation</span>
+  <a href="index.html" class="mob-link"><i class="fas fa-home"></i> Home</a>
+  <a href="Projects.html" class="mob-link"><i class="fas fa-project-diagram"></i> Projects</a>
+  <a href="Budget.html" class="mob-link"><i class="fas fa-coins"></i> Budget</a>
+  <a href="Reports.html" class="mob-link"><i class="fas fa-chart-line"></i> Reports</a>
+  <a href="Gov-Progress.html" class="mob-link active"><i class="fas fa-chart-bar"></i> Government Progress</a>
+  <div class="mob-divider"></div>
+  <a href="National-Government.html" class="mob-link"><i class="fas fa-landmark"></i> National Government</a>
+  <a href="Ministries.html" class="mob-link"><i class="fas fa-building"></i> Ministries</a>
+  <a href="Kenya-Vision.html" class="mob-link"><i class="fas fa-eye"></i> Vision 2030</a>
+  <a href="Service-Delivery.html" class="mob-link"><i class="fas fa-hands-helping"></i> Services</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="hero-cnt">
+    <div class="hero-left">
+      <div class="hero-ey"><i class="fas fa-chart-line"></i> National Development Tracking &nbsp;·&nbsp; Updated 2025</div>
+      <h1>Government <em>Service Delivery</em> Progress</h1>
+      <p>Transparent, data-driven reporting on Kenya's service delivery performance — from eCitizen and Huduma Centre statistics to project completion rates, healthcare enrolment, and digital transformation milestones.</p>
+      <div class="hero-tags">
+        <span class="htag g"><i class="fas fa-check"></i> Live 2025 Data</span>
+        <span class="htag"><i class="fas fa-database"></i> Verified Sources</span>
+        <span class="htag"><i class="fas fa-calendar-alt"></i> FY 2024/25</span>
+      </div>
     </div>
-    
-    <p class="copyright">© 2023 Government Progress Portal. All rights reserved.</p>
-  </footer>
- 
-  <script>
-    // Initialize Charts
-    document.addEventListener('DOMContentLoaded', function() {
-      // Sector Allocation Pie Chart
-      const sectorCtx = document.getElementById('sectorChart').getContext('2d');
-      new Chart(sectorCtx, {
-        type: 'pie',
-        data: {
-          labels: ['Infrastructure', 'Education', 'Healthcare', 'Security', 'Agriculture', 'Others'],
-          datasets: [{
-            data: [25, 20, 15, 12, 10, 18],
-            backgroundColor: [
-              '#0c9b35',
-              '#162447',
-              '#ff6b35',
-              '#2c3e50',
-              '#6c757d',
-              '#6610f2'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.label}: ${context.raw}%`;
-                }
-              }
-            }
-          }
-        }
-      });
+    <div class="hero-kpis">
+      <div class="hkpi"><div class="hkpi-num">14.1M</div><div class="hkpi-lbl">Huduma Visits FY25</div><div class="hkpi-sub">Up from 13.5M prev. year</div></div>
+      <div class="hkpi"><div class="hkpi-num">16,000+</div><div class="hkpi-lbl">eCitizen Services</div><div class="hkpi-sub">From 100+ agencies</div></div>
+      <div class="hkpi"><div class="hkpi-num">27M+</div><div class="hkpi-lbl">SHA Registered</div><div class="hkpi-sub">Universal Health Coverage</div></div>
+      <div class="hkpi"><div class="hkpi-num">621K</div><div class="hkpi-lbl">Passports Issued 2024</div><div class="hkpi-sub">State Dept Immigration</div></div>
+    </div>
+  </div>
+</section>
 
-      // Expenditure Trend Bar Chart
-      const expenditureCtx = document.getElementById('expenditureChart').getContext('2d');
-      new Chart(expenditureCtx, {
-        type: 'bar',
-        data: {
-          labels: ['2019', '2020', '2021', '2022', '2023'],
-          datasets: [{
-            label: 'Budget (KSh Billion)',
-            data: [2100, 2300, 2500, 2800, 3300],
-            backgroundColor: 'rgba(12,155,53,0.7)',
-            borderColor: 'rgba(12,155,53,1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'KSh Billion'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Fiscal Year'
-              }
-            }
-          }
-        }
-      });
+<div class="pw">
+  <!-- KPI GRID -->
+  <div class="kpi-grid">
+    <div class="kpi g"><div class="ki g"><i class="fas fa-laptop"></i></div><div class="kv">16,000+</div><div class="kl">eCitizen Services</div><div class="ksub">100+ ministries, depts & agencies</div></div>
+    <div class="kpi n"><div class="ki n"><i class="fas fa-building"></i></div><div class="kv">52</div><div class="kl">Huduma Centres</div><div class="ksub">Nationwide + 7 new NGCDF-funded</div></div>
+    <div class="kpi a"><div class="ki a"><i class="fas fa-heartbeat"></i></div><div class="kv">27M+</div><div class="kl">SHA Enrolled</div><div class="ksub">49% of 55M population</div></div>
+    <div class="kpi r"><div class="ki r"><i class="fas fa-passport"></i></div><div class="kv">621K</div><div class="kl">Passports Issued 2024</div><div class="ksub">57,334 uncollected as at June 2025</div></div>
+  </div>
 
-      // Project Completion Chart
-      const completionCtx = document.getElementById('completionChart').getContext('2d');
-      new Chart(completionCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Completed', 'In Progress', 'Delayed', 'Planning'],
-          datasets: [{
-            data: [45, 35, 12, 8],
-            backgroundColor: [
-              '#0c9b35',
-              '#162447',
-              '#ff6b35',
-              '#6c757d'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-            }
-          }
-        }
-      });
-      
-    });
-  </script>
+  <!-- CHARTS -->
+  <div class="sh"><div class="sh-ey">Budget & Performance Analytics</div><div class="sh-title">FY 2024/25 at a Glance</div></div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="ct">Budget by Sector</div>
+      <div class="cs">FY 2024/25 — KSh 3.99T Total</div>
+      <div class="cw"><canvas id="sectorChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="ct">National Budget Growth</div>
+      <div class="cs">FY 2019/20 to 2024/25 (KSh Billions)</div>
+      <div class="cw"><canvas id="expendChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="ct">Project Status Distribution</div>
+      <div class="cs">All 18 Flagship Projects (2025)</div>
+      <div class="cw"><canvas id="completionChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SERVICE DELIVERY STATS -->
+  <div class="sh"><div class="sh-ey">Verified Service Delivery Data · 2024/2025</div><div class="sh-title">Key Performance Metrics</div></div>
+  <div class="service-grid">
+    <div class="svc">
+      <div class="svc-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-laptop"></i></div>
+      <div class="svc-title">eCitizen Platform</div>
+      <div class="svc-stat">16,000+</div>
+      <div class="svc-desc">Government services accessible online from 100+ ministries, counties, departments and agencies. Kenyans can apply, pay and track services 24/7 from any device.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: ecitizen.go.ke, April 2025</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon" style="background:var(--nl);color:var(--nm)"><i class="fas fa-building"></i></div>
+      <div class="svc-title">Huduma Centre Visits</div>
+      <div class="svc-stat">14.1 Million</div>
+      <div class="svc-desc">Customers served through Huduma Kenya Service platforms in FY 2024/25 — up from 13.5M the previous year. 52 centres nationwide including 7 new NGCDF-funded ones.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: National Treasury, Business Daily Africa, Jan 2026</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-heartbeat"></i></div>
+      <div class="svc-title">SHA/UHC Enrolment</div>
+      <div class="svc-stat">27M+ Kenyans</div>
+      <div class="svc-desc">Social Health Authority (replacing NHIF) has enrolled over 27 million Kenyans as of October 2025 — representing 49% of the 55M population. Target: universal coverage by 2027.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: CS Aden Duale confirmed figures, Oct 2025</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon" style="background:var(--gl);color:var(--gm)"><i class="fas fa-passport"></i></div>
+      <div class="svc-title">Passport Issuance</div>
+      <div class="svc-stat">621,805</div>
+      <div class="svc-desc">Passports issued in 2024 by the State Department for Immigration. Processing times improved from 21+ days to 2 working days for standard applications via eCitizen portal.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: PS Belio Kipsang, June 2025</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fas fa-users-cog"></i></div>
+      <div class="svc-title">Huduma Satisfaction Rate</div>
+      <div class="svc-stat">95%</div>
+      <div class="svc-desc">Customer satisfaction rate at Huduma Centres, measured by independent surveys. 120M+ customers served over 10 years. Multiple international awards including 2022 African Union Best Innovative Technologies award.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: PS Amos Gathecha, Kenya News Agency</div>
+    </div>
+    <div class="svc">
+      <div class="svc-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-exclamation-triangle"></i></div>
+      <div class="svc-title">Digital Access Gap</div>
+      <div class="svc-stat">35%</div>
+      <div class="svc-desc">Share of Kenyans with internet access. Only 14% of rural residents online vs 43% urban (CAK/KNBS joint report). Digital literacy, system outages and connectivity cited as major barriers to full eCitizen adoption.</div>
+      <div class="svc-src"><i class="fas fa-link"></i> Source: CIPIT/Strathmore, CAK-KNBS Report, 2025</div>
+    </div>
+  </div>
+
+  <!-- DIGITAL KENYA -->
+  <div class="digital-strip">
+    <div class="ds-grid">
+      <div>
+        <div class="ds-title">eCitizen — Kenya's <em>Digital Gateway</em></div>
+        <p class="ds-desc">Kenya's eCitizen platform is Africa's most advanced government digital services portal. With 16,000+ services from 100+ agencies, it represents the government's flagship Bottom-Up Economic Transformation Agenda (BETA) digitisation pillar. The platform processes millions of applications per month — from passport renewals to business registration, driving licences, land searches, and tax filing.</p>
+        <br>
+        <p class="ds-desc">Despite impressive growth, significant barriers remain: only 35% of Kenyans have internet access (14% in rural areas vs 43% urban). The government's target is 80% of services fully automated and "one-stop agent" rollout to all 314 sub-counties.</p>
+      </div>
+      <div>
+        <div class="ds-apps">
+          <div class="da"><div class="da-icon"><i class="fas fa-laptop"></i></div><div><div class="da-name">eCitizen Portal</div><div class="da-desc">ecitizen.go.ke · 16,000+ services</div></div></div>
+          <div class="da"><div class="da-icon"><i class="fas fa-mobile-alt"></i></div><div><div class="da-name">eCitizen App</div><div class="da-desc">iOS & Android mobile access</div></div></div>
+          <div class="da"><div class="da-icon"><i class="fas fa-building"></i></div><div><div class="da-name">Huduma Centres</div><div class="da-desc">52 centres · 14.1M visits FY25</div></div></div>
+          <div class="da"><div class="da-icon"><i class="fas fa-phone-alt"></i></div><div><div class="da-name">Huduma Helpline</div><div class="da-desc">Call 1919 · Free tele-counselling</div></div></div>
+          <div class="da"><div class="da-icon"><i class="fas fa-car"></i></div><div><div class="da-name">TIMS — NTSA</div><div class="da-desc">tims.ntsa.go.ke · Vehicle & licences</div></div></div>
+          <div class="da"><div class="da-icon"><i class="fas fa-coins"></i></div><div><div class="da-name">KRA iTax</div><div class="da-desc">itax.kra.go.ke · Tax returns</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BARS - FLAGSHIP SECTORS -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-ey">Infrastructure Progress</div>
+      <div class="card-h">Flagship Projects — 2025 Status</div>
+      <div class="pr"><span class="plbl">Thika Superhighway — Original + 2026 Expressway</span><span class="ppct">100% + Active</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">SGR Phase 1 — Mombasa to Nairobi (472km)</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Dongo Kundu Bypass + Mteza Bridge</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Nairobi Expressway (JKIA–Westlands)</span><span class="ppct">100%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="100"></div></div>
+      <div class="pr"><span class="plbl">Kenol–Sagana–Marua Highway (84km)</span><span class="ppct">90%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="90"></div></div>
+      <div class="pr"><span class="plbl">Last Mile Connectivity (All Phases)</span><span class="ppct">82%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="82"></div></div>
+      <div class="pr"><span class="plbl">LAPSSET Corridor — Lamu Port (4 berths)</span><span class="ppct">62%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="62"></div></div>
+      <div class="pr"><span class="plbl">Riruta–Ngong Commuter Rail (Phase 1)</span><span class="ppct">55%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="55"></div></div>
+      <div class="pr"><span class="plbl">Mwache Multi-purpose Dam</span><span class="ppct">28%</span></div>
+      <div class="ptrack" style="margin-bottom:0"><div class="pfill warn" data-w="28"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-ey">Social & Economic Progress</div>
+      <div class="card-h">Service Delivery KPIs — 2025</div>
+      <div class="pr"><span class="plbl">SHA / Universal Health Coverage Enrolment</span><span class="ppct">85%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="85"></div></div>
+      <div class="pr"><span class="plbl">Electricity Access — Target 100%</span><span class="ppct">76%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="76"></div></div>
+      <div class="pr"><span class="plbl">Konza Technopolis Phase 1 (Jul 2025)</span><span class="ppct">80%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="80"></div></div>
+      <div class="pr"><span class="plbl">KRA Tax Revenue — KSh 2.49T of KSh 2.9T target</span><span class="ppct">86%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="86"></div></div>
+      <div class="pr"><span class="plbl">Teacher Hiring — 76,000 of 80,000 target</span><span class="ppct">95%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="95"></div></div>
+      <div class="pr"><span class="plbl">Affordable Housing — 500K units target</span><span class="ppct">28%</span></div>
+      <div class="ptrack"><div class="pfill warn" data-w="28"></div></div>
+      <div class="pr"><span class="plbl">eCitizen Services Digitised — Target 80%</span><span class="ppct">65%</span></div>
+      <div class="ptrack"><div class="pfill" data-w="65"></div></div>
+      <div class="pr"><span class="plbl">Internet Access — Target 80% by 2030</span><span class="ppct">35%</span></div>
+      <div class="ptrack" style="margin-bottom:0"><div class="pfill red" data-w="35"></div></div>
+    </div>
+  </div>
+
+  <!-- VISION 2030 PROGRESS TIMELINE -->
+  <div class="card">
+    <div class="card-ey">Vision 2030 Implementation</div>
+    <div class="card-h">Medium Term Plans — Progress Timeline</div>
+    <div class="tl">
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-year">MTP I · 2008–2012 <span class="tl-badge tb-done"><i class="fas fa-check"></i> Complete</span></div>
+        <div class="tl-title">Foundation Phase</div>
+        <div class="tl-desc">Thika Superhighway (2012), 2010 Constitution, Vision 2030 launch, economic stabilisation, e-government foundations. GDP growth averaged 5.7%. Transformational Constitutional reforms passed.</div>
+      </div>
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-year">MTP II · 2013–2017 <span class="tl-badge tb-done"><i class="fas fa-check"></i> Complete</span></div>
+        <div class="tl-title">Infrastructure Acceleration</div>
+        <div class="tl-desc">SGR Phase 1 (KSh 327B), Lamu Port 3 berths, LAPSSET framework, devolution consolidation (KSh 190B→316B equitable share), eCitizen launch, massive energy expansion. Jubilee infrastructure programme.</div>
+      </div>
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-year">MTP III · 2018–2022 <span class="tl-badge tb-done"><i class="fas fa-check"></i> Complete</span></div>
+        <div class="tl-title">Big Four Agenda</div>
+        <div class="tl-desc">Food security (maize 34M bags), affordable housing (Big Four flagship), Universal Healthcare (NHIF reforms), manufacturing value-add. COVID-19 impact (2020). Nairobi Expressway (2022). Konza Phase 1 began.</div>
+      </div>
+      <div class="tl-item current">
+        <div class="tl-dot"></div>
+        <div class="tl-year">MTP IV · 2023–2027 <span class="tl-badge tb-curr"><i class="fas fa-circle" style="font-size:.4rem"></i> Active</span></div>
+        <div class="tl-title">Bottom-Up Economic Transformation (BETA)</div>
+        <div class="tl-desc">MSMEs, agriculture (47.6M maize bags 2023), 240K affordable housing units under construction, SHA (27M enrolled), digital economy (16,000+ eCitizen services), Galana Kulalu Athi Dam signed Dec 2025. Ruto Thika Expressway 2026 announced.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-dot"></div>
+        <div class="tl-year">MTP V · 2028–2030 <span class="tl-badge tb-future"><i class="fas fa-clock"></i> Upcoming</span></div>
+        <div class="tl-title">Vision 2030 Final Sprint</div>
+        <div class="tl-desc">Target: middle-income economy, 100% electricity access, universal healthcare, 500K affordable homes, SGR Naivasha–Kisumu, LAPSSET full corridor, 80% internet penetration. Kenya as Africa's leading digital economy hub.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="sh"><div class="sh-ey">Challenges & Gaps — 2025</div><div class="sh-title">Areas Needing Improvement</div></div>
+  <div class="challenges-grid">
+    <div class="challenge"><div class="ch-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-wifi"></i></div><div><div class="ch-title">Digital Divide</div><div class="ch-desc">Only 35% of Kenyans have internet access; 14% in rural areas vs 43% urban. High-poverty counties like Turkana and Samburu report eCitizen usage below 40%. Low digital literacy remains a critical barrier.</div></div></div>
+    <div class="challenge"><div class="ch-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-exclamation-triangle"></i></div><div><div class="ch-title">System Outages</div><div class="ch-desc">eCitizen platform experiences frequent downtime. A University of Nairobi study found system outages cited as a major barrier alongside complex interfaces. Government targeting 98% uptime SLA.</div></div></div>
+    <div class="challenge"><div class="ch-icon" style="background:var(--rl);color:var(--re)"><i class="fas fa-coins"></i></div><div><div class="ch-title">Pending Bills & Debt</div><div class="ch-desc">Public debt at KSh 10.6T (70.2% of GDP). KSh 3.66B pending bills flagged by Auditor-General for Kenol-Sagana-Marua alone. Debt service consuming significant portion of budget.</div></div></div>
+    <div class="challenge"><div class="ch-icon" style="background:var(--al);color:var(--am)"><i class="fas fa-home"></i></div><div><div class="ch-title">Housing Shortfall</div><div class="ch-desc">Only 28% of 500,000 affordable housing target delivered. While 240,000 units are under construction in 111 constituencies, slum upgrading in Kibera, Mathare, and other informal settlements remains slow.</div></div></div>
+  </div>
+
+</div><!-- /pw -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="flag-stripe"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><img src="Photos/ark-lab-kenya-coat-of-arms-detailed-2200x1238-removebg-preview.png" style="height:40px"><div class="footer-brand-name">Kenya Transparency Portal</div><div style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65;margin-top:.4rem">Promoting accountability, transparency and citizen engagement in Kenya's governance.</div></div>
+      <div><div class="footer-col-title">Governance</div><div class="footer-col"><a href="National-Government.html">National Government</a><a href="Ministries.html">Ministries</a><a href="Devolution.html">Devolution</a><a href="Kenya-Vision.html">Vision 2030</a></div></div>
+      <div><div class="footer-col-title">Projects</div><div class="footer-col"><a href="Projects.html">All Projects</a><a href="Budget.html">Budget</a><a href="Reports.html">Reports</a><a href="Tenders.html">Tenders</a></div></div>
+      <div><div class="footer-col-title">Data Sources</div><div class="footer-col"><a href="#">Business Daily Africa</a><a href="#">eCitizen Portal</a><a href="#">National Treasury</a><a href="#">CIPIT/Strathmore</a></div></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2025 Kenya Transparency Portal · Sources: Business Daily Africa (Jan 2026), eCitizen.go.ke, National Treasury FY25, CAK-KNBS Report, Strathmore CIPIT (Jul 2025), State House Kenya</div></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+/* THEME */
+(function(){const b=document.getElementById('themeToggle'),i=b.querySelector('i');const t=localStorage.getItem('ktp-theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');function a(th){document.documentElement.setAttribute('data-theme',th);i.className=th==='dark'?'fas fa-sun':'fas fa-moon';localStorage.setItem('ktp-theme',th);setTimeout(()=>updateCharts(th),100);}a(t);b.addEventListener('click',()=>a(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));})();
+
+/* HAMBURGER */
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileNav');
+ham.addEventListener('click',e=>{e.stopPropagation();ham.classList.toggle('open');mob.classList.toggle('open');document.body.style.overflow=mob.classList.contains('open')?'hidden':'';});
+document.addEventListener('click',e=>{if(!mob.contains(e.target)&&!ham.contains(e.target)){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow='';}});
+
+/* PROGRESS BARS */
+window.addEventListener('load',()=>setTimeout(()=>{document.querySelectorAll('.pfill[data-w]').forEach(b=>b.style.width=b.getAttribute('data-w')+'%');},200));
+
+/* CHARTS */
+function gC(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,.55)':'rgba(0,0,0,.5)';}
+function gG(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)';}
+let sc,ec,cc;
+
+window.addEventListener('DOMContentLoaded',()=>{
+  sc=new Chart(document.getElementById('sectorChart'),{type:'doughnut',data:{labels:['Roads/Transport','Education','Energy','Health','Agriculture','Water','Interior','Defence','ICT','Housing','Other'],datasets:[{data:[348,331,289,264,218,197,186,176,142,138,710],backgroundColor:['#0b6e31','#0f1e4a','#d97706','#ec4899','#22c55e','#0ea5e9','#6366f1','#475569','#8b5cf6','#f59e0b','#e5e7eb'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'JetBrains Mono',size:9},color:gC(),boxWidth:10,padding:5}}}}});
+  
+  ec=new Chart(document.getElementById('expendChart'),{type:'bar',data:{labels:['FY19/20','FY20/21','FY21/22','FY22/23','FY23/24','FY24/25'],datasets:[{label:'Budget (KSh B)',data:[2100,2300,2500,2800,3660,3990],backgroundColor:['rgba(11,149,68,.75)','rgba(11,149,68,.75)','rgba(11,149,68,.75)','rgba(11,149,68,.75)','rgba(11,149,68,.75)','rgba(11,149,68,.9)'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'JetBrains Mono',size:9},color:gC()}},y:{grid:{color:gG()},ticks:{font:{family:'JetBrains Mono',size:9},color:gC()}}}}});
+  
+  cc=new Chart(document.getElementById('completionChart'),{type:'doughnut',data:{labels:['Completed','Ongoing','At Risk','Planning'],datasets:[{data:[4,12,2,1],backgroundColor:['#0b6e31','#1d3a8a','#d97706','#94a3b8'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'JetBrains Mono',size:9},color:gC(),boxWidth:10,padding:8}}}}});
+});
+
+function updateCharts(th){
+  if(!sc)return;
+  const c=gC(),g=gG();
+  [sc,cc].forEach(chart=>{if(chart.options.plugins.legend)chart.options.plugins.legend.labels.color=c;chart.update();});
+  ['x','y'].forEach(a=>{if(ec.options.scales[a]){ec.options.scales[a].ticks.color=c;if(ec.options.scales[a].grid)ec.options.scales[a].grid.color=g;}});ec.update();
+}
+
+/* BACK TOP */
+const bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',window.scrollY>400));
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>

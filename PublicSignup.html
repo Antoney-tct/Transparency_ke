@@ -337,14 +337,40 @@
                     <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
 
-                <div class="field">
-                    <label for="nationalId">National ID Number <span class="req">*</span></label>
-                    <input type="text" id="nationalId" name="nationalId" placeholder="8–15 digit ID number" required inputmode="numeric">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="field">
+                        <label for="nationalId">National ID <span class="req">*</span></label>
+                        <input type="text" id="nationalId" name="nationalId" placeholder="ID Number" required inputmode="numeric">
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone Number <span class="req">*</span></label>
+                        <input type="text" id="phone" name="phone" placeholder="07..." required inputmode="tel">
+                    </div>
                 </div>
 
-                <div class="field">
-                    <label for="phone">Phone Number <span class="req">*</span></label>
-                    <input type="text" id="phone" name="phone" placeholder="e.g. 0712345678" required inputmode="tel">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="field">
+                        <label for="county">Home County <span class="req">*</span></label>
+                        <select id="county" name="county" required>
+                            <option value="">Select County</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Nakuru">Nakuru</option>
+                            <!-- Add more counties as needed -->
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="category">User Category <span class="req">*</span></label>
+                        <select id="category" name="category" required>
+                            <option value="General">General Public</option>
+                            <option value="Student">Student</option>
+                            <option value="Business">Business Owner</option>
+                            <option value="Researcher">Researcher</option>
+                            <option value="Journalist">Journalist</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="section-divider"><span>Security</span></div>

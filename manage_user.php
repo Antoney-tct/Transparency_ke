@@ -9,22 +9,25 @@ if ($action === 'save') {
     $first = $conn->real_escape_string($_POST['first']);
     $last = $conn->real_escape_string($_POST['last']);
     $email = $conn->real_escape_string($_POST['email']);
+    $national_id = $conn->real_escape_string($_POST['nationalId'] ?? '');
+    $phone = $conn->real_escape_string($_POST['phone'] ?? '');
     $role = $conn->real_escape_string($_POST['role']);
+    $category = $conn->real_escape_string($_POST['category'] ?? 'General');
     $county = $conn->real_escape_string($_POST['county']);
     $status = $conn->real_escape_string($_POST['status']);
     $color = $conn->real_escape_string($_POST['color']);
 
     if ($id) {
         // Update existing
-        $sql = "UPDATE users SET first_name=?, last_name=?, email=?, role=?, county=?, status=? WHERE id=?";
+        $sql = "UPDATE users SET first_name=?, last_name=?, email=?, national_id=?, phone=?, role=?, category=?, county=?, status=? WHERE id=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssi", $first, $last, $email, $role, $county, $status, $id);
+        $stmt->bind_param("sssssssssi", $first, $last, $email, $national_id, $phone, $role, $category, $county, $status, $id);
     } else {
         // Insert new
         $joined = date('M Y');
-        $sql = "INSERT INTO users (first_name, last_name, email, role, county, status, color, joined, last_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Just now')";
+        $sql = "INSERT INTO users (first_name, last_name, email, national_id, phone, role, category, county, status, color, joined, last_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Just now')";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssss", $first, $last, $email, $role, $county, $status, $color, $joined);
+        $stmt->bind_param("sssssssssss", $first, $last, $email, $national_id, $phone, $role, $category, $county, $status, $color, $joined);
     }
 
     if ($stmt->execute()) {

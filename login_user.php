@@ -2,11 +2,23 @@
 header('Content-Type: application/json');
 session_start(); //  store session data
 
-require_once 'db_connect.php';
-
 $response = ['success' => false, 'message' => 'Invalid login attempt.'];
 
+// Set a short timeout for the database connection attempt
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    try {
+        require_once 'db_connect.php';
+    } catch (Exception $e) {
+        $error_msg = $e->getMessage();
+        if (strpos($error_msg, 'timed out') !== false) {
+            $error_msg = "The database server is taking too long to respond. Please check your credentials in db_connect.php.";
+        }
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $error_msg]);
+        exit;
+    }
 
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -23,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_type = null;
         $redirect_url = null;
 
+        try {
         // --- Try logging in as a Citizen ---
         $sql_citizen = "SELECT id, name, password FROM citizens WHERE email = ?";
         if ($stmt_citizen = $conn->prepare($sql_citizen)) {
@@ -95,12 +108,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_email'] = $email;
             $_SESSION['user_type'] = $user_type; // 'citizen' or 'government'
 
+            // Safe Update: Check if 'last_login' column exists before updating it
+            $check_col = $conn->query("SHOW COLUMNS FROM `users` LIKE 'last_login'");
+            $sql_update = ($check_col && $check_col->num_rows > 0) 
+                ? "UPDATE users SET last_login = NOW(), last_active = 'Just now' WHERE email = ?"
+                : "UPDATE users SET last_active = 'Just now' WHERE email = ?";
+
+            if ($stmt_update = $conn->prepare($sql_update)) {
+                $stmt_update->bind_param("s", $email);
+                $stmt_update->execute();
+                $stmt_update->close();
+            }
+
             $response['success'] = true;
             $response['message'] = 'Login successful! Redirecting...';
             $response['redirectUrl'] = $redirect_url; // Send redirect URL to JS
         } else {
             // Login failed (email not found or password incorrect)
             $response['message'] = 'Invalid email or password.';
+        }
+        } catch (Exception $e) {
+            $response['message'] = 'Database error: ' . $e->getMessage();
         }
     }
 } else {

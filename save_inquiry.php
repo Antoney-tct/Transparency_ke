@@ -1,15 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "government_portal";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
+// Include centralized DB connection
+require_once 'db_connect.php';
+if (isset($db_connection_error)) {
     die(json_encode(['status' => 'error', 'message' => 'Database connection failed']));
 }
 

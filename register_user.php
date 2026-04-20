@@ -202,10 +202,13 @@ try {
     $fName = $nameParts[0];
     $lName = $nameParts[1] ?? '';
     $mgmtRole = ($userType === 'citizen') ? 'Citizen' : 'Government';
-    $mgmtCounty = (isset($region)) ? $region : '';
+    $mgmtCounty = post_str('county') ?: (isset($region) ? $region : '');
+    $mgmtCategory = post_str('category') ?: 'General';
+    $mgmtIdNum = ($userType === 'citizen') ? post_str('nationalId') : post_str('employeeId');
+    $mgmtPhone = post_str('phone') ?: '';
 
-    $stmtUsers = $conn->prepare("INSERT INTO users (first_name, last_name, email, role, county, joined, status, color) VALUES (?, ?, ?, ?, ?, ?, 'Active', ?)");
-    $stmtUsers->bind_param("sssssss", $fName, $lName, $email, $mgmtRole, $mgmtCounty, $joined, $userColor);
+    $stmtUsers = $conn->prepare("INSERT INTO users (first_name, last_name, email, national_id, phone, role, category, county, joined, status, color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?)");
+    $stmtUsers->bind_param("ssssssssss", $fName, $lName, $email, $mgmtIdNum, $mgmtPhone, $mgmtRole, $mgmtCategory, $mgmtCounty, $joined, $userColor);
     $stmtUsers->execute();
     $stmtUsers->close();
     // --------------------------------------------

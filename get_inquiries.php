@@ -1,13 +1,10 @@
 <?php
-// Database connection
-$conn = new mysqli("localhost", "root", "", "government_portal");
+require_once 'db_connect.php';
 
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode([
-        'success' => false,
-        'message' => "Connection failed: " . $conn->connect_error
-    ]));
+// Check if there was a database connection error from db_connect.php
+if (isset($db_connection_error)) {
+    echo json_encode(['success' => false, 'message' => $db_connection_error]);
+    exit;
 }
 
 // Set headers for JSON response
