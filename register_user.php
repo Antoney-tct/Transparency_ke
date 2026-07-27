@@ -178,13 +178,36 @@ try {
         }
         $stmt->bind_param("sssss", $name, $email, $hashedPassword, $nationalId, $phone);
     } else { // government
-        // Ensure the government_representatives table has a 'region' column
-        $sql = "INSERT INTO government_representatives (name, email, password, department, employee_id, position, region) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        // Resolve the institution (department + region) to a real institutions
+        // row instead of leaving it as loose text. Create it unverified if it
+        // doesn't exist yet — a platform admin verifies it during approval.
+        $institutionId = null;
+        $findInst = $conn->prepare("SELECT id FROM institutions WHERE name = ? AND (region = ? OR (region IS NULL AND ? = ''))");
+        $findInst->bind_param("sss", $department, $region, $region);
+        $findInst->execute();
+        $findInst->bind_result($existingInstId);
+        if ($findInst->fetch()) {
+            $institutionId = $existingInstId;
+        }
+        $findInst->close();
+
+        if ($institutionId === null) {
+            $createInst = $conn->prepare("INSERT INTO institutions (name, type, region, verified) VALUES (?, 'ministry', ?, 0)");
+            $createInst->bind_param("ss", $department, $region);
+            $createInst->execute();
+            $institutionId = $createInst->insert_id;
+            $createInst->close();
+        }
+
+        // New government reps start 'pending' — they cannot log in until a
+        // platform admin approves them. This closes the impersonation gap
+        // where anyone could self-register as any department instantly.
+        $sql = "INSERT INTO government_representatives (name, email, password, department, institution_id, employee_id, position, region, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             throw new Exception('Prepare statement failed: ' . $conn->error);
         }
-        $stmt->bind_param("sssssss", $name, $email, $hashedPassword, $department, $employeeId, $position, $region);
+        $stmt->bind_param("ssssisss", $name, $email, $hashedPassword, $department, $institutionId, $employeeId, $position, $region);
     }
 
     if (!$stmt->execute()) {
@@ -217,7 +240,9 @@ try {
 
     // Success
     $response['success'] = true;
-    $response['message'] = 'Registration successful!';
+    $response['message'] = ($userType === 'citizen')
+        ? 'Registration successful!'
+        : 'Registration received. Your account is pending verification by a platform administrator before you can log in.';
     $response['email'] = $email;
 
 } catch (Exception $e) {

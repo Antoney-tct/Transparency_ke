@@ -74,7 +74,13 @@ if ($action === 'save') {
     if ($user) {
         $email = $user['email'];
         $role = $user['role'];
-        $newHashed = password_hash("Transparency@123", PASSWORD_DEFAULT);
+
+        // Previously every reset landed on the same hardcoded string
+        // ("Transparency@123") — anyone who read the source code could
+        // log into ANY account after a reset. Generate a random one-time
+        // password per reset instead.
+        $tempPassword = bin2hex(random_bytes(6)); // 12 hex chars
+        $newHashed = password_hash($tempPassword, PASSWORD_DEFAULT);
 
         // 2. Map role to the correct authentication table
         $table = ($role === 'Citizen') ? 'citizens' : 'government_representatives';
@@ -83,7 +89,9 @@ if ($action === 'save') {
         $stmtUpdate->bind_param("ss", $newHashed, $email);
         
         if ($stmtUpdate->execute()) {
-            echo json_encode(['success' => true]);
+            // Returned once, to the admin doing the reset, so it can be
+            // relayed to the user out of band. It is never stored in plain text.
+            echo json_encode(['success' => true, 'temp_password' => $tempPassword]);
         } else {
             echo json_encode(['success' => false, 'message' => $conn->error]);
         }

@@ -1,71 +1,52 @@
 <?php
-
 session_start();
 header('Content-Type: application/json');
 
-// Check if user is logged in
 if (!isset($_SESSION['user_email'])) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Not authenticated. Please log in.'
-    ]);
+    echo json_encode(['status' => 'error', 'message' => 'Not authenticated. Please log in.']);
     exit;
 }
 
-// Include centralized DB connection
 require_once 'db_connect.php';
 if (isset($db_connection_error)) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Database connection failed.'
-    ]);
+    echo json_encode(['status' => 'error', 'message' => 'Database connection failed.']);
     exit;
 }
 
-// Get the logged-in user's email from session
 $email = $_SESSION['user_email'];
 
-// Fetch messages and replies
+// Pull each inquiry the citizen opened, plus its full message thread —
+// not just a single reply. This is a real conversation now.
 $stmt = $conn->prepare("
-    SELECT 
-        i.id, 
-        i.name, 
-        i.email, 
-        i.subject, 
-        i.message, 
-        i.status, 
-        i.created_at, 
-        r.reply_message, 
-        r.created_at as replied_at
+    SELECT i.id, i.subject, i.status, i.created_at, inst.name AS institution_name
     FROM inquiries i
-    LEFT JOIN replies r ON i.id = r.inquiry_id
-    WHERE i.email = ?
+    LEFT JOIN institutions inst ON inst.id = i.institution_id
+    WHERE i.user_email = ?
     ORDER BY i.created_at DESC
 ");
-
-if (!$stmt) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Database error: ' . $conn->error
-    ]);
-    exit;
-}
-
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$messages = [];
+$inquiries = [];
 while ($row = $result->fetch_assoc()) {
-    $messages[] = $row;
+    $inquiries[] = $row;
 }
-
 $stmt->close();
+
+foreach ($inquiries as &$inquiry) {
+    $msgStmt = $conn->prepare("SELECT sender_type, sender_name, body, created_at FROM messages WHERE inquiry_id = ? ORDER BY created_at ASC");
+    $msgStmt->bind_param("i", $inquiry['id']);
+    $msgStmt->execute();
+    $msgResult = $msgStmt->get_result();
+    $inquiry['thread'] = [];
+    while ($msgRow = $msgResult->fetch_assoc()) {
+        $inquiry['thread'][] = $msgRow;
+    }
+    $msgStmt->close();
+}
+unset($inquiry);
+
 $conn->close();
 
-// Return messages
-echo json_encode([
-    'status' => 'success',
-    'messages' => $messages
-]);
-?>
+echo json_encode(['status' => 'success', 'messages' => $inquiries]);

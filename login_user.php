@@ -66,18 +66,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // --- If not found as citizen, try logging in as Government Rep ---
+        $gov_institution_id = null;
+        $gov_is_admin = 0;
+        $gov_status = null;
+
         if (!$user_found) {
-            $sql_gov = "SELECT id, name, password FROM government_representatives WHERE email = ?";
+            $sql_gov = "SELECT id, name, password, status, institution_id, is_platform_admin FROM government_representatives WHERE email = ?";
             if ($stmt_gov = $conn->prepare($sql_gov)) {
                 $stmt_gov->bind_param("s", $email);
                 $stmt_gov->execute();
                 $stmt_gov->store_result();
 
                 if ($stmt_gov->num_rows == 1) {
-                    $stmt_gov->bind_result($id, $name, $hashed_password);
+                    $stmt_gov->bind_result($id, $name, $hashed_password, $gov_status, $gov_institution_id, $gov_is_admin);
                     if ($stmt_gov->fetch()) {
                         if (password_verify($password, $hashed_password)) {
-                            // Password is correct for government rep
+                            if ($gov_status === 'pending') {
+                                $response['message'] = 'Your government account is still pending verification by a platform administrator.';
+                                echo json_encode($response);
+                                $stmt_gov->close();
+                                $conn->close();
+                                exit;
+                            }
+                            if ($gov_status === 'rejected') {
+                                $response['message'] = 'This government account was not approved. Contact your institution administrator.';
+                                echo json_encode($response);
+                                $stmt_gov->close();
+                                $conn->close();
+                                exit;
+                            }
+                            // Password correct and account approved
                             $user_found = true;
                             $user_id = $id;
                             $user_name = $name;
@@ -107,6 +125,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_name'] = $user_name;
             $_SESSION['user_email'] = $email;
             $_SESSION['user_type'] = $user_type; // 'citizen' or 'government'
+            if ($user_type === 'government') {
+                $_SESSION['institution_id'] = $gov_institution_id;
+                $_SESSION['is_platform_admin'] = (bool)$gov_is_admin;
+            }
 
             // Safe Update: Check if 'last_login' column exists before updating it
             $check_col = $conn->query("SHOW COLUMNS FROM `users` LIKE 'last_login'");
