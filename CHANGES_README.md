@@ -92,3 +92,54 @@ Your original `government_portal .sql` dump references a `categories`
 table in a foreign key constraint that doesn't exist anywhere in the dump —
 that FK would fail if you ever tried to restore that exact file fresh. Not
 something I introduced; flagging it since I hit it while testing.
+
+---
+
+## Round 2 — frontend wiring + bugs found by actually testing
+
+I ran a full local PHP + MariaDB stack and drove every flow with real
+requests (register → pending → blocked login → admin approve → login
+succeeds → citizen submits inquiry → gov rep replies → citizen gets a
+notification → citizen replies back → full thread). That surfaced three
+real bugs — two pre-existing, one my own — all now fixed and re-verified:
+
+1. **`register_user.php` / `login_user.php`** — both also write to a
+   `users` table used only by the admin dashboard's "all users" list. That
+   table wasn't in the SQL dump you gave me. If it's missing or drifted on
+   your live server the same way, **every registration and every login was
+   reporting failure to the user even when the actual account action
+   succeeded** — because that secondary, non-essential write was wrapped in
+   the same try/catch as the real one. Both are now isolated so a dashboard
+   sync failure can't masquerade as your account not working.
+2. **My own bug**, caught by testing: in `manage_gov_reps.php` and
+   `submit_reply.php`, I ran a new prepared statement on the same DB
+   connection before closing the previous one — MySQL calls this "commands
+   out of sync." Approvals and gov rep replies were silently failing.
+   Fixed and re-verified with real requests.
+
+**Frontend work done this round:**
+- `Reply-inquiries.html` (admin inbox) — renders the real threaded
+  `messages` array instead of the old single-reply view, shows which
+  institution an inquiry belongs to, and has a working notification bell
+  wired to `get_notifications.php` / `mark_notification_read.php`.
+- `User_inquirery.html` (citizen side) — the "My Inquiries" tab no longer
+  lets anyone type in any email to view someone else's inquiries (see
+  below); it's session-based now, shows the full thread, and citizens can
+  reply back. The new-inquiry form has an institution dropdown pulling from
+  `get_institutions.php`.
+- `gov-rep-approvals.html` (new page) — platform admin can approve/reject
+  pending gov reps without touching SQL. Linked from the sidebar on
+  `Reply-inquiries.html`, only visible to platform admins.
+- `check_session.php` (new) — lightweight endpoint pages call to confirm
+  who's actually logged in server-side.
+
+**Another real vulnerability found and fixed:** `get_user_inquiries.php`
+took a plain `?email=` query parameter with no authentication — anyone
+could type in any citizen's email address and read their private
+correspondence with government, replies included. It's now locked to the
+logged-in citizen's own session and ignores any email passed in the URL.
+
+All of this was tested against a real database with real HTTP requests,
+not just read for correctness — the zip you're getting is the version that
+actually passed those tests.
+

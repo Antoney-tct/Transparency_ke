@@ -217,26 +217,34 @@ try {
         throw new Exception('Database execution error.');
     }
 
-    // --- Sync with management dashboard table ---
-    $joined = date('M Y');
-    $colors = ['#0b6e31','#0f1e4a','#d97706','#b91c1c','#0ea5e9','#8b5cf6','#ec4899','#f59e0b','#14b8a6','#6366f1'];
-    $userColor = $colors[array_rand($colors)];
-    $nameParts = explode(' ', $name, 2);
-    $fName = $nameParts[0];
-    $lName = $nameParts[1] ?? '';
-    $mgmtRole = ($userType === 'citizen') ? 'Citizen' : 'Government';
-    $mgmtCounty = post_str('county') ?: (isset($region) ? $region : '');
-    $mgmtCategory = post_str('category') ?: 'General';
-    $mgmtIdNum = ($userType === 'citizen') ? post_str('nationalId') : post_str('employeeId');
-    $mgmtPhone = post_str('phone') ?: '';
-
-    $stmtUsers = $conn->prepare("INSERT INTO users (first_name, last_name, email, national_id, phone, role, category, county, joined, status, color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?)");
-    $stmtUsers->bind_param("ssssssssss", $fName, $lName, $email, $mgmtIdNum, $mgmtPhone, $mgmtRole, $mgmtCategory, $mgmtCounty, $joined, $userColor);
-    $stmtUsers->execute();
-    $stmtUsers->close();
-    // --------------------------------------------
-
     $stmt->close();
+
+    // --- Sync with management dashboard table ---
+    // This is a secondary, non-essential insert for the admin "all users"
+    // list. If it fails (e.g. the `users` table is missing or has drifted),
+    // that must NOT report the whole registration as failed — the person's
+    // actual account (above) already exists and that's what login checks.
+    try {
+        $joined = date('M Y');
+        $colors = ['#0b6e31','#0f1e4a','#d97706','#b91c1c','#0ea5e9','#8b5cf6','#ec4899','#f59e0b','#14b8a6','#6366f1'];
+        $userColor = $colors[array_rand($colors)];
+        $nameParts = explode(' ', $name, 2);
+        $fName = $nameParts[0];
+        $lName = $nameParts[1] ?? '';
+        $mgmtRole = ($userType === 'citizen') ? 'Citizen' : 'Government';
+        $mgmtCounty = post_str('county') ?: (isset($region) ? $region : '');
+        $mgmtCategory = post_str('category') ?: 'General';
+        $mgmtIdNum = ($userType === 'citizen') ? post_str('nationalId') : post_str('employeeId');
+        $mgmtPhone = post_str('phone') ?: '';
+
+        $stmtUsers = $conn->prepare("INSERT INTO users (first_name, last_name, email, national_id, phone, role, category, county, joined, status, color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?)");
+        $stmtUsers->bind_param("ssssssssss", $fName, $lName, $email, $mgmtIdNum, $mgmtPhone, $mgmtRole, $mgmtCategory, $mgmtCounty, $joined, $userColor);
+        $stmtUsers->execute();
+        $stmtUsers->close();
+    } catch (Throwable $syncError) {
+        error_log('register_user: dashboard sync (non-fatal) failed: ' . $syncError->getMessage());
+    }
+    // --------------------------------------------
 
     // Success
     $response['success'] = true;

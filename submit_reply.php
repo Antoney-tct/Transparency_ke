@@ -62,14 +62,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $citizenStmt->bind_param("i", $inquiry_id);
         $citizenStmt->execute();
         $citizenStmt->bind_result($citizenEmail, $subject);
-        if ($citizenStmt->fetch()) {
+        $hasCitizen = $citizenStmt->fetch();
+        $citizenStmt->close(); // must close before the next prepare on $conn
+
+        if ($hasCitizen) {
             $notifText = "New reply on: " . $subject;
             $notif = $conn->prepare("INSERT INTO notifications (recipient_email, type, reference_id, message) VALUES (?, 'new_reply', ?, ?)");
             $notif->bind_param("sis", $citizenEmail, $inquiry_id, $notifText);
             $notif->execute();
             $notif->close();
         }
-        $citizenStmt->close();
 
         $conn->commit();
         echo json_encode(['success' => true, 'message' => 'Reply sent successfully']);

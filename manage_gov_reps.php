@@ -42,7 +42,10 @@ if ($action === 'list_pending') {
         $emailStmt->bind_param("i", $id);
         $emailStmt->execute();
         $emailStmt->bind_result($repEmail, $institutionId);
-        if ($emailStmt->fetch()) {
+        $found = $emailStmt->fetch();
+        $emailStmt->close(); // must close before issuing any further queries on $conn
+
+        if ($found) {
             $notifType = $action === 'approve' ? 'account_approved' : 'account_rejected';
             $notifMsg = $action === 'approve' ? 'Your government account was approved.' : 'Your government account registration was declined.';
             $notif = $conn->prepare("INSERT INTO notifications (recipient_email, type, reference_id, message) VALUES (?, ?, ?, ?)");
@@ -58,7 +61,6 @@ if ($action === 'list_pending') {
                 $verify->close();
             }
         }
-        $emailStmt->close();
 
         echo json_encode(['success' => true]);
     } else {

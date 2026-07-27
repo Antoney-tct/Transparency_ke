@@ -222,6 +222,7 @@
         <a href="Reports.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
         <div class="nav-sec">Communication</div>
         <a href="Reply-inquiries.html" class="nav-item active"><i class="fas fa-envelope"></i><span>Inquiries</span><span class="nav-badge" id="newCount">—</span></a>
+        <a href="gov-rep-approvals.html" class="nav-item" id="approvalsNavLink" style="display:none"><i class="fas fa-user-check"></i><span>Rep Approvals</span></a>
         <a href="updates.html" class="nav-item"><i class="fas fa-bullhorn"></i><span>Announcements</span></a>
     </nav>
     <div class="sidebar-foot">
@@ -239,6 +240,17 @@
         <div class="topbar-title">Inquiry Management</div>
         <div class="topbar-right">
             <button class="icon-btn" id="refreshBtn" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+            <div style="position:relative">
+                <button class="icon-btn" id="notifBtn" title="Notifications"><i class="fas fa-bell"></i></button>
+                <span class="count-badge" id="notifBadge" style="display:none"></span>
+                <div id="notifDropdown" style="display:none;position:absolute;right:0;top:44px;width:300px;max-height:360px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-lg);z-index:300;">
+                    <div style="padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:600;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
+                        <span>Notifications</span>
+                        <a href="#" id="notifMarkAll" style="font-size:.68rem;color:var(--navy-mid);text-decoration:none">Mark all read</a>
+                    </div>
+                    <div id="notifList" style="font-size:.78rem;"></div>
+                </div>
+            </div>
             <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
             <a href="gov_profile.html" class="avatar-btn"><img src="Photos/Mudavadi.jpeg" alt="Gov Rep"></a>
         </div>
@@ -422,7 +434,8 @@ function renderList(){
             <div class="inbox-item-subject">${inq.subject||'(No subject)'}</div>
             <div style="display:flex;align-items:center;gap:.5rem;margin-top:.2rem">
                 <span class="s-chip ${chipClass(inq.status)}">${chipLabel(inq.status)}</span>
-                ${inq.replies&&inq.replies.length>0?`<span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted)">${inq.replies.length} repl${inq.replies.length>1?'ies':'y'}</span>`:''}
+                ${inq.institution_name?`<span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted)">${inq.institution_name}</span>`:''}
+                ${inq.messages&&inq.messages.length>1?`<span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted)">${inq.messages.length} messages</span>`:''}
             </div>
         </div>
     `).join('');
@@ -457,30 +470,23 @@ function renderDetail(inq){
                 <div class="thread-meta-item"><i class="fas fa-envelope"></i><strong>${inq.user_email||'—'}</strong></div>
                 <div class="thread-meta-item"><i class="far fa-calendar-alt"></i><strong>${formatDate(inq.created_at)}</strong></div>
                 <div class="thread-meta-item"><i class="fas fa-tag"></i><span class="s-chip ${chipClass(inq.status)}">${chipLabel(inq.status)}</span></div>
+                ${inq.institution_name?`<div class="thread-meta-item"><i class="fas fa-building"></i><strong>${inq.institution_name}</strong></div>`:''}
             </div>
         </div>
 
-        <!-- Citizen's original message -->
-        <div class="message-bubble">
-            <div class="bubble-hdr">
-                <div class="bubble-avatar-icon" style="background:var(--green-light);color:var(--green-mid)"><i class="fas fa-user"></i></div>
-                <div><div class="bubble-name">${inq.user_name}</div><div class="bubble-role">Citizen</div></div>
-                <div class="bubble-date">${formatDate(inq.created_at)}</div>
-            </div>
-            <div class="bubble-body">${inq.message||''}</div>
-        </div>
-
-        <!-- Replies -->
-        ${(inq.replies||[]).map(r=>`
-            <div class="message-bubble gov-reply">
+        <!-- Full thread, citizen and gov rep messages in chronological order -->
+        ${(inq.messages||[]).map(m=>{
+            const isGov=m.sender_type==='gov_rep';
+            return `
+            <div class="message-bubble ${isGov?'gov-reply':''}">
                 <div class="bubble-hdr">
-                    <div class="bubble-avatar-icon"><i class="fas fa-user-shield"></i></div>
-                    <div><div class="bubble-name">Government Response</div><div class="bubble-role" style="color:var(--navy-mid)">Official Reply</div></div>
-                    <div class="bubble-date">${formatDate(r.replied_at)}</div>
+                    <div class="bubble-avatar-icon" ${isGov?'':'style="background:var(--green-light);color:var(--green-mid)"'}><i class="fas ${isGov?'fa-user-shield':'fa-user'}"></i></div>
+                    <div><div class="bubble-name">${isGov?'Government Response':m.sender_name}</div><div class="bubble-role" ${isGov?'style="color:var(--navy-mid)"':''}>${isGov?'Official Reply':'Citizen'}</div></div>
+                    <div class="bubble-date">${formatDate(m.created_at)}</div>
                 </div>
-                <div class="bubble-body">${r.reply_message}</div>
-            </div>
-        `).join('')}
+                <div class="bubble-body">${m.body||''}</div>
+            </div>`;
+        }).join('')}
     `;
 
     // Composer
@@ -600,6 +606,56 @@ document.addEventListener('click',e=>{
 })();
 
 document.getElementById('refreshBtn').addEventListener('click',()=>{loadInquiries();showToast('Refreshed','success');});
+
+/* ═══════════════════════════════════
+   NOTIFICATIONS (real backend state)
+═══════════════════════════════════ */
+function loadNotifications(){
+    fetch('get_notifications.php')
+        .then(r=>r.json())
+        .then(data=>{
+            if(!data.success)return;
+            const badge=document.getElementById('notifBadge');
+            const list=document.getElementById('notifList');
+            if(data.unread_count>0){badge.style.display='grid';badge.textContent=data.unread_count>9?'9+':data.unread_count;}
+            else{badge.style.display='none';}
+
+            if(data.notifications.length===0){
+                list.innerHTML='<div style="padding:1rem;text-align:center;color:var(--muted)">No notifications yet</div>';
+                return;
+            }
+            list.innerHTML=data.notifications.map(n=>`
+                <div style="padding:.6rem .9rem;border-bottom:1px solid var(--border);${n.is_read?'':'background:var(--navy-light)'}">
+                    <div>${n.message}</div>
+                    <div style="font-size:.65rem;color:var(--muted);margin-top:.15rem">${formatDate(n.created_at)}</div>
+                </div>
+            `).join('');
+        })
+        .catch(err=>console.error('notif load failed',err));
+}
+const notifBtn=document.getElementById('notifBtn'),notifDropdown=document.getElementById('notifDropdown');
+notifBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const open=notifDropdown.style.display==='block';
+    notifDropdown.style.display=open?'none':'block';
+    if(!open)loadNotifications();
+});
+document.addEventListener('click',e=>{
+    if(!notifDropdown.contains(e.target)&&e.target!==notifBtn)notifDropdown.style.display='none';
+});
+document.getElementById('notifMarkAll').addEventListener('click',e=>{
+    e.preventDefault();
+    const fd=new FormData();fd.append('id','all');
+    fetch('mark_notification_read.php',{method:'POST',body:fd}).then(()=>loadNotifications());
+});
+loadNotifications();
+setInterval(loadNotifications,60000);
+
+fetch('check_session.php').then(r=>r.json()).then(s=>{
+    if(s.loggedin && s.is_platform_admin){
+        document.getElementById('approvalsNavLink').style.display='flex';
+    }
+}).catch(err=>console.error('session check failed',err));
 
 /* ═══════════════════════════════════
    INIT

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Government Rep Approvals — Transparency Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+    --navy:#0f1e4a; --navy-mid:#1d3a8a; --navy-light:#e8ecf8;
+    --green:#0b6e31; --green-mid:#0f9544; --green-light:#e8f5ee;
+    --red:#b91c1c; --red-light:#fee2e2;
+    --amber:#d97706; --amber-light:#fef3c7;
+    --bg:#f0f2f8; --surface:#fff; --surface-2:#f5f7fc;
+    --border:rgba(0,0,0,0.08); --ink:#0d1526; --muted:#6b7590;
+    --shadow:0 2px 20px rgba(0,0,0,0.07);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+header{background:var(--navy);color:#fff;padding:1.25rem 2rem;display:flex;align-items:center;gap:12px;}
+header h1{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;}
+header a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;margin-left:auto;}
+header a:hover{color:#fff;}
+main{max-width:900px;margin:2rem auto;padding:0 1.5rem;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.25rem;}
+.card-hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+.rep-name{font-weight:600;font-size:1.05rem;}
+.rep-meta{font-size:.8rem;color:var(--muted);margin-top:.25rem;line-height:1.6;}
+.rep-meta strong{color:var(--ink);}
+.badge{display:inline-block;font-size:.65rem;font-weight:600;padding:.2rem .55rem;border-radius:20px;font-family:'JetBrains Mono',monospace;}
+.badge-unverified{background:var(--amber-light);color:var(--amber);}
+.actions{display:flex;gap:.6rem;margin-top:1rem;}
+button{font-family:'Outfit',sans-serif;font-weight:600;font-size:.82rem;padding:.55rem 1.1rem;border-radius:8px;border:none;cursor:pointer;transition:opacity .15s;}
+button:hover{opacity:.85;}
+.btn-approve{background:var(--green-mid);color:#fff;}
+.btn-reject{background:var(--red);color:#fff;}
+.empty,.denied{text-align:center;padding:3rem 1rem;color:var(--muted);}
+.empty i,.denied i{font-size:2rem;margin-bottom:.75rem;display:block;}
+</style>
+</head>
+<body>
+<header>
+    <h1><i class="fas fa-user-check" style="margin-right:8px"></i>Government Rep Approvals</h1>
+    <a href="Reply-inquiries.html"><i class="fas fa-arrow-left" style="margin-right:6px"></i>Back to Inquiries</a>
+</header>
+
+<main>
+    <div id="content">
+        <div class="empty"><i class="fas fa-spinner fa-spin"></i>Checking access…</div>
+    </div>
+</main>
+
+<script>
+function fmtDate(s){ if(!s) return '—'; return new Date(s).toLocaleDateString('en-KE',{year:'numeric',month:'short',day:'numeric'}); }
+
+function renderDenied(){
+    document.getElementById('content').innerHTML = `
+        <div class="denied"><i class="fas fa-lock"></i>
+        <h3>Platform admin access required</h3>
+        <p>Your account doesn't have permission to approve government representatives.</p></div>`;
+}
+
+function loadPending(){
+    fetch('manage_gov_reps.php?action=list_pending')
+        .then(r=>r.json())
+        .then(data=>{
+            if(!data.success){ renderDenied(); return; }
+            const el=document.getElementById('content');
+            if(data.pending.length===0){
+                el.innerHTML=`<div class="empty"><i class="fas fa-circle-check"></i>No pending approvals right now.</div>`;
+                return;
+            }
+            el.innerHTML = data.pending.map(r=>`
+                <div class="card" id="rep-${r.id}">
+                    <div class="card-hdr">
+                        <div>
+                            <div class="rep-name">${r.name}</div>
+                            <div class="rep-meta">
+                                <strong>Email:</strong> ${r.email}<br>
+                                <strong>Institution:</strong> ${r.institution_name||'—'}
+                                ${r.institution_verified==0?'<span class="badge badge-unverified">unverified institution</span>':''}<br>
+                                <strong>Position:</strong> ${r.position||'—'} · <strong>Employee ID:</strong> ${r.employee_id||'—'}<br>
+                                <strong>Region:</strong> ${r.region||'—'} · <strong>Applied:</strong> ${fmtDate(r.registration_date)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-approve" onclick="decide(${r.id},'approve')"><i class="fas fa-check"></i> Approve</button>
+                        <button class="btn-reject" onclick="decide(${r.id},'reject')"><i class="fas fa-times"></i> Reject</button>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(err=>{
+            document.getElementById('content').innerHTML=`<div class="empty"><i class="fas fa-wifi"></i>Network error. <a href="#" onclick="loadPending()">Retry</a></div>`;
+            console.error(err);
+        });
+}
+
+function decide(id, action){
+    const fd=new FormData();
+    fd.append('action',action);
+    fd.append('id',id);
+    fetch('manage_gov_reps.php',{method:'POST',body:fd})
+        .then(r=>r.json())
+        .then(data=>{
+            if(data.success){
+                const card=document.getElementById('rep-'+id);
+                if(card) card.remove();
+            } else {
+                alert(data.message||'Action failed.');
+            }
+        })
+        .catch(err=>{ alert('Network error.'); console.error(err); });
+}
+
+fetch('check_session.php').then(r=>r.json()).then(s=>{
+    if(s.loggedin && s.is_platform_admin){ loadPending(); }
+    else { renderDenied(); }
+}).catch(()=>renderDenied());
+</script>
+</body>
+</html>

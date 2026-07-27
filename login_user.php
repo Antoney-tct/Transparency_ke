@@ -130,16 +130,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['is_platform_admin'] = (bool)$gov_is_admin;
             }
 
-            // Safe Update: Check if 'last_login' column exists before updating it
-            $check_col = $conn->query("SHOW COLUMNS FROM `users` LIKE 'last_login'");
-            $sql_update = ($check_col && $check_col->num_rows > 0) 
-                ? "UPDATE users SET last_login = NOW(), last_active = 'Just now' WHERE email = ?"
-                : "UPDATE users SET last_active = 'Just now' WHERE email = ?";
+            // Safe Update: Check if 'last_login' column exists before updating it.
+            // This dashboard-sync step is non-essential — the session above is
+            // already set, so a failure here must not report a successful
+            // login as failed.
+            try {
+                $check_col = $conn->query("SHOW COLUMNS FROM `users` LIKE 'last_login'");
+                $sql_update = ($check_col && $check_col->num_rows > 0)
+                    ? "UPDATE users SET last_login = NOW(), last_active = 'Just now' WHERE email = ?"
+                    : "UPDATE users SET last_active = 'Just now' WHERE email = ?";
 
-            if ($stmt_update = $conn->prepare($sql_update)) {
-                $stmt_update->bind_param("s", $email);
-                $stmt_update->execute();
-                $stmt_update->close();
+                if ($stmt_update = $conn->prepare($sql_update)) {
+                    $stmt_update->bind_param("s", $email);
+                    $stmt_update->execute();
+                    $stmt_update->close();
+                }
+            } catch (Throwable $syncError) {
+                error_log('login_user: dashboard sync (non-fatal) failed: ' . $syncError->getMessage());
             }
 
             $response['success'] = true;
