@@ -1,0 +1,5 @@
+# Allow images to be served, block any script execution in this folder
+<FilesMatch "\.(php|phtml|php\d)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

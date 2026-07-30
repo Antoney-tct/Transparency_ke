@@ -658,38 +658,51 @@
 </footer>
 
 <script>
-/* ══ DATA LAYER — localStorage persists signup data ══ */
-const STORE_KEY = 'ktp_citizen_profile';
+/* ══ DATA LAYER — now backed by the real database, not localStorage ══ */
+let profileCache = null; // populated once from get_profile.php, then kept in sync locally
 
-// Default data (would normally come from signup session/DB)
-const defaults = {
-    name: 'Antoney Citizen',
-    email: 'aouko178@gmail.com',
-    phone: '0768343558',
-    county: 'Nairobi',
-    gender: 'Male',
-    dob: '',
-    nationalId: '●●●●●●●●',
-    role: 'Human Rights Activist & Web Designer',
-    about: 'I am an all-round web designer and an activist dedicated to human rights protection in Kenya. With a passion for justice and equality, I combine my technical skills with advocacy work to create positive change in my community.\n\nMy mission is to amplify voices that are often unheard and to stand against human rights violations through both digital platforms and grassroots activism.',
-    skills: ['Human Rights Advocacy','Web Design','Community Mobilization','Public Speaking','Social Media Campaigns','UI/UX Design'],
-    avatar: 'Photos/h1.jpg',
-    stats: { inquiries: 12, votes: 5, days: 7 }
-};
+async function fetchProfile() {
+    const resp = await fetch('get_profile.php');
+    const data = await resp.json();
+    if (!data.success) {
+        // Not logged in, or no row — send them to log in rather than show fake data
+        window.location.href = 'Log_in.html';
+        return null;
+    }
+    const p = data.profile;
+    profileCache = {
+        name: p.name, email: p.email, phone: p.phone || '', county: p.county || '',
+        gender: p.gender || '', dob: p.dob || '', nationalId: p.national_id || '',
+        role: p.headline || 'Citizen', about: p.about || '',
+        skills: Array.isArray(p.skills) ? p.skills : [],
+        avatar: p.avatar_path ? p.avatar_path : 'Photos/h1.jpg',
+        stats: { inquiries: p.stats?.inquiries || 0, votes: 0, days: 0 }
+    };
+    return profileCache;
+}
 
-// Merge saved data with defaults
 function loadProfile() {
-    // First check if signup data was passed
-    const signup = JSON.parse(localStorage.getItem('ktp_signup_data') || '{}');
-    const saved  = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-    // Priority: saved edits > signup data > defaults
-    return Object.assign({}, defaults, signup, saved);
+    // Synchronous read of the cache populated at page load — kept as a
+    // function so the rest of this file's render logic didn't need touching.
+    return profileCache || {};
 }
 
 function saveProfile(partial) {
-    const current = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-    const updated = Object.assign(current, partial);
-    localStorage.setItem(STORE_KEY, JSON.stringify(updated));
+    Object.assign(profileCache, partial);
+    // Persist in the background; the UI already updated optimistically above.
+    const fd = new FormData();
+    if ('name' in partial) fd.append('name', partial.name);
+    if ('phone' in partial) fd.append('phone', partial.phone);
+    if ('county' in partial) fd.append('county', partial.county);
+    if ('gender' in partial) fd.append('gender', partial.gender);
+    if ('dob' in partial) fd.append('dob', partial.dob);
+    if ('role' in partial) fd.append('headline', partial.role);
+    if ('about' in partial) fd.append('about', partial.about);
+    if ('skills' in partial) fd.append('skills', JSON.stringify(partial.skills));
+    fetch('update_profile.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(d => { if (!d.success) showToast(d.message || 'Could not save — try again', 'error'); })
+        .catch(() => showToast('Network error while saving', 'error'));
 }
 
 /* ══ RENDER ══ */
@@ -803,20 +816,31 @@ function cancelAbout() {
 /* ══ AVATAR / COVER ══ */
 document.getElementById('avatarInput').addEventListener('change', e => {
     const file = e.target.files[0]; if (!file) return;
+    // Preview immediately, then upload the real file to the server
     const reader = new FileReader();
-    reader.onload = ev => {
-        saveProfile({avatar: ev.target.result});
-        document.getElementById('avatarImg').src = ev.target.result;
-        showToast('Photo updated','success');
-    };
+    reader.onload = ev => { document.getElementById('avatarImg').src = ev.target.result; };
     reader.readAsDataURL(file);
+
+    const fd = new FormData();
+    fd.append('avatar', file);
+    fetch('upload_avatar.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(d => {
+            if (d.success) {
+                profileCache.avatar = d.avatar_path;
+                showToast('Photo updated', 'success');
+            } else {
+                showToast(d.message || 'Photo upload failed', 'error');
+            }
+        })
+        .catch(() => showToast('Network error while uploading photo', 'error'));
 });
 document.getElementById('coverInput').addEventListener('change', e => {
     const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
         document.getElementById('coverWrap').style.background = `url(${ev.target.result}) center/cover`;
-        showToast('Cover photo updated','success');
+        showToast('Cover photo preview updated (not saved — no backend field yet)', 'success');
     };
     reader.readAsDataURL(file);
 });
@@ -861,7 +885,7 @@ function formatPhone(p) {
 }
 
 /* ══ INIT ══ */
-render();
+fetchProfile().then(p => { if (p) render(); });
 </script>
 </body>
 </html>

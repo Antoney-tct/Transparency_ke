@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Your Profile — Transparency Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+    --green:#0b6e31;--green-mid:#0f9544;--green-light:#e8f5ee;
+    --navy:#0f1e4a;--bg:#f0f2f8;--surface:#fff;--border:rgba(0,0,0,0.08);
+    --ink:#0d1526;--muted:#6b7590;--shadow:0 4px 30px rgba(0,0,0,0.08);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:linear-gradient(160deg,var(--bg),#e4e9f7);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;color:var(--ink);}
+.card{background:var(--surface);max-width:560px;width:100%;border-radius:18px;box-shadow:var(--shadow);padding:2.25rem;}
+.step-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--green-mid);font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
+h1{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;margin:.4rem 0 .3rem;}
+.sub{color:var(--muted);font-size:.88rem;margin-bottom:1.75rem;}
+.avatar-picker{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.5rem;}
+.avatar-preview{width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--green-light);border:2px solid var(--border);}
+.avatar-btn{font-size:.8rem;font-weight:600;color:var(--green-mid);background:var(--green-light);border:none;padding:.5rem 1rem;border-radius:8px;cursor:pointer;}
+.form-group{margin-bottom:1.1rem;}
+label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.35rem;}
+input,select,textarea{width:100%;padding:.65rem .8rem;border:1px solid var(--border);border-radius:9px;font-family:'Outfit',sans-serif;font-size:.9rem;background:var(--bg);}
+textarea{resize:vertical;min-height:80px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.actions{display:flex;gap:.75rem;margin-top:1.75rem;}
+.btn{flex:1;padding:.75rem;border:none;border-radius:10px;font-weight:600;font-size:.88rem;cursor:pointer;}
+.btn-primary{background:var(--green-mid);color:#fff;}
+.btn-skip{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.msg{font-size:.8rem;padding:.6rem .8rem;border-radius:8px;margin-bottom:1rem;display:none;}
+.msg-error{background:#fee2e2;color:#b91c1c;}
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="step-label">One last step</div>
+    <h1>Complete your profile</h1>
+    <p class="sub" id="subCopy">This is what other users and reps will see. You can always edit it later — or skip for now.</p>
+    <div class="msg msg-error" id="errMsg"></div>
+
+    <div class="avatar-picker">
+        <img class="avatar-preview" id="avatarPreview" src="Photos/h1.jpg" alt="Avatar preview">
+        <div>
+            <button type="button" class="avatar-btn" onclick="document.getElementById('avatarInput').click()"><i class="fas fa-camera" style="margin-right:6px"></i>Add photo</button>
+            <input type="file" id="avatarInput" accept="image/jpeg,image/png,image/webp" style="display:none">
+        </div>
+    </div>
+
+    <form id="profileForm">
+        <div id="citizenFields" style="display:none">
+            <div class="row2">
+                <div class="form-group">
+                    <label>County</label>
+                    <input type="text" id="county" placeholder="e.g. Kiambu">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="">Prefer not to say</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Headline</label>
+                <input type="text" id="headline" placeholder="e.g. Community advocate">
+            </div>
+            <div class="form-group">
+                <label>About you</label>
+                <textarea id="about-citizen" placeholder="A short bio — what you care about, what brings you here."></textarea>
+            </div>
+        </div>
+
+        <div id="govFields" style="display:none">
+            <div class="row2">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="phone" placeholder="e.g. 0712345678">
+                </div>
+                <div class="form-group">
+                    <label>Serving since (year)</label>
+                    <input type="text" id="since_year" placeholder="e.g. 2023">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Region / office</label>
+                <input type="text" id="region" placeholder="e.g. Nairobi — National">
+            </div>
+            <div class="form-group">
+                <label>About your role</label>
+                <textarea id="about-gov" placeholder="What you oversee, how citizens can reach you for what."></textarea>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="btn btn-skip" onclick="skip()">Skip for now</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Save & continue</button>
+        </div>
+    </form>
+</div>
+
+<script>
+let userType = null;
+let pendingAvatarFile = null;
+
+document.getElementById('avatarInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    pendingAvatarFile = file;
+    const reader = new FileReader();
+    reader.onload = ev => document.getElementById('avatarPreview').src = ev.target.result;
+    reader.readAsDataURL(file);
+});
+
+function showError(msg) {
+    const el = document.getElementById('errMsg');
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
+function dashboardUrl() {
+    return userType === 'citizen' ? 'user_dashboard.html' : 'Addmin-projects.html';
+}
+
+function skip() {
+    window.location.href = dashboardUrl();
+}
+
+async function uploadAvatarIfNeeded() {
+    if (!pendingAvatarFile) return;
+    const fd = new FormData();
+    fd.append('avatar', pendingAvatarFile);
+    const resp = await fetch('upload_avatar.php', { method: 'POST', body: fd });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message || 'Photo upload failed.');
+}
+
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    try {
+        await uploadAvatarIfNeeded();
+
+        const fd = new FormData();
+        fd.append('complete', '1');
+        if (userType === 'citizen') {
+            fd.append('county', document.getElementById('county').value);
+            fd.append('gender', document.getElementById('gender').value);
+            fd.append('headline', document.getElementById('headline').value);
+            fd.append('about', document.getElementById('about-citizen').value);
+        } else {
+            fd.append('phone', document.getElementById('phone').value);
+            fd.append('since_year', document.getElementById('since_year').value);
+            fd.append('region', document.getElementById('region').value);
+            fd.append('about', document.getElementById('about-gov').value);
+        }
+
+        const resp = await fetch('update_profile.php', { method: 'POST', body: fd });
+        const data = await resp.json();
+        if (!data.success) throw new Error(data.message || 'Could not save profile.');
+
+        window.location.href = dashboardUrl();
+    } catch (err) {
+        showError(err.message);
+        btn.disabled = false;
+        btn.textContent = 'Save & continue';
+    }
+});
+
+fetch('check_session.php').then(r => r.json()).then(s => {
+    if (!s.loggedin) {
+        window.location.href = 'Log_in.html';
+        return;
+    }
+    userType = s.user_type;
+    if (userType === 'citizen') {
+        document.getElementById('citizenFields').style.display = 'block';
+    } else {
+        document.getElementById('govFields').style.display = 'block';
+        document.getElementById('subCopy').textContent = 'Citizens will see this when you reply to their inquiries. You can always edit it later — or skip for now.';
+    }
+}).catch(() => { window.location.href = 'Log_in.html'; });
+</script>
+</body>
+</html>

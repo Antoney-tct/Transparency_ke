@@ -37,14 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
         // --- Try logging in as a Citizen ---
-        $sql_citizen = "SELECT id, name, password FROM citizens WHERE email = ?";
+        $sql_citizen = "SELECT id, name, password, profile_completed FROM citizens WHERE email = ?";
         if ($stmt_citizen = $conn->prepare($sql_citizen)) {
             $stmt_citizen->bind_param("s", $email);
             $stmt_citizen->execute();
             $stmt_citizen->store_result();
 
             if ($stmt_citizen->num_rows == 1) {
-                $stmt_citizen->bind_result($id, $name, $hashed_password);
+                $stmt_citizen->bind_result($id, $name, $hashed_password, $citizen_profile_completed);
                 if ($stmt_citizen->fetch()) {
                     if (password_verify($password, $hashed_password)) {
                         // Password is correct for citizen
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $user_id = $id;
                         $user_name = $name;
                         $user_type = 'citizen';
-                        $redirect_url = 'user_dashboard.html'; 
+                        $redirect_url = $citizen_profile_completed ? 'user_dashboard.html' : 'complete-profile.html';
                     }
                 }
             }
@@ -71,14 +71,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $gov_status = null;
 
         if (!$user_found) {
-            $sql_gov = "SELECT id, name, password, status, institution_id, is_platform_admin FROM government_representatives WHERE email = ?";
+            $sql_gov = "SELECT id, name, password, status, institution_id, is_platform_admin, profile_completed FROM government_representatives WHERE email = ?";
             if ($stmt_gov = $conn->prepare($sql_gov)) {
                 $stmt_gov->bind_param("s", $email);
                 $stmt_gov->execute();
                 $stmt_gov->store_result();
 
                 if ($stmt_gov->num_rows == 1) {
-                    $stmt_gov->bind_result($id, $name, $hashed_password, $gov_status, $gov_institution_id, $gov_is_admin);
+                    $stmt_gov->bind_result($id, $name, $hashed_password, $gov_status, $gov_institution_id, $gov_is_admin, $gov_profile_completed);
                     if ($stmt_gov->fetch()) {
                         if (password_verify($password, $hashed_password)) {
                             if ($gov_status === 'pending') {
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $user_id = $id;
                             $user_name = $name;
                             $user_type = 'government';
-                        $redirect_url = 'Addmin-projects.html'; 
+                        $redirect_url = $gov_profile_completed ? 'Addmin-projects.html' : 'complete-profile.html';
                         }
                     }
                 }

@@ -143,3 +143,41 @@ All of this was tested against a real database with real HTTP requests,
 not just read for correctness — the zip you're getting is the version that
 actually passed those tests.
 
+
+---
+
+## Round 3 — real profile storage + guided onboarding
+
+**Deploy this round:** run `migration_v3.sql` (after v2), and upload the new
+`uploads/avatars/` folder along with the code — that's where profile photos
+now actually live on disk instead of as base64 blobs in localStorage.
+
+**What changed:**
+- `pprofile.html` and `Gov-rep-profile.html` were **entirely
+  localStorage-based** — every "saved" edit lived only in that one browser,
+  on that one device, and was never seen by anyone else, including you as
+  admin. They now load from and save to the real database via
+  `get_profile.php` / `update_profile.php`.
+- Avatars are now real uploaded files (`upload_avatar.php`), validated for
+  type and size, saved to `uploads/avatars/`, with old files cleaned up on
+  replacement — not base64 strings bloating the database.
+- New `complete-profile.html` — a short guided step shown the first time a
+  new citizen or gov rep logs in (`profile_completed = 0`), with a
+  "Skip for now" option that doesn't force it. Existing accounts were
+  marked complete by the migration so nobody already using the site gets
+  interrupted.
+- **Deliberate guardrail:** a gov rep can edit their own name, phone,
+  position, region, and bio — but *not* their institution's name from their
+  own profile. That's a shared row other reps in the same institution
+  belong to; letting one person's profile edit silently rename it for
+  everyone would be its own bug. Institution naming stays an admin-level
+  action.
+- Profile stats are now real counts pulled from the database (inquiries
+  submitted, replies sent) instead of hardcoded numbers like `12` and `24`.
+
+**Tested:** fresh citizen signup → forced onboarding on first login →
+skip-vs-complete → real avatar file upload → profile page loads the saved
+data → second login skips onboarding since `profile_completed` is now 1.
+Same loop for a government rep, including confirming the institution-name
+edit is correctly blocked with an explanation instead of silently doing
+nothing.

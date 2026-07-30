@@ -736,30 +736,42 @@
 
 <script>
 /* ══ DATA LAYER ══ */
-const STORE_KEY = 'ktp_gov_profile';
+let profileCache = null;
 
-const defaults = {
-    name: 'Hon. Antoney Citizen',
-    email: 'official@treasury.go.ke',
-    phone: '+254202221000',
-    staffid: 'GOK-CS-2023-0047',
-    designation: 'Cabinet Secretary',
-    ministry: 'National Treasury & Economic Planning',
-    since: '2023',
-    region: 'Nairobi — National',
-    about: 'Hon. Antoney Citizen serves as Cabinet Secretary overseeing fiscal policy, public debt management, and economic strategy for the Republic of Kenya. With over a decade of experience in public finance, the CS has championed transparency, budget discipline, and data-driven governance.\n\nPrior to this appointment, they served as a senior economist and adviser to the Kenya Revenue Authority, contributing to landmark tax reforms.',
-    avatar: 'Photos/h1.jpg',
-    stats: { projects: 8, reports: 24, years: 2 }
-};
-
-function loadProfile() {
-    const signup = JSON.parse(localStorage.getItem('ktp_signup_data') || '{}');
-    const saved  = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-    return Object.assign({}, defaults, signup, saved);
+async function fetchProfile() {
+    const resp = await fetch('get_profile.php');
+    const data = await resp.json();
+    if (!data.success) {
+        window.location.href = 'Log_in.html';
+        return null;
+    }
+    const p = data.profile;
+    profileCache = {
+        name: p.name, email: p.email, phone: p.phone || '',
+        staffid: p.staffid || '', designation: p.designation || 'Representative',
+        ministry: p.ministry || 'Unassigned', since: p.since_year || '',
+        region: p.region || '', about: p.about || '',
+        avatar: p.avatar_path ? p.avatar_path : 'Photos/h1.jpg',
+        stats: { projects: 0, reports: p.stats?.reports || 0, years: 0 }
+    };
+    return profileCache;
 }
+
+function loadProfile() { return profileCache || {}; }
+
 function saveProfile(partial) {
-    const cur = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-    localStorage.setItem(STORE_KEY, JSON.stringify(Object.assign(cur, partial)));
+    Object.assign(profileCache, partial);
+    const fd = new FormData();
+    if ('name' in partial) fd.append('name', partial.name);
+    if ('phone' in partial) fd.append('phone', partial.phone);
+    if ('designation' in partial) fd.append('position', partial.designation);
+    if ('region' in partial) fd.append('region', partial.region);
+    if ('since' in partial) fd.append('since_year', partial.since);
+    if ('about' in partial) fd.append('about', partial.about);
+    fetch('update_profile.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(d => { if (!d.success) showToast(d.message || 'Could not save — try again', 'error'); })
+        .catch(() => showToast('Network error while saving', 'error'));
 }
 
 /* ══ RENDER ══ */
@@ -799,6 +811,10 @@ function render() {
 
 /* ══ INLINE EDIT ══ */
 function openEdit(field) {
+    if (field === 'ministry') {
+        showToast('Institution name is managed by a platform admin, not from your profile', 'error');
+        return;
+    }
     const wrap = document.getElementById('edit-'+field);
     const inp  = document.getElementById('inp-'+field);
     const p    = loadProfile();
@@ -843,19 +859,29 @@ function cancelAbout() {
 document.getElementById('avatarInput').addEventListener('change', e => {
     const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => {
-        saveProfile({avatar: ev.target.result});
-        document.getElementById('avatarImg').src = ev.target.result;
-        showToast('Official photo updated','success');
-    };
+    reader.onload = ev => { document.getElementById('avatarImg').src = ev.target.result; };
     reader.readAsDataURL(file);
+
+    const fd = new FormData();
+    fd.append('avatar', file);
+    fetch('upload_avatar.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(d => {
+            if (d.success) {
+                profileCache.avatar = d.avatar_path;
+                showToast('Official photo updated', 'success');
+            } else {
+                showToast(d.message || 'Photo upload failed', 'error');
+            }
+        })
+        .catch(() => showToast('Network error while uploading photo', 'error'));
 });
 document.getElementById('coverInput').addEventListener('change', e => {
     const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
         document.getElementById('coverWrap').style.background = `url(${ev.target.result}) center/cover no-repeat`;
-        showToast('Cover updated','success');
+        showToast('Cover preview updated (not saved — no backend field yet)','success');
     };
     reader.readAsDataURL(file);
 });
@@ -893,7 +919,7 @@ function showToast(msg, type='success') {
 }
 
 /* ══ INIT ══ */
-render();
+fetchProfile().then(p => { if (p) render(); });
 </script>
 </body>
 </html>
